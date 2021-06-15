@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FourMembers.Admin.Controllers
+namespace Members.Controllers
 {
     public class HomeController : Controller
     {

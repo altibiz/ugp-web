@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.Modules;
 using OrchardCore.Navigation;
 
-namespace FourMembers.Admin
+namespace Members
 {
     public class Startup : StartupBase
     {
@@ -16,12 +16,12 @@ namespace FourMembers.Admin
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
-            routes.MapAreaControllerRoute(
-                name: "Home",
-                areaName: "Members",
-                pattern: "Home/Index",
-                defaults: new { controller = "Home", action = "Index" }
-            );
+            //routes.MapAreaControllerRoute(
+            //    name: "Home",
+            //    areaName: "Members",
+            //    pattern: "Home/Index",
+            //    defaults: new { controller = "Home", action = "Index" }
+            //);
         }
     }
 }

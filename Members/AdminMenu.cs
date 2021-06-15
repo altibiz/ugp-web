@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FourMembers.Admin
+namespace Members
 {
     public class AdminMenu : INavigationProvider
     {
@@ -30,9 +30,9 @@ namespace FourMembers.Admin
             builder
                 .Add(S["My Root View"], S["My Root View"].PrefixPosition(), rootView => rootView
                    .Add(S["Child One"], S["Child One"].PrefixPosition(), childOne => childOne
-                       .Action("ChildOne", "Admin", new { area = "FourMembers.Admin" }))
+                       .Action("ChildOne", "Admin", new { area = "Members" }))
                    .Add(S["Child Two"], S["Child Two"].PrefixPosition(), childTwo => childTwo
-                       .Action("ChildTwo", "Admin", new { area = "FourMembers.Admin" })));
+                       .Action("ChildTwo", "Admin", new { area = "Members" })));
 
             return Task.CompletedTask;
         }
