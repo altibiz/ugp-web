@@ -1,24 +1,20 @@
-@model MemberListContentsViewModel
+﻿@model MemberViewModel
 @using OrchardCore.ContentManagement;
 @using Members.ViewModels;
 @inject IContentManager ContentManager
 
 @{
-    var pageTitle = T["Members"];
+    var pageTitle = T["Member"];
 }
 
+
 <h1>@RenderTitleSegments(pageTitle)</h1>
-<a asp-action="Create" asp-controller="Home">@T["Create"]</a>
 <form asp-action="List" asp-controller="Admin" method="post" id="items-form" autocomplete="off">
     <ul class="list-group with-checkbox">
-        @if (Model.ContentItems.Count > 0)
+        @if (Model.ContentItem > 0)
         {
-            @foreach (var contentItemSummary in Model.ContentItems)
-            {
-                <li class="list-group-item">
-                    @await DisplayAsync(contentItemSummary)
+                <li class="list-group-item">asdasdsa
                 </li>
-            }
         }
         else
         {
@@ -30,5 +26,4 @@
         }
     </ul>
 
-    @await DisplayAsync(Model.Pager)
 </form>

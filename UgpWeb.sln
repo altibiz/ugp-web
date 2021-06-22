@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UgpWeb", "UgpWeb\UgpWeb.csproj", "{2A0B103D-2921-4912-8605-80DD489AC134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Members", "Members\Members.csproj", "{CDD89B62-DE72-4C1E-A617-C5B23EB9BF2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Members", "Members\Members.csproj", "{CDD89B62-DE72-4C1E-A617-C5B23EB9BF2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
