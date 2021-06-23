@@ -7,6 +7,8 @@
     var pageTitle = T["Members"];
 }
 
+
+
 <h1>@RenderTitleSegments(pageTitle)</h1>
 <a asp-action="Create" asp-controller="Home">@T["Create"]</a>
 <form asp-action="List" asp-controller="Admin" method="post" id="items-form" autocomplete="off">

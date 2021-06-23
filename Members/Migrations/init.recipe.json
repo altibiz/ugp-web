@@ -271,34 +271,13 @@
               "Name": "Name",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "Naziv"
+                  "DisplayName": "Naziv",
+                  "Position": "3"
                 },
                 "TextFieldSettings": {
                   "Required": true
                 },
                 "ContentIndexSettings": {}
-              }
-            },
-            {
-              "FieldName": "TextField",
-              "Name": "OIB",
-              "Settings": {
-                "ContentPartFieldSettings": {
-                  "DisplayName": "OIB subjekta"
-                },
-                "TextFieldSettings": {
-                  "Required": true
-                },
-                "ContentIndexSettings": {}
-              }
-            },
-            {
-              "FieldName": "TextField",
-              "Name": "Adress",
-              "Settings": {
-                "ContentPartFieldSettings": {
-                  "DisplayName": "Adresa subjekta"
-                }
               }
             },
             {
@@ -306,7 +285,8 @@
               "Name": "AuthorizedRepresentative",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "Ovlaštena osoba za zastupanje"
+                  "DisplayName": "Ovlaštena osoba za zastupanje",
+                  "Position": "4"
                 },
                 "TextFieldSettings": {
                   "Required": true
@@ -319,7 +299,8 @@
               "Name": "TurnoverIn2019",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "Promet u 2019"
+                  "DisplayName": "Promet u 2019",
+                  "Position": "5"
                 }
               }
             },
@@ -328,7 +309,8 @@
               "Name": "EmployeeNumber",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "Broj zaposlenih"
+                  "DisplayName": "Broj zaposlenih",
+                  "Position": "6"
                 }
               }
             },
@@ -339,7 +321,8 @@
                 "ContentPartFieldSettings": {
                   "DisplayName": "Vrsta organizacije/Pravni oblik",
                   "Editor": "Tags",
-                  "DisplayMode": "Tags"
+                  "DisplayMode": "Tags",
+                  "Position": "7"
                 },
                 "ContentIndexSettings": {},
                 "TaxonomyFieldSettings": {
@@ -352,26 +335,14 @@
               }
             },
             {
-              "FieldName": "TextField",
-              "Name": "CityCounty",
-              "Settings": {
-                "ContentPartFieldSettings": {
-                  "DisplayName": "Grad/Općina subjekta"
-                },
-                "TextFieldSettings": {
-                  "Required": true
-                },
-                "ContentIndexSettings": {}
-              }
-            },
-            {
               "FieldName": "TaxonomyField",
               "Name": "Function",
               "Settings": {
                 "ContentPartFieldSettings": {
                   "DisplayName": "Funkcija",
                   "Editor": "Tags",
-                  "DisplayMode": "Tags"
+                  "DisplayMode": "Tags",
+                  "Position": "8"
                 },
                 "ContentIndexSettings": {},
                 "TaxonomyFieldSettings": {
@@ -390,7 +361,8 @@
                 "ContentPartFieldSettings": {
                   "DisplayName": "Djelatnost",
                   "Editor": "Tags",
-                  "DisplayMode": "Tags"
+                  "DisplayMode": "Tags",
+                  "Position": "9"
                 },
                 "ContentIndexSettings": {},
                 "TaxonomyFieldSettings": {
@@ -407,7 +379,42 @@
               "Name": "PermanentAssociates",
               "Settings": {
                 "ContentPartFieldSettings": {
-                  "DisplayName": "Broj stalnih suradnika"
+                  "DisplayName": "Broj stalnih suradnika",
+                  "Position": "10"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Oib",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "OIB subjekta",
+                  "Position": "0"
+                },
+                "TextFieldSettings": {
+                  "Required": true
+                },
+                "ContentIndexSettings": {}
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Address",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Adresa subjekta",
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "City",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Grad/Općina subjekta",
+                  "Position": "1"
                 }
               }
             }
