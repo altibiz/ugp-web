@@ -5,12 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.0.0-rc2-16295" />
-    <PackageReference Include="OrchardCore.Application.Targets" Version="1.0.0-rc2-16295" />
+    <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.0.0-rc2-16311" />
+    <PackageReference Include="OrchardCore.Application.Targets" Version="1.0.0-rc2-16311" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Members\Members.csproj" />
+    <ProjectReference Include="..\UgpTheme\UgpTheme.csproj" />
   </ItemGroup>
 
 </Project>
