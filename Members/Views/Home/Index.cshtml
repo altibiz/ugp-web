@@ -1,13 +1,11 @@
 @model MemberListContentsViewModel
 @using OrchardCore.ContentManagement;
-@using Members.ViewModels;
+@using Members.ViewModels
 @inject IContentManager ContentManager
 
-@{
-    var pageTitle = T["Members"];
+@{ 
+var pageTitle = T["Members"]; 
 }
-
-
 
 <h1>@RenderTitleSegments(pageTitle)</h1>
 <a asp-action="Create" asp-controller="Home">@T["Create"]</a>
