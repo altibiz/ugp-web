@@ -48,43 +48,6 @@ namespace Members.Controllers
             New = shapeFactory;
         }
 
-
-        public async Task<IActionResult> Index(PagerParameters pagerParameters) //MemberListContentsViewModel model, 
-        {
-            var siteSettings = await _siteService.GetSiteSettingsAsync();
-            var pager = new Pager(pagerParameters, siteSettings.PageSize);
-
-            var query = _session.Query<ContentItem, ContentItemIndex>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == contentType);
-            query = query.With<ContentItemIndex>(x => x.Published);
-            query = query.OrderByDescending(x => x.PublishedUtc);
-
-            var maxPagedCount = siteSettings.MaxPagedCount;
-            if (maxPagedCount > 0 && pager.PageSize > maxPagedCount)
-                pager.PageSize = maxPagedCount;
-
-            var routeData = new RouteData();
-            var pagerShape = (await New.Pager(pager)).TotalItemCount(maxPagedCount > 0 ? maxPagedCount : await query.CountAsync()).RouteData(routeData);
-
-            var pageOfContentItems = await query.ListAsync();
-            IEnumerable<ContentItem> model = await query.ListAsync();
-
-            // Prepare the content items Summary Admin shape
-            var contentItemSummaries = new List<dynamic>();
-            foreach (var contentItem in pageOfContentItems)
-            {
-                contentItemSummaries.Add(await _contentItemDisplayManager.BuildDisplayAsync(contentItem, _updateModelAccessor.ModelUpdater, "Summary"));
-            }
-
-            var viewModel = new MemberListContentsViewModel
-            {
-                ContentItems = contentItemSummaries,
-                Pager = pagerShape
-                //Options = model.Options
-            };
-
-            return View(viewModel);
-        }
         public async Task<IActionResult> Create(string id = contentType)
         {
             if (String.IsNullOrWhiteSpace(id))
