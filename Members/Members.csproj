@@ -19,8 +19,4 @@
     <PackageReference Include="OrchardCore.Title" Version="1.0.0-rc2-16311" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Shared\" />
-  </ItemGroup>
-
 </Project>
