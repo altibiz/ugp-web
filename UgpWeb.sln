@@ -10,10 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UgpTheme", "UgpTheme\UgpTheme.csproj", "{14082807-E678-4C15-99E9-328710D5C754}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D5A6E870-F95D-427B-A1AA-413CBDF206C2}"
-	ProjectSection(SolutionItems) = preProject
-		gulpfile.js = gulpfile.js
-		package.json = package.json
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,11 +1,11 @@
+var assetPattern = "./Assets.json";
+
 var fs = require("graceful-fs"),
     glob = require("glob"),
     path = require("path-posix"),
     merge = require("merge-stream"),
     gulp = require("gulp"),
     gulpif = require("gulp-if"),
-    print = require("gulp-print"),
-    debug = require("gulp-debug"),
     newer = require("gulp-newer"),
     plumber = require("gulp-plumber"),
     sourcemaps = require("gulp-sourcemaps"),
@@ -99,7 +99,7 @@ gulp.task('default', gulp.series(['build']));
 */
 
 function getAssetGroups() {
-    var assetManifestPaths = glob.sync("./*/Assets.json", {});
+    var assetManifestPaths = glob.sync(assetPattern, {});
     var assetGroups = [];
     assetManifestPaths.forEach(function (assetManifestPath) {
         var assetManifest = require("./" + assetManifestPath);

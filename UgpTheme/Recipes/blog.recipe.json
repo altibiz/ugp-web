@@ -73,6 +73,8 @@
         "OrchardCore.Templates",
         "OrchardCore.Widgets",
 
+        //Custom
+        "Members",
         // Themes
         "UgpTheme",
         "TheAdmin",

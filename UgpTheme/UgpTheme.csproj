@@ -21,4 +21,8 @@
     <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc2-16311" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>
