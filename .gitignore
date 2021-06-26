@@ -187,3 +187,4 @@ node_modules/*
 wwwroot
 /**/node_modules/
 /UgpTheme/Assets/dist
+UgpWeb/Localization/

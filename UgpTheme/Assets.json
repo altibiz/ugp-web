@@ -7,6 +7,13 @@
     "output": "wwwroot/assets/@"
   },
   {
+    "copy": true,
+    "inputs": [
+      "Assets/dist/assets/img/*"
+    ],
+    "output": "wwwroot/assets/img/@"
+  },
+  {
     "inputs": [
       "Assets/dist/css/styles.css"
     ],
