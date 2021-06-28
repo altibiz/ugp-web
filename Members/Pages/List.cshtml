@@ -6,8 +6,7 @@
 @{
 		var pageTitle = T["Members"];
 }
-@{ Html.RenderPartial("_Header","bljeblje"); }
-<h1>@RenderTitleSegments(pageTitle)</h1>
+@{ Html.RenderPartial("_Header", pageTitle.Value); }
 <a asp-action="Create" asp-controller="Home">@T["Create"]</a>
 <form asp-action="List" asp-controller="Admin" method="post" id="items-form" autocomplete="off">
 	<ul class="list-group with-checkbox">

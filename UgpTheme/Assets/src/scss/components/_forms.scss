@@ -1,23 +1,29 @@
 // 
 // Forms
-// 
+//
 
 .form-floating {
 
-    input,
-    textarea {
-        border-left: 0;
-        border-right: 0;
-        border-top: 0;
+  input,
+  textarea {
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
 
-        &:focus {
-            box-shadow: none;
-        }
-
+    &:focus {
+      box-shadow: none;
     }
+  }
 
-    label {
-        color: $gray-600;
-    }
-
+  label {
+    color: $gray-600;
+  }
+}
+.form-group {
+  & label:first-child {
+    color: $gray-600;
+    padding: 1.25rem 0 0 0;
+    pointer-events: none;
+    border: 1px solid transparent;
+  }
 }
