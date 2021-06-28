@@ -1,0 +1,6 @@
+﻿@model OrchardCore.ContentFields.ViewModels.EditUserPickerFieldViewModel
+
+@{
+    var settings = Model.PartFieldDefinition.GetSettings<UserPickerFieldSettings>();
+    var culture = await Orchard.GetContentCultureAsync(Model.Field.ContentItem);
+}

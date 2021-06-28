@@ -1,9 +1,9 @@
 {
   "name": "Blog",
-  "displayName": "Blog",
-  "description": "Provides a functional Blog with CMS features.",
-  "author": "The Orchard Core Team",
-  "website": "https://orchardcore.net",
+  "displayName": "Ugp",
+  "description": "Provides a functional Blog with CMS features for UGP Web",
+  "author": "Altinet d.o.o.",
+  "website": "",
   "version": "1.0.0-rc2",
   "issetuprecipe": true,
   "categories": [ "default" ],

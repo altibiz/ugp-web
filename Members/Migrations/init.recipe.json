@@ -172,7 +172,12 @@
                 "ContentPartFieldSettings": {
                   "DisplayName": "User",
                   "Position": "11"
-                }
+                },
+                "UserPickerFieldSettings": {
+                  "DisplayAllUsers": true,
+                  "DisplayedRoles": []
+                },
+                "ContentIndexSettings": {}
               }
             },
             {
@@ -206,11 +211,11 @@
                   "DisplayName": "Želite li aktivno doprinijeti radu udruge?",
                   "Editor": "Tags",
                   "DisplayMode": "Tags",
-                  "Position": "9"
+                  "Position": "10"
                 },
                 "ContentIndexSettings": {},
                 "TaxonomyFieldSettings": {
-                  "TaxonomyContentItemId": "414m81r5v7e3c431xykkg9ayck",
+                  "TaxonomyContentItemId": "4wfqenk70shk73h6ty8yq8zc5t",
                   "Unique": true
                 },
                 "TaxonomyFieldTagsEditorSettings": {
@@ -237,26 +242,31 @@
               }
             },
             {
-              "FieldName": "MultiTextField",
-              "Name": "Skills",
-              "Settings": {
-                "ContentPartFieldSettings": {
-                  "DisplayName": "Opišite vaše vještine/znanja",
-                  "Position": "10"
-                },
-                "MultiTextFieldSettings": {
-                  "Options": []
-                },
-                "ContentIndexSettings": {}
-              }
-            },
-            {
               "FieldName": "TextField",
               "Name": "Name",
               "Settings": {
                 "ContentPartFieldSettings": {
                   "DisplayName": "Ime",
                   "Position": "1"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Skills",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Opišite vaše vještine/znanja",
+                  "Editor": "Monaco",
+                  "Position": "9"
+                },
+                "TextFieldSettings": {},
+                "ContentIndexSettings": {},
+                "TextFieldHeaderDisplaySettings": {
+                  "Level": "h1"
+                },
+                "TextFieldMonacoEditorSettings": {
+                  "Options": "{\r\n  \"automaticLayout\": true,\r\n  \"language\": \"html\"\r\n}"
                 }
               }
             }
@@ -2945,6 +2955,36 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "ContentItemId": "4wfqenk70shk73h6ty8yq8zc5t",
+          "ContentItemVersionId": "47pd3x00wnzq06fp83bb6b6gn5",
+          "ContentType": "Taxonomy",
+          "DisplayText": "member_type",
+          "Latest": false,
+          "Published": true,
+          "ModifiedUtc": "2021-06-28T13:38:22.6599075Z",
+          "PublishedUtc": "2021-06-28T13:38:22.7440479Z",
+          "CreatedUtc": "2021-06-28T13:38:22.6599075Z",
+          "Owner": "4qj457jqgfg0ht62psxyg33ydk",
+          "Author": "admin",
+          "TitlePart": {
+            "Title": "member_type"
+          },
+          "AliasPart": {
+            "Alias": "member_type"
+          },
+          "AutoroutePart": {
+            "Path": "member_type",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "TaxonomyPart": {
+            "TermContentType": "Tag",
+            "Terms": []
           }
         }
       ]
