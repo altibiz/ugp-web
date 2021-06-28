@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="DevExpress.Xpo" Version="20.1.7" />
+    <PackageReference Include="OrchardCore.Alias" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.ContentFields" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.ResourceManagement" Version="1.0.0-rc2-16311" />
@@ -25,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Fields\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
