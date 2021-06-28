@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-		<TargetFrameworks>net50</TargetFrameworks>
+		<TargetFramework>net50</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
