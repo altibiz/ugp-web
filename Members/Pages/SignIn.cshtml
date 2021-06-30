@@ -1,0 +1,49 @@
+﻿@page
+@model Members.Pages.SignInModel
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+@{
+    var pageTitle = T[Model.Title];
+}
+@{ Html.RenderPartial("_Header", pageTitle.Value); }
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>PRIJAVA</h4>
+            <form asp-action="SignIn" asp-controller="SignIn" method="post" id="items-form" autocomplete="off">
+                <div class="form-floating">
+                    <input asp-for="Username" placeholder="Email" class="form-control content-preview-text" dir="" />
+                    <label asp-for="Username">@Model.Username</label>
+                </div>
+
+                <div class="form-floating">
+                    <input asp-for="Password" placeholder="Password" class="form-control content-preview-text" dir="" />
+                    <label asp-for="Password">@Model.Password</label>
+                </div>
+
+                <p></p>
+
+                <div class="form-floating">
+
+                    <button class="submit btn btn-info">Prijavite se</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <h4>REGISTRACIJA</h4>
+
+            <div class="form-floating">
+                <p>Ukoliko još niste član, registrirajte se: </p>
+
+                <a href="/register" target="" class="btn btn-info">Registrirajte se</a>
+            </div>
+
+        </div>
+    </div>
+</div>

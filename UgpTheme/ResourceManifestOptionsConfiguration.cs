@@ -18,6 +18,12 @@ namespace OrchardCore.Themes.UgpTheme
                 .SetVersion("5.0.1");
 
             _manifest
+                .DefineScript("ugptheme-jQuery")
+                .SetCdn("https://code.jquery.com/jquery-3.4.1.min.js", "https://code.jquery.com/jquery-3.4.1.js")
+                .SetCdnIntegrity("sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh", "sha384-mlceH9HlqLp7GMKHrj5Ara1+LvdTZVMx4S1U43/NxCvAkzIo8WJ0FE7duLel3wVo")
+                .SetVersion("3.4.1");
+
+            _manifest
                 .DefineStyle("ugptheme-bootstrap-oc")
                 .SetUrl("~/UgpTheme/css/bootstrap-oc.min.css", "~/UgpTheme/css/bootstrap-oc.css")
                 .SetVersion("1.0.0");
