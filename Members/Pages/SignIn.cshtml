@@ -14,36 +14,66 @@
     <div class="row">
         <div class="col-md-6">
             <h4>PRIJAVA</h4>
-            <form asp-action="SignIn" asp-controller="SignIn" method="post" id="items-form" autocomplete="off">
+            <form action="/Login?returnurl=%2Fadmin" method="post" id="items-form" autocomplete="off" class="auth-form">
+
                 <div class="form-floating">
-                    <input asp-for="Username" placeholder="Email" class="form-control content-preview-text" dir="" />
-                    <label asp-for="Username">@Model.Username</label>
+                    <label for="email_address" class="">E-Mail Address</label>
+                    <input type="text" id="UserName" name="UserName"  class="form-control" required autofocus>
                 </div>
 
                 <div class="form-floating">
-                    <input asp-for="Password" placeholder="Password" class="form-control content-preview-text" dir="" />
-                    <label asp-for="Password">@Model.Password</label>
+                    <label for="password" class="">Password</label>
+                    <input type="password" class="form-control"  id="Password" name="Password" required>
                 </div>
 
-                <p></p>
-
-                <div class="form-floating">
-
-                    <button class="submit btn btn-info">Prijavite se</button>
+                <div class="form-floating row">
+                    <div class="">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="RememberMe" name="RememberMe" value="true"> Remember Me
+                            </label>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="orm-floating row">
+                    <button type="submit" class="btn btn-primary">
+                        Prijavite se
+                    </button>
+                    <a href="#" class="btn btn-link">
+                        Forgot Your Password?
+                    </a>
+                </div>
+                @Html.AntiForgeryToken()
 
             </form>
+
         </div>
 
-        <div class="col-md-4">
-            <h4>REGISTRACIJA</h4>
+        <div class="col-md-6">
+            <div class="auth-form">
+                <h4>REGISTRACIJA</h4>
 
-            <div class="form-floating">
-                <p>Ukoliko još niste član, registrirajte se: </p>
+                <div class="form-floating">
+                    <p>Ukoliko još niste član, registrirajte se: </p>
 
-                <a href="/register" target="" class="btn btn-info">Registrirajte se</a>
+                    <a href="/register" target="" class="btn btn-info">Registrirajte se</a>
+                </div>
+
             </div>
-
-        </div>
     </div>
+
+
+
+
+
+
+
+
+
 </div>
+
+
+
+
+        
