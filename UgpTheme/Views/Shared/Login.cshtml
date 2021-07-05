@@ -20,6 +20,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style asp-name="font-awesome" version="5"></style>
+
+@{ Html.RenderPartial("_Header", "Log In"); }
 <div class="container login-container">
 
     <div class="row">
@@ -29,10 +31,10 @@
                 <h4>@T["Prijava"]</h4>
                 <hr />
 
-                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="/Members/UserLandingPage" method="post" class="auth-form">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-float">
-                        <label asp-for="UserName">@T["Username or email address"]</label>
+                        <label asp-for="UserName">@T["Username"]</label>
                         <input asp-for="UserName" class="form-control" autofocus tabindex="1" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
@@ -62,7 +64,7 @@
                     @if (userCanRegister)
                     {
                         <div class="mt-4">
-                            <a asp-controller="Registration" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Register as a new user"]</a>
+                            <a asp-controller="Registration" asp-action="Register" asp-route-returnurl="/Members/Home/Create">@T["Register as a new user"]</a>
                         </div>
                     }
                 </form>
@@ -78,38 +80,38 @@
                         <div class="form-floating">
                             <p>@T["Ukoliko još niste èlan, registrirajte se:"] </p>
 
-                            <a href="/register" target="" class="btn btn-info">Registrirajte se</a>
+                            <a href="/Members/Home/Create" target="" class="btn btn-info">Registrirajte se</a>
                         </div>
 
                     </div>
                 </div>
             }
 
-            }
-            @if (loginProviders.Count > 0)
-            {
-                <div class="col-md-6 @(disableLocalLogin ? "offset-md-3" : String.Empty)">
-                    <section>
-                        <h4>@T["Use another service to log in"]</h4>
-                        <hr />
-                        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                            <div>
-                                <p>
-                                    @foreach (var provider in loginProviders)
+        }
+        @if (loginProviders.Count > 0)
+        {
+            <div class="col-md-6 @(disableLocalLogin ? "offset-md-3" : String.Empty)">
+                <section>
+                    <h4>@T["Use another service to log in"]</h4>
+                    <hr />
+                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                        <div>
+                            <p>
+                                @foreach (var provider in loginProviders)
+                                {
+                                    <button type="submit" class="btn btn-primary @(disableLocalLogin ? "w-100" : String.Empty)" name="provider" value="@provider.Name" title="@T["Log in using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
+                                    @if (disableLocalLogin)
                                     {
-                                        <button type="submit" class="btn btn-primary @(disableLocalLogin ? "w-100" : String.Empty)" name="provider" value="@provider.Name" title="@T["Log in using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
-                                        @if (disableLocalLogin)
-                                        {
-                                            <br />
-                                        }
+                                        <br />
                                     }
-                                </p>
-                            </div>
-                        </form>
-                    </section>
-                </div>
-            }
-        </div>
+                                }
+                            </p>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        }
+    </div>
 </div>
 <script at="Foot">
     togglePassword = document.querySelector('#togglePassword');
