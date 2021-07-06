@@ -4,15 +4,18 @@
 
 @inject IContentDefinitionManager ContentDefinitionManager
 
-@{
-    ContentItem contentItem = Model.ContentItem;
+@{ ContentItem contentItem = Model.ContentItem;
     var contentTypeDefinition = ContentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
-    var typeDisplayName = contentTypeDefinition?.DisplayName ?? contentItem.ContentType.CamelFriendly();
-}
+    var typeDisplayName = contentTypeDefinition?.DisplayName ?? contentItem.ContentType.CamelFriendly(); }
 
-<h1>@RenderTitleSegments(T["New {0}", Html.Raw(typeDisplayName)])</h1>
+
+@{ Html.RenderPartial("_Header", typeDisplayName); }
 
 <form asp-action="Create" asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]" method="post" enctype="multipart/form-data">
     @Html.ValidationSummary()
     @await DisplayAsync(Model)
+
+
+    <button type="submit" name="submit.Create" class="btn btn-success publish" value="submit.Create">Zelim se registrarati kao privatna osoba </button>
+    <button type="submit" name="submit.CreateToCompany" class="btn btn-success publish" value="submit.CreateToCompany">Dodaj pravnu osobu</button>
 </form>

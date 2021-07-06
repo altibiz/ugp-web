@@ -23,6 +23,7 @@
     <PackageReference Include="OrchardCore.ResourceManagement" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Taxonomies" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc2-16311" />
+    <PackageReference Include="OrchardCore.Menu" Version="1.0.0-rc2-16311" />
   </ItemGroup>
 
   <ItemGroup>

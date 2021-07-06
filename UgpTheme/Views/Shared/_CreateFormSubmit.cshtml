@@ -1,0 +1,11 @@
+﻿@using UgpTheme.Models
+
+@model List<SubmitButton>
+
+<zone name="Content" position="10">
+
+        @foreach (SubmitButton button in Model)
+        {
+            <button type="submit" name="@button.btnValue" class="btn btn-success btn-sm " value="@button.btnValue">@button.btnText</button>
+        }
+</zone>

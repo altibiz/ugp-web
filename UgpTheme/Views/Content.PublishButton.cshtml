@@ -1,0 +1,8 @@
+﻿@using UgpTheme.Models
+
+@{ List<SubmitButton> buttons = new List<SubmitButton>();
+    buttons.Add(new SubmitButton { btnText = "Zelim se registrarati kao privatna osoba", btnValue = "submit.Create" });
+    buttons.Add(new SubmitButton { btnText = "Dodaj pravnu osobu", btnValue = "submit.CreateToCompany" }); }
+
+@{ Html.RenderPartial("_CreateFormSubmit", buttons); }
+

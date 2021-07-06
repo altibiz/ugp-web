@@ -22,6 +22,7 @@ namespace Members.Controllers
     public class HomeController : Controller
     {
         private const string contentType = "Member";
+        private const string contentTypeC = "Company";
 
         private readonly IContentManager _contentManager;
         private readonly IContentDefinitionManager _contentDefinitionManager;
@@ -62,12 +63,90 @@ namespace Members.Controllers
 
             return View(model);
         }
+        public async Task<IActionResult> CreateCompany(string id = contentTypeC)
+        {
+            if (String.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+
+            var contentItem = await _contentManager.NewAsync(id);
+
+
+            var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
+
+            return View(model);
+        }
+
+        //[HttpPost, ActionName("Create")]
+        //[FormValueRequired("submit.Publish")]
+        //public async Task<IActionResult> CreateAndPublishPOST([Bind(Prefix = "submit.Publish")] string submitPublish, string returnUrl, string id = contentType)
+        //{
+        //    var stayOnSamePage = submitPublish == "submit.PublishAndContinue";
+        //    // pass a dummy content to the authorization check to check for "own" variations
+        //    var dummyContent = await _contentManager.NewAsync(id);
+
+        //    return await CreatePOST(id, returnUrl, stayOnSamePage, async contentItem =>
+        //    {
+        //        await _contentManager.PublishAsync(contentItem);
+
+        //        var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
+
+        //        _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
+        //            ? H["Your content has been published."]
+        //            : H["Your {0} has been published.", typeDefinition.DisplayName]);
+        //    });
+        //}
 
         [HttpPost, ActionName("Create")]
-        [FormValueRequired("submit.Publish")]
-        public async Task<IActionResult> CreateAndPublishPOST([Bind(Prefix = "submit.Publish")] string submitPublish, string returnUrl, string id = contentType)
+        [FormValueRequired("submit.Create")]
+        public async Task<IActionResult> CreatePOST([Bind(Prefix = "submit.Create")] string submitCreate, string returnUrl, string id = contentType)
         {
-            var stayOnSamePage = submitPublish == "submit.PublishAndContinue";
+            var stayOnSamePage = submitCreate == "submit.CreateAndContinue";
+            // pass a dummy content to the authorization check to check for "own" variations
+            var dummyContent = await _contentManager.NewAsync(id);
+
+            return await CreatePOST(id, returnUrl, stayOnSamePage, async contentItem =>
+            {
+                await _contentManager.PublishAsync(contentItem);
+
+                var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
+
+                _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
+                    ? H["Your content has been published."]
+                    : H["Your {0} has been published.", typeDefinition.DisplayName]);
+            });
+        }
+
+        [HttpPost, ActionName("Create")]
+        [FormValueRequired("submit.CreateToCompany")]
+        public async Task<IActionResult> CreateToCompanyPOST([Bind(Prefix = "submit.CreateToCompany")] string submitCreate, string returnUrl, string id = contentType)
+        {
+            var stayOnSamePage = submitCreate == "submit.CreateAndContinue";
+
+            returnUrl = "/Members/Home/CreateCompany";
+            // pass a dummy content to the authorization check to check for "own" variations
+            var dummyContent = await _contentManager.NewAsync(id);
+
+            return await CreatePOST(id, returnUrl, stayOnSamePage, async contentItem =>
+            {
+                await _contentManager.PublishAsync(contentItem);
+
+                var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
+
+                _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
+                    ? H["Your content has been published."]
+                    : H["Your {0} has been published.", typeDefinition.DisplayName]);
+            });
+        }
+
+        [HttpPost, ActionName("CreateCompany")]
+        [FormValueRequired("submit.Create")]
+        public async Task<IActionResult> CreateCompanyPOST([Bind(Prefix = "submit.Create")] string submitCreate, string returnUrl, string id = contentTypeC)
+        {
+            var stayOnSamePage = submitCreate == "submit.CreateAndContinue";
+
+            returnUrl = "/";
             // pass a dummy content to the authorization check to check for "own" variations
             var dummyContent = await _contentManager.NewAsync(id);
 

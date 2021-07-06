@@ -1,9 +1,9 @@
 ﻿@page
-@model Members.Pages.UserLandingPageModel
+
 
 
 @{
-    var pageTitle = T["Landing page"];
+    var pageTitle = @T["User landing page"];
 }
 @{ Html.RenderPartial("_Header", pageTitle.Value); }
 

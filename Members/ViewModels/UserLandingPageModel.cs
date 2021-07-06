@@ -9,7 +9,6 @@ namespace Members.ViewModels
 {
     public class UserLandingPageModel
     {
-
         [BindNever]
         public string Title { get; set; }
 
