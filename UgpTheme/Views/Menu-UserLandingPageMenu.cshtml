@@ -3,13 +3,13 @@
     // menu element. Note how Display is called on the menu
     // items before the tag is actually rendered.
 
-    TagBuilder tag = Tag(Model, "ul");
-    tag.AddCssClass("navbar-nav ms-auto");
+    TagBuilder tag = Tag(Model, "div");
+    tag.AddCssClass("row justify-content-center list-unstyled");
 
     foreach (var item in Model.Items)
     {
         tag.InnerHtml.AppendHtml(await DisplayAsync(item));
     }
 }
-ggggg
+
 @tag
