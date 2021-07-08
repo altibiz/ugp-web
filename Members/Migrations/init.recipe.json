@@ -3036,13 +3036,13 @@
         },
         {
           "ContentItemId": "4xyb4dp01z5d8zn6k6c4y689mx",
-          "ContentItemVersionId": "4fe47d7985zxgxfa3zd2vsx64w",
+          "ContentItemVersionId": "4r9jg09f0j0tx7xkj9qt2dsn5g",
           "ContentType": "Menu",
           "DisplayText": "User Landing Page Menu",
           "Latest": true,
           "Published": true,
-          "ModifiedUtc": "2021-07-07T15:35:21.385231Z",
-          "PublishedUtc": "2021-07-07T15:35:21.4277466Z",
+          "ModifiedUtc": "2021-07-08T14:52:49.3244739Z",
+          "PublishedUtc": "2021-07-08T14:52:49.374664Z",
           "CreatedUtc": "2021-07-05T12:03:14.0252649Z",
           "Owner": "4qj457jqgfg0ht62psxyg33ydk",
           "Author": "admin",
@@ -3069,7 +3069,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Moji podaci",
-                  "Url": "/myprofile"
+                  "Url": "/Members/myprofile"
                 },
                 "LinkMenuItem": {
                   "Icon": {
@@ -3091,7 +3091,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Moje donacije",
-                  "Url": "/mydonations"
+                  "Url": "/Members/mydonations"
                 },
                 "LinkMenuItem": {
                   "Icon": {
@@ -3113,7 +3113,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Moja ponuda ",
-                  "Url": "/myoffer"
+                  "Url": "/Members/myoffer"
                 },
                 "LinkMenuItem": {
                   "Icon": {
@@ -3135,7 +3135,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Doniraj",
-                  "Url": "/donate"
+                  "Url": "/Members/donate"
                 },
                 "LinkMenuItem": {
                   "Icon": {
@@ -3157,7 +3157,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Ponude za članove",
-                  "Url": "/offerformembers"
+                  "Url": "/Members/offerformembers"
                 },
                 "LinkMenuItem": {
                   "Icon": {
@@ -3179,7 +3179,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Događanja",
-                  "Url": "/events"
+                  "Url": "/Members/events"
                 },
                 "LinkMenuItem": {
                   "Icon": {
@@ -3201,7 +3201,7 @@
                 "Author": "admin",
                 "LinkMenuItemPart": {
                   "Name": "Newsletter",
-                  "Url": "/newsletter"
+                  "Url": "/Members/newsletter"
                 },
                 "LinkMenuItem": {
                   "Icon": {
