@@ -75,7 +75,7 @@
               "Name": "Company",
               "Settings": {
                 "ContentTypePartSettings": {
-                  "Position": "1"
+                  "Position": "0"
                 }
               }
             },
@@ -84,7 +84,7 @@
               "Name": "AliasPart",
               "Settings": {
                 "ContentTypePartSettings": {
-                  "Position": "2"
+                  "Position": "1"
                 }
               }
             },
@@ -92,8 +92,11 @@
               "PartName": "TitlePart",
               "Name": "TitlePart",
               "Settings": {
-                "ContentTypePartSettings": {
-                  "Position": "0"
+                "ContentTypePartSettings": {},
+                "ContentIndexSettings": {},
+                "TitlePartSettings": {
+                  "Options": 1,
+                  "Pattern": "{{ ContentItem.Content.Company.Name.Text }}"
                 }
               }
             }
@@ -257,7 +260,7 @@
               "Settings": {
                 "ContentPartFieldSettings": {
                   "DisplayName": "Opišite vaše vještine/znanja",
-                  "Editor": "Monaco",
+                  "Editor": "CodeMirror",
                   "Position": "9"
                 },
                 "TextFieldSettings": {},
@@ -282,7 +285,7 @@
               "Settings": {
                 "ContentPartFieldSettings": {
                   "DisplayName": "Naziv",
-                  "Position": "3"
+                  "Position": "1"
                 },
                 "TextFieldSettings": {
                   "Required": true
@@ -337,7 +340,8 @@
                 "ContentIndexSettings": {},
                 "TaxonomyFieldSettings": {
                   "Required": true,
-                  "TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+                  "TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw",
+                  "Unique": true
                 },
                 "TaxonomyFieldTagsEditorSettings": {
                   "Open": false
@@ -357,7 +361,8 @@
                 "ContentIndexSettings": {},
                 "TaxonomyFieldSettings": {
                   "Required": true,
-                  "TaxonomyContentItemId": "4cet7kh16f89cxpk2zp9gz4353"
+                  "TaxonomyContentItemId": "4cet7kh16f89cxpk2zp9gz4353",
+                  "Unique": true
                 },
                 "TaxonomyFieldTagsEditorSettings": {
                   "Open": false
@@ -414,7 +419,7 @@
               "Settings": {
                 "ContentPartFieldSettings": {
                   "DisplayName": "Adresa subjekta",
-                  "Position": "2"
+                  "Position": "3"
                 }
               }
             },
@@ -424,7 +429,7 @@
               "Settings": {
                 "ContentPartFieldSettings": {
                   "DisplayName": "Grad/Općina subjekta",
-                  "Position": "1"
+                  "Position": "2"
                 }
               }
             }
@@ -436,11 +441,128 @@
       "name": "content",
       "data": [
         {
+          "ContentItemId": "43cx5gg6zyrk40h3hdyqh0wrms",
+          "ContentItemVersionId": "42afse47xqey0w255etqpzn3de",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Tags",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-06-16T08:48:06.2831233Z",
+          "PublishedUtc": "2021-06-16T08:48:06.5208618Z",
+          "CreatedUtc": "2021-06-16T08:48:06.2816169Z",
+          "Owner": "4qj457jqgfg0ht62psxyg33ydk",
+          "Author": "admin",
+          "TitlePart": {
+            "Title": "Tags"
+          },
+          "AliasPart": {
+            "Alias": "tags"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "45n4dczhta3rdxzx94p9ze2y4g",
+                "ContentType": "Tag",
+                "DisplayText": "Earth",
+                "TitlePart": {
+                  "Title": "Earth"
+                },
+                "AutoroutePart": {
+                  "Path": "earth"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "43cx5gg6zyrk40h3hdyqh0wrms"
+                }
+              },
+              {
+                "ContentItemId": "4ak236w172vk4v00dadcj7dz5j",
+                "ContentType": "Tag",
+                "DisplayText": "Exploration",
+                "TitlePart": {
+                  "Title": "Exploration"
+                },
+                "AutoroutePart": {
+                  "Path": "exploration"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "43cx5gg6zyrk40h3hdyqh0wrms"
+                }
+              },
+              {
+                "ContentItemId": "4p6yvyjczpth5tn6dm2x03sz47",
+                "ContentType": "Tag",
+                "DisplayText": "Space",
+                "TitlePart": {
+                  "Title": "Space"
+                },
+                "AutoroutePart": {
+                  "Path": "space"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "43cx5gg6zyrk40h3hdyqh0wrms"
+                }
+              }
+            ],
+            "TermContentType": "Tag"
+          },
+          "AutoroutePart": {
+            "Path": "tags",
+            "RouteContainedItems": true
+          }
+        },
+        {
+          "ContentItemId": "4vp69cpxdrpq7z5gewegph5fc8",
+          "ContentItemVersionId": "45bw4jb96bahtzqwzn4e9yj5cm",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Categories",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-06-16T08:48:06.5818039Z",
+          "PublishedUtc": "2021-06-16T08:48:06.5970904Z",
+          "CreatedUtc": "2021-06-16T08:48:06.5817514Z",
+          "Owner": "4qj457jqgfg0ht62psxyg33ydk",
+          "Author": "admin",
+          "TitlePart": {
+            "Title": "Categories"
+          },
+          "AliasPart": {
+            "Alias": "categories"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "4qq8h2kxsywad51fh38qf1z8mt",
+                "ContentType": "Category",
+                "DisplayText": "Travel",
+                "Category": {
+                  "Icon": {
+                    "Text": "fas fa-globe-americas"
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Travel"
+                },
+                "AutoroutePart": {
+                  "Path": "travel"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4vp69cpxdrpq7z5gewegph5fc8"
+                }
+              }
+            ],
+            "TermContentType": "Category"
+          },
+          "AutoroutePart": {
+            "Path": "categories",
+            "RouteContainedItems": true
+          }
+        },
+        {
           "ContentItemId": "4xgh8bvawx8h2rvyg7vds118w4",
           "ContentItemVersionId": "42wffybhd99wv495mwt31e4cdj",
           "ContentType": "Taxonomy",
           "DisplayText": "Spol",
-          "Latest": true,
+          "Latest": false,
           "Published": true,
           "ModifiedUtc": "2021-06-16T10:18:27.6797636Z",
           "PublishedUtc": "2021-06-16T10:18:27.7367069Z",
@@ -468,7 +590,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Muško",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T08:54:43.7116751Z",
                 "PublishedUtc": null,
@@ -504,7 +626,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Žensko",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T08:59:09.506719Z",
                 "PublishedUtc": null,
@@ -571,7 +693,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Bjelovarsko-bilogorska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:22:44.3561697Z",
                 "PublishedUtc": null,
@@ -602,7 +724,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Brodsko-posavska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:23:00.211458Z",
                 "PublishedUtc": null,
@@ -633,7 +755,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Dubrovačko-neretvanska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:23:09.8887594Z",
                 "PublishedUtc": null,
@@ -663,7 +785,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Istarska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:23:33.5134049Z",
                 "PublishedUtc": null,
@@ -693,7 +815,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Karlovačka županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:23:41.8674067Z",
                 "PublishedUtc": null,
@@ -723,7 +845,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Koprivničko-križevačka županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:23:49.7495386Z",
                 "PublishedUtc": null,
@@ -753,7 +875,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Krapinsko-zagorska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:23:56.9896092Z",
                 "PublishedUtc": null,
@@ -783,7 +905,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Ličko-senjska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:07.9105381Z",
                 "PublishedUtc": null,
@@ -813,7 +935,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Međimurska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:16.0760305Z",
                 "PublishedUtc": null,
@@ -843,7 +965,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Osječko-baranjska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:25.0347398Z",
                 "PublishedUtc": null,
@@ -873,7 +995,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Požeško-slavonska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:31.9406479Z",
                 "PublishedUtc": null,
@@ -903,7 +1025,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Primorsko-goranska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:39.6096816Z",
                 "PublishedUtc": null,
@@ -933,7 +1055,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Sisačko-moslavačka županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:47.5144368Z",
                 "PublishedUtc": null,
@@ -963,7 +1085,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Splitsko-dalmatinska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:24:54.7419504Z",
                 "PublishedUtc": null,
@@ -993,7 +1115,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Šibensko-kninska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:01.4621501Z",
                 "PublishedUtc": null,
@@ -1023,7 +1145,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Varaždinska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:08.5693246Z",
                 "PublishedUtc": null,
@@ -1053,7 +1175,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Virovitičko-podravska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:15.7443529Z",
                 "PublishedUtc": null,
@@ -1083,7 +1205,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Vukovarsko-srijemska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:23.3799342Z",
                 "PublishedUtc": null,
@@ -1113,7 +1235,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Zadarska županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:30.775683Z",
                 "PublishedUtc": null,
@@ -1143,7 +1265,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Zagrebačka županija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:37.2804774Z",
                 "PublishedUtc": null,
@@ -1173,7 +1295,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Tag",
                 "DisplayText": "Grad Zagreb",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-16T10:25:43.1759361Z",
                 "PublishedUtc": null,
@@ -1206,7 +1328,7 @@
           "ContentItemVersionId": "49967hadst18gzppzdas840rnw",
           "ContentType": "Taxonomy",
           "DisplayText": "Vrsta organizacije/Pravni oblik",
-          "Latest": true,
+          "Latest": false,
           "Published": true,
           "ModifiedUtc": "2021-06-18T07:28:58.9583284Z",
           "PublishedUtc": "2021-06-18T07:28:58.9962096Z",
@@ -1236,7 +1358,7 @@
           "ContentItemVersionId": "4mm2kgbzzxabe442t6erw6sn4m",
           "ContentType": "Taxonomy",
           "DisplayText": "Funkcija",
-          "Latest": true,
+          "Latest": false,
           "Published": true,
           "ModifiedUtc": "2021-06-18T13:10:12.3489453Z",
           "PublishedUtc": "2021-06-18T13:10:12.4070776Z",
@@ -1294,7 +1416,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Brewery",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:18:44.9652135Z",
                 "PublishedUtc": null,
@@ -1330,7 +1452,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Charter",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:18:52.5951611Z",
                 "PublishedUtc": null,
@@ -1366,7 +1488,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Dizajn interijera",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:19:02.3827442Z",
                 "PublishedUtc": null,
@@ -1402,7 +1524,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Event industrija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:19:16.673276Z",
                 "PublishedUtc": null,
@@ -1438,7 +1560,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Fitness",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:19:27.5992323Z",
                 "PublishedUtc": null,
@@ -1474,7 +1596,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Frizerski salon",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:19:35.6361562Z",
                 "PublishedUtc": null,
@@ -1510,7 +1632,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Graditeljstvo",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:19:45.1634944Z",
                 "PublishedUtc": null,
@@ -1546,7 +1668,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "IT",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:19:55.4180594Z",
                 "PublishedUtc": null,
@@ -1582,7 +1704,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Kozmetički salon",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:20:05.0526378Z",
                 "PublishedUtc": null,
@@ -1618,7 +1740,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Marketing / PR",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:20:12.6440891Z",
                 "PublishedUtc": null,
@@ -1654,7 +1776,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Mediji",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:20:21.8433506Z",
                 "PublishedUtc": null,
@@ -1690,7 +1812,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Nekretnine",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:21:07.2925709Z",
                 "PublishedUtc": null,
@@ -1726,7 +1848,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Obrazovanje",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:21:20.8166562Z",
                 "PublishedUtc": null,
@@ -1762,7 +1884,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Ostale djelatnosti vezane uz sport",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:21:30.9309799Z",
                 "PublishedUtc": null,
@@ -1798,7 +1920,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Ostale usluge iz industrije ljepote",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:21:39.3307167Z",
                 "PublishedUtc": null,
@@ -1834,7 +1956,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Ostale uslužne djelatnosti",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:21:50.9506513Z",
                 "PublishedUtc": null,
@@ -1870,7 +1992,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Ostalo",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:21:59.6657835Z",
                 "PublishedUtc": null,
@@ -1906,7 +2028,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Poslovno savjetovanje",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:07.1724488Z",
                 "PublishedUtc": null,
@@ -1942,7 +2064,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Posredovanje i zastupanje u osiguranju",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:15.1711406Z",
                 "PublishedUtc": null,
@@ -1978,7 +2100,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Prijevoz putnika",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:23.7957096Z",
                 "PublishedUtc": null,
@@ -2014,7 +2136,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Proizvodnja",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:31.3910696Z",
                 "PublishedUtc": null,
@@ -2050,7 +2172,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Proizvodnja kozmetike i sapuna",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:40.3493957Z",
                 "PublishedUtc": null,
@@ -2086,7 +2208,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Proizvodnja tekstila",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:47.2167272Z",
                 "PublishedUtc": null,
@@ -2122,7 +2244,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Projektiranje rasvjete",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:22:55.1517654Z",
                 "PublishedUtc": null,
@@ -2158,7 +2280,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Putničke agencije",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:02.5615923Z",
                 "PublishedUtc": null,
@@ -2194,7 +2316,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Računovodstveno knjigovodstveni poslovi",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:11.7399171Z",
                 "PublishedUtc": null,
@@ -2230,7 +2352,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Rent a car",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:20.6550134Z",
                 "PublishedUtc": null,
@@ -2266,7 +2388,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Ribarstvo",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:29.6844994Z",
                 "PublishedUtc": null,
@@ -2302,7 +2424,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Salon za njegu i šišanje pasa",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:37.2772571Z",
                 "PublishedUtc": null,
@@ -2338,7 +2460,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Servis",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:44.0898844Z",
                 "PublishedUtc": null,
@@ -2374,7 +2496,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Sportska medicina",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:51.3236589Z",
                 "PublishedUtc": null,
@@ -2410,7 +2532,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Sportski djelatnici",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:23:59.5228295Z",
                 "PublishedUtc": null,
@@ -2446,7 +2568,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Sportski eventi",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:08.0817686Z",
                 "PublishedUtc": null,
@@ -2482,7 +2604,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Transport",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:14.9118948Z",
                 "PublishedUtc": null,
@@ -2518,7 +2640,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Trgovina",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:24.1758123Z",
                 "PublishedUtc": null,
@@ -2554,7 +2676,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Trgovina preko pošte i interneta",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:31.1421318Z",
                 "PublishedUtc": null,
@@ -2590,7 +2712,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Turizam",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:38.5666364Z",
                 "PublishedUtc": null,
@@ -2626,7 +2748,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Ugostiteljstvo",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:46.1749468Z",
                 "PublishedUtc": null,
@@ -2662,7 +2784,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Usluge",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:24:54.3306441Z",
                 "PublishedUtc": null,
@@ -2698,7 +2820,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Veleprodaja",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:25:01.9897327Z",
                 "PublishedUtc": null,
@@ -2734,7 +2856,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Video produkcija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:25:10.6613358Z",
                 "PublishedUtc": null,
@@ -2770,7 +2892,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Vinarija",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:25:19.726786Z",
                 "PublishedUtc": null,
@@ -2806,7 +2928,7 @@
                 "ContentItemVersionId": null,
                 "ContentType": "Taxonomy",
                 "DisplayText": "Zdravstvo",
-                "Latest": true,
+                "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-06-18T13:25:32.7902604Z",
                 "PublishedUtc": null,
@@ -2868,6 +2990,234 @@
           "TaxonomyPart": {
             "TermContentType": "Tag",
             "Terms": []
+          }
+        },
+        {
+          "ContentItemId": "4qbdbmye3e06r58e65vwrf9g4c",
+          "ContentItemVersionId": "44372qpfbx51g40ysbptwjhgmc",
+          "ContentType": "Menu",
+          "DisplayText": "Main Menu",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-07-05T14:27:41.3626468Z",
+          "PublishedUtc": "2021-07-05T14:27:41.6093029Z",
+          "CreatedUtc": "2021-06-16T08:48:06.1077508Z",
+          "Owner": "4qj457jqgfg0ht62psxyg33ydk",
+          "Author": "admin",
+          "MenuPart": {},
+          "TitlePart": {
+            "Title": "Main Menu"
+          },
+          "MenuItemsListPart": {
+            "MenuItems": [
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "45xyce3k24zng7zswe7g41w1m6",
+                "DisplayText": "Home",
+                "LinkMenuItemPart": {
+                  "Name": "Home",
+                  "Url": "~/"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "47wj0vb5040cs08kxe8stgkbdk",
+                "DisplayText": "About",
+                "LinkMenuItemPart": {
+                  "Name": "About",
+                  "Url": "~/about"
+                }
+              }
+            ]
+          },
+          "AliasPart": {
+            "Alias": "main-menu"
+          }
+        },
+        {
+          "ContentItemId": "4xyb4dp01z5d8zn6k6c4y689mx",
+          "ContentItemVersionId": "4fe47d7985zxgxfa3zd2vsx64w",
+          "ContentType": "Menu",
+          "DisplayText": "User Landing Page Menu",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-07-07T15:35:21.385231Z",
+          "PublishedUtc": "2021-07-07T15:35:21.4277466Z",
+          "CreatedUtc": "2021-07-05T12:03:14.0252649Z",
+          "Owner": "4qj457jqgfg0ht62psxyg33ydk",
+          "Author": "admin",
+          "TitlePart": {
+            "Title": "User Landing Page Menu"
+          },
+          "AliasPart": {
+            "Alias": "user-landing-page-menu"
+          },
+          "MenuPart": {},
+          "MenuItemsListPart": {
+            "MenuItems": [
+              {
+                "ContentItemId": "43k5hd8hwqmm2vybgpvx9p47n3",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Moji podaci",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:28:57.6951939Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Moji podaci",
+                  "Url": "/myprofile"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "far fa-address-card"
+                  }
+                }
+              },
+              {
+                "ContentItemId": "46h1xh9kt59jh65qy17hrfym46",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Moje donacije",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:30:15.2707178Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Moje donacije",
+                  "Url": "/mydonations"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "fas fa-file-contract"
+                  }
+                }
+              },
+              {
+                "ContentItemId": "43ccqg73g30zyv168pd5pvnncv",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Moja ponuda ",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:31:20.2937437Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Moja ponuda ",
+                  "Url": "/myoffer"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "far fa-file-alt"
+                  }
+                }
+              },
+              {
+                "ContentItemId": "4h9vm2tw6j9ahw7vttare653x3",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Doniraj",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:32:41.9079147Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Doniraj",
+                  "Url": "/donate"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "far fa-hand-point-up"
+                  }
+                }
+              },
+              {
+                "ContentItemId": "4emqn8p85p3003n5dwgbefhy5v",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Ponude za članove",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:34:02.6117871Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Ponude za članove",
+                  "Url": "/offerformembers"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "fas fa-percent"
+                  }
+                }
+              },
+              {
+                "ContentItemId": "45dp78ecrjhdzr9drgr7f7bsmd",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Događanja",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:34:42.0380744Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Događanja",
+                  "Url": "/events"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "far fa-calendar-alt"
+                  }
+                }
+              },
+              {
+                "ContentItemId": "4ahgp14e1z8e4vxafgen5z8cxc",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Newsletter",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-07T15:35:19.6140105Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "LinkMenuItemPart": {
+                  "Name": "Newsletter",
+                  "Url": "/newsletter"
+                },
+                "LinkMenuItem": {
+                  "Icon": {
+                    "Text": "fas fa-book-open"
+                  }
+                }
+              }
+            ]
+          },
+          "@WeldedPartSettings": {
+            "MenuPart": {
+              "Position": "3"
+            },
+            "MenuItemsListPart": {
+              "Position": "4"
+            }
           }
         }
       ]
