@@ -63,12 +63,7 @@
                     @await RenderSectionAsync("AfterLogin", required: false)
                     <div></div>
                     <button type="submit" class="btn btn-primary" tabindex="4">@T["Log in"]</button>
-                    @if (userCanRegister)
-                    {
-                        <div class="mt-4">
-                            <a asp-controller="Registration" asp-action="Register" asp-route-returnurl="/Members/Home/Create">@T["Register as a new user"]</a>
-                        </div>
-                    }
+
                 </form>
             </div>
 
@@ -82,7 +77,7 @@
                         <div class="form-floating">
                             <p>Ukoliko još niste član, registrirajte se: </p>
 
-                            <a href="/Members/Home/Create" target="" class="btn btn-info">Registrirajte se</a>
+                            <a asp-controller="Registration"  class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Registrirajte se"]</a>
                         </div>
 
                     </div>

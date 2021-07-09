@@ -26,16 +26,9 @@
     tag.Attributes["href"] = url;
     tag.InnerHtml.Append(contentItem.DisplayText);
 
-
-    <div class="col-6 col-md-3 text-center">
-        <div class="portal-link-box">
-            <a href="@url">
-                <div class="icon-box"><i class="far @iconTxt"></i></div>
-                <span>@contentItem.DisplayText</span>
-            </a>
-        </div>
-    </div>
-
+    <a href="@url">
+        <div class="icon-box"><i class="far @iconTxt"></i></div>
+        <span>@contentItem.DisplayText</span>
+    </a>
 
 }
-

@@ -1,0 +1,16 @@
+﻿@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+@{ Html.RenderPartial("_Header", "MyProfile"); }
+
+<form asp-action="Index" method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary()
+
+
+
+    <button type="submit" name="submit.Ok" class="btn btn-success publish" value="submit.Ok">OK</button>
+    <button type="submit" name="submit.Cancel" class="btn btn-success publish" value="submit.Cancel">Cancel</button>
+</form>
