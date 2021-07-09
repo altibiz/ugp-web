@@ -184,7 +184,8 @@ nuget.exe
 #exclude node modules
 node_modules/*
 
-wwwroot
+UgpWeb/wwwroot
 /**/node_modules/
 /UgpTheme/Assets/dist
 UgpWeb/Localization/
+/ModuleName.OrchardCore/wwwroot

@@ -17,7 +17,7 @@ namespace Members
         {
             await _recipeMigrator.ExecuteAsync("init.recipe.json", this);
 
-            return 2;
+            return 1;
         }
     }
 }
