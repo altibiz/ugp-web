@@ -873,7 +873,7 @@
               {
                 "ContentType": "LinkMenuItem",
                 "ContentItemId": "[js: uuid()]",
-                "DisplayText": "Home",
+                "DisplayText": "Početna",
                 "LinkMenuItemPart": {
                   "Name": "Home",
                   "Url": "~/"
@@ -882,10 +882,10 @@
               {
                 "ContentType": "LinkMenuItem",
                 "ContentItemId": "[js: uuid()]",
-                "DisplayText": "About",
+                "DisplayText": "Tko smo mi",
                 "LinkMenuItemPart": {
-                  "Name": "About",
-                  "Url": "~/about"
+                  "Name": "Tko smo mi",
+                  "Url": "~/o-nama"
                 }
               }
             ]
@@ -1101,24 +1101,24 @@
         {
           "ContentItemId": "[js: uuid()]",
           "ContentType": "Article",
-          "DisplayText": "About",
+          "DisplayText": "O nama",
           "Latest": true,
           "Published": true,
           "Owner": "[js: parameters('AdminUserId')]",
           "Author": "[js: parameters('AdminUsername')]",
           "AutoroutePart": {
-            "Path": "about",
+            "Path": "o-nama",
             "SetHomepage": false
           },
           "HtmlBodyPart": {
-            "Html": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et.</p>"
+            "Html": "<p>Glas Poduzetnika je udruga mikro, malih i srednjih poduzetnika, obrtnika, samozaposlenih i svih zaposlenika u privatnom sektoru, čiji je cilj konkretnim prijedlozima nužnih i hitnih ekonomskih mjera i reformi upućenih Vladi Republike Hrvatske i državnim institucijama, ubrzati ekonomski oporavak cijelog društva te izgraditi zdrave temelje za Hrvatsku 2.0.</p> <p>Glas poduzetnika je pokrenut kao neformalna inicijativa skupine građana koja se spontano okupila u drugoj polovici ožujka 2020. godine. Inicijativu je pokrenula grupa poduzetnika koji su smatrali da u javnom prostoru nema dovoljno glasova iz privatnog sektora. Također, smatrali su da je situacija veoma ozbiljna i da bi potencijalne posljedice krize mogle na&scaron;tetiti gospodarstvu te imati &scaron;tetan utjecaj na samozaposlene, mikro, male i srednje poduzetnike koji zapo&scaron;ljavaju 70% radnika u privatnom sektoru.&nbsp;</p>  <p>Komunikacija je započela kroz Facebook grupu i stranicu, gdje se u roku od 14 dana okupilo preko 45.000 članova.&nbsp;</p>  <p>Inicijativu, formalno i neformalno, podržava velik broj poslovnih udruga (Nacionalna udruga ugostitelja, HURA, Lipa, CISEX, MBA Croatia, Udruženje organizatora i realizatora događanja, Women in Adria, CRO.AI).&nbsp;</p>  <p>Glas poduzetnika je trenutno najveća i najbrojnija udruga poduzetnika u Hrvatskoj.</p>  <p>U petak, 3. travnja 2020. godine Inicijativa je postala udruga Glas poduzetnika.</p>  <p>&nbsp;</p>  <p><strong>Udruga Glas poduzetnika</strong></p>  <p>info@glaspoduzetnika.hr</p>  <p><strong>Podr&scaron;ka članovima</strong></p>  <p>podrska.clanovima@glaspoduzetnika.hr</p>"
           },
           "TitlePart": {
-            "Title": "About"
+            "Title": "O nama"
           },
           "Article": {
             "Subtitle": {
-              "Text": "This is what I do."
+              "Text": "Udruga Glas Poduzetnika"
             },
             "Image": {
               "Paths": [
