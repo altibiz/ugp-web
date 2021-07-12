@@ -6,11 +6,154 @@
 
 @{ Html.RenderPartial("_Header", "MyProfile"); }
 
-<form asp-action="Index" method="post" enctype="multipart/form-data">
-    @Html.ValidationSummary()
+<div class="container">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>MOJI PODACI</h2>
+                        <hr>
+                        <form name="reg_form" class="form-floating" method="post" action="/account?cmd=submitUserData" id="submitUserDataForm">
+
+                            <div class="form-group">
+                                <label for="ime"><b>Promet u 2019</b></label>
+                                <input class="form-control" type="number" name="last_year_income" id="last_year_income" value="400000">
+                            </div>
+                            <div class="form-group">
+                                <label for="m_business"><b>Djelatnost</b></label>
+                                <select class="form-control" id="m_business" name="m_business">
+                                    <option>Izaberite</option>
+
+                                    <option value="22">Brewery</option>
 
 
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="employees"><b>Zaposleni</b></label>
+                                <input class="form-control" type="text" name="employees" id="employees" value="2">
+                            </div>
+                            <div class="form-group">
+                                <label for="associates"><b>Suradnici</b></label>
+                                <input class="form-control" type="text" name="associates" id="associates" value="3">
+                            </div>
+                            <div class="form-group">
+                                <label for="m_function"><b>Funkcija</b></label>
+                                <select class="form-control" id="m_function" name="m_function">
 
-    <button type="submit" name="submit.Ok" class="btn btn-success publish" value="submit.Ok">OK</button>
-    <button type="submit" name="submit.Cancel" class="btn btn-success publish" value="submit.Cancel">Cancel</button>
-</form>
+                                    <option selected="" value="1">Direktor/Član uprave</option>
+
+                                    <option value="2">Vlasnik</option>
+
+
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="m_type"><b>Vrsta člana</b></label>
+                                <select class="form-control" id="m_type" name="m_type">
+
+                                    <option selected="" value="1">Aktivan</option>
+
+                                    <option value="2">Neaktivan</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contribution">Doprinos u udruzi</label>
+                                <textarea class="form-control" rows="5" id="contribution" name="contribution"></textarea>
+                            </div>
+                            <button type="submit" class="button mt-1 btn btn-success">Spremi promjene</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="company-info">
+                            <h2>PODACI O TVRTKI</h2>
+                            <hr>
+                            <p class="alert alert-warning">Podaci obojani u zeleno se ne mogu vlastoručno mijenjati zbog zaštite registra članova. Ako se pojavljuju netočni podaci, ili su neka polja prazna molimo Vas da prijavite <a href="https://forms.monday.com/forms/ca65c242f34010c168238f563956f990" target="_blank">OVDJE</a></p>
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr class="table-info">
+                                        <td><b>Ime tvrke</b></td>
+                                        <td>Altinet d.o.o.</td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td><b>Vrsta organizacije</b></td>
+                                        <td>D.O.O.</td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td><b>OIB</b></td>
+                                        <td>97429091194</td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td><b>Grad/Opcina subjekta</b></td>
+                                        <td>Zagreb</td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td><b>Adresa subjekta</b></td>
+                                        <td>Culinecka cesta 146</td>
+                                    </tr>
+                                    <tr class="table-info">
+                                        <td><b>Osobe za zastupanje</b></td>
+                                        <td>Bruno Samardžić</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h2>PODACI O FIZIČKOJ OSOBI</h2>
+                        <hr>
+
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr class="table-info">
+                                    <td><b>Ime</b></td>
+                                    <td>Bruno</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Prezime</b></td>
+                                    <td>Samardžić</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Datum rođenja</b></td>
+                                    <td>7.2.1983.</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Adresa</b></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Grad/Opcina</b></td>
+                                    <td></td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Županija</b></td>
+                                    <td>Zagrebačka</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>E-mail</b></td>
+                                    <td>bruno@altinet.hr</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Telefon</b></td>
+                                    <td>+38598210756</td>
+                                </tr>
+                                <tr class="table-info">
+                                    <td><b>Spol</b></td>
+
+                                    <td>Muško</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="change-pass">
+                            <h2>IZMJENA LOZINKE</h2>
+                            <hr>
+                            <a href="/password" class="btn btn-warning text-decoration-none">Izmjenite vašu lozinku</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>

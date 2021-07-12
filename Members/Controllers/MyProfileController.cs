@@ -18,49 +18,11 @@ namespace Members.Controllers
 {
     public class MyProfileController : Controller
     {
-        private const string contentType = "Member";
-        private const string contentTypeC = "Company";
-
-        private readonly IContentManager _contentManager;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
-        private readonly IContentItemDisplayManager _contentItemDisplayManager;
-        private readonly IHtmlLocalizer H;
-        private readonly dynamic New;
-        private readonly INotifier _notifier;
-        private readonly ISession _session;
-        private readonly ISiteService _siteService;
-        private readonly IUpdateModelAccessor _updateModelAccessor;
 
 
-        public MyProfileController(IContentManager contentManager, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<HomeController> htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
+        public ActionResult Index()
         {
-            _contentManager = contentManager;
-            _contentDefinitionManager = contentDefinitionManager;
-            _contentItemDisplayManager = contentItemDisplayManager;
-            _notifier = notifier;
-            _session = session;
-            _siteService = siteService;
-            _updateModelAccessor = updateModelAccessor;
-
-            H = htmlLocalizer;
-            New = shapeFactory;
-        }
-
-        public async Task<IActionResult> IndexAsync(string id = contentType)
-        {
-
-            if (String.IsNullOrWhiteSpace(id))
-            {
-                return NotFound();
-            }
-
-            var contentItem = await _contentManager.NewAsync(id);
-
-
-            var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-
-            return View(model);
-
+            // Add action logic here
             return View();
         }
     }

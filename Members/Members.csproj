@@ -17,6 +17,7 @@
     <PackageReference Include="OrchardCore.Module.Targets" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Navigation.Core" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Title" Version="1.0.0-rc2-16311" />
+    <PackageReference Include="OrchardCore.Users" Version="1.0.0-rc2-16311" />
   </ItemGroup>
 
   <ItemGroup>
