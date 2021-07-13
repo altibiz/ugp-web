@@ -1,0 +1,5 @@
+<h1>{{ Model.ContentItem.DisplayText }}</h1>
+{% assign recentBlogPosts = Queries.RecentBlogPosts | query %}
+{% for item in recentBlogPosts %}
+{{ item | display_text }}
+{% endfor %}
