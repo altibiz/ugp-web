@@ -1,8 +1,107 @@
 ﻿@page
-
+@model Members.Pages.MyOfferModel
 @{
-    var pageTitle = @T["Moja ponuda"];
 }
 
-@{ Html.RenderPartial("_Header", pageTitle.Value); }
 
+@{ Html.RenderPartial("_Header", ""); }
+
+
+
+<div class="row">
+    <form class="form-floating" action="?" method="post">
+
+
+            <h3>@T["OBAVEZNI PODACI:"]</h3>
+
+            <hr />
+
+            <div class="form-floating">
+                <input asp-for="OfferTitle" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="OfferTitle">@T["Naslov (npr. Popust za članove za naše usluge/proizvode)"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="ShortDescription" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="ShortDescription">@T["Kratak opis"] </label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Category" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Category">@T["Kategorija"] </label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="PersonName" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="PersonName">@T["Naziv pravne ili fizičke osobe"] </label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="ContactPerson" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="ContactPerson">@T["Kontakt osoba"] </label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Email" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Email">@T["E-mail adresa"] </label>
+            </div>
+
+
+
+
+
+            <h3>@T["OPCIONALNI PODACI:"]</h3>
+
+            <hr />
+
+            <div class="form-floating">
+                <input asp-for="Description" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Description">@T["Širi opis i dodatne specifikacije"]</label>
+            </div>
+
+
+            <div class="form-floating">
+                <input asp-for="YoutubeId" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="YoutubeId">@T["Youtube Video ID (Samo Video ID nakon 'https://www.youtube.com/watch?v=')"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Address" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Address">@T["Adresa"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Phone" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Phone">@T["Telefon"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Web" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Web">@T["Web (Obavezno mora počinjati sa http:// ili https://)"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Instagram" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Instagram">@T["Instagram (Obavezno mora počinjati sa http:// ili https://)"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="Facebook" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Facebook">@T["Facebook (Obavezno mora počinjati sa http:// ili https://)"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="LinkedIn" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="LinkedIn">@T["LinkedIN (Obavezno mora počinjati sa http:// ili https://)"]</label>
+            </div>
+
+
+
+
+
+
+        <button type="submit" name="offerSubmit" class="btn btn-success publish" value="submit">Spremi</button>
+
+
+    </form>
+</div>
