@@ -1,5 +1,5 @@
-<h1>{{ Model.ContentItem.DisplayText }}</h1>
+<h3 class="mt-4">{{ Model.ContentItem.DisplayText }}</h3>
 {% assign recentBlogPosts = Queries.RecentBlogPosts | query %}
 {% for item in recentBlogPosts %}
-{{ item | display_text }}
+    {{ item | shape_build_display: "Summary" | shape_render }}
 {% endfor %}

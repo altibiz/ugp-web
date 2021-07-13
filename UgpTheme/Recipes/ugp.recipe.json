@@ -940,9 +940,9 @@
               {
                 "ContentType": "LinkMenuItem",
                 "ContentItemId": "[js: uuid()]",
-                "DisplayText": "Vijesti",
+                "DisplayText": "Novosti",
                 "LinkMenuItemPart": {
-                  "Name": "Vijesti",
+                  "Name": "Novosti",
                   "Url": "~/blog"
                 }
               }
@@ -1064,16 +1064,16 @@
         {
           "ContentType": "Blog",
           "ContentItemId": "[js: variables('blogContentItemId')]",
-          "DisplayText": "Blog",
+          "DisplayText": "Novosti",
           "Latest": true,
           "Published": true,
           "Owner": "[js: parameters('AdminUserId')]",
           "Author": "[js: parameters('AdminUsername')]",
           "TitlePart": {
-            "Title": "Blog"
+            "Title": "Novosti"
           },
           "HtmlBodyPart": {
-            "Html": "This is the description of your blog"
+            "Html": "Što je novo u UGPu"
           },
           "AutoroutePart": {
             "Path": "blog"
@@ -1411,7 +1411,7 @@
                 "ContentItemId": "4ywxmec8zz4wn0ava36c9kcp4j",
                 "ContentItemVersionId": null,
                 "ContentType": "RecentNews",
-                "DisplayText": "Vijesti",
+                "DisplayText": "Novosti",
                 "Latest": false,
                 "Published": false,
                 "ModifiedUtc": "2021-07-12T22:57:23.0690646Z",
@@ -1425,7 +1425,7 @@
                   }
                 },
                 "TitlePart": {
-                  "Title": "Vijesti"
+                  "Title": "Novosti"
                 },
                 "FlowMetadata": {
                   "Alignment": 3,

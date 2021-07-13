@@ -20,6 +20,8 @@
     <PackageReference Include="OrchardCore.Alias" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.ContentFields" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.DisplayManagement" Version="1.0.0-rc2-16311" />
+    <PackageReference Include="OrchardCore.Flows" Version="1.0.0-rc2-16311" />
+    <PackageReference Include="OrchardCore.Media" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.ResourceManagement" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Taxonomies" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0-rc2-16311" />

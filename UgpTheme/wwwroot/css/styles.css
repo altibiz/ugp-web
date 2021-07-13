@@ -10609,6 +10609,9 @@ blockquote {
 #mainNav .navbar-brand {
   font-weight: 800;
 }
+#mainNav .navbar-brand img {
+  max-height: 50px;
+}
 #mainNav .navbar-toggler {
   font-size: 0.75rem;
   font-weight: 800;
@@ -10671,6 +10674,14 @@ blockquote {
     /* if the user changes the scrolling direction, we show the header */
     transform: translate3d(0, 100%, 0);
   }
+}
+
+.gallery {
+  display: flex;
+  width: 100%;
+}
+.gallery img {
+  width: 100%;
 }
 
 footer {
@@ -10749,17 +10760,6 @@ header.masthead .post-heading .meta a {
     padding-top: 7.5rem;
     padding-bottom: 5.5rem;
   }
-  header.masthead .page-heading h1, header.masthead .page-heading .h1,
-header.masthead .site-heading h1,
-header.masthead .site-heading .h1 {
-    font-size: 5rem;
-  }
-  header.masthead .post-heading h1, header.masthead .post-heading .h1 {
-    font-size: 3.5rem;
-  }
-  header.masthead .post-heading .subheading {
-    font-size: 1.875rem;
-  }
 }
 
 .section-heading {
@@ -10808,7 +10808,7 @@ header.masthead .site-heading .h1 {
   }
 }
 
-.top-features h4, .top-features .h4 {
+.top-features h2, .top-features .h2 {
   font-weight: 700;
   color: #448083;
   text-align: center;
