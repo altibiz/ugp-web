@@ -28,11 +28,11 @@ namespace Members
             // Adding our menu items to the builder.
             // The builder represents the full admin menu tree.
             builder
-                .Add(S["My Root View"], S["My Root View"].PrefixPosition(), rootView => rootView
-                   .Add(S["Child One"], S["Child One"].PrefixPosition(), childOne => childOne
-                       .Action("ChildOne", "Admin", new { area = "Members" }))
-                   .Add(S["Child Two"], S["Child Two"].PrefixPosition(), childTwo => childTwo
-                       .Action("ChildTwo", "Admin", new { area = "Members" })));
+                .Add(S["Članstvo"], "0", rootView => rootView
+                   .Add(S["Fizičke osobe"], S["Child One"].PrefixPosition(), childOne => childOne
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Member" }))
+                   .Add(S["Pravne osobe"], S["Child Two"].PrefixPosition(), childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Company" })),new[] { "icon-class-fas","icon-class-fa-users" });
 
             return Task.CompletedTask;
         }
