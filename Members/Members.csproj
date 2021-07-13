@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -18,6 +18,7 @@
     <PackageReference Include="OrchardCore.Navigation.Core" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Title" Version="1.0.0-rc2-16311" />
     <PackageReference Include="OrchardCore.Users" Version="1.0.0-rc2-16311" />
+    <PackageReference Include="OrchardCore.Taxonomies" Version="1.0.0-rc2-16311" />
   </ItemGroup>
 
   <ItemGroup>

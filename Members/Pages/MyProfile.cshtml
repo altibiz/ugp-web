@@ -1,0 +1,156 @@
+﻿@page
+@model Members.Pages.MyProfileModel
+
+@{
+}
+
+
+@{ Html.RenderPartial("_Header", "MyProfile"); }
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>@T["MOJI PODACI"]</h2>
+        <hr>
+        <form class="form-floating" action="?" method="post">
+
+
+            <div class="form-floating">
+                <input asp-for="TurnoverIn2019" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="TurnoverIn2019">@T["Promet u 2019"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="CompanyActivity" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="CompanyActivity">@T["Djelatnost"]</label>
+            </div>
+
+
+            <div class="form-floating">
+                <input asp-for="EmployeeNumber" placeholder="smth" type="number" class="form-control content-preview-text" />
+                <label asp-for="EmployeeNumber">@T["Broj zaposlenika"]</label>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="PermanentAssociates" placeholder="smth" type="number" class="form-control content-preview-text" />
+                <label asp-for="PermanentAssociates">@T["Broj stalnih suradnika"]</label>
+            </div>
+
+
+            <div class="form-floating">
+                <input asp-for="Function" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="Function">@T["Funkcija"]</label>
+            </div>
+
+
+            <div class="form-floating">
+                <input asp-for="MemberActivity" placeholder="smth" type="text" class="form-control content-preview-text" />
+                <label asp-for="MemberActivity">@T["Vrsta člana"]</label>
+            </div>
+
+
+            <div class="form-floating">
+                <input asp-for="Contribution " placeholder="smth" type="text" class="form-control content-preview-text" style="height: 200px" />
+                <label asp-for="Contribution">@T["Doprinos udruzi"]</label>
+            </div>
+
+            <button type="submit" name="MyProfileSubmit" class="btn btn-success publish" value="Submit">Spremi promjene</button>
+
+        </form>
+    </div>
+
+
+
+    <div class="col-md-6">
+        <div class="company-info">
+            <h2>@T["PODACI O TVRTKI"]</h2>
+            <hr>
+            <p class="alert alert-warning">@T["Podaci obojani u zeleno se ne mogu vlastoručno mijenjati zbog zaštite registra članova. Ako se pojavljuju netočni podaci, ili su neka polja prazna molimo Vas da prijavite"] <a href="https://forms.monday.com/forms/ca65c242f34010c168238f563956f990" target="_blank">@T["OVDJE"]</a></p>
+
+            <table class="table table-striped">
+                <tbody>
+                    <tr class="table-info">
+                        <td><b>@T["Ime tvrke"]</b></td>
+                        <td>@Model.CompanyName</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><b>@T["Vrsta organizacije"]</b></td>
+                        <td>@Model.OrganisationType</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><b>@T["OIB"]</b></td>
+                        <td>@Model.CompanyOib</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><b>@T["Grad/Opcina subjekta"]</b></td>
+                        <td>@Model.CompanyCity</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><b>@T["Adresa subjekta"]</b></td>
+                        <td>@Model.CompanyAddress</td>
+                    </tr>
+                    <tr class="table-info">
+                        <td><b>@T["Osobe za zastupanje"]</b></td>
+                        <td>@Model.CompanyAuthorizedRepresentative</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>
+            @T["PODACI O FIZIČKOJ OSOBI"]
+        </h2>
+        <hr>
+
+        <table class="table table-striped">
+            <tbody>
+                <tr class="table-info">
+                    <td><b>@T["Ime"]</b></td>
+                    <td>@Model.MemberName</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Prezime"]</b></td>
+                    <td>@Model.MemberSurname</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Datum rođenja"]</b></td>
+                    <td>@Model.MemberBirthDate</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Adresa"]</b></td>
+                    <td>@Model.MemberAddress</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Grad/Opcina"]</b></td>
+                    <td>@Model.MemberCity</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Županija"]</b></td>
+                    <td>@Model.MemberCounty</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["E-mail"]</b></td>
+                    <td>@Model.MemberEmail</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Telefon"]</b></td>
+                    <td>@Model.MemberEmail</td>
+                </tr>
+                <tr class="table-info">
+                    <td><b>@T["Spol"]</b></td>
+                    <td>@Model.MemberSex</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12">
+        <div class="change-pass">
+            <h2>
+                @T["IZMJENA LOZINKE"]
+            </h2>
+            <hr>
+            <a href="/password" class="btn btn-warning text-decoration-none">@T["Izmjenite vašu lozinku"]</a>
+        </div>
+    </div>
+</div>
+
+

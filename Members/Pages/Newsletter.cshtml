@@ -1,7 +1,9 @@
 ﻿@page
 
+@model Members.Pages.NewsletterModel
+
 @{
-    var pageTitle = @T["Prijava na newsletter"];
+    var pageTitle = @T["Newsletter"];
 }
 
 @{ Html.RenderPartial("_Header", pageTitle.Value); }
@@ -9,134 +11,94 @@
 
 
 
-<form class="form-floating" action="?pName=subscribe&amp;MIDRID=S7Y1.J9ra2z2v8jW0MLSzBAAA68&amp;Z=-1506188824" method="post" onsubmit="return checkForm(this)">
+<form class="form-floating" action="?" method="post" >
 
     <p>
         <b>Popunite obrazac u nastavku kako biste se prijavili na newsletter.</b>
     </p>
 
-
-
     <div class="form-floating">
-        <input name="email" placeholder="smth" class="form-control content-preview-text" />
-        <label for="email">@T["E-mail adresa"]</label>
-    </div>
-
-
-
-    <div class="form-floating">
-        <input name="name" placeholder="smth" class="form-control content-preview-text" />
-        <label for="name">@T["Ime"]</label>
-    </div>
-
-    <div class="form-floating">
-        <input name="surename" placeholder="smth" class="form-control content-preview-text" />
-        <label for="surename">@T["Prezime"]</label>
-    </div>
-
-    <div class="form-floating">
-        <input name="company" placeholder="smth" class="form-control content-preview-text" />
-        <label for="company">@T["Tvrtka"]</label>
-    </div>
-
-    <div class="form-floating">
-        <input name="country" placeholder="smth" class="form-control content-preview-text" />
-        <label for="country">@T["Zemlja"]</label>
-    </div>
-
-    <fieldset id="datum_rodjenjaCtn" class="even">
-        <legend>
-            <label class="">Datum rođenja</label>
-        </legend>
-        <div class="input">
-            <input type="hidden" name="datum_rodjenja" value="" title="Datum rođenja" alt="0|date">
-            <select name="datum_rodjenja_day" onchange="_updateDate(this.form, 'datum_rodjenja')">
-                <option value="">[DD]</option>
-            </select>
-            <select name="datum_rodjenja_month" onchange="_updateDate(this.form, 'datum_rodjenja')">
-                <option value="">[MM]</option>
-
-            </select>
-            <select name="datum_rodjenja_year" onchange="_updateDate(this.form, 'datum_rodjenja')">
-                <option value="">[YYYY]</option>
-                <option value="1903">1903</option>
-                <option value="1904">1904</option>
-
-            </select>
-        </div>
-    </fieldset>
-
-    <div class="form-floating">
-        <input name="function" placeholder="smth" class="form-control content-preview-text" />
-        <label for="function">@T["Djelatnost"]</label>
-    </div>
-
-    <fieldset id="spolCtn" class="even">
-        <legend>
-            <label class="">Spol</label>
-        </legend>
-        <div class="input">
-            <input id="spol0" type="radio" name="spol" title="Spol" alt="0|varchar|100" value="M">
-            <label style="font-weight:normal" for="spol0">muško</label><br>
-            <input id="spol1" type="radio" name="spol" title="" alt="" value="F">
-            <label style="font-weight:normal" for="spol1">žensko</label><br>
-        </div>
-    </fieldset>
-
-    <fieldset id="tip_korisnikaCtn" class="odd">
-        <legend>
-            <label class="">Tip korisnika</label>
-        </legend>
-        <div class="input">
-            <input id="tip_korisnika0" type="radio" name="tip_korisnika" title="Tip korisnika" alt="0|varchar|100" value="Pravne">
-            <label style="font-weight:normal" for="tip_korisnika0">pravne osobe</label><br>
-            <input id="tip_korisnika1" type="radio" name="tip_korisnika" title="" alt="" value="Fizičke">
-            <label style="font-weight:normal" for="tip_korisnika1">fizičke osobe</label><br>
-        </div>
-    </fieldset>
-
-    <div id="vrsta_organizacijeCtn" class="form-floating">
-        <label class="">Vrsta organizacije</label>
-        <div class="input">
-            <select name="vrsta_organizacije" title="Vrsta organizacije" alt="0|varchar|100" onchange="if(typeof selectChoice=='function'){selectChoice(this)}">
-                <option value="">[Odaberi]</option>
-                <option value="D.O.O.">d.o.o.</option>
-
-            </select>
-        </div>
-    </div>
-
-    <div class="form-floating">
-        <input name="mobile" placeholder="smth" class="form-control content-preview-text" />
-        <label for="mobile">@T["Broj mobitela"]</label>
-    </div>
-
-    <fieldset id="pretplacenCtn" class="odd">
-        <legend>
-            <label class="">Pretplaćen</label>
-        </legend>
-        <div class="input">
-            <input id="pretplacen0" type="radio" name="pretplacen" title="Pretplaćen" alt="0|varchar|100" value="DA">
-            <label style="font-weight:normal" for="pretplacen0">da</label><br>
-            <input id="pretplacen1" type="radio" name="pretplacen" title="" alt="" value="NE">
-            <label style="font-weight:normal" for="pretplacen1">ne</label><br>
-        </div>
-    </fieldset>
-    
-    <div class="form-floating">
-        <input name="zupanija" placeholder="smth" class="form-control content-preview-text" />
-        <label for="zupanija">@T["Županija"]</label>
+        <input asp-for="Email" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Email">@T["E-mail adresa"] @Model.Title</label>
     </div>
 
 
     <div class="form-floating">
-        <input name="mjesto" placeholder="smth" class="form-control content-preview-text" />
-        <label for="mjesto">@T["Mjesto"]</label>
+        <input asp-for="Name" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Name">@T["Ime"]</label>
     </div>
 
 
-    <button class="btn btn-submit" type="submit" name="newsletterSubmit">Pošalji</button>
+    <div class="form-floating">
+        <input asp-for="Surname" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Surname">@T["Prezime"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Company" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Company">@T["Tvrtka"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Country" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Country">@T["Zemlja"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="BirthDate" placeholder="smth" type="date" class="form-control content-preview-text" />
+        <label asp-for="BirthDate">@T["Datum rođenja"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Activity" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Activity">@T["Djelatnost"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Sex" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Sex">@T["Spol"]</label>
+    </div>
+
+    <div class="form-floating">
+        <select class="form-select" aria-label="select">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="UserType" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="UserType">@T["Tip korisnika"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="CompanyType" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="CompanyType">@T["Vrsta organizacije"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="MobileNumber" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="MobileNumber">@T["Broj mobitela"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Subscribed" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Subscribed">@T["Pretplaćen"]</label>
+    </div>
+
+    <shape type="Term" alias="spol" />
+
+    <div class="form-floating">
+        <input asp-for="County" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="County">@T["Županija"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Place" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Place">@T["Mjesto"]</label>
+    </div>
+
+    <button type="submit" name="newsletterSubmit" class="btn btn-success publish" value="submit.Create">Pošalji</button>
 </form>
-
-
-
