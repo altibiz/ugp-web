@@ -10807,3 +10807,28 @@ header.masthead .site-heading .h1 {
     font-size: 2.25rem;
   }
 }
+
+.top-features h4, .top-features .h4 {
+  font-weight: 700;
+  color: #448083;
+  text-align: center;
+}
+
+.top-features p {
+  text-align: center;
+  font-size: 16px;
+  color: #448083;
+  font-weight: 600;
+  margin-top: 0px;
+}
+
+.carousel {
+  width: 100%;
+}
+
+.carousel-item {
+  width: 100%;
+}
+.carousel-item img {
+  width: 100%;
+}

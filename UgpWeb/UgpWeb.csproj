@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Carousel.OrchardCore\Carousel.OrchardCore.csproj" />
     <ProjectReference Include="..\Members\Members.csproj" />
     <ProjectReference Include="..\UgpTheme\UgpTheme.csproj" />
   </ItemGroup>
