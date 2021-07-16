@@ -2,6 +2,7 @@
 @model Members.Pages.MyCompanyModel
 
 @{
+    var companyModel = Model.ContentItem.Content.Company;
 }
 
 
@@ -16,7 +17,7 @@
 		<tbody>
 			<tr class="table-info">
 				<td><b>@T["Ime tvrke"]</b></td>
-				<td>@Model.CompanyName</td>
+				<td>@Model.Name</td>
 			</tr>
 			<tr class="table-info">
 				<td><b>@T["Vrsta organizacije"]</b></td>
@@ -24,19 +25,19 @@
 			</tr>
 			<tr class="table-info">
 				<td><b>@T["OIB"]</b></td>
-				<td>@Model.CompanyOib</td>
+				<td>@Model.Oib</td>
 			</tr>
 			<tr class="table-info">
 				<td><b>@T["Grad/Opcina subjekta"]</b></td>
-				<td>@Model.CompanyCity</td>
+				<td>@Model.City</td>
 			</tr>
 			<tr class="table-info">
 				<td><b>@T["Adresa subjekta"]</b></td>
-				<td>@Model.CompanyAddress</td>
+				<td>@Model.Address</td>
 			</tr>
 			<tr class="table-info">
 				<td><b>@T["Osobe za zastupanje"]</b></td>
-				<td>@Model.CompanyAuthorizedRepresentative</td>
+				<td>@Model.AuthorizedRepresentative</td>
 			</tr>
 		</tbody>
 	</table>
@@ -49,8 +50,8 @@
 	</div>
 
 	<div class="form-floating">
-		<input asp-for="CompanyActivity" placeholder="smth" type="text" class="form-control content-preview-text" />
-		<label asp-for="CompanyActivity">@T["Djelatnost"]</label>
+		<input asp-for="Activity" placeholder="smth" type="text" class="form-control content-preview-text" />
+		<label asp-for="Activity">@T["Djelatnost"]</label>
 	</div>
 
 
@@ -70,17 +71,6 @@
 		<label asp-for="Function">@T["Funkcija"]</label>
 	</div>
 
-
-	<div class="form-floating">
-		<input asp-for="MemberActivity" placeholder="smth" type="text" class="form-control content-preview-text" />
-		<label asp-for="MemberActivity">@T["Vrsta člana"]</label>
-	</div>
-
-
-	<div class="form-floating">
-		<input asp-for="Contribution " placeholder="smth" type="text" class="form-control content-preview-text" style="height: 200px" />
-		<label asp-for="Contribution">@T["Doprinos udruzi"]</label>
-	</div>
 
 	<button type="submit" name="MyProfileSubmit" class="btn btn-success publish" value="Submit">Spremi promjene</button>
 
