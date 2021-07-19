@@ -218,7 +218,7 @@
 								},
 								"ContentIndexSettings": {},
 								"TaxonomyFieldSettings": {
-									"TaxonomyContentItemId": "4wfqenk70shk73h6ty8yq8zc5t",
+									"TaxonomyContentItemId": "4k7n3gw5wm7660vqpm0805hedy",
 									"Unique": true
 								},
 								"TaxonomyFieldTagsEditorSettings": {
@@ -1381,7 +1381,7 @@
 					"ContentItemId": "4k7n3gw5wm7660vqpm0805hedy",
 					"ContentItemVersionId": "4rd5egkwrehvv2319vh17yy3xs",
 					"ContentType": "Taxonomy",
-					"DisplayText": "Vrsta člana",
+					"DisplayText": "Aktivnost člana",
 					"Latest": true,
 					"Published": true,
 					"ModifiedUtc": "2021-07-14T10:33:39.4132374Z",
@@ -1390,13 +1390,13 @@
 					"Owner": "4qj457jqgfg0ht62psxyg33ydk",
 					"Author": "admin",
 					"TitlePart": {
-						"Title": "Vrsta člana"
+						"Title": "Aktivnost člana"
 					},
 					"AliasPart": {
-						"Alias": "VrstaClana"
+						"Alias": "AktivnostClana"
 					},
 					"AutoroutePart": {
-						"Path": "vrsta-clana",
+						"Path": "aktivnost-clana",
 						"SetHomepage": false,
 						"Disabled": false,
 						"RouteContainedItems": false,
@@ -2821,6 +2821,458 @@
 								"Tag": {},
 								"TermPart": {
 									"TaxonomyContentItemId": "4m514eexhnwqnx4asz7xqadfcz"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							}
+						]
+					}
+				},
+				{
+					"ContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw",
+					"ContentItemVersionId": "4gegg6mrkztfk5hg3czx6jn25x",
+					"ContentType": "Taxonomy",
+					"DisplayText": "Vrsta organizacije/Pravni oblik",
+					"Latest": true,
+					"Published": true,
+					"ModifiedUtc": "2021-07-14T11:42:24.7734829Z",
+					"PublishedUtc": "2021-07-14T11:42:24.8445245Z",
+					"CreatedUtc": "2021-06-18T07:28:51.0447556Z",
+					"Owner": "4qj457jqgfg0ht62psxyg33ydk",
+					"Author": "admin",
+					"TitlePart": {
+						"Title": "Vrsta organizacije/Pravni oblik"
+					},
+					"AliasPart": {
+						"Alias": "OrganisationType"
+					},
+					"AutoroutePart": {
+						"Path": "vrsta-organizacije-pravni-oblik",
+						"SetHomepage": false,
+						"Disabled": false,
+						"RouteContainedItems": false,
+						"Absolute": false
+					},
+					"TaxonomyPart": {
+						"TermContentType": "Tag",
+						"Terms": [
+							{
+								"ContentItemId": "497mrqk972zcr3r46axjm1x45b",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "d.o.o.",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:30:07.799243Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "d.o.o."
+								},
+								"AutoroutePart": {
+									"Path": "d-o-o",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4behngvqz0cx7vcbqqc2mgxfw5",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "obrt",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:30:22.9654211Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "obrt"
+								},
+								"AutoroutePart": {
+									"Path": "obrt",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "401qd0726qqfb1qc1zyyc8ncwt",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "j.d.o.o.",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:30:38.1583009Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "j.d.o.o."
+								},
+								"AutoroutePart": {
+									"Path": "j-d-o-o",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4qmkqm5peftww46qjws8qwn344",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "d.d.",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:30:50.7453747Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "d.d."
+								},
+								"AutoroutePart": {
+									"Path": "d-d",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4zggwsq05cmwystqfh2rgkxzcz",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "paušalni obrt",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:31:10.0051556Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "paušalni obrt"
+								},
+								"AutoroutePart": {
+									"Path": "pausalni-obrt",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4j1db8waerj6869t22zssmsewk",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "zadruga",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:31:21.157071Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "zadruga"
+								},
+								"AutoroutePart": {
+									"Path": "zadruga",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4n3jnbdyms9phzgcd9hn3kvw4x",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "ustanova",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:31:33.4238655Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "ustanova"
+								},
+								"AutoroutePart": {
+									"Path": "ustanova",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4yjatx48h2h1m5cywjmmmqrjcr",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "udruga",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:31:41.1399364Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "udruga"
+								},
+								"AutoroutePart": {
+									"Path": "udruga",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4qtygw2dhdvyx2t37x640npq41",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "Sezonski obrt",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:32:00.8356479Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "Sezonski obrt"
+								},
+								"AutoroutePart": {
+									"Path": "sezonski-obrt",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "424stwkxa60skyapbvwedr04m5",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "Samostalna djelatnost",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:32:15.9973141Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "Samostalna djelatnost"
+								},
+								"AutoroutePart": {
+									"Path": "samostalna-djelatnost",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4pksfybjgfsypvwrn0vtzb8zcs",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "OPG",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:32:27.5569502Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "OPG"
+								},
+								"AutoroutePart": {
+									"Path": "opg",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4sdm0781y7z7zscydwvwy6pq5q",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "Iznajmljivač",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:32:44.1620076Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "Iznajmljivač"
+								},
+								"AutoroutePart": {
+									"Path": "iznajmljivac",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "47te7e381aww903jkq7kp67j47",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "Ured (odvjetnički, arhitektonski, biljeđnički ... )",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:33:50.1085461Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "Ured (odvjetnički, arhitektonski, biljeđnički ... )"
+								},
+								"AutoroutePart": {
+									"Path": "ured-odvjetnicki-arhitektonski-biljeđnicki",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "4v4g2zxqbgb8h6v16x5kt3q2dh",
+								"ContentItemVersionId": null,
+								"ContentType": "Tag",
+								"DisplayText": "Ordinacije (liječnićka, dentalna, laboratorij ...)",
+								"Latest": true,
+								"Published": false,
+								"ModifiedUtc": "2021-06-18T07:34:24.2762734Z",
+								"PublishedUtc": null,
+								"CreatedUtc": null,
+								"Owner": null,
+								"Author": "admin",
+								"TitlePart": {
+									"Title": "Ordinacije (liječnićka, dentalna, laboratorij ...)"
+								},
+								"AutoroutePart": {
+									"Path": "ordinacije-lijecnicka-dentalna-laboratorij",
+									"SetHomepage": false,
+									"Disabled": false,
+									"RouteContainedItems": false,
+									"Absolute": false
+								},
+								"Tag": {},
+								"TermPart": {
+									"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
 								},
 								"@WeldedPartSettings": {
 									"TermPart": {}
