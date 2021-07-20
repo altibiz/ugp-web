@@ -48,6 +48,8 @@
         "OrchardCore.Autoroute",
         "OrchardCore.Html",
         "OrchardCore.ContentFields",
+        "OrchardCore.ContentFields.Indexing.SQL.UserPicker",
+
         "OrchardCore.ContentPreview",
         "OrchardCore.Contents",
         "OrchardCore.Contents.FileContentDefinition",
@@ -71,9 +73,13 @@
         "OrchardCore.Taxonomies",
         "OrchardCore.Title",
         "OrchardCore.Templates",
+        "OrchardCore.Users",
+        "OrchardCore.Users.Registration",
+        "OrchardCore.Users.ResetPassword",
         "OrchardCore.Widgets",
         "Carousel.OrchardCore",
         "Members",
+
         // Themes
         "UgpTheme",
         "TheAdmin",

@@ -6,6 +6,7 @@ using Members.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OrchardCore.ContentFields.Indexing.SQL;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.ContentManagement.Metadata;
@@ -72,23 +73,20 @@ namespace Members.Pages
 
         public async Task OnGetAsync()
         {
-            var user = await _userService.GetAuthenticatedUserAsync(User);
 
-            var query = _session.Query<ContentItem, ContentItemIndex>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == memberType);
-            query = query.With<ContentItemIndex>(x => x.Published);
-            query = query.OrderByDescending(x => x.PublishedUtc);
+            var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
+
+            var query = _session.Query<ContentItem, UserPickerFieldIndex>();
+            query = query.With<UserPickerFieldIndex>(x => x.ContentType == memberType && x.Published && x.SelectedUserId == user.UserId);
 
 
+            var member = await query.ListAsync();
 
             var companyQuery = _session.Query<ContentItem, ContentItemIndex>();
-            companyQuery = companyQuery.With<ContentItemIndex>(x => x.ContentType == companyType);
-            companyQuery = companyQuery.With<ContentItemIndex>(x => x.Published);
+            companyQuery = companyQuery.With<ContentItemIndex>(x => x.ContentType == companyType && x.Published);
             companyQuery = companyQuery.OrderByDescending(x => x.PublishedUtc);
 
             var conmpanyContentItems = await companyQuery.ListAsync();
-
-            var member = await query.ListAsync();
 
             MemberContentItem = member.FirstOrDefault();
 
@@ -111,7 +109,7 @@ namespace Members.Pages
             County = MemberContentItem.Content.Member.County.TagNames.ToString();
             //Email = MemberContentItem.Content.Member.Email.Text;
             Phone = MemberContentItem.Content.Member.Phone.Text;
-            Sex = MemberContentItem.Content.Member.Sex.TagNames;
+            Sex = MemberContentItem.Content.Member.Sex.TagNames.ToString();
 
 
             Activity = MemberContentItem.Content.Member.Activity.Text;

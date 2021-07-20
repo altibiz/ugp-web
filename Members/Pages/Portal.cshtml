@@ -1,8 +1,12 @@
 ﻿@page
+@model Members.Pages.PortalModel
 
 @{
     var pageTitle = @T["Korisničke stranice"];
+
 }
+
+
 
 <style>
     .icon-box {
@@ -14,38 +18,44 @@
         border-radius: 60px;
         text-align: center;
     }
-    .icon-box i {
-        color: #fff;
-        font-size: 41px;
-    }
+
+        .icon-box i {
+            color: #fff;
+            font-size: 41px;
+        }
+
     .menu-user-landing-page-menu a span {
         display: block;
         font-size: 17px;
         text-transform: uppercase;
         font-weight: 700;
     }
+
     .menu-user-landing-page-menu a {
         display: inline-block;
         color: #437f84;
         text-decoration: none;
     }
+
     .menu-user-landing-page-menu a {
         display: inline-block;
         color: #437f84;
         text-decoration: none;
     }
+
     a, a:link, a:active, a:visited, a:focus, a:hover {
         text-decoration: none;
         outline: none;
     }
+
     .icon-box:hover {
         background: #437f84;
     }
+
     .menu-user-landing-page-menu li.nav-item {
         width: auto;
         margin: 10px;
     }
-
 </style>
 
 
