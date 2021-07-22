@@ -137,6 +137,10 @@
 										"ContentPartFieldSettings": {
 											"DisplayName": "OIB",
 											"Position": "0"
+										},
+										"TextFieldSettings": {
+											"Required": true,
+											"Unique": true
 										}
 									}
 								},
@@ -147,6 +151,9 @@
 										"ContentPartFieldSettings": {
 											"DisplayName": "Prezime",
 											"Position": "2"
+										},
+										"TextFieldSettings": {
+											"Required": true,
 										}
 									}
 								},
@@ -273,6 +280,9 @@
 										"ContentPartFieldSettings": {
 											"DisplayName": "Ime",
 											"Position": "1"
+										},
+										"TextFieldSettings": {
+											"Required": true
 										}
 									}
 								},

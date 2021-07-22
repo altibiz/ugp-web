@@ -25,7 +25,6 @@
 
 @{ Html.RenderPartial("_Header", "Log In"); }
 <div class="container login-container">
-
     <div class="row">
         @if (!disableLocalLogin)
         {
@@ -74,10 +73,11 @@
                     <div class="auth-form">
                         <h4>REGISTRACIJA</h4>
 
+                        <hr />
                         <div class="form-floating">
                             <p>Ukoliko još niste član, registrirajte se: </p>
 
-                            <a asp-controller="Registration"  class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Registrirajte se"]</a>
+                            <a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Registrirajte se"]</a>
                         </div>
 
                     </div>

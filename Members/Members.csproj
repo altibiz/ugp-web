@@ -26,4 +26,8 @@
     <Folder Include="Views\Shared\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UgpTheme\UgpTheme.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -53,16 +53,19 @@
     </tbody>
 </table>
 
-
-
 <form class="form-floating" action="?" method="post">
 
 
     <div class="form-floating">
         <input asp-for="Activity" placeholder="smth" type="text" class="form-control content-preview-text" />
-        <label asp-for="Activity">@T["Vrsta člana"]</label>
+        <label asp-for="Activity">@T["Aktivnost člana"]</label>
     </div>
 
+
+    @await DisplayAsync(Model.Activity);    
+
+
+    @{ Html.RenderPartial("_TaxonomyDropdown", Model.DropDownViewModel); }
 
     <div class="form-floating">
         <input asp-for="Contribution " placeholder="smth" type="text" class="form-control content-preview-text" style="height: 200px" />
@@ -80,7 +83,6 @@
         <hr>
         <a href="/password" class="btn btn-warning text-decoration-none">@T["Izmjenite vašu lozinku"]</a>
     </div>
-
 
 
     <div class="my-companies mt-5">

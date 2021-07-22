@@ -2,11 +2,9 @@
 
 @{ ViewLayout = "Layout__Login"; }
 @{ Html.RenderPartial("_Header", "Registracija"); }
+<div asp-validation-summary="All" class="text-danger"></div>
 
 <form asp-controller="Registration" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-floating">
-    <h4>@T["Create a new account."]</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="UserName" class=" control-label">@T["Username"]</label>
         <div class="col-md-9">

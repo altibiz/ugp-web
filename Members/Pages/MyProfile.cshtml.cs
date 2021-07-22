@@ -16,6 +16,7 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Settings;
 using OrchardCore.Users.Services;
+using UgpTheme.ViewModels;
 using YesSql;
 
 namespace Members.Pages
@@ -37,7 +38,7 @@ namespace Members.Pages
         private readonly IUserService _userService;
 
         [BindProperty]
-        public string Activity { get; set; }
+        public dynamic Activity { get; set; }
         [BindProperty]
         public string Contribution { get; set; }
 
@@ -57,6 +58,8 @@ namespace Members.Pages
 
         public dynamic MemberContentItem { get; set; }
 
+        public DropDownViewModel DropDownViewModel { get; set; }
+
         public MyProfileModel(IUserService userService, IContentManager contentManager, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<MembersModel> htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
         {
             _contentManager = contentManager;
@@ -73,6 +76,9 @@ namespace Members.Pages
 
         public async Task OnGetAsync()
         {
+
+            DropDownViewModel ddm = new DropDownViewModel();
+            ddm.TaxonomyName = "aktivnost-clana";
 
             var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
 
@@ -106,13 +112,13 @@ namespace Members.Pages
             DateOfBirth = MemberContentItem.Content.Member.DateOfBirth.Text;
             Address = MemberContentItem.Content.Member.Address.Text;
             City = MemberContentItem.Content.Member.City.Text;
-            County = MemberContentItem.Content.Member.County.TagNames.ToString();
+            County = MemberContentItem.Content.Member.County.TagNames[0];
             //Email = MemberContentItem.Content.Member.Email.Text;
             Phone = MemberContentItem.Content.Member.Phone.Text;
-            Sex = MemberContentItem.Content.Member.Sex.TagNames.ToString();
+            Sex = MemberContentItem.Content.Member.Sex.TagNames[0];
 
 
-            Activity = MemberContentItem.Content.Member.Activity.Text;
+            Activity = MemberContentItem.Content.Member.Activity;
             Contribution = MemberContentItem.Content.Member.Skills.Text;
 
         }

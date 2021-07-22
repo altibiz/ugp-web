@@ -65,20 +65,18 @@ namespace Members.Pages
 
             ContentItem = company;
 
-            Name = company.Content.Company.Name.Text;
-            OrganisationType = company.Content.Company.OrganisationType.TagNames.ToString();
-            Oib = company.Content.Company.Oib.Text;
-            City = company.Content.Company.City.Text;
-            Address = company.Content.Company.Address.Text;
-            AuthorizedRepresentative = company.Content.Company.AuthorizedRepresentative.Text;
+            Name = company?.Content?.Company?.Name.Text;
+            OrganisationType = company?.Content?.Company?.OrganisationType.TagNames[0];
+            Oib = company?.Content?.Company?.Oib.Text;
+            City = company?.Content?.Company?.City.Text;
+            Address = company?.Content?.Company?.Address.Text;
+            AuthorizedRepresentative = company?.Content?.Company?.AuthorizedRepresentative.Text;
 
-            TurnoverIn2019 = company.Content.Company.TurnoverIn2019.Text;
-            Activity = company.Content.Company.Activity.Text;
-            EmployeeNumber = company.Content.Company.EmployeeNumber.Value;
-            PermanentAssociates = company.Content.Company.PermanentAssociates.Value;
-            Function = company.Content.Company.Function.TagNames.ToString();
-          //  MemberActivity = company.Content.Company.MemberActivity.Text;
-
+            TurnoverIn2019 = company?.Content?.Company?.TurnoverIn2019.Text;
+            Activity = company?.Content?.Company?.Activity.Text;
+            EmployeeNumber = company?.Content?.Company.EmployeeNumber.Value;
+            PermanentAssociates = company?.Content?.Company?.PermanentAssociates.Value;
+            Function = company?.Content?.Company?.Function.TagNames[0];
 
         }
     }
