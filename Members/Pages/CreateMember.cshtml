@@ -1,0 +1,19 @@
+﻿@page
+@model Members.Pages.CreateMemberModel
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+
+@{ Html.RenderPartial("_Header", "Dodaj člana"); }
+
+<form  method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary()
+    @await DisplayAsync(Model.ContentItem)
+
+
+    <button type="submit" asp-page-handler="CreateMember" name="submit.CreateMember" class="btn btn-success publish" >Zelim se registrarati kao privatna osoba </button>
+    <button type="submit" asp-page-handler="CreateMemberToCompany"name="submit.CreateMemberToCompany" class="btn btn-success publish">Dodaj pravnu osobu</button>
+</form>

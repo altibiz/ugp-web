@@ -1,0 +1,19 @@
+﻿@page
+@model Members.Pages.CreateCompanyModel
+
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+
+@{ Html.RenderPartial("_Header", "Dodaj tvrtku"); }
+
+<form method="post" enctype="multipart/form-data">
+    @Html.ValidationSummary()
+    @await DisplayAsync(Model.ContentItem)
+
+    <button type="submit" name="submit.CreateCompany" class="btn btn-success publish" value="submit.CreateCompany">Napravi </button>
+
+</form>

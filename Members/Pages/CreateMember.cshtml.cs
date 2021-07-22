@@ -1,28 +1,22 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.ContentManagement.Metadata;
-using OrchardCore.ContentManagement.Records;
-using Members.ViewModels;
-using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
-using OrchardCore.Navigation;
 using OrchardCore.Routing;
-using OrchardCore.Settings;
-using YesSql;
 using OrchardCore.Users.Services;
-using Microsoft.AspNetCore.Authorization;
+using YesSql;
 
-namespace Members.Controllers
+namespace Members.Pages
 {
-    [Authorize]
-    public class HomeController : Controller
+    public class CreateMemberModel : PageModel
     {
         private const string contentType = "Member";
         private const string contentTypeC = "Company";
@@ -34,65 +28,45 @@ namespace Members.Controllers
         private readonly dynamic New;
         private readonly INotifier _notifier;
         private readonly ISession _session;
-        private readonly ISiteService _siteService;
         private readonly IUpdateModelAccessor _updateModelAccessor;
         private readonly IUserService _userService;
 
+        public dynamic ContentItem { get; set; }
 
-        public HomeController(IContentManager contentManager, IUserService userService, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<HomeController> htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
+        public CreateMemberModel(IContentManager contentManager, IUserService userService, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier, ISession session, IUpdateModelAccessor updateModelAccessor)
         {
             _contentManager = contentManager;
             _contentDefinitionManager = contentDefinitionManager;
             _contentItemDisplayManager = contentItemDisplayManager;
             _notifier = notifier;
             _session = session;
-            _siteService = siteService;
             _updateModelAccessor = updateModelAccessor;
             _userService = userService;
 
             H = htmlLocalizer;
-            New = shapeFactory;
         }
-        public async Task<IActionResult> Create(string id = contentType)
+        
+        public async Task OnGetAsync(string id = contentType)
         {
             if (String.IsNullOrWhiteSpace(id))
             {
-                return NotFound();
+                NotFound();
             }
 
             var contentItem = await _contentManager.NewAsync(id);
 
 
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-
-
-            _notifier.Success(H["Korisnik napravljen, dodaj èlana."]);
-
-            return View(model);
-        }
-        public async Task<IActionResult> CreateCompany(string id = contentTypeC)
-        {
-            if (String.IsNullOrWhiteSpace(id))
-            {
-                return NotFound();
-            }
-
-            var contentItem = await _contentManager.NewAsync(id);
-
-
-            var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-
-            return View(model);
+            ContentItem = model;
         }
 
-        [HttpPost, ActionName("Create")]
-        [FormValueRequired("submit.Create")]
-        public async Task<IActionResult> CreatePOST([Bind(Prefix = "submit.Create")] string submitCreate, string returnUrl, string id = contentType)
+
+        public async Task<IActionResult> OnPostCreateMemberAsync([Bind(Prefix = "submit.CreateMember")] string submitCreateMember, string returnUrl, string id = contentType)
         {
             var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
             returnUrl = "/Members/portal";
 
-            var stayOnSamePage = submitCreate == "submit.CreateAndContinue";
+            var stayOnSamePage = submitCreateMember == "submit.CreateMemberAndContinue";
             // pass a dummy content to the authorization check to check for "own" variations
             var dummyContent = await _contentManager.NewAsync(id);
 
@@ -108,15 +82,16 @@ namespace Members.Controllers
 
                 _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
                     ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0} je objavljen.", typeDefinition.DisplayName]);
+                    : H["Tvoj {0} sadržaj je objavljen.", typeDefinition.DisplayName]);
             });
+
         }
 
-        [HttpPost, ActionName("Create")]
-        [FormValueRequired("submit.CreateToCompany")]
-        public async Task<IActionResult> CreateToCompanyPOST([Bind(Prefix = "submit.CreateToCompany")] string submitCreate, string returnUrl, string id = contentType)
+        [HttpPost, ActionName("CreateMember")]
+        [FormValueRequired("submit.CreateMemberToCompany")]
+        public async Task<IActionResult> OnPostCreateMemberToCompanyAsync([Bind(Prefix = "submit.CreateMemberToCompany")] string submitCreate, string returnUrl, string id = contentType)
         {
-            var stayOnSamePage = submitCreate == "submit.CreateAndContinue";
+            var stayOnSamePage = submitCreate == "submit.CreateMemberAndContinue";
 
             returnUrl = "/Members/Home/CreateCompany";
             // pass a dummy content to the authorization check to check for "own" variations
@@ -135,28 +110,6 @@ namespace Members.Controllers
             });
         }
 
-        [HttpPost, ActionName("CreateCompany")]
-        [FormValueRequired("submit.Create")]
-        public async Task<IActionResult> CreateCompanyPOST([Bind(Prefix = "submit.Create")] string submitCreate, string returnUrl, string id = contentTypeC)
-        {
-            var stayOnSamePage = submitCreate == "submit.CreateAndContinue";
-
-            returnUrl = "/Members/portal";
-            // pass a dummy content to the authorization check to check for "own" variations
-            var dummyContent = await _contentManager.NewAsync(id);
-
-            return await CreatePOST(id, returnUrl, stayOnSamePage, async contentItem =>
-            {
-                await _contentManager.PublishAsync(contentItem);
-
-                var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
-
-                _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
-                    ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0}  sadržaj je objavljen.", typeDefinition.DisplayName]);
-            });
-        }
-
         private async Task<IActionResult> CreatePOST(string id, string returnUrl, bool stayOnSamePage, Func<ContentItem, Task> conditionallyPublish)
         {
             var contentItem = await _contentManager.NewAsync(id);
@@ -169,7 +122,9 @@ namespace Members.Controllers
             if (!ModelState.IsValid)
             {
                 _session.CancelAsync();
-                return View(model);
+
+                ContentItem = model;
+                return Page();
             }
 
             await _contentManager.CreateAsync(contentItem, VersionOptions.Draft);
@@ -183,18 +138,17 @@ namespace Members.Controllers
 
             return RedirectToRoute(returnUrl);
         }
-
+        
         [HttpGet]
-        public async Task<IActionResult> Edit(string contentItemId)
+        public async Task Edit(string contentItemId)
         {
             var contentItem = await _contentManager.GetAsync(contentItemId, VersionOptions.Latest);
 
             if (contentItem == null)
-                return NotFound();
+                NotFound();
 
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
 
-            return View(model);
         }
 
         [HttpPost, ActionName("Edit")]
@@ -217,8 +171,8 @@ namespace Members.Controllers
                 var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
 
                 _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
-                    ? H["Your content has been published."]
-                    : H["Your {0} has been published.", typeDefinition.DisplayName]);
+                    ? H["Tvoj sadržaj je objavljen."]
+                    : H["Tvoj {0} sadržaj je objavljen.", typeDefinition.DisplayName]);
             });
         }
 
@@ -235,7 +189,6 @@ namespace Members.Controllers
             if (!ModelState.IsValid)
             {
                 _session.CancelAsync();
-                return View("Edit", model);
             }
 
             // The content item needs to be marked as saved in case the drivers or the handlers have
@@ -243,22 +196,7 @@ namespace Members.Controllers
             _session.Save(contentItem);
 
             await conditionallyPublish(contentItem);
-
-            //if (returnUrl == null)
-            //{
-            //    return RedirectToAction("Edit", new RouteValueDictionary { { "ContentItemId", contentItem.ContentItemId } });
-            //}
-            //else if (stayOnSamePage)
-            //{
-            //    return RedirectToAction("Edit", new RouteValueDictionary { { "ContentItemId", contentItem.ContentItemId }, { "returnUrl", returnUrl } });
-            //}
-            //else
-            //{
-            //    return LocalRedirect(returnUrl);
-            //}
-
             return RedirectToRoute(returnUrl);
         }
-
     }
 }
