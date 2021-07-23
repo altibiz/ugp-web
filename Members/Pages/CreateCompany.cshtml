@@ -10,8 +10,13 @@
 
 @{ Html.RenderPartial("_Header", "Dodaj tvrtku"); }
 
+
+@await RenderSectionAsync("Messages", required: false)
+
 <form method="post" enctype="multipart/form-data">
-    @Html.ValidationSummary()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
     @await DisplayAsync(Model.ContentItem)
 
     <button type="submit" name="submit.CreateCompany" class="btn btn-success publish" value="submit.CreateCompany">Napravi </button>

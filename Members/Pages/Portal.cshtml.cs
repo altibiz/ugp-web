@@ -36,7 +36,7 @@ namespace Members.Pages
 
             if (member.Count()==0)
             {
-                return RedirectToAction("Create","Home");
+                return RedirectToPage("CreateMember");
             }
             return Page();
         }

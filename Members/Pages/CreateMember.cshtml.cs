@@ -52,9 +52,9 @@ namespace Members.Pages
             {
                 NotFound();
             }
+            _notifier.Success(H["Tvoj èlan  je objavljen."]);
 
             var contentItem = await _contentManager.NewAsync(id);
-
 
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             ContentItem = model;
@@ -65,6 +65,8 @@ namespace Members.Pages
         {
             var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
             returnUrl = "/Members/portal";
+
+            ViewData["ReturnUrl"] = returnUrl;
 
             var stayOnSamePage = submitCreateMember == "submit.CreateMemberAndContinue";
             // pass a dummy content to the authorization check to check for "own" variations
@@ -82,7 +84,7 @@ namespace Members.Pages
 
                 _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
                     ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0} sadržaj je objavljen.", typeDefinition.DisplayName]);
+                    : H["Tvoj {0} je objavljen.", typeDefinition.DisplayName]);
             });
 
         }
@@ -93,9 +95,10 @@ namespace Members.Pages
         {
             var stayOnSamePage = submitCreate == "submit.CreateMemberAndContinue";
 
-            returnUrl = "/Members/Home/CreateCompany";
+            returnUrl = "/Members/CreateCompany";
             // pass a dummy content to the authorization check to check for "own" variations
             var dummyContent = await _contentManager.NewAsync(id);
+            ViewData["ReturnUrl"] = returnUrl;
 
             return await CreatePOST(id, returnUrl, stayOnSamePage, async contentItem =>
             {
@@ -133,7 +136,8 @@ namespace Members.Pages
 
             if ((!string.IsNullOrEmpty(returnUrl)) && (!stayOnSamePage))
             {
-                return LocalRedirect(returnUrl);
+                return RedirectToPage("CreateCompany", "CreateCompanyNewMember");
+               // return LocalRedirect(returnUrl);
             }
 
             return RedirectToRoute(returnUrl);
@@ -189,6 +193,9 @@ namespace Members.Pages
             if (!ModelState.IsValid)
             {
                 _session.CancelAsync();
+
+                ContentItem = model;
+                return Page();
             }
 
             // The content item needs to be marked as saved in case the drivers or the handlers have

@@ -59,6 +59,12 @@ namespace Members.Pages
 
         }
 
+        public async Task OnGetCreateCompanyNewMemberAsync(string id = contentTypeC)
+        {
+            _notifier.Success(H["Tvoj èlan  je objavljen."]);
+            OnGetAsync();
+        }
+
         [HttpPost, ActionName("CreateCompany")]
         [FormValueRequired("submit.CreateCompany")]
         public async Task<IActionResult> CreateCompanyPOST([Bind(Prefix = "submit.CreateCompany")] string submitCreateCompany, string returnUrl, string id = contentTypeC)
@@ -77,7 +83,7 @@ namespace Members.Pages
 
                 _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
                     ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0}  sadržaj je objavljen.", typeDefinition.DisplayName]);
+                    : H["Tvoj {0} je objavljen.", typeDefinition.DisplayName]);
             });
         }
         private async Task<IActionResult> CreatePOST(string id, string returnUrl, bool stayOnSamePage, Func<ContentItem, Task> conditionallyPublish)
@@ -92,6 +98,8 @@ namespace Members.Pages
             if (!ModelState.IsValid)
             {
                 _session.CancelAsync();
+
+                ContentItem = model;
                 return Page();
             }
 

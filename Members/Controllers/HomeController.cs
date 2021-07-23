@@ -131,7 +131,7 @@ namespace Members.Controllers
 
                 _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
                     ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0} sadržaj je objavljen.", typeDefinition.DisplayName]);
+                    : H["Tvoj {0} je objavljen.", typeDefinition.DisplayName]);
             });
         }
 
@@ -153,7 +153,7 @@ namespace Members.Controllers
 
                 _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
                     ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0}  sadržaj je objavljen.", typeDefinition.DisplayName]);
+                    : H["Tvoj {0} je objavljen.", typeDefinition.DisplayName]);
             });
         }
 

@@ -9,11 +9,16 @@
 
 @{ Html.RenderPartial("_Header", "Dodaj člana"); }
 
-<form  method="post" enctype="multipart/form-data">
-    @Html.ValidationSummary()
+
+@await RenderSectionAsync("Messages", required: false)
+
+<form method="post" enctype="multipart/form-data">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
     @await DisplayAsync(Model.ContentItem)
 
 
-    <button type="submit" asp-page-handler="CreateMember" name="submit.CreateMember" class="btn btn-success publish" >Zelim se registrarati kao privatna osoba </button>
-    <button type="submit" asp-page-handler="CreateMemberToCompany"name="submit.CreateMemberToCompany" class="btn btn-success publish">Dodaj pravnu osobu</button>
+    <button type="submit" asp-page-handler="CreateMember" name="submit.CreateMember" class="btn btn-success publish">Zelim se registrarati kao privatna osoba </button>
+    <button type="submit" asp-page-handler="CreateMemberToCompany" name="submit.CreateMemberToCompany" class="btn btn-success publish">Dodaj pravnu osobu</button>
 </form>

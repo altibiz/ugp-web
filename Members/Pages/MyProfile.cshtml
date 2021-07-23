@@ -62,10 +62,10 @@
     </div>
 
 
-    @await DisplayAsync(Model.Activity);    
+   @* @await DisplayAsync(Model.Activity);*@    
 
 
-    @{ Html.RenderPartial("_TaxonomyDropdown", Model.DropDownViewModel); }
+  @*  @{ Html.RenderPartial("_TaxonomyDropdown", Model.DropDownViewModel); }*@
 
     <div class="form-floating">
         <input asp-for="Contribution " placeholder="smth" type="text" class="form-control content-preview-text" style="height: 200px" />
