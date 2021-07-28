@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using OrchardCore.Modules;
 using OrchardCore.ResourceManagement;
 using OrchardCore.Data.Migration;
+using Microsoft.AspNetCore.Mvc;
+using UgpTheme;
 
 namespace OrchardCore.Themes.UgpTheme
 {
@@ -12,6 +14,10 @@ namespace OrchardCore.Themes.UgpTheme
         {
             serviceCollection.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();
             serviceCollection.AddScoped<IDataMigration, Migrations>();
+            serviceCollection.Configure<MvcOptions>((options) =>
+            {
+                options.Filters.Add(typeof(NotifyFilter));
+            });
         }
     }
 }

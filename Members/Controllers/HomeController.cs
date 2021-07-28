@@ -38,7 +38,6 @@ namespace Members.Controllers
         private readonly IUpdateModelAccessor _updateModelAccessor;
         private readonly IUserService _userService;
 
-
         public HomeController(IContentManager contentManager, IUserService userService, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<HomeController> htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
         {
             _contentManager = contentManager;
@@ -193,7 +192,7 @@ namespace Members.Controllers
                 return NotFound();
 
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
-
+            _notifier.Success(H["Blje"]);
             return View(model);
         }
 

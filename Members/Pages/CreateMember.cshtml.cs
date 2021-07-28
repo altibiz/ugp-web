@@ -52,7 +52,7 @@ namespace Members.Pages
             {
                 NotFound();
             }
-            _notifier.Success(H["Tvoj èlan  je objavljen."]);
+            _notifier.Success(H["Tvoj lan  je objavljen."]);
 
             var contentItem = await _contentManager.NewAsync(id);
 
