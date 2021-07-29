@@ -7,18 +7,16 @@
 @inject IContentDefinitionManager ContentDefinitionManager
 
 
-@{ Html.RenderPartial("_Header", "Dodaj člana"); }
+@{ Html.RenderPartial("_Header", "Registracija"); }
 
 
 @await RenderSectionAsync("Messages", required: false)
-
+Molim upišite svoje osobne podatke
 <form method="post" enctype="multipart/form-data">
+	<div asp-validation-summary="All" class="text-danger"></div>
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+	@await DisplayAsync(Model.ContentItem)
 
-    @await DisplayAsync(Model.ContentItem)
-
-
-    <button type="submit" asp-page-handler="CreateMember" name="submit.CreateMember" class="btn btn-success publish">Zelim se registrarati kao privatna osoba </button>
-    <button type="submit" asp-page-handler="CreateMemberToCompany" name="submit.CreateMemberToCompany" class="btn btn-success publish">Dodaj pravnu osobu</button>
+	<button type="submit" asp-page-handler="CreateMemberToCompany" name="submit.CreateMemberToCompany" class="btn btn-success publish mt-2">Registriraj pravnu osobu</button>
+	<button type="submit" asp-page-handler="CreateMember" name="submit.CreateMember" class="btn btn-success publish mt-2">Registriraj se kao privatna osoba </button>
 </form>

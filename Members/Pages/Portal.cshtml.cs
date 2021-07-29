@@ -2,16 +2,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrchardCore.ContentManagement;
-using OrchardCore.ContentManagement.Records;
 using OrchardCore.Users.Services;
 using YesSql;
-using OrchardCore;
 using OrchardCore.ContentFields.Indexing.SQL;
-using OrchardCore.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Members.Pages
 {
+    [Authorize]
     public class PortalModel : PageModel
     {
         private const string memberType = "Member";

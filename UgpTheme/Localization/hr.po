@@ -1,0 +1,226 @@
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Crowdin-Project: orchard-core\n"
+"X-Crowdin-Project-ID: 307044\n"
+"X-Crowdin-Language: hr\n"
+"X-Crowdin-File: /main/Localization/UgpTheme.pot\n"
+"X-Crowdin-File-ID: 852\n"
+"Project-Id-Version: orchard-core\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Croatian\n"
+"Language: hr_HR\n"
+"PO-Revision-Date: 2021-07-28 13:24\n"
+
+#: UgpTheme\Views\Blog-ListPart.liquid:0
+msgctxt "UgpTheme.Views.Blog-ListPart"
+msgid "← Newer Posts"
+msgstr "← Noviji postovi"
+
+#: UgpTheme\Views\Blog-ListPart.liquid:0
+msgctxt "UgpTheme.Views.Blog-ListPart"
+msgid "Older Posts →"
+msgstr "Stariji postovi →"
+
+#: UgpTheme\Views\Blog-ListPart.liquid:0
+msgctxt "UgpTheme.Views.Blog-ListPart"
+msgid "previous"
+msgstr "prethodno"
+
+#: UgpTheme\Views\Blog-ListPart.liquid:0
+msgctxt "UgpTheme.Views.Blog-ListPart"
+msgid "next"
+msgstr "sljedeće"
+
+#: UgpTheme\Views\Category-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Category-TermPart"
+msgid "← Newer Posts"
+msgstr "← Noviji postovi"
+
+#: UgpTheme\Views\Category-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Category-TermPart"
+msgid "Older Posts →"
+msgstr "Stariji postovi →"
+
+#: UgpTheme\Views\Category-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Category-TermPart"
+msgid "previous"
+msgstr "prethodno"
+
+#: UgpTheme\Views\Category-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Category-TermPart"
+msgid "next"
+msgstr "sljedeće"
+
+#: UgpTheme\Views\Content-BlogPost.liquid:0
+msgctxt "UgpTheme.Views.Content-BlogPost"
+msgid "MMMM dd, yyyy"
+msgstr "dd. MM. yyyy"
+
+#: UgpTheme\Views\Content-BlogPost.liquid:0
+msgctxt "UgpTheme.Views.Content-BlogPost"
+msgid "Posted by"
+msgstr "Objavio / la"
+
+#: UgpTheme\Views\Content-BlogPost.liquid:0
+msgctxt "UgpTheme.Views.Content-BlogPost"
+msgid "on {0}"
+msgstr ", {0}"
+
+#: UgpTheme\Views\Content-BlogPost.Summary.liquid:0
+msgctxt "UgpTheme.Views.Content-BlogPost.Summary"
+msgid "MMMM dd, yyyy"
+msgstr "dd. MM. yyyy"
+
+#: UgpTheme\Views\Content-BlogPost.Summary.liquid:0
+msgctxt "UgpTheme.Views.Content-BlogPost.Summary"
+msgid "Posted by"
+msgstr "Objavio / la"
+
+#: UgpTheme\Views\Content-BlogPost.Summary.liquid:0
+msgctxt "UgpTheme.Views.Content-BlogPost.Summary"
+msgid "on {0}"
+msgstr ", {0}"
+
+#: UgpTheme\Views\Layout.liquid:0
+msgctxt "UgpTheme.Views.Layout"
+msgid "Toggle navigation"
+msgstr "Prebaci navigaciju"
+
+#: UgpTheme\Views\Layout.liquid:0
+msgctxt "UgpTheme.Views.Layout"
+msgid "Menu"
+msgstr "Meni"
+
+#: UgpTheme\Views\Search-Form.liquid:0
+msgctxt "UgpTheme.Views.Search-Form"
+msgid "Enter your search term(s)"
+msgstr "Unesite traženi pojam"
+
+#: UgpTheme\Views\Search-Form.liquid:0
+msgctxt "UgpTheme.Views.Search-Form"
+msgid "Search"
+msgstr "Pretraga"
+
+#: UgpTheme\Views\Search-Results.liquid:0
+msgctxt "UgpTheme.Views.Search-Results"
+msgid "There are no such results."
+msgstr "Nema rezultata."
+
+#: UgpTheme\Views\Tag-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Tag-TermPart"
+msgid "← Newer Posts"
+msgstr "← Noviji postovi"
+
+#: UgpTheme\Views\Tag-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Tag-TermPart"
+msgid "Older Posts →"
+msgstr "Stariji postovi →"
+
+#: UgpTheme\Views\Tag-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Tag-TermPart"
+msgid "previous"
+msgstr "prethodno"
+
+#: UgpTheme\Views\Tag-TermPart.liquid:0
+msgctxt "UgpTheme.Views.Tag-TermPart"
+msgid "next"
+msgstr "sljedeće"
+
+#: UgpTheme\Views\Shared\NotFound.liquid:0
+msgctxt "UgpTheme.Views.Shared.NotFound"
+msgid "Page Not Found"
+msgstr "Stranica nije pronađena"
+
+#: UgpTheme\Views\Shared\Search.liquid:0
+msgctxt "UgpTheme.Views.Shared.Search"
+msgid "Search"
+msgstr "Pretraga"
+
+#. <h4>@T["Log in"]</h4>
+#. <button type="submit" class="btn btn-primary" tabindex="4">@T["Log in"]</button>
+#: OrchardCore.Users\Views\Account\Login.cshtml:26
+#: OrchardCore.Users\Views\Account\Login.cshtml:56
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Log in"
+msgstr "Prijava"
+
+#. <label asp-for="UserName">@T["Username or email address"]</label>
+#: OrchardCore.Users\Views\Account\Login.cshtml:30
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Username or email address"
+msgstr "Email ili korisničko ime"
+
+#. @T["Password"]
+#: OrchardCore.Users\Views\Account\Login.cshtml:36
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Password"
+msgstr "Lozinka"
+
+#. <a asp-controller="ResetPassword" asp-action="ForgotPassword" class="label-link">@T["Forgot your password?"]</a>
+#: OrchardCore.Users\Views\Account\Login.cshtml:39
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Forgot your password?"
+msgstr "Zaboravili ste lozinku?"
+
+#. <label asp-for="RememberMe" class="custom-control-label">@T["Remember me"]</label>
+#: OrchardCore.Users\Views\Account\Login.cshtml:52
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Remember me"
+msgstr "Zapamti me"
+
+#. <a asp-controller="Registration" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Register as a new user"]</a>
+#: OrchardCore.Users\Views\Account\Login.cshtml:60
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Register as a new user"
+msgstr "Registriraj se kao novi korisnik"
+
+#. <h4>@T["Use another service to log in"]</h4>
+#: OrchardCore.Users\Views\Account\Login.cshtml:70
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Use another service to log in"
+msgstr "Koristi drugi servis za registraciju"
+
+#. <button type="submit" class="btn btn-primary @(disableLocalLogin ? "w-100" : String.Empty)" name="provider" value="@provider.Name" title="@T["Log in using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
+#: OrchardCore.Users\Views\Account\Login.cshtml:77
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Log in using your {0} account"
+msgstr "Prijavi se koristeći {0} račun"
+
+#. <h2>@T["Register"]</h2>
+#. <button type="submit" class="btn btn-primary">@T["Register"]</button>
+#: OrchardCore.Users\Views\Registration\Register.cshtml:7
+#: OrchardCore.Users\Views\Registration\Register.cshtml:43
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Register"
+msgstr "Registriraj se"
+
+#. <h4>@T["Create a new account."]</h4>
+#: OrchardCore.Users\Views\Registration\Register.cshtml:9
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Create a new account."
+msgstr "Napravi novi korisnički račun."
+
+#. <label asp-for="UserName" class="col-md-3 control-label">@T["Username"]</label>
+#: OrchardCore.Users\Views\Registration\Register.cshtml:13
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Username"
+msgstr "Korisničko ime"
+
+#. <label asp-for="Email" class="col-md-3 control-label">@T["Email"]</label>
+#: OrchardCore.Users\Views\Registration\Register.cshtml:20
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Email"
+msgstr "Email"
+
+#. <label asp-for="Password" class="col-md-3 control-label">@T["Password"]</label>
+#: OrchardCore.Users\Views\Registration\Register.cshtml:27
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Password"
+msgstr "Lozinka"
+
+#. <label asp-for="ConfirmPassword" class="col-md-3 control-label">@T["Confirm password"]</label>
+#: OrchardCore.Users\Views\Registration\Register.cshtml:34
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Confirm password"
+msgstr "Potvrda lozinke"

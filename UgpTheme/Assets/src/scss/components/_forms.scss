@@ -18,6 +18,18 @@
   label {
     color: $gray-600;
   }
+
+   & > .form-control:focus ~ label, 
+   & > .form-control:not(:placeholder-shown) ~ label, 
+   & > .form-select ~ label,
+   & > .form-tags ~ label {
+    white-space: nowrap;
+    opacity: 1;
+    transform: scale(0.65) translateY(-0.5rem) translateX(0rem);
+  }
+  .form-tags{
+    padding: 2rem 0 0 0;
+  }
 }
 .form-group {
   & label:first-child {

@@ -25,7 +25,7 @@
 
 		}
 
-		<script asp-src="~/OrchardCore.Taxonomies/Scripts/tags-editor.min.js" debug-src="~/OrchardCore.Taxonomies/Scripts/tags-editor.js" asp-name="tags-editor" at="Foot" depends-on="vuejs, vue-multiselect"></script>
+		<script asp-src="~/OrchardCore.Taxonomies/Scripts/tags-editor.min.js" debug-src="~/OrchardCore.Taxonomies/Scripts/tags-editor.js" asp-name="tags-editor" at="Foot" depends-on="vuejs, vue-multiselect,jquery"></script>
 		<style asp-src="~/OrchardCore.Taxonomies/Styles/tags-editor.min.css" debug-src="~/OrchardCore.Taxonomies/Styles/tags-editor.css" asp-name="tags-editor" depends-on="vue-multiselect"></style>
 
 		@if (Model.Taxonomy == null)
@@ -36,50 +36,44 @@
 		}
 		else
 		{
-		<div class="form-floating">
-			<div id="@vueElementId" class="tags" data-taxonomy-content-item-id="@Model.Taxonomy.ContentItemId" data-open="@open.ToString().ToLower()" data-leaves-only="@taxonomySettings.LeavesOnly.ToString().ToLower()" data-create-tag-error-message="@T[" Error creating tag"]" data-all-tag-terms="@Model.TagTermEntries" data-create-tag-url="@createTagUrl">
+<div class="form-floating">
+	<input asp-for="TermContentItemIds" type="hidden" v-model="selectedTagTermsIds" />
+	<div id="@vueElementId" class="form-tags tags" data-taxonomy-content-item-id="@Model.Taxonomy.ContentItemId" data-open="@open.ToString().ToLower()" data-leaves-only="@taxonomySettings.LeavesOnly.ToString().ToLower()" data-create-tag-error-message="@T[" Error creating tag"]" data-all-tag-terms="@Model.TagTermEntries" data-create-tag-url="@createTagUrl">
+		<vue-multiselect v-model="selectedTagTerms"
+										 placeholder="@T[" Type to search"]"
+										 select-label="@T[" Select"]"
+										 deselect-label="@T[" Remove"]"
+										 :options="selectableTagTerms"
+										 :multiple="@((!taxonomySettings.Unique).ToString().ToLower())"
+										 :show-labels="false"
+										 :close-on-select="@taxonomySettings.Unique.ToString().ToLower()"
+										 :disabled="isDisabled"
+										 track-by="contentItemId"
+										 label="displayText"
+										 @@select="onSelect"
+										 @@remove="onRemove"
+										 :taggable="@open.ToString().ToLower()"
+										 tag-position="bottom"
+										 tag-placeholder="@T[" Press enter to create a tag"]"
+										 @@tag="createTagTerm">
+			<template slot="noResult">
+				@T["No tags found"]
+			</template>
+			<template slot="noOptions">
+				@T["No tags found"]
+			</template>
+		</vue-multiselect>
 
-				<div class="form-group">
-					<label>@Model.PartFieldDefinition.DisplayName()</label>
-					<div class="w-xl-50">
-						<input asp-for="TermContentItemIds" type="hidden" v-model="selectedTagTermsIds" />
 
-						<vue-multiselect v-model="selectedTagTerms"
-														 placeholder="@T[" Type to search"]"
-														 select-label="@T[" Select"]"
-														 deselect-label="@T[" Remove"]"
-														 :options="selectableTagTerms"
-														 :multiple="@((!taxonomySettings.Unique).ToString().ToLower())"
-														 :show-labels="false"
-														 :close-on-select="@taxonomySettings.Unique.ToString().ToLower()"
-														 :disabled="isDisabled"
-														 track-by="contentItemId"
-														 label="displayText"
-														 @@select="onSelect"
-														 @@remove="onRemove"
-														 :taggable="@open.ToString().ToLower()"
-														 tag-position="bottom"
-														 tag-placeholder="@T[" Press enter to create a tag"]"
-														 @@tag="createTagTerm">
-							<template slot="noResult">
-								@T["No tags found"]
-							</template>
-							<template slot="noOptions">
-								@T["No tags found"]
-							</template>
-						</vue-multiselect>
-					</div>
-				</div>
+	</div>
+	<label>@Model.PartFieldDefinition.DisplayName()</label>
+	@if (!String.IsNullOrEmpty(taxonomySettings.Hint))
+	{
+		<span class="hint dashed">@taxonomySettings.Hint</span>
+	}
+</div>
 
-			</div>
-
-			@if (!String.IsNullOrEmpty(taxonomySettings.Hint))
-			{
-			<span class="hint dashed">@taxonomySettings.Hint</span>
-			}
-		</div>
-
-		<script depends-on="tags-editor" at="Foot">
+		<script depends-on="tags-editor,jquery" at="Foot">
         initializeTagsEditor(document.querySelector("#@vueElementId"));
 		</script>
 		}

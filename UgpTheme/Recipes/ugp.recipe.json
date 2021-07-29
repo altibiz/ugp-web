@@ -41,6 +41,7 @@
         "OrchardCore.Settings",
         "OrchardCore.Themes",
         "OrchardCore.Users",
+        "OrchardCore.Localization",
 
         // Content Management
         "OrchardCore.Alias",
@@ -101,6 +102,10 @@
       },
       "LayerSettings": {
         "Zones": [ "Content", "Footer" ]
+      },
+      "LocalizationSettings": {
+        "DefaultCulture": "hr",
+        "SupportedCultures": [ "hr", "en" ]
       }
     },
     {
@@ -995,6 +1000,15 @@
                 "LinkMenuItemPart": {
                   "Name": "Novosti",
                   "Url": "~/blog"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Učlani se",
+                "LinkMenuItemPart": {
+                  "Name": "Učlani se",
+                  "Url": "~/members/portal"
                 }
               }
             ]

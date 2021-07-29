@@ -32,10 +32,10 @@
                 <h4>@T["Prijava"]</h4>
                 <hr />
 
-                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="/Members/Portal" method="post" class="auth-form">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-float">
-                        <label asp-for="UserName">@T["Username"]</label>
+                        <label asp-for="UserName">@T["Username or email address"]</label>
                         <input asp-for="UserName" class="form-control" autofocus tabindex="1" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
@@ -60,7 +60,6 @@
                         <label asp-for="RememberMe" class="custom-control-label">@T["Remember me"]</label>
                     </div>
                     @await RenderSectionAsync("AfterLogin", required: false)
-                    <div></div>
                     <button type="submit" class="btn btn-primary" tabindex="4">@T["Log in"]</button>
 
                 </form>
@@ -75,7 +74,7 @@
 
                         <hr />
                         <div class="form-floating">
-                            <p>Ukoliko još niste član, registrirajte se: </p>
+                            <p>Ukoliko još niste član, registrirajte se</p>
 
                             <a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Registrirajte se"]</a>
                         </div>
