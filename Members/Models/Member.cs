@@ -1,4 +1,6 @@
-﻿using OrchardCore.ContentManagement.Records;
+﻿using OrchardCore.ContentFields.Fields;
+using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Records;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace Members.Models
 {
-    public class Member
+    public class Member:ContentPart
     {
-        public string Oib { get; set; }
-        public string Surname { get; set; }
+        public TextField Oib { get; set; }
+        public TextField Surname { get; set; }
+
+        public UserPickerField User { get; set; }
     }
 }

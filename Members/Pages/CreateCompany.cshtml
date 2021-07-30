@@ -1,14 +1,11 @@
 ﻿@page
 @model Members.Pages.CreateCompanyModel
-
-@using OrchardCore.ContentManagement
 @using OrchardCore.ContentManagement.Metadata
-@using OrchardCore.Mvc.Utilities
 
 @inject IContentDefinitionManager ContentDefinitionManager
 
 
-@{ Html.RenderPartial("_Header", "Dodaj tvrtku"); }
+@{ Html.RenderPartial("_Header", T["Add Legal Entity"].Value); }
 
 
 @await RenderSectionAsync("Messages", required: false)
@@ -17,8 +14,8 @@
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
-    @await DisplayAsync(Model.ContentItem)
+    @await DisplayAsync(Model.Shape)
 
-    <button type="submit" name="submit.CreateCompany" class="btn btn-success publish" value="submit.CreateCompany">Napravi </button>
+<button type="submit" class="btn btn-success publish">@T["Submit"]</button>
 
 </form>

@@ -15,8 +15,8 @@ Molim upišite svoje osobne podatke
 <form method="post" enctype="multipart/form-data">
 	<div asp-validation-summary="All" class="text-danger"></div>
 
-	@await DisplayAsync(Model.ContentItem)
+	@await DisplayAsync(Model.Shape)
 
-	<button type="submit" asp-page-handler="CreateMemberToCompany" name="submit.CreateMemberToCompany" class="btn btn-success publish mt-2">Registriraj pravnu osobu</button>
-	<button type="submit" asp-page-handler="CreateMember" name="submit.CreateMember" class="btn btn-success publish mt-2">Registriraj se kao privatna osoba </button>
+	<button type="submit" asp-page-handler="CreateMemberToCompany" class="btn btn-success publish mt-2">Registriraj pravnu osobu</button>
+	<button type="submit" asp-page-handler="CreateMember" class="btn btn-success publish mt-2">Registriraj se kao privatna osoba </button>
 </form>

@@ -17,7 +17,6 @@ namespace Members.Pages
 {
     public class CreateCompanyModel : PageModel
     {
-        private const string contentType = "Member";
         private const string contentTypeC = "Company";
 
         private readonly IContentManager _contentManager;
@@ -30,7 +29,7 @@ namespace Members.Pages
         private readonly IUpdateModelAccessor _updateModelAccessor;
         private readonly IUserService _userService;
 
-        public dynamic ContentItem { get; set; }
+        public dynamic Shape { get; set; }
 
         public CreateCompanyModel(IContentManager contentManager, IUserService userService, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier, ISession session, IUpdateModelAccessor updateModelAccessor)
         {
@@ -45,50 +44,19 @@ namespace Members.Pages
             H = htmlLocalizer;
         }
 
-        public async Task OnGetAsync(string id = contentTypeC)
+        public async Task OnGetAsync()
         {
-            if (String.IsNullOrWhiteSpace(id))
-            {
-                NotFound();
-            }
 
-            var contentItem = await _contentManager.NewAsync(id);
+            var contentItem = await _contentManager.NewAsync(contentTypeC);
 
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-            ContentItem = model;
+            Shape = model;
 
         }
 
-        public async Task OnGetCreateCompanyNewMemberAsync(string id = contentTypeC)
+        public async Task<IActionResult> OnPostAsync()
         {
-            _notifier.Success(H["Tvoj èlan  je objavljen."]);
-            OnGetAsync();
-        }
-
-        [HttpPost, ActionName("CreateCompany")]
-        [FormValueRequired("submit.CreateCompany")]
-        public async Task<IActionResult> CreateCompanyPOST([Bind(Prefix = "submit.CreateCompany")] string submitCreateCompany, string returnUrl, string id = contentTypeC)
-        {
-            var stayOnSamePage = submitCreateCompany == "submit.CreateCompanyAndContinue";
-
-            returnUrl = "/Members/portal";
-            // pass a dummy content to the authorization check to check for "own" variations
-            var dummyContent = await _contentManager.NewAsync(id);
-
-            return await CreatePOST(id, returnUrl, stayOnSamePage, async contentItem =>
-            {
-                await _contentManager.PublishAsync(contentItem);
-
-                var typeDefinition = _contentDefinitionManager.GetTypeDefinition(contentItem.ContentType);
-
-                _notifier.Success(string.IsNullOrWhiteSpace(typeDefinition.DisplayName)
-                    ? H["Tvoj sadržaj je objavljen."]
-                    : H["Tvoj {0} je objavljen.", typeDefinition.DisplayName]);
-            });
-        }
-        private async Task<IActionResult> CreatePOST(string id, string returnUrl, bool stayOnSamePage, Func<ContentItem, Task> conditionallyPublish)
-        {
-            var contentItem = await _contentManager.NewAsync(id);
+            var contentItem = await _contentManager.NewAsync(contentTypeC);
 
             // Set the current user as the owner to check for ownership permissions on creation
             contentItem.Owner = User.Identity.Name;
@@ -97,22 +65,19 @@ namespace Members.Pages
 
             if (!ModelState.IsValid)
             {
-                _session.CancelAsync();
+                await _session.CancelAsync();
 
-                ContentItem = model;
+                Shape = model;
                 return Page();
             }
 
             await _contentManager.CreateAsync(contentItem, VersionOptions.Draft);
 
-            await conditionallyPublish(contentItem);
+            await _contentManager.PublishAsync(contentItem);
 
-            if ((!string.IsNullOrEmpty(returnUrl)) && (!stayOnSamePage))
-            {
-                return LocalRedirect(returnUrl);
-            }
+            _notifier.Success( H["Legal entity added successfully"]);
 
-            return RedirectToRoute(returnUrl);
+            return RedirectToRoute("Portal");
         }
 
     }

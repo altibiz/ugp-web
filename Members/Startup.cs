@@ -8,6 +8,7 @@ using OrchardCore.Navigation;
 using Microsoft.Extensions.Hosting;
 using OrchardCore.DisplayManagement.Implementation;
 using Members.Utils;
+using Members.Services;
 
 namespace Members
 {
@@ -24,6 +25,7 @@ namespace Members
         {
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDataMigration, Migrations>();
+            services.AddScoped<MemberService>();
             if(CurrentEnvironment.IsDevelopment())
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
 
