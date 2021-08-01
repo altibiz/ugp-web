@@ -81,12 +81,12 @@ namespace Members.Pages
             // Set the current user as the owner to check for ownership permissions on creation
             contentItem.Owner = User.Identity.Name;
 
-            await _contentManager.CreateAsync(contentItem, VersionOptions.Draft);
-
             var member = contentItem.As<Member>();
-
             member.User.UserIds=new[] { user.UserId };
+            member.Surname.Text = "Bacic";
+            contentItem.Apply(member);
 
+            await _contentManager.CreateAsync(contentItem, VersionOptions.Draft);
             await _contentManager.PublishAsync(contentItem);
 
             _notifier.Success(H["Member registration successful"]);
