@@ -66,31 +66,30 @@ namespace Members.Pages
         private async Task<IActionResult> CreatePOST(string nextPage)
         {
             var contentItem = await _contentManager.NewAsync(contentType);
-            var model = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
+            Shape = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
 
             if (!ModelState.IsValid)
             {
                 await _session.CancelAsync();
-
-                Shape = model;
                 return Page();
             }
 
             var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
-
             // Set the current user as the owner to check for ownership permissions on creation
             contentItem.Owner = User.Identity.Name;
+            contentItem.Alter<Member>(member =>
+            {
+                member.User.UserIds = new[] { user.UserId };
+            });
 
-            var member = contentItem.As<Member>();
-            member.User.UserIds=new[] { user.UserId };
-            member.Surname.Text = "Bacic";
-            contentItem.Apply(member);
-
-            await _contentManager.CreateAsync(contentItem, VersionOptions.Draft);
-            await _contentManager.PublishAsync(contentItem);
-
-            _notifier.Success(H["Member registration successful"]);
+            var result = await _contentManager.UpdateValidateAndCreateAsync(contentItem, VersionOptions.Published);
+            if (result.Succeeded)
+            {
+                _notifier.Success(H["Member registration successful"]);
                 return RedirectToPage(nextPage);
+            }
+            return Page();
+
         }
     }
 }

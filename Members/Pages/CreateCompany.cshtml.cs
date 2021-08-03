@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
-using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
-using OrchardCore.Routing;
 using OrchardCore.Users.Services;
 using YesSql;
 namespace Members.Pages
@@ -20,10 +15,8 @@ namespace Members.Pages
         private const string contentTypeC = "Company";
 
         private readonly IContentManager _contentManager;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly IContentItemDisplayManager _contentItemDisplayManager;
         private readonly IHtmlLocalizer H;
-        private readonly dynamic New;
         private readonly INotifier _notifier;
         private readonly ISession _session;
         private readonly IUpdateModelAccessor _updateModelAccessor;
@@ -31,10 +24,9 @@ namespace Members.Pages
 
         public dynamic Shape { get; set; }
 
-        public CreateCompanyModel(IContentManager contentManager, IUserService userService, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier, ISession session, IUpdateModelAccessor updateModelAccessor)
+        public CreateCompanyModel(IContentManager contentManager, IUserService userService, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier, ISession session, IUpdateModelAccessor updateModelAccessor)
         {
             _contentManager = contentManager;
-            _contentDefinitionManager = contentDefinitionManager;
             _contentItemDisplayManager = contentItemDisplayManager;
             _notifier = notifier;
             _session = session;
