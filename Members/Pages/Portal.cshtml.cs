@@ -1,39 +1,25 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using OrchardCore.ContentManagement;
-using OrchardCore.Users.Services;
-using YesSql;
-using OrchardCore.ContentFields.Indexing.SQL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Members.Core;
 
 namespace Members.Pages
 {
     [Authorize]
     public class PortalModel : PageModel
     {
-        private const string memberType = "Member";
+        private MemberService _mService;
 
-        private readonly ISession _session;
-        private readonly IUserService _userService;
-
-        public PortalModel(ISession session, IUserService userService)
+        public PortalModel(MemberService mService)
         {
-            _userService = userService;
-            _session = session;
+            _mService = mService;
         }
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
+            var member = await _mService.GetUserMember();
 
-            var query = _session.Query<ContentItem, UserPickerFieldIndex>();
-            query = query.With<UserPickerFieldIndex>(x => x.ContentType == memberType && x.Published && x.SelectedUserId==user.UserId);
-
-            
-            var member = await query.ListAsync();
-
-            if (member.Count()==0)
+            if (member == null)
             {
                 return RedirectToPage("CreateMember");
             }

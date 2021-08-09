@@ -167,7 +167,7 @@ namespace Members.Controllers
 
             if (!ModelState.IsValid)
             {
-                _session.CancelAsync();
+                await _session.CancelAsync();
                 return View(model);
             }
 
@@ -233,7 +233,7 @@ namespace Members.Controllers
             var model = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
             if (!ModelState.IsValid)
             {
-                _session.CancelAsync();
+                await _session.CancelAsync();
                 return View("Edit", model);
             }
 

@@ -1,6 +1,6 @@
 ﻿using OrchardCore.ContentManagement;
 
-namespace Members.Models
+namespace Members.Core
 {
     public class Company:ContentPart
     {

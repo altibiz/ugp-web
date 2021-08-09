@@ -1,56 +1,38 @@
 using System.Threading.Tasks;
-using Members.Models;
+using Members.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrchardCore.ContentManagement;
-using OrchardCore.ContentManagement.Display;
-using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.DisplayManagement;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
-using OrchardCore.Users.Services;
-using YesSql;
 
 namespace Members.Pages
 {
     [Authorize]
     public class CreateMemberModel : PageModel
     {
-        private const string contentType = "Member";
-
-        private readonly IContentManager _contentManager;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
-        private readonly IContentItemDisplayManager _contentItemDisplayManager;
         private readonly IHtmlLocalizer H;
-        private readonly dynamic New;
+        private readonly MemberService _memberService;
         private readonly INotifier _notifier;
-        private readonly ISession _session;
-        private readonly IUpdateModelAccessor _updateModelAccessor;
-        private readonly IUserService _userService;
 
         public IShape Shape { get; set; }
 
-        public CreateMemberModel(IContentManager contentManager, IUserService userService, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier, ISession session, IUpdateModelAccessor updateModelAccessor)
+        public CreateMemberModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
-            _contentManager = contentManager;
-            _contentDefinitionManager = contentDefinitionManager;
-            _contentItemDisplayManager = contentItemDisplayManager;
-            _notifier = notifier;
-            _session = session;
-            _updateModelAccessor = updateModelAccessor;
-            _userService = userService;
 
+            _notifier = notifier;
             H = htmlLocalizer;
+            _memberService = mService;
         }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-
-            var contentItem = await _contentManager.NewAsync(contentType);
-            var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-            Shape = model;
+            var mbr = await _memberService.GetUserMember();
+            if (mbr != null) return RedirectToPage("Portal");
+            (_, Shape) = await _memberService.GetNewItem(MemberType.Member);
+            return Page();
         }
 
 
@@ -65,28 +47,15 @@ namespace Members.Pages
 
         private async Task<IActionResult> CreatePOST(string nextPage)
         {
-            var contentItem = await _contentManager.NewAsync(contentType);
-            Shape = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-
-            if (!ModelState.IsValid)
-            {
-                await _session.CancelAsync();
-                return Page();
-            }
-
-            var user = await _userService.GetAuthenticatedUserAsync(User) as OrchardCore.Users.Models.User;
-            // Set the current user as the owner to check for ownership permissions on creation
-            contentItem.Owner = User.Identity.Name;
-            contentItem.Alter<Member>(member =>
-            {
-                member.User.UserIds = new[] { user.UserId };
-            });
-
-            var result = await _contentManager.UpdateValidateAndCreateAsync(contentItem, VersionOptions.Published);
-            if (result.Succeeded)
-            {
-                _notifier.Success(H["Member registration successful"]);
-                return RedirectToPage(nextPage);
+            ContentItem contentItem;
+            (contentItem, Shape) = await _memberService.GetUpdatedItem(MemberType.Member);
+            if (ModelState.IsValid) {
+                var result = await _memberService.CreateMember(contentItem);
+                if (result.Succeeded)
+                {
+                    _notifier.Success(H["Member registration successful"]);
+                    return RedirectToPage(nextPage);
+                }
             }
             return Page();
 

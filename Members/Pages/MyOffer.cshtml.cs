@@ -42,10 +42,5 @@ namespace Members.Pages
         public string Facebook { get; set; }
         [BindProperty]
         public string LinkedIn { get; set; }
-
-
-        public async Task OnGetAsync()
-        {
-        }
     }
 }

@@ -21,3 +21,19 @@ msgstr "Dodaj pravnu osobu"
 msgctxt "Members.Pages.CreateCompanyModel"
 msgid "Legal entity added successfully"
 msgstr "Pravna osoba uspješno dodana"
+
+msgctxt "Members.Pages.CreateCompanyModel"
+msgid "Company Name"
+msgstr "Naziv"
+
+msgctxt "Members.Persons.PersonPart"
+msgid "Your ID must be 11 numbers."
+msgstr "OIB mora imati 11 znakova."
+
+msgctxt "Members.Persons.PersonPart"
+msgid "Your ID is already in use."
+msgstr "Upisani OIB je već registriran."
+
+msgctxt "Members.Persons.PersonPart"
+msgid "Surname is required."
+msgstr "Polje Prezime je obvezno."

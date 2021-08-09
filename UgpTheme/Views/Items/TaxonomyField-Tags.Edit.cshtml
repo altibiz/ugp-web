@@ -37,8 +37,8 @@
 		else
 		{
 <div class="form-floating">
-	<input asp-for="TermContentItemIds" type="hidden" v-model="selectedTagTermsIds" />
 	<div id="@vueElementId" class="form-tags tags" data-taxonomy-content-item-id="@Model.Taxonomy.ContentItemId" data-open="@open.ToString().ToLower()" data-leaves-only="@taxonomySettings.LeavesOnly.ToString().ToLower()" data-create-tag-error-message="@T[" Error creating tag"]" data-all-tag-terms="@Model.TagTermEntries" data-create-tag-url="@createTagUrl">
+		<input asp-for="TermContentItemIds" type="hidden" v-model="selectedTagTermsIds" />
 		<vue-multiselect v-model="selectedTagTerms"
 										 placeholder="@T[" Type to search"]"
 										 select-label="@T[" Select"]"

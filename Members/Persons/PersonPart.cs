@@ -1,8 +1,9 @@
-﻿using OrchardCore.ContentFields.Fields;
+﻿using Members.PartFieldSettings;
+using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.Taxonomies.Fields;
 
-namespace Members.Models
+namespace Members.Persons
 {
 
     public enum PersonType
@@ -35,18 +36,22 @@ namespace Members.Models
         }
     }
 
-    public class PersonPartSettings
+    public class PersonPartSettings:IFieldSettings
     {
-        public PersonType? PersonType { get; set; }
-
-        public bool IsFieldHidden(string propertyName)
-        {
-            return propertyName == nameof(PersonPart.Surname) && this.PersonType == Models.PersonType.Legal;
-        }
+        public PersonType? Type { get; set; }
 
         public string GetFieldLabel(string propertyName, string displayName)
         {
-            return propertyName == nameof(PersonPart.Name) && PersonType == Models.PersonType.Legal ? "Company Name" : displayName;
+            return propertyName switch
+            {
+                nameof(PersonPart.Name) => Type == PersonType.Legal ? "Naziv" : displayName,
+                _ => displayName
+            };
+        }
+
+        public bool IsFieldHidden(string propertyName, ContentPart part)
+        {
+            return propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal;
         }
     }
 }
