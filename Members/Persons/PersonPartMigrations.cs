@@ -5,7 +5,7 @@ using OrchardCore.Taxonomies.Settings;
 
 namespace Members.Persons
 {
-    public static class PersonPartExtensions
+    public static class PersonPartMigrations
     {
         public static void AlterPersonPart(this IContentDefinitionManager contentDefinitionManager)
         {

@@ -8,11 +8,11 @@ using OrchardCore.Title.Models;
 
 namespace Members.Core
 {
-    public static class MemberExtensions
+    public static class MemberMigrations
     {
         public static void ExecuteMemberMigrations(this IContentDefinitionManager _contentDefinitionManager)
         {
-            #region MemberType
+            #region Member Content Type
             _contentDefinitionManager.AlterTypeDefinition("Member", type => type
                 .DisplayedAs("Član")
                 .Creatable()
@@ -50,7 +50,7 @@ namespace Members.Core
 
             #endregion
 
-            #region MemberPart
+            #region Member Content Part
             _contentDefinitionManager.AlterPartDefinition("Member", part => part
 
                .WithField("DateOfBirth", field => field

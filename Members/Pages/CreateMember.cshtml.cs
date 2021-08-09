@@ -31,7 +31,7 @@ namespace Members.Pages
         {
             var mbr = await _memberService.GetUserMember();
             if (mbr != null) return RedirectToPage("Portal");
-            (_, Shape) = await _memberService.GetNewItem(MemberType.Member);
+            (_, Shape) = await _memberService.GetNewItem(ContentType.Member);
             return Page();
         }
 
@@ -48,7 +48,7 @@ namespace Members.Pages
         private async Task<IActionResult> CreatePOST(string nextPage)
         {
             ContentItem contentItem;
-            (contentItem, Shape) = await _memberService.GetUpdatedItem(MemberType.Member);
+            (contentItem, Shape) = await _memberService.GetUpdatedItem(ContentType.Member);
             if (ModelState.IsValid) {
                 var result = await _memberService.CreateMember(contentItem);
                 if (result.Succeeded)

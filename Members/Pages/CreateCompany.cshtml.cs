@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OrchardCore.ContentManagement;
+using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.Notify;
 namespace Members.Pages
 {
@@ -13,7 +14,7 @@ namespace Members.Pages
         private readonly MemberService _mService;
         private readonly INotifier _notifier;
 
-        public dynamic Shape { get; set; }
+        public IShape Shape { get; set; }
 
         public CreateCompanyModel(MemberService mService,
             IHtmlLocalizer<CreateCompanyModel> htmlLocalizer,
@@ -35,7 +36,7 @@ namespace Members.Pages
                 return RedirectToPage("CreateMember");
             }
 
-            (_, Shape) = await _mService.GetNewItem(MemberType.Company);
+            (_, Shape) = await _mService.GetNewItem(ContentType.Company);
             return Page();
 
         }
@@ -44,7 +45,7 @@ namespace Members.Pages
         {
 
             ContentItem contentItem;
-            (contentItem, Shape) = await _mService.GetUpdatedItem(MemberType.Company);
+            (contentItem, Shape) = await _mService.GetUpdatedItem(ContentType.Company);
             if (ModelState.IsValid)
             {
                 var result = await _mService.CreateMemberCompany(contentItem);

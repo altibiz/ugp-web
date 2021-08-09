@@ -16,7 +16,7 @@ using ISession = YesSql.ISession;
 
 namespace Members.Core
 {
-    public enum MemberType
+    public enum ContentType
     {
         Member,
         Company
@@ -55,14 +55,14 @@ namespace Members.Core
             return await _userService.GetAuthenticatedUserAsync(user??_httpContextAccessor.HttpContext.User) as User;
         }
 
-        public async Task<(ContentItem,IShape)> GetNewItem(MemberType memberType)
+        public async Task<(ContentItem,IShape)> GetNewItem(ContentType memberType)
         {
             var contentItem = await _contentManager.NewAsync(memberType.ToString());
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             return (contentItem,model);
         }
 
-        public async Task<(ContentItem, IShape)> GetUpdatedItem(MemberType memberType)
+        public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentType memberType)
         {
             var contentItem = await _contentManager.NewAsync(memberType.ToString());
             var shape = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);

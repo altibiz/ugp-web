@@ -8,7 +8,6 @@ using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using YesSql;
 using ISession = YesSql.ISession;
