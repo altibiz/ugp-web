@@ -26,6 +26,22 @@ msgctxt "Members.Pages.CreateCompanyModel"
 msgid "Company Name"
 msgstr "Naziv"
 
+msgctxt "Members.Pages.MyProfile"
+msgid "My Profile"
+msgstr "Moj Profil"
+
+msgctxt "Members.Pages.MyProfile"
+msgid "Add Company"
+msgstr "Dodaj tvrtku"
+
+msgctxt "Members.Pages.MyProfile"
+msgid "No results found"
+msgstr "Nema rezultata
+
+msgctxt "Members.Pages.MyProfile"
+msgid "Change Password"
+msgstr "Izmjena lozinke"
+
 msgctxt "Members.Persons.PersonPart"
 msgid "Your ID must be 11 numbers."
 msgstr "OIB mora imati 11 znakova."

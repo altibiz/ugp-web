@@ -1,80 +1,24 @@
 ﻿@page
 @model Members.Pages.MyCompanyModel
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
 
-@{
-    var companyModel = Model?.ContentItem?.Content?.Company;
-}
-
-
-@{ Html.RenderPartial("_Header", "MOJI PODACI"); }
-
-@if (companyModel != null)
-{
-    <div class="company-info">
-        <h2>@T["PODACI O TVRTKI"]</h2>
-        <hr>
-        <p class="alert alert-warning">@T["Podaci obojani u zeleno se ne mogu vlastoručno mijenjati zbog zaštite registra članova. Ako se pojavljuju netočni podaci, ili su neka polja prazna molimo Vas da prijavite"] <a href="https://forms.monday.com/forms/ca65c242f34010c168238f563956f990" target="_blank">@T["OVDJE"]</a></p>
-
-        <table class="table table-striped">
-            <tbody>
-                <tr class="table-info">
-                    <td><b>@T["Ime tvrke"]</b></td>
-                    <td>@Model.Name</td>
-                </tr>
-                <tr class="table-info">
-                    <td><b>@T["Vrsta organizacije"]</b></td>
-                    <td>@Model.OrganisationType</td>
-                </tr>
-                <tr class="table-info">
-                    <td><b>@T["OIB"]</b></td>
-                    <td>@Model.Oib</td>
-                </tr>
-                <tr class="table-info">
-                    <td><b>@T["Grad/Opcina subjekta"]</b></td>
-                    <td>@Model.City</td>
-                </tr>
-                <tr class="table-info">
-                    <td><b>@T["Adresa subjekta"]</b></td>
-                    <td>@Model.Address</td>
-                </tr>
-                <tr class="table-info">
-                    <td><b>@T["Osobe za zastupanje"]</b></td>
-                    <td>@Model.AuthorizedRepresentative</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <form class="form-floating" action="?" method="post">
-        <div class="form-floating">
-            <input asp-for="TurnoverIn2019" placeholder="smth" type="text" class="form-control content-preview-text" />
-            <label asp-for="TurnoverIn2019">@T["Promet u 2019"]</label>
-        </div>
-
-        <div class="form-floating">
-            <input asp-for="Activity" placeholder="smth" type="text" class="form-control content-preview-text" />
-            <label asp-for="Activity">@T["Djelatnost"]</label>
-        </div>
+@inject IContentDefinitionManager ContentDefinitionManager
 
 
-        <div class="form-floating">
-            <input asp-for="EmployeeNumber" placeholder="smth" type="number" class="form-control content-preview-text" />
-            <label asp-for="EmployeeNumber">@T["Broj zaposlenika"]</label>
-        </div>
-
-        <div class="form-floating">
-            <input asp-for="PermanentAssociates" placeholder="smth" type="number" class="form-control content-preview-text" />
-            <label asp-for="PermanentAssociates">@T["Broj stalnih suradnika"]</label>
-        </div>
+@{ Html.RenderPartial("_Header", "My company"); }
 
 
-        <div class="form-floating">
-            <input asp-for="Function" placeholder="smth" type="text" class="form-control content-preview-text" />
-            <label asp-for="Function">@T["Funkcija"]</label>
-        </div>
+@await RenderSectionAsync("Messages", required: false)
 
+<div asp-validation-summary="All" class="text-danger"></div>
 
-        <button type="submit" name="MyProfileSubmit" class="btn btn-success publish" value="Submit">Spremi promjene</button>
+    <form method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        @await DisplayAsync(Model.Shape)
+
+        <button type="submit" name="MyCompanySubmit" class="btn btn-success publish" value="Submit">Spremi promjene</button>
 
     </form>
-}

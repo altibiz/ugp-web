@@ -1,109 +1,57 @@
 ﻿@page
 @model Members.Pages.MyProfileModel
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
 
-@{ Html.RenderPartial("_Header", "MOJI PODACI"); }
-
-<h2>
-    @T["PODACI O FIZIČKOJ OSOBI"]
-</h2>
-<hr>
-<p class="alert alert-warning">@T["Podaci obojani u zeleno se ne mogu vlastoručno mijenjati zbog zaštite registra članova. Ako se pojavljuju netočni podaci, ili su neka polja prazna molimo Vas da prijavite"] <a href="https://forms.monday.com/forms/ca65c242f34010c168238f563956f990" target="_blank">@T["OVDJE"]</a></p>
-
-<table class="table table-striped">
-    <tbody>
-        <tr class="table-info">
-            <td><b>@T["Ime"]</b></td>
-            <td>@Model.Name</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Prezime"]</b></td>
-            <td>@Model.Surname</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Datum rođenja"]</b></td>
-            <td>@Model.DateOfBirth</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Adresa"]</b></td>
-            <td>@Model.Address</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Grad/Opcina"]</b></td>
-            <td>@Model.City</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Županija"]</b></td>
-            <td>@Model.County</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["E-mail"]</b></td>
-            <td>@Model.Email</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Telefon"]</b></td>
-            <td>@Model.Phone</td>
-        </tr>
-        <tr class="table-info">
-            <td><b>@T["Spol"]</b></td>
-            <td>@Model.Sex</td>
-        </tr>
-    </tbody>
-</table>
-
-<form class="form-floating" action="?" method="post">
+@inject IContentDefinitionManager ContentDefinitionManager
 
 
-    <div class="form-floating">
-        <input asp-for="Activity" placeholder="smth" type="text" class="form-control content-preview-text" />
-        <label asp-for="Activity">@T["Aktivnost člana"]</label>
+@{ Html.RenderPartial("_Header", T["My Profile"].Value); }
+
+
+@await RenderSectionAsync("Messages", required: false)
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@await DisplayAsync(Model.Shape)
+
+
+<div class="my-companies mt-5">
+    <h5>
+        @T["My Companies"]
+    </h5>
+    <div class="d-grid gap-2 d-md-block">
+        <a class="btn btn-primary" type="button" href="./CreateCompany">@T["Add Company"]</a>
     </div>
-
-
-   @* @await DisplayAsync(Model.Activity);*@    
-
-
-  @*  @{ Html.RenderPartial("_TaxonomyDropdown", Model.DropDownViewModel); }*@
-
-    <div class="form-floating">
-        <input asp-for="Contribution " placeholder="smth" type="text" class="form-control content-preview-text" style="height: 200px" />
-        <label asp-for="Contribution">@T["Doprinos udruzi"]</label>
-    </div>
-
-    <button type="submit" name="MyProfileSubmit" class="btn btn-success publish" value="Submit">Spremi promjene</button>
-
-</form>
-
-    <div class="change-pass">
-        <h2>
-            @T["IZMJENA LOZINKE"]
-        </h2>
-        <hr>
-        <a href="/password" class="btn btn-warning text-decoration-none">@T["Izmjenite vašu lozinku"]</a>
-    </div>
-
-
-    <div class="my-companies mt-5">
-        <h2>
-            @T["MOJE TVRTKE"]
-        </h2>
-        <hr>
-        <div class="list-group-flush">
-            @if (Model.CompanyContentItems.Count > 0)
+    <hr>
+    <div class="list-group-flush">
+        @if (Model.CompanyContentItems.Count > 0)
+        {
+            @foreach (var item in Model.CompanyContentItems)
             {
-                @foreach (var item in Model.CompanyContentItems)
-                {
-                    <a href="MyCompany?companyID=@item.ContentItemId " class="list-group-item d-flex justify-content-between align-items-center">
-                        @item.DisplayText
-                        <span class="badge badge-primary badge-pill">14</span>
-                    </a>
-                }
+                <a href="MyCompany?companyID=@item.ContentItemId " class="list-group-item d-flex justify-content-between align-items-center">
+                    @item.DisplayText
+                    <span class="badge badge-primary badge-pill">14</span>
+                </a>
             }
-            else
-            {
-                <div class="alert alert-info">
-                    @T["No results found."]
-                </div>
-            }
-        </div>
-
+        }
+        else
+        {
+            <div class="alert alert-info">
+                @T["No results found."]
+            </div>
+        }
     </div>
+
+</div>
+
+<div class="change-pass mt-5">
+    <h5>
+        @T["Change Password"]
+    </h5>
+    <hr>
+    <a href="/password" class="btn btn-warning text-decoration-none">@T["Izmjenite vašu lozinku"]</a>
+</div>
+
+

@@ -1,87 +1,44 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Members.Core;
-using Members.Persons;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using OrchardCore;
-using OrchardCore.ContentManagement;
-using UgpTheme.ViewModels;
+using OrchardCore.ContentManagement.Display;
+using OrchardCore.DisplayManagement.ModelBinding;
 
 namespace Members.Pages
 {
     public class MyProfileModel : PageModel
     {
-        private const string memberType = "Member";
-        private const string companyType = "Company";
-        private readonly MemberService _mService;
-        private readonly IOrchardHelper _oHelper;
+        private const string contentType = "Member";
 
-        [BindProperty]
-        public dynamic Activity { get; set; }
-        [BindProperty]
-        public string Contribution { get; set; }
 
-        //Member
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public DateTime? DateOfBirth { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        public string County { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Sex { get; set; }
+        private readonly IContentItemDisplayManager _contentItemDisplayManager;
+        private readonly IHtmlLocalizer H;
+        private readonly IUpdateModelAccessor _updateModelAccessor;
+        private readonly MemberService _memberService;
 
-        [BindProperty]
+        public dynamic Shape { get; set; }
         public List<dynamic> CompanyContentItems { get; set; }
 
-        public ContentItem Member { get; set; }
-
-        public DropDownViewModel DropDownViewModel { get; set; }
-
-        public MyProfileModel(MemberService service,IOrchardHelper orchardHelper)
+        public MyProfileModel(MemberService mService, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, IUpdateModelAccessor updateModelAccessor)
         {
+            _contentItemDisplayManager = contentItemDisplayManager;
+            _updateModelAccessor = updateModelAccessor;
 
-            _mService = service;
-            _oHelper = orchardHelper;
+            H = htmlLocalizer;
+
+            _memberService = mService;
+
         }
 
         public async Task OnGetAsync()
         {
+            var member = await _memberService.GetUserMember();
 
-            DropDownViewModel ddm = new DropDownViewModel();
-            ddm.TaxonomyName = "aktivnost-clana";
+            CompanyContentItems = await _memberService.GetUserCompanies(member.ContentItemId);
 
-            Member = await _mService.GetUserMember();
-            if (Member == null) RedirectToPage("CreateMember");
-
-            var personPart = Member.As<PersonPart>();
-            var memberPart = Member.As<Member>();
-            
-            // Prepare the content items Summary Admin shape
-            var companyContentItem = new List<dynamic>();
-            foreach (var contentItem in await _oHelper.QueryListItemsAsync(Member.ContentItemId))
-            {
-                companyContentItem.Add(contentItem);
-            }
-            CompanyContentItems = companyContentItem;
-
-            Name = personPart.Name.Text;
-
-            Surname = personPart.Surname.Text;
-            DateOfBirth =memberPart.DateOfBirth.Value;
-            Address = personPart.Address.Text;
-            City = personPart.City.Text;
-            County = personPart.County.TermContentItemIds.FirstOrDefault();
-            Email = personPart.Email?.Text;
-            Phone = personPart.Phone.Text;
-            Sex = memberPart.Sex.TermContentItemIds.FirstOrDefault();
-            Activity = memberPart.Activity;
-            Contribution = memberPart.Skills.Text;
-
+            Shape = await _contentItemDisplayManager.BuildEditorAsync(member, _updateModelAccessor.ModelUpdater, true);
         }
     }
 }
