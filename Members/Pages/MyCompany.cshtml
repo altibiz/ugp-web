@@ -14,11 +14,10 @@
 
 <div asp-validation-summary="All" class="text-danger"></div>
 
-    <form method="post" enctype="multipart/form-data">
-        <div asp-validation-summary="All" class="text-danger"></div>
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-        @await DisplayAsync(Model.Shape)
+    @await DisplayAsync(Model.Shape)
 
-        <button type="submit" name="MyCompanySubmit" class="btn btn-success publish" value="Submit">Spremi promjene</button>
-
-    </form>
+    <button type="submit" asp-page-handler="UpdateCompany" class="btn btn-success publish mt-2">Spremi promjene</button>
+</form>
