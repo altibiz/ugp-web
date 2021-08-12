@@ -96,6 +96,12 @@ namespace Members.Core
             return await _contentManager.UpdateValidateAndCreateAsync(companyItem, VersionOptions.Published);
         }
 
+        public async Task<ContentValidateResult> UpdateMemberCompany(ContentItem companyItem)
+        {
+            await _contentManager.UpdateAsync(companyItem);
+            return await  _contentManager.ValidateAsync(companyItem);
+        }
+
         public async Task<ContentValidateResult> CreateMember(ContentItem memberItem) { 
 
             var user = await GetCurrentUser();
