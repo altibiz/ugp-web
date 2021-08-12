@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{companyId}"
 @model Members.Pages.MyCompanyModel
 @using OrchardCore.ContentManagement
 @using OrchardCore.ContentManagement.Metadata
@@ -12,12 +12,10 @@
 
 @await RenderSectionAsync("Messages", required: false)
 
-<div asp-validation-summary="All" class="text-danger"></div>
-
 <form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
 
     @await DisplayAsync(Model.Shape)
 
-    <button type="submit" asp-page-handler="UpdateCompany" class="btn btn-success publish mt-2">Spremi promjene</button>
+    <button type="submit" class="btn btn-success publish mt-2">Spremi promjene</button>
 </form>

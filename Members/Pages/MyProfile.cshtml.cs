@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Members.Core;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.DisplayManagement.ModelBinding;
 
@@ -19,7 +20,7 @@ namespace Members.Pages
         private readonly MemberService _memberService;
 
         public dynamic Shape { get; set; }
-        public List<dynamic> CompanyContentItems { get; set; }
+        public List<ContentItem> CompanyContentItems { get; set; }
 
         public MyProfileModel(MemberService mService, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, IUpdateModelAccessor updateModelAccessor)
         {

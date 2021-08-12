@@ -54,9 +54,9 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        public async Task<dynamic> GetUserCompanies(string contentItemId)
+        public async Task<List<ContentItem>> GetUserCompanies(string contentItemId)
         {
-            var companyContentItem = new List<dynamic>();
+            var companyContentItem = new List<ContentItem>();
             foreach (var contentItem in await _oHelper.QueryListItemsAsync(contentItemId))
             {
                 companyContentItem.Add(contentItem);
@@ -78,7 +78,16 @@ namespace Members.Core
 
         public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentType memberType)
         {
-            var contentItem = await _contentManager.NewAsync(memberType.ToString());
+            return await GetUpdatedItem(await _contentManager.NewAsync(memberType.ToString()));
+        }
+
+        public async Task<(ContentItem, IShape)> GetUpdatedItem(string id = null)
+        {
+            return await GetUpdatedItem(await _contentManager.GetAsync(id));
+        }
+
+        public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentItem contentItem)
+        {
             var shape = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
 
             if (!_updateModelAccessor.ModelUpdater.ModelState.IsValid)
@@ -88,6 +97,12 @@ namespace Members.Core
             return (contentItem, shape);
         }
 
+        public async Task<IShape> GetEditorById(string contentId)
+        {
+            var contentItem = await _contentManager.GetAsync(contentId);
+
+            return await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
+        }
         public async Task<ContentValidateResult> CreateMemberCompany(ContentItem companyItem)
         {
             var member = await GetUserMember();
