@@ -18,6 +18,8 @@ using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentFields.Drivers;
 using Members.PartFieldSettings;
 using OrchardCore.Data;
+using OrchardCore.Taxonomies.Fields;
+using OrchardCore.Taxonomies.Drivers;
 
 namespace Members
 {
@@ -46,6 +48,12 @@ namespace Members
 
             services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
                 .ForEditor<PartTextFieldDriver>(d=>true);
+
+            services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
+                .UseDisplayDriver<PartTaxonomyFieldTagsDriver>(d => string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase));
+
+
+            services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldDisplayDriver>(d => false);
 
         }
 

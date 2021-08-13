@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
@@ -8,15 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
-using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Notify;
 using OrchardCore.Navigation;
 using OrchardCore.Settings;
-using OrchardCore.Taxonomies;
-using OrchardCore.Users.Services;
 using YesSql;
 
 namespace Members.Pages
@@ -27,8 +23,6 @@ namespace Members.Pages
         private const string txnType = "Taxonomy";
         private const string companyType = "Company";
 
-        private readonly IContentManager _contentManager;
-        private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly IContentItemDisplayManager _contentItemDisplayManager;
         private readonly IHtmlLocalizer H;
         private readonly dynamic New;
@@ -36,7 +30,6 @@ namespace Members.Pages
         private readonly ISession _session;
         private readonly ISiteService _siteService;
         private readonly IUpdateModelAccessor _updateModelAccessor;
-        private readonly IUserService _userService;
 
         [BindProperty]
         public string Title { get; set; }
@@ -91,16 +84,16 @@ namespace Members.Pages
         public dynamic Pager { get; set; }
 
 
-        public NewsletterModel(IUserService userService, IContentManager contentManager, IContentDefinitionManager contentDefinitionManager, IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer<MembersModel> htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
+        public NewsletterModel(IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
         {
-            _contentManager = contentManager;
-            _contentDefinitionManager = contentDefinitionManager;
-            _contentItemDisplayManager = contentItemDisplayManager;
             _notifier = notifier;
+
+            _contentItemDisplayManager = contentItemDisplayManager;
+            _updateModelAccessor = updateModelAccessor;
+
             _session = session;
             _siteService = siteService;
-            _updateModelAccessor = updateModelAccessor;
-            _userService = userService;
+
             H = htmlLocalizer;
             New = shapeFactory;
         }

@@ -1,33 +1,21 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Members.PartFieldSettings;
 using Newtonsoft.Json.Linq;
-using OrchardCore.ContentFields.Drivers;
-using OrchardCore.ContentFields.Fields;
-using OrchardCore.ContentFields.ViewModels;
-using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
-using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentManagement.Metadata.Settings;
-using OrchardCore.DisplayManagement.ModelBinding;
-using OrchardCore.DisplayManagement.Views;
-using OrchardCore.Taxonomies.Drivers;
-using OrchardCore.Taxonomies.Fields;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Members.PartFieldSettings
+namespace Members.Core
 {
-    public class PartTaxonomyFieldDriver : TaxonomyFieldDisplayDriver
+    public class DriverService
     {
         private static IEnumerable<Type> _implementingTypes;
         public static IEnumerable<Type> ImplementingTypes = _implementingTypes ??= AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(x => x.GetTypes())
                     .Where(t => typeof(IFieldEditorSettings).IsAssignableFrom(t) && t.IsClass).ToList();
 
-        public PartTaxonomyFieldDriver(IContentManager cm,IStringLocalizer<TaxonomyFieldDisplayDriver> localizer) : base(cm,localizer) { }
-
-        private bool CheckSettings(BuildFieldEditorContext context)
+        public static bool CheckSettings(BuildFieldEditorContext context)
         {
             IFieldEditorSettings partSettings = null;
             foreach (var typ in ImplementingTypes)
@@ -47,17 +35,5 @@ namespace Members.PartFieldSettings
             return true;
         }
 
-        public override IDisplayResult Edit(TaxonomyField field, BuildFieldEditorContext context)
-        {
-            if (!CheckSettings(context)) return null;
-            return base.Edit(field, context);
-        }
-
-        public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, IUpdateModel updater, UpdateFieldEditorContext context)
-        {
-            if (!CheckSettings(context)) return null;
-            if (context.PartFieldDefinition.Editor() == "Disabled") return Edit(field, context);
-            return await base.UpdateAsync(field, updater, context);
-        }
     }
 }
