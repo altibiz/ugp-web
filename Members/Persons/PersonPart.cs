@@ -1,6 +1,7 @@
 ﻿using Members.PartFieldSettings;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.Taxonomies.Fields;
 
 namespace Members.Persons
@@ -36,9 +37,14 @@ namespace Members.Persons
         }
     }
 
-    public class PersonPartSettings:IFieldSettings
+    public class PersonPartSettings : IFieldEditorSettings
     {
         public PersonType? Type { get; set; }
+
+        public string GetFieldEditor(string name, string displayMode, BuildFieldEditorContext context)
+        {
+            return context.IsNew ? displayMode : "Disabled";
+        }
 
         public string GetFieldLabel(string propertyName, string displayName)
         {
@@ -49,7 +55,7 @@ namespace Members.Persons
             };
         }
 
-        public bool IsFieldHidden(string propertyName, ContentPart part)
+        public bool IsFieldHidden(string propertyName, BuildFieldEditorContext context)
         {
             return propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal;
         }

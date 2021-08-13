@@ -3,11 +3,14 @@ using Newtonsoft.Json.Linq;
 using OrchardCore.ContentFields.Drivers;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentFields.ViewModels;
+using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
+using OrchardCore.Taxonomies.Drivers;
+using OrchardCore.Taxonomies.Fields;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +18,14 @@ using System.Threading.Tasks;
 
 namespace Members.PartFieldSettings
 {
-    public class PartTextFieldDriver : TextFieldDisplayDriver
+    public class PartTaxonomyFieldDriver : TaxonomyFieldDisplayDriver
     {
         private static IEnumerable<Type> _implementingTypes;
         public static IEnumerable<Type> ImplementingTypes = _implementingTypes ??= AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(x => x.GetTypes())
                     .Where(t => typeof(IFieldEditorSettings).IsAssignableFrom(t) && t.IsClass).ToList();
 
-        public PartTextFieldDriver(IStringLocalizer<TextFieldDisplayDriver> localizer) : base(localizer) { }
+        public PartTaxonomyFieldDriver(IContentManager cm,IStringLocalizer<TaxonomyFieldDisplayDriver> localizer) : base(cm,localizer) { }
 
         private bool CheckSettings(BuildFieldEditorContext context)
         {
@@ -44,20 +47,13 @@ namespace Members.PartFieldSettings
             return true;
         }
 
-        public override IDisplayResult Edit(TextField field, BuildFieldEditorContext context)
+        public override IDisplayResult Edit(TaxonomyField field, BuildFieldEditorContext context)
         {
             if (!CheckSettings(context)) return null;
-            var shapeType = GetEditorShapeType(context);
-            return Initialize<EditTextFieldViewModel>(shapeType, model =>
-            {
-                model.Text = field.Text;
-                model.Field = field;
-                model.Part = context.ContentPart;
-                model.PartFieldDefinition = context.PartFieldDefinition;
-            });
+            return base.Edit(field, context);
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(TextField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, IUpdateModel updater, UpdateFieldEditorContext context)
         {
             if (!CheckSettings(context)) return null;
             if (context.PartFieldDefinition.Editor() == "Disabled") return Edit(field, context);

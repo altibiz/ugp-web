@@ -39,7 +39,7 @@ namespace Members.Pages
 
             CompanyContentItems = await _memberService.GetUserCompanies(member.ContentItemId);
 
-            Shape = await _contentItemDisplayManager.BuildEditorAsync(member, _updateModelAccessor.ModelUpdater, true);
+            Shape = await _contentItemDisplayManager.BuildEditorAsync(member, _updateModelAccessor.ModelUpdater, false);
         }
     }
 }

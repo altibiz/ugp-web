@@ -101,7 +101,7 @@ namespace Members.Core
         {
             var contentItem = await _contentManager.GetAsync(contentId);
 
-            return await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
+            return await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
         }
         public async Task<ContentValidateResult> CreateMemberCompany(ContentItem companyItem)
         {
