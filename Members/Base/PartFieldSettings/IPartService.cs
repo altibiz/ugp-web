@@ -13,7 +13,7 @@ namespace Members.PartFieldSettings
         IAsyncEnumerable<ValidationResult> ValidateAsync(T part);
 
         Task InitializingAsync(T part);
-
+        Task PublishedAsync(T instance);
     }
 
     public static class PartServiceExtensions

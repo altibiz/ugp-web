@@ -31,5 +31,11 @@ namespace Members.Persons
             await _service.InitializingAsync(instance);
             context.ContentItem.Apply(instance);
         }
+
+        public override async Task PublishedAsync(PublishContentContext context, TPart instance)
+        {
+            await _service.PublishedAsync(instance);
+            context.ContentItem.Apply(instance);
+        }
     }
 }

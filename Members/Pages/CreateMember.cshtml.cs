@@ -50,7 +50,7 @@ namespace Members.Pages
             ContentItem contentItem;
             (contentItem, Shape) = await _memberService.GetUpdatedItem(ContentType.Member);
             if (ModelState.IsValid) {
-                var result = await _memberService.CreateMember(contentItem);
+                var result = await _memberService.CreateMemberDraft(contentItem);
                 if (result.Succeeded)
                 {
                     _notifier.Success(H["Member registration successful"]);

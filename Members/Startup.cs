@@ -37,7 +37,7 @@ namespace Members
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDataMigration, Migrations>();
             services.AddContentPart<Member>();
-            services.UsePartService<PersonPart, PersonService>();
+            services.UsePartService<PersonPart, PersonPartService>();
             services.AddScoped<MemberService>();
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
             if (CurrentEnvironment.IsDevelopment())
