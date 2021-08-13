@@ -1,0 +1,22 @@
+﻿@page
+@model Members.Pages.CreateMemberModel
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+
+@{ Html.RenderPartial("_Header", T["Registration"].Value); }
+
+
+@await RenderSectionAsync("Messages", required: false)
+@T["Please Add User Data"]
+<form method="post" enctype="multipart/form-data">
+	<div asp-validation-summary="All" class="text-danger"></div>
+
+	@await DisplayAsync(Model.Shape)
+
+	<button type="submit" asp-page-handler="CreateMemberToCompany" class="btn btn-success publish mt-2">@T["Register Legal Entity"]</button>
+	<button type="submit" asp-page-handler="CreateMember" class="btn btn-success publish mt-2">@T["Register User"]</button>
+</form>

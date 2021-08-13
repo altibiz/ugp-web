@@ -6,5 +6,6 @@ using OrchardCore.Modules.Manifest;
     Website = "https://altibiz.com",
     Version = "0.0.1",
     Description = "Members Module",
-    Category = "Content Management"
+    Category = "Content Management",
+    Dependencies =new []{"OrchardCore.Taxonomies","OrchardCore.ContentFields"}
 )]

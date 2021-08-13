@@ -1,0 +1,34 @@
+﻿@using OrchardCore.ContentManagement
+@using OrchardCore.Menu.Models
+@{
+    ContentItem contentItem = Model.ContentItem;
+
+
+    var iconTxt = contentItem.Content.LinkMenuItem.Icon.Text;
+
+    var linkMenuItemPart = contentItem.As<LinkMenuItemPart>();
+
+    TagBuilder tag = Tag(Model, "a");
+
+    var url = linkMenuItemPart.Url;
+    if (url.StartsWith('/'))
+    {
+        url = '~' + url;
+    }
+
+    if (url.StartsWith("~/", StringComparison.Ordinal))
+    {
+        url = Url.Content(linkMenuItemPart.Url);
+    }
+
+    tag.AddCssClass("fa " + iconTxt);
+
+    tag.Attributes["href"] = url;
+    tag.InnerHtml.Append(contentItem.DisplayText);
+
+    <a href="@url">
+        <div class="icon-box"><i class="far @iconTxt"></i></div>
+        <span>@contentItem.DisplayText</span>
+    </a>
+
+}

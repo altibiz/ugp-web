@@ -8,6 +8,18 @@ using OrchardCore.Navigation;
 using Microsoft.Extensions.Hosting;
 using OrchardCore.DisplayManagement.Implementation;
 using Members.Utils;
+using OrchardCore.ContentManagement;
+using Members.Core;
+using OrchardCore.ContentTypes.Editors;
+using Lombiq.HelpfulExtensions.Extensions.CodeGeneration;
+using Members.Persons;
+using OrchardCore.ContentManagement.Display.ContentDisplay;
+using OrchardCore.ContentFields.Fields;
+using OrchardCore.ContentFields.Drivers;
+using Members.PartFieldSettings;
+using OrchardCore.Data;
+using OrchardCore.Taxonomies.Fields;
+using OrchardCore.Taxonomies.Drivers;
 
 namespace Members
 {
@@ -24,8 +36,22 @@ namespace Members
         {
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDataMigration, Migrations>();
-            if(CurrentEnvironment.IsDevelopment())
+            services.AddContentPart<Member>();
+            services.UsePartService<PersonPart, PersonService>();
+            services.AddScoped<MemberService>();
+            services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
+            if (CurrentEnvironment.IsDevelopment())
+            {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
+                services.AddScoped<IContentTypeDefinitionDisplayDriver, CodeGenerationDisplayDriver>();
+            }
+
+            services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
+                .ForEditor<PartTextFieldDriver>(d=>true);
+
+            services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
+                .ForEditor<PartTaxonomyFieldTagsDriver>(d => string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase));
+
 
         }
 

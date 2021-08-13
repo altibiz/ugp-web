@@ -1,0 +1,23 @@
+﻿@page
+@model Members.Pages.CreateCompanyModel
+@using OrchardCore.ContentManagement.Metadata
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+
+@{ Html.RenderPartial("_Header", T["Add Legal Entity"].Value); }
+
+
+@await RenderSectionAsync("Messages", required: false)
+
+@T["Add Legal Entity Details"]
+
+<form method="post" enctype="multipart/form-data">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    @await DisplayAsync(Model.Shape)
+
+    <button type="submit" class="btn btn-success publish">@T["Submit"]</button>
+
+</form>

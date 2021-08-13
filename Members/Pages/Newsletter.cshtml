@@ -1,0 +1,100 @@
+﻿@page
+
+@model Members.Pages.NewsletterModel
+
+@{ Html.RenderPartial("_Header", @T["Newsletter"].Value); }
+
+
+
+
+<form class="form-floating" action="?" method="post" >
+
+    <p>
+        <b>@T["Fill out the form below to sign up for the newsletter"]</b>
+    </p>
+
+    <div class="form-floating">
+        <input asp-for="Email" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Email">@T["E-mail adresa"]</label>
+    </div>
+
+
+    <div class="form-floating">
+        <input asp-for="Name" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Name">@T["Ime"]</label>
+    </div>
+
+
+    <div class="form-floating">
+        <input asp-for="Surname" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Surname">@T["Prezime"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Company" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Company">@T["Tvrtka"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Country" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Country">@T["Zemlja"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="BirthDate" placeholder="smth" type="date" class="form-control content-preview-text" />
+        <label asp-for="BirthDate">@T["Datum rođenja"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Activity" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Activity">@T["Djelatnost"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Sex" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Sex">@T["Spol"]</label>
+    </div>
+
+    <div class="form-floating">
+        <select class="form-select" aria-label="select">
+            <option selected>Open this select menu</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="UserType" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="UserType">@T["Tip korisnika"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="CompanyType" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="CompanyType">@T["Vrsta organizacije"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="MobileNumber" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="MobileNumber">@T["Broj mobitela"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Subscribed" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Subscribed">@T["Pretplaćen"]</label>
+    </div>
+
+    <shape type="Term" alias="spol" />
+
+    <div class="form-floating">
+        <input asp-for="County" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="County">@T["Županija"]</label>
+    </div>
+
+    <div class="form-floating">
+        <input asp-for="Place" placeholder="smth" type="text" class="form-control content-preview-text" />
+        <label asp-for="Place">@T["Mjesto"]</label>
+    </div>
+
+    <button type="submit" name="newsletterSubmit" class="btn btn-success publish" value="submit.Create">Pošalji</button>
+</form>

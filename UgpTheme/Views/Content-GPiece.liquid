@@ -1,0 +1,10 @@
+{% assign gPiece = Model.ContentItem.Content.GPiece %}
+
+<div class="gallery-item">
+                <img{% if gPiece.ImageClass.Text.size > 0 %} class="{{ gPiece.ImageClass.Text }}"{% endif %} src="{{ gPiece.Image.Paths.first | asset_url }}"{% if gPiece.ImageAltText.Text.size > 0 %} alt="{{ gPiece.ImageAltText.Text }}"{% endif %}>
+                {% if gPiece.DisplayCaption.Value %}
+                    <div class="carousel-caption d-none d-md-block">
+                        {{ gPiece.Caption.Html | raw }}
+                    </div>
+                {% endif %}
+</div>

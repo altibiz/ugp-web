@@ -184,7 +184,26 @@ nuget.exe
 #exclude node modules
 node_modules/*
 
-wwwroot
+UgpWeb/wwwroot
 /**/node_modules/
 /UgpTheme/Assets/dist
-UgpWeb/Localization/
+/ModuleName.OrchardCore/wwwroot
+/UgpWeb/App_Data2
+/UgpWeb/App_Data3
+/UgpWeb/Localization/zh-CN
+/UgpWeb/Localization/zh-TW
+/UgpWeb/Localization/vi
+/UgpWeb/Localization/tr
+/UgpWeb/Localization/sv
+/UgpWeb/Localization/ru
+/UgpWeb/Localization/pt-BR
+/UgpWeb/Localization/pl
+/UgpWeb/Localization/ja
+/UgpWeb/Localization/fa
+/UgpWeb/Localization/ar
+/UgpWeb/Localization/cs
+/UgpWeb/Localization/de
+/UgpWeb/Localization/el
+/UgpWeb/Localization/es
+/UgpWeb/Localization/fr
+/UgpWeb/Localization/it

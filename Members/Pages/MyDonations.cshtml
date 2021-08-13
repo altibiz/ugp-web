@@ -1,0 +1,16 @@
+﻿@page
+
+@{ Html.RenderPartial("_Header", @T["My Donations"].Value); }
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <h2>@T["Donations Not Recorded"]</h2>
+
+                <hr>
+                <p>@T["If you’ve paid a donation and it’s not seen here, don’t worry. Probably your OIB was not entered in the reference number, so we could not connect the payment, or the payment was made while you were not yet a member. In any case, please report a payment that is not visible"] <a href="https://forms.monday.com/forms/174b8ca4311f8be5f848397c73f8220c" target="_blank">@T["here"]</a>.</p>
+                <hr>
+
+            </div>
+        </div>

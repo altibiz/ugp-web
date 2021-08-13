@@ -92,22 +92,5 @@ header.masthead {
     @include media-breakpoint-up(lg) {
         padding-top: 7.5rem;
         padding-bottom: 5.5rem;
-
-        .page-heading,
-        .site-heading {
-            h1 {
-                font-size: 5rem;
-            }
-        }
-
-        .post-heading {
-            h1 {
-                font-size: 3.5rem;
-            }
-
-            .subheading {
-                font-size: 1.875rem;
-            }
-        }
     }
 }

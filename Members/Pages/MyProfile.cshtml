@@ -1,0 +1,55 @@
+﻿@page
+@model Members.Pages.MyProfileModel
+@using OrchardCore.ContentManagement.Metadata
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+
+@{ Html.RenderPartial("_Header", T["My Profile"].Value); }
+
+
+@await RenderSectionAsync("Messages", required: false)
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@await DisplayAsync(Model.Shape)
+
+
+<div class="my-companies mt-5">
+    <h5>
+        @T["My Companies"]
+    </h5>
+    <div class="d-grid gap-2 d-md-block">
+        <a class="btn btn-primary" type="button" href="./CreateCompany">@T["Add Company"]</a>
+    </div>
+    <hr>
+    <div class="list-group-flush">
+        @if (Model.CompanyContentItems.Count > 0)
+        {
+            @foreach (var item in Model.CompanyContentItems)
+            {
+                <a asp-page="./MyCompany" asp-route-companyId="@item.ContentItemId" class="list-group-item d-flex justify-content-between align-items-center">
+                    @item.DisplayText
+                    <span class="badge badge-primary badge-pill">14</span>
+                </a>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">
+                @T["No results found."]
+            </div>
+        }
+    </div>
+
+</div>
+
+<div class="change-pass mt-5">
+    <h5>
+        @T["Change Password"]
+    </h5>
+    <hr>
+    <a href="/password" class="btn btn-warning text-decoration-none">@T["Change Your Password"]</a>
+</div>
+
+

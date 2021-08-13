@@ -41,6 +41,7 @@
         "OrchardCore.Settings",
         "OrchardCore.Themes",
         "OrchardCore.Users",
+        "OrchardCore.Localization",
 
         // Content Management
         "OrchardCore.Alias",
@@ -48,6 +49,8 @@
         "OrchardCore.Autoroute",
         "OrchardCore.Html",
         "OrchardCore.ContentFields",
+        "OrchardCore.ContentFields.Indexing.SQL.UserPicker",
+
         "OrchardCore.ContentPreview",
         "OrchardCore.Contents",
         "OrchardCore.Contents.FileContentDefinition",
@@ -71,8 +74,13 @@
         "OrchardCore.Taxonomies",
         "OrchardCore.Title",
         "OrchardCore.Templates",
+        "OrchardCore.Users",
+        "OrchardCore.Users.Registration",
+        "OrchardCore.Users.ResetPassword",
         "OrchardCore.Widgets",
+        "Carousel.OrchardCore",
         "Members",
+
         // Themes
         "UgpTheme",
         "TheAdmin",
@@ -94,6 +102,10 @@
       },
       "LayerSettings": {
         "Zones": [ "Content", "Footer" ]
+      },
+      "LocalizationSettings": {
+        "DefaultCulture": "hr",
+        "SupportedCultures": [ "hr", "en" ]
       }
     },
     {
@@ -554,9 +566,57 @@
               }
             }
           ]
+        },
+        {
+          "Name": "RecentNews",
+          "DisplayName": "Recent News",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Stereotype": "Widget"
+            },
+            "FullTextAspectSettings": {
+              "IncludeBodyAspect": false,
+              "IncludeDisplayText": false
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "RecentNews",
+              "Name": "RecentNews",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            }
+          ]
         }
       ],
       "ContentParts": [
+        {
+          "Name": "RecentNews",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "NumericField",
+              "Name": "ShowFirst",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Prikazano vijesti"
+                }
+              }
+            }
+          ]
+        },
         {
           "Name": "Blog",
           "Settings": {},
@@ -854,6 +914,51 @@
       ]
     },
     {
+      "name": "media",
+      "Files": [
+        {
+          "TargetPath": "about-bg.jpg",
+          "SourcePath": "../wwwroot/assets/img/about-bg.jpg"
+        },
+        {
+          "TargetPath": "home-bg.jpg",
+          "SourcePath": "../wwwroot/assets/img/home-bg.jpg"
+        },
+        {
+          "TargetPath": "post-bg.jpg",
+          "SourcePath": "../wwwroot/assets/img/post-bg.jpg"
+        },
+        {
+          "SourcePath": "24sata-300px_162034.png",
+          "TargetPath": "24sata-300px_162034.png"
+        },
+        {
+          "SourcePath": "doniraj_183712.jpg",
+          "TargetPath": "doniraj_183712.jpg"
+        },
+        {
+          "SourcePath": "logo_600x600_171449.jpg",
+          "TargetPath": "logo_600x600_171449.jpg"
+        },
+        {
+          "SourcePath": "novi_banner_91147.jpeg",
+          "TargetPath": "novi_banner_91147.jpeg"
+        },
+        {
+          "SourcePath": "ovdje-stiti-ugp_18303.jpg",
+          "TargetPath": "ovdje-stiti-ugp_18303.jpg"
+        },
+        {
+          "SourcePath": "saznaj-sto-radimo_183733.jpg",
+          "TargetPath": "saznaj-sto-radimo_183733.jpg"
+        },
+        {
+          "SourcePath": "telemach_logo_u_zasticenoj_zoni_171512.jpg",
+          "TargetPath": "telemach_logo_u_zasticenoj_zoni_171512.jpg"
+        }
+      ]
+    },
+    {
       "name": "content",
       "Data": [
         {
@@ -873,7 +978,7 @@
               {
                 "ContentType": "LinkMenuItem",
                 "ContentItemId": "[js: uuid()]",
-                "DisplayText": "Home",
+                "DisplayText": "Početna",
                 "LinkMenuItemPart": {
                   "Name": "Home",
                   "Url": "~/"
@@ -882,10 +987,28 @@
               {
                 "ContentType": "LinkMenuItem",
                 "ContentItemId": "[js: uuid()]",
-                "DisplayText": "About",
+                "DisplayText": "Tko smo mi",
                 "LinkMenuItemPart": {
-                  "Name": "About",
-                  "Url": "~/about"
+                  "Name": "Tko smo mi",
+                  "Url": "~/o-nama"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Novosti",
+                "LinkMenuItemPart": {
+                  "Name": "Novosti",
+                  "Url": "~/blog"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Učlani se",
+                "LinkMenuItemPart": {
+                  "Name": "Učlani se",
+                  "Url": "~/members/portal"
                 }
               }
             ]
@@ -1006,16 +1129,16 @@
         {
           "ContentType": "Blog",
           "ContentItemId": "[js: variables('blogContentItemId')]",
-          "DisplayText": "Blog",
+          "DisplayText": "Novosti",
           "Latest": true,
           "Published": true,
           "Owner": "[js: parameters('AdminUserId')]",
           "Author": "[js: parameters('AdminUsername')]",
           "TitlePart": {
-            "Title": "Blog"
+            "Title": "Novosti"
           },
           "HtmlBodyPart": {
-            "Html": "This is the description of your blog"
+            "Html": "Što je novo u UGPu"
           },
           "AutoroutePart": {
             "Path": "blog"
@@ -1101,24 +1224,24 @@
         {
           "ContentItemId": "[js: uuid()]",
           "ContentType": "Article",
-          "DisplayText": "About",
+          "DisplayText": "O nama",
           "Latest": true,
           "Published": true,
           "Owner": "[js: parameters('AdminUserId')]",
           "Author": "[js: parameters('AdminUsername')]",
           "AutoroutePart": {
-            "Path": "about",
+            "Path": "o-nama",
             "SetHomepage": false
           },
           "HtmlBodyPart": {
-            "Html": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et.</p>"
+            "Html": "<p>Glas Poduzetnika je udruga mikro, malih i srednjih poduzetnika, obrtnika, samozaposlenih i svih zaposlenika u privatnom sektoru, čiji je cilj konkretnim prijedlozima nužnih i hitnih ekonomskih mjera i reformi upućenih Vladi Republike Hrvatske i državnim institucijama, ubrzati ekonomski oporavak cijelog društva te izgraditi zdrave temelje za Hrvatsku 2.0.</p> <p>Glas poduzetnika je pokrenut kao neformalna inicijativa skupine građana koja se spontano okupila u drugoj polovici ožujka 2020. godine. Inicijativu je pokrenula grupa poduzetnika koji su smatrali da u javnom prostoru nema dovoljno glasova iz privatnog sektora. Također, smatrali su da je situacija veoma ozbiljna i da bi potencijalne posljedice krize mogle na&scaron;tetiti gospodarstvu te imati &scaron;tetan utjecaj na samozaposlene, mikro, male i srednje poduzetnike koji zapo&scaron;ljavaju 70% radnika u privatnom sektoru.&nbsp;</p>  <p>Komunikacija je započela kroz Facebook grupu i stranicu, gdje se u roku od 14 dana okupilo preko 45.000 članova.&nbsp;</p>  <p>Inicijativu, formalno i neformalno, podržava velik broj poslovnih udruga (Nacionalna udruga ugostitelja, HURA, Lipa, CISEX, MBA Croatia, Udruženje organizatora i realizatora događanja, Women in Adria, CRO.AI).&nbsp;</p>  <p>Glas poduzetnika je trenutno najveća i najbrojnija udruga poduzetnika u Hrvatskoj.</p>  <p>U petak, 3. travnja 2020. godine Inicijativa je postala udruga Glas poduzetnika.</p>  <p>&nbsp;</p>  <p><strong>Udruga Glas poduzetnika</strong></p>  <p>info@glaspoduzetnika.hr</p>  <p><strong>Podr&scaron;ka članovima</strong></p>  <p>podrska.clanovima@glaspoduzetnika.hr</p>"
           },
           "TitlePart": {
-            "Title": "About"
+            "Title": "O nama"
           },
           "Article": {
             "Subtitle": {
-              "Text": "This is what I do."
+              "Text": "Udruga Glas Poduzetnika"
             },
             "Image": {
               "Paths": [
@@ -1146,23 +1269,443 @@
               "Html": "[file:text('Snippets/footer.html')]"
             }
           }
-        }
-      ]
-    },
-    {
-      "name": "media",
-      "Files": [
-        {
-          "TargetPath": "about-bg.jpg",
-          "SourcePath": "../wwwroot/assets/img/about-bg.jpg"
         },
         {
-          "TargetPath": "home-bg.jpg",
-          "SourcePath": "../wwwroot/assets/img/home-bg.jpg"
-        },
-        {
-          "TargetPath": "post-bg.jpg",
-          "SourcePath": "../wwwroot/assets/img/post-bg.jpg"
+          "ContentItemId": "4ehkyebe6v9zsyqn2nq8ke1z51",
+          "ContentItemVersionId": "4crfvn31zjmm12hjeky0abrd5q",
+          "ContentType": "Page",
+          "DisplayText": "Glas Poduzetnika",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-07-13T22:05:51.0952106Z",
+          "PublishedUtc": "2021-07-13T22:05:51.1308376Z",
+          "CreatedUtc": "2021-07-12T19:04:01.0255955Z",
+          "Owner": "4276mc6nzpy765nkm6ry7xe8ca",
+          "Author": "admin",
+          "Page": {},
+          "AutoroutePart": {
+            "Path": "home",
+            "SetHomepage": true,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "FlowPart": {
+            "Widgets": [
+              {
+                "ContentItemId": "46b3d8f3qev69wyy17tkmem5mz",
+                "ContentItemVersionId": null,
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-13T22:05:51.1002416Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<div class=\"top-features-section\">\n<div class=\"row\">\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>200.000+ </h2>\n                    <p>Podržavatelja - poduzetnika, obrtnika i zaposlenika u privatnom sektoru</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>17.000+ </h2>\n                    <p>Članova udruge</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>33+ mlrd </h2>\n                    <p>kn prihoda članova i podržavatelja</p>\n                </div>\n            </div>\n</div>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4hkmhjf2bpt3t2ze7j8nz94qnp",
+                "ContentItemVersionId": null,
+                "ContentType": "Blockquote",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-13T22:05:51.1032403Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "Blockquote": {
+                  "Quote": {
+                    "Text": "Glas Poduzetnika je udruga #mikro, #malih i #srednjih poduzetnika, obrtnika, samozaposlenih, svih zaposlenika u privatnom sektoru i svih drugih koji podržavaju ciljeve i rad Udruge, čiji je cilj konkretnim prijedlozima nužnih i hitnih ekonomskih #mjera i #reformi upućenih Vladi i državnim institucijama, ubrzanje ekonomskog oporavka cijelog društva te izgradnja zdravih temelja za Hrvatsku 2.0"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4gx965wf484qpx49gvktp9d0wy",
+                "ContentItemVersionId": null,
+                "ContentType": "Carousel",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-13T22:05:51.1051242Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "Carousel": {
+                  "Interval": {
+                    "Value": 5000.0
+                  },
+                  "IncludeControls": {
+                    "Value": true
+                  },
+                  "IncludeIndicators": {
+                    "Value": false
+                  },
+                  "Ride": {
+                    "Value": true
+                  },
+                  "Wrap": {
+                    "Value": true
+                  },
+                  "Keyboard": {
+                    "Value": false
+                  },
+                  "Pause": {
+                    "Value": false
+                  }
+                },
+                "Slides": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "42d1d5fa635tn7kxp41x2h7jnz",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1078759Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "novi_banner_91147.jpeg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4qv0tx58yys3bz2y4mspmwfqmk",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1097769Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "doniraj_183712.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "46khf02h9vb8wt9cwxtt6326ct",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1115623Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ovdje-stiti-ugp_18303.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4zgemg9pye0m11s1a7yp291gcx",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1133879Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "saznaj-sto-radimo_183733.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4acgrjmf228awyhc0gy7jvac5p",
+                "ContentItemVersionId": null,
+                "ContentType": "Paragraph",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-13T22:05:51.115841Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "Paragraph": {
+                  "Content": {
+                    "Html": "<p><span style=\"color: rgba(51, 51, 51, 1); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 14px\">U ovom trenutku bitno je ublažavanje trenutne krize te očuvanje radnih mjesta, ali također ova situacija se treba iskoristiti za smanjenje javnog sektora i optimizaciju državnog aparata, sa svrhom dugoročne održivosti cjelokupnog gospodarstva.</span><br style=\"color: rgba(51, 51, 51, 1); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 14px\"><span style=\"color: rgba(51, 51, 51, 1); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 14px\">Glas Poduzetnika nema i neće imati političke ambicije niti će se ikad povezivati ili biti pod utjecajem ijedne političke opcije.</span><br></p>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ywxmec8zz4wn0ava36c9kcp4j",
+                "ContentItemVersionId": null,
+                "ContentType": "RecentNews",
+                "DisplayText": "Novosti",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-13T22:05:51.1179279Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "RecentNews": {
+                  "ShowFirst": {
+                    "Value": 5.0
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Novosti"
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "45s4a92ykv43y0sx5gr97bvq4m",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "Partneri",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-07-13T22:05:51.1208505Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "TitlePart": {
+                  "Title": "Partneri"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4z901jdkg0h6tvsqae67f2nqd3",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1225495Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "24sata-300px_162034.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4cb6ktzyq06kw0jh4hj64csyn8",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1247021Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_600x600_171449.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4z71jpsc5zkrb2dkdg2f727bw4",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2021-07-13T22:05:51.1267066Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "telemach_logo_u_zasticenoj_zoni_171512.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              }
+            ]
+          },
+          "TitlePart": {
+            "Title": "Glas Poduzetnika"
+          }
         }
       ]
     },
