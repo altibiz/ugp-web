@@ -3047,25 +3047,95 @@
 						}
 					]
 				},
+		{
+			"name": "Settings",
+			"RegistrationSettings": {
+				"UsersCanRegister": 1,
+				"UsersMustValidateEmail": false,
+				"UseSiteTheme": true,
+				"NoPasswordForExternalUsers": false,
+				"NoUsernameForExternalUsers": true,
+				"NoEmailForExternalUsers": false,
+				"UseScriptToGenerateUsername": false,
+				"GenerateUsernameScript": "/* Uncomment to map AzureAD\r\n// Uncomment to output the context variable in the logs\r\n// log(\"warning\", JSON.stringify(context));\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.userName = \"azad\" + uuid();\r\n        break;\r\n    default:\r\n        log(\"Warning\", \"Provider \" + context.loginProvider + \" was not handled\");\r\n        // Uncomment to generate a username as a uuid\r\n        // context.userName = \"u\" + uuid();\r\n        break;\r\n}\r\n*/\r\n"
+			},
+			"LoginSettings": {
+				"UseSiteTheme": true,
+				"UseExternalProviderIfOnlyOneDefined": false,
+				"DisableLocalLogin": false,
+				"UseScriptToSyncRoles": false,
+				"SyncRolesScript": "/* Uncomment to map AzureAD\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.externalClaims.forEach(claim => {\r\n            if (claim.Type === \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\") {\r\n                switch (claim.Value) {\r\n                    case \"Writer\":\r\n                        context.rolesToAdd.push(\"Author\");\r\n                        break;\r\n                    case \"Admin\":\r\n                        context.rolesToAdd.push(\"Administrator\");\r\n                        break;\r\n                    default:\r\n                        log(\"Warning\", \"Role \" + claim.Value + \" was not handled\");\r\n                        break;\r\n                }\r\n            }\r\n        });\r\n    default:\r\n        log(\"Warning\", \"Provider \" + loginProvider + \" was not handled\");\r\n        break;\r\n}\r\n*/\r\n"
+			}
+		},
+		{
+			"name": "WorkflowType",
+			"data": [
 				{
-					"name": "Settings",
-					"RegistrationSettings": {
-						"UsersCanRegister": 1,
-						"UsersMustValidateEmail": false,
-						"UseSiteTheme": true,
-						"NoPasswordForExternalUsers": false,
-						"NoUsernameForExternalUsers": true,
-						"NoEmailForExternalUsers": false,
-						"UseScriptToGenerateUsername": false,
-						"GenerateUsernameScript": "/* Uncomment to map AzureAD\r\n// Uncomment to output the context variable in the logs\r\n// log(\"warning\", JSON.stringify(context));\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.userName = \"azad\" + uuid();\r\n        break;\r\n    default:\r\n        log(\"Warning\", \"Provider \" + context.loginProvider + \" was not handled\");\r\n        // Uncomment to generate a username as a uuid\r\n        // context.userName = \"u\" + uuid();\r\n        break;\r\n}\r\n*/\r\n"
-					},
-					"LoginSettings": {
-						"UseSiteTheme": true,
-						"UseExternalProviderIfOnlyOneDefined": false,
-						"DisableLocalLogin": false,
-						"UseScriptToSyncRoles": false,
-						"SyncRolesScript": "/* Uncomment to map AzureAD\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.externalClaims.forEach(claim => {\r\n            if (claim.Type === \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\") {\r\n                switch (claim.Value) {\r\n                    case \"Writer\":\r\n                        context.rolesToAdd.push(\"Author\");\r\n                        break;\r\n                    case \"Admin\":\r\n                        context.rolesToAdd.push(\"Administrator\");\r\n                        break;\r\n                    default:\r\n                        log(\"Warning\", \"Role \" + claim.Value + \" was not handled\");\r\n                        break;\r\n                }\r\n            }\r\n        });\r\n    default:\r\n        log(\"Warning\", \"Provider \" + loginProvider + \" was not handled\");\r\n        break;\r\n}\r\n*/\r\n"
-					}
+					"WorkflowTypeId": "40ehmcy2mvw7mw635qaqz3qdwd",
+					"Name": "Send Email to published member",
+					"IsEnabled": false,
+					"IsSingleton": false,
+					"LockTimeout": 0,
+					"LockExpiration": 0,
+					"DeleteFinishedWorkflows": false,
+					"Activities": [
+						{
+							"ActivityId": "4e4j8cybar4r5z635f3k2vbpme",
+							"Name": "ContentPublishedEvent",
+							"X": 110,
+							"Y": 110,
+							"IsStart": true,
+							"Properties": {
+								"ContentTypeFilter": [
+									"Member"
+								],
+								"ActivityMetadata": {
+									"Title": "Član odobren"
+								}
+							}
+						},
+						{
+							"ActivityId": "4pz8h1vt6tkycs6wpd1fwq7x59",
+							"Name": "EmailTask",
+							"X": 450,
+							"Y": 120,
+							"IsStart": false,
+							"Properties": {
+								"Sender": {
+									"Expression": null
+								},
+								"Author": {
+									"Expression": "info@glaspoduzetnika.hr"
+								},
+								"Recipients": {
+									"Expression": "{{ Workflow.Input.ContentItem.PersonPart.Email }}"
+								},
+								"ReplyTo": {
+									"Expression": null
+								},
+								"Subject": {
+									"Expression": "Vaše članstvo je odobreno!"
+								},
+								"Body": {
+									"Expression": "Dobrošli u udrugu Glas poduzetnika!"
+								},
+								"IsBodyHtml": false,
+								"ActivityMetadata": {
+									"Title": "Email dobrodošlice"
+								}
+							}
+						}
+					],
+					"Transitions": [
+						{
+							"Id": 0,
+							"SourceActivityId": "4e4j8cybar4r5z635f3k2vbpme",
+							"SourceOutcomeName": "Done",
+							"DestinationActivityId": "4pz8h1vt6tkycs6wpd1fwq7x59"
+						}
+					]
 				}
+			]
+		}
 			]
 		}

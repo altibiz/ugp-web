@@ -46,11 +46,11 @@ namespace Members.Core
             _updateModelAccessor = updateModelAccessor;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<ContentItem> GetUserMember(ClaimsPrincipal cUSer = null)
+        public async Task<ContentItem> GetUserMember(bool includeDraft=false,ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
             var query = _session.Query<ContentItem, UserPickerFieldIndex>();
-            query = query.With<UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && x.Published && x.SelectedUserId == user.UserId);
+            query = query.With<UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && (x.Published || includeDraft) && x.SelectedUserId == user.UserId);
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
@@ -117,7 +117,7 @@ namespace Members.Core
             return await  _contentManager.ValidateAsync(companyItem);
         }
 
-        public async Task<ContentValidateResult> CreateMember(ContentItem memberItem) { 
+        public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem) { 
 
             var user = await GetCurrentUser();
             // Set the current user as the owner to check for ownership permissions on creation
@@ -127,7 +127,7 @@ namespace Members.Core
                 member.User.UserIds = new[] { user.UserId };
             });
 
-            return await _contentManager.UpdateValidateAndCreateAsync(memberItem, VersionOptions.Published);
+            return await _contentManager.UpdateValidateAndCreateAsync(memberItem, VersionOptions.Draft);
         }
     }
 }

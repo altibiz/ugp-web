@@ -3,6 +3,7 @@ using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentFields.Fields;
+using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
@@ -14,7 +15,7 @@ using ISession = YesSql.ISession;
 
 namespace Members.Persons
 {
-    public class PersonService : IPartService<PersonPart>
+    public class PersonPartService : IPartService<PersonPart>
     {
         private readonly ISession session;
 
@@ -24,8 +25,9 @@ namespace Members.Persons
         private IHttpContextAccessor _httpContextAccessor;
         private IUserService _userService;
 
-        public PersonService(IStringLocalizer<PersonPart> S, ISession session, IContentDefinitionManager cdm, 
-            IHttpContextAccessor httpContextAccessor,IUserService service)
+        public PersonPartService(IStringLocalizer<PersonPart> S, ISession session, IContentDefinitionManager cdm, 
+            IHttpContextAccessor httpContextAccessor,IUserService service
+            )
         {
             this.session = session;
             this.S = S;
@@ -73,6 +75,11 @@ namespace Members.Persons
             var user =  await GetCurrentUser();
             if (user == null) return;
             part.Email = new TextField { Text = user.Email };
+        }
+
+        public Task PublishedAsync(PersonPart instance)
+        {
+            return Task.CompletedTask;
         }
     }
 }

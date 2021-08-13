@@ -2,56 +2,59 @@
 @model Members.Pages.PortalModel
 
 <style>
-    .icon-box {
-        background: #c0e1dc;
-        width: 105px;
-        height: 105px;
-        margin: 0 auto 15px auto;
-        padding: 33px 0;
-        border-radius: 60px;
-        text-align: center;
-    }
+	.icon-box {
+		background: #c0e1dc;
+		width: 105px;
+		height: 105px;
+		margin: 0 auto 15px auto;
+		padding: 33px 0;
+		border-radius: 60px;
+		text-align: center;
+	}
 
-        .icon-box i {
-            color: #fff;
-            font-size: 41px;
-        }
+		.icon-box i {
+			color: #fff;
+			font-size: 41px;
+		}
 
-    .menu-user-landing-page-menu a span {
-        display: block;
-        font-size: 17px;
-        text-transform: uppercase;
-        font-weight: 700;
-    }
+	.menu-user-landing-page-menu a span {
+		display: block;
+		font-size: 17px;
+		text-transform: uppercase;
+		font-weight: 700;
+	}
 
-    .menu-user-landing-page-menu a {
-        display: inline-block;
-        color: #437f84;
-        text-decoration: none;
-    }
+	.menu-user-landing-page-menu a {
+		display: inline-block;
+		color: #437f84;
+		text-decoration: none;
+	}
 
-    .menu-user-landing-page-menu a {
-        display: inline-block;
-        color: #437f84;
-        text-decoration: none;
-    }
+	.menu-user-landing-page-menu a {
+		display: inline-block;
+		color: #437f84;
+		text-decoration: none;
+	}
 
-    a, a:link, a:active, a:visited, a:focus, a:hover {
-        text-decoration: none;
-        outline: none;
-    }
+	a, a:link, a:active, a:visited, a:focus, a:hover {
+		text-decoration: none;
+		outline: none;
+	}
 
-    .icon-box:hover {
-        background: #437f84;
-    }
+	.icon-box:hover {
+		background: #437f84;
+	}
 
-    .menu-user-landing-page-menu li.nav-item {
-        width: auto;
-        margin: 10px;
-    }
+	.menu-user-landing-page-menu li.nav-item {
+		width: auto;
+		margin: 10px;
+	}
 </style>
 
 @{ Html.RenderPartial("_Header", @T["User Pages"].Value); }
-
-<menu alias="alias:user-landing-page-menu" cache-id="user-landing-page-menu" cache-fixed-duration="00:05:00" cache-tag="alias:user-landing-page-menu" />
+@await RenderSectionAsync("Messages", required: false)
+@if (Model.Member.Published)
+{
+	<menu alias="alias:user-landing-page-menu" cache-id="user-landing-page-menu" cache-fixed-duration="00:05:00" cache-tag="alias:user-landing-page-menu" />
+}
 

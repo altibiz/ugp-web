@@ -1,8 +1,11 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Members.Core;
+using OrchardCore.DisplayManagement.Notify;
+using Microsoft.AspNetCore.Mvc.Localization;
+using OrchardCore.ContentManagement;
 
 namespace Members.Pages
 {
@@ -10,18 +13,26 @@ namespace Members.Pages
     public class PortalModel : PageModel
     {
         private MemberService _mService;
-
-        public PortalModel(MemberService mService)
+        private INotifier _notifier;
+        private IHtmlLocalizer<PortalModel> H;
+        public ContentItem Member;
+        public PortalModel(MemberService mService, INotifier notifier, IHtmlLocalizer<PortalModel> localizer)
         {
             _mService = mService;
+            _notifier = notifier;
+            H = localizer;
         }
         public async Task<IActionResult> OnGetAsync()
         {
-            var member = await _mService.GetUserMember();
+            Member = await _mService.GetUserMember(true);
 
-            if (member == null)
+            if (Member == null)
             {
                 return RedirectToPage("CreateMember");
+            }
+            if (!Member.Published)
+            {
+                _notifier.Information(H["Molimo pričekajte da naši administratori potvrde prijavu"]);
             }
             return Page();
         }

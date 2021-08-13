@@ -79,6 +79,7 @@
         "OrchardCore.Users.ResetPassword",
         "OrchardCore.Widgets",
         "Carousel.OrchardCore",
+        "OrchardCore.Workflows",
         "Members",
 
         // Themes
