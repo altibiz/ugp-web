@@ -6,50 +6,95 @@ msgstr ""
 "Language-Team: Croatian\n"
 "Language: hr_HR\n"
 
+msgctxt "Members.Pages.CreateMember"
+msgid "Registration"
+msgstr "Registracija"
+msgid "Register Legal Entity"
+msgstr "Registriraj pravnu osobu"
+msgid "Register User"
+msgstr "Registriraj se kao privatna osoba"
+msgid "Please Add User Data"
+msgstr "Molim upišite svoje osobne podatke"
+
 msgctxt "Members.Pages.CreateMemberModel"
 msgid "Member registration successful"
 msgstr "Uspješno dodan član"
 
 msgctxt "Members.Pages.CreateCompany"
-msgid "Submit"
-msgstr "Prihvati"
-
-msgctxt "Members.Pages.CreateCompany"
 msgid "Add Legal Entity"
 msgstr "Dodaj pravnu osobu"
+msgid "Add Legal Entity Details"
+msgstr "Upišite podatke od pravne osobe"
+msgid "Submit"
+msgstr "Prihvati"
 
 msgctxt "Members.Pages.CreateCompanyModel"
 msgid "Legal entity added successfully"
 msgstr "Pravna osoba uspješno dodana"
-
-msgctxt "Members.Pages.CreateCompanyModel"
 msgid "Company Name"
 msgstr "Naziv"
+
+msgctxt "Members.Pages.MyCompany"
+msgid "My company"
+msgstr "Moja tvrtka"
+msgid "Save Changes"
+msgstr "Spremi promjene"
+
+msgctxt "Members.Pages.MyCompanyModel"
+msgid "Company updated successful"
+msgstr "Tvrtka je uspješno ažurirana"
 
 msgctxt "Members.Pages.MyProfile"
 msgid "My Profile"
 msgstr "Moj Profil"
-
-msgctxt "Members.Pages.MyProfile"
 msgid "Add Company"
 msgstr "Dodaj tvrtku"
-
-msgctxt "Members.Pages.MyProfile"
 msgid "No results found"
 msgstr "Nema rezultata
-
-msgctxt "Members.Pages.MyProfile"
 msgid "Change Password"
 msgstr "Izmjena lozinke"
+
+msgctxt "Members.Pages.Donate"
+msgid "Donate"
+msgstr "Doniraj"
+
+msgctxt "Members.Pages.MyDonations"
+msgid "My Donations"
+msgstr "Moje Donacije"
+msgid "Donations Not Recorded"
+msgstr "Vaše donacije nisu zabilježene"
+msgid "If you’ve paid a donation and it’s not seen here, don’t worry. Probably your OIB was not entered in the reference number, so we could not connect the payment, or the payment was made while you were not yet a member. In any case, please report a payment that is not visible"
+msgstr "Ako ste uplatili donaciju a ne vidi se ovdje, ne brinite. Vjerojatno u pozivu na broj nije bio upisan Vaš OIB pa nismo mogli povezati uplatu, ili je uplata izvršena dok još niste bili član. U svakom slučaju Vas molimo da prijavite uplatu koja se ne vidi"
+msgid "here"
+msgstr "ovdje"
+
+msgctxt "Members.Pages.Events"
+msgid "Events"
+msgstr "Događanja"
+
+msgctxt "Members.Pages.MyOffer"
+msgid "My Offer"
+msgstr "Moja ponuda"
+
+
+msgctxt "Members.Pages.Newsletter"
+msgid "Newsletter"
+msgstr "Newsletter"
+msgid "Fill out the form below to sign up for the newsletter"
+msgstr "Popunite obrazac u nastavku kako biste se prijavili na newsletter"
+
+msgctxt "Members.Pages.OfferForMembers"
+msgid "Offer For Members"
+msgstr "Ponude za članove"
+
+msgctxt "Members.Pages.Portal"
+msgid "User Pages"
+msgstr "Korisničke stranice"
 
 msgctxt "Members.Persons.PersonPart"
 msgid "Your ID must be 11 numbers."
 msgstr "OIB mora imati 11 znakova."
-
-msgctxt "Members.Persons.PersonPart"
 msgid "Your ID is already in use."
 msgstr "Upisani OIB je već registriran."
-
-msgctxt "Members.Persons.PersonPart"
 msgid "Surname is required."
 msgstr "Polje Prezime je obvezno."

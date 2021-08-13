@@ -1,13 +1,6 @@
 ﻿@page
 @model Members.Pages.PortalModel
 
-@{
-    var pageTitle = @T["Korisničke stranice"];
-
-}
-
-
-
 <style>
     .icon-box {
         background: #c0e1dc;
@@ -58,9 +51,7 @@
     }
 </style>
 
-
-
-@{ Html.RenderPartial("_Header", pageTitle.Value); }
+@{ Html.RenderPartial("_Header", @T["User Pages"].Value); }
 
 <menu alias="alias:user-landing-page-menu" cache-id="user-landing-page-menu" cache-fixed-duration="00:05:00" cache-tag="alias:user-landing-page-menu" />
 

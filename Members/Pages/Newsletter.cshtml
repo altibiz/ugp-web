@@ -2,11 +2,7 @@
 
 @model Members.Pages.NewsletterModel
 
-@{
-    var pageTitle = @T["Newsletter"];
-}
-
-@{ Html.RenderPartial("_Header", pageTitle.Value); }
+@{ Html.RenderPartial("_Header", @T["Newsletter"].Value); }
 
 
 
@@ -14,7 +10,7 @@
 <form class="form-floating" action="?" method="post" >
 
     <p>
-        <b>Popunite obrazac u nastavku kako biste se prijavili na newsletter.</b>
+        <b>@T["Fill out the form below to sign up for the newsletter"]</b>
     </p>
 
     <div class="form-floating">

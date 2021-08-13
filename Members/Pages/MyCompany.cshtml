@@ -6,9 +6,7 @@
 
 @inject IContentDefinitionManager ContentDefinitionManager
 
-
-@{ Html.RenderPartial("_Header", "My company"); }
-
+@{ Html.RenderPartial("_Header", T["My company"].Value); }
 
 @await RenderSectionAsync("Messages", required: false)
 
@@ -17,5 +15,5 @@
 
     @await DisplayAsync(Model.Shape)
 
-    <button type="submit" class="btn btn-success publish mt-2">Spremi promjene</button>
+    <button type="submit" class="btn btn-success publish mt-2">@T["Save Changes"]</button>
 </form>

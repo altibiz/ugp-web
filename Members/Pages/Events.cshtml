@@ -1,8 +1,3 @@
 ﻿@page
 
-@{
-    var pageTitle = @T["Događanja"];
-}
-
-@{ Html.RenderPartial("_Header", pageTitle.Value); }
-
+@{ Html.RenderPartial("_Header", @T["Events"].Value); }

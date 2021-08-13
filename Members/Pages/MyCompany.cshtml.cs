@@ -23,8 +23,7 @@ namespace Members.Pages
             H = htmlLocalizer;
             _memberService = mService;
         }
-
-        
+                
         public async Task OnGetAsync(string companyId)
         {
             Shape = await _memberService.GetEditorById(companyId);

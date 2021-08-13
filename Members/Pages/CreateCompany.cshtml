@@ -9,13 +9,15 @@
 
 
 @await RenderSectionAsync("Messages", required: false)
-Upišite podatke od pravne osobe
+
+@T["Add Legal Entity Details"]
+
 <form method="post" enctype="multipart/form-data">
 
-	<div asp-validation-summary="All" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-	@await DisplayAsync(Model.Shape)
+    @await DisplayAsync(Model.Shape)
 
-	<button type="submit" class="btn btn-success publish">@T["Submit"]</button>
+    <button type="submit" class="btn btn-success publish">@T["Submit"]</button>
 
 </form>

@@ -1,19 +1,15 @@
 ﻿@page
 
-@{
-    var pageTitle = @T["Moje donacije"];
-}
-
-@{ Html.RenderPartial("_Header", pageTitle.Value); }
+@{ Html.RenderPartial("_Header", @T["My Donations"].Value); }
 
 
         <div class="row">
             <div class="col-md-12">
 
-                <h2>@T["VAŠE DONACIJE NISU ZABILJEŽENE"]</h2>
+                <h2>@T["Donations Not Recorded"]</h2>
 
                 <hr>
-                <p>@T["Ako ste uplatili donaciju a ne vidi se ovdje, ne brinite. Vjerojatno u pozivu na broj nije bio upisan Vaš OIB pa nismo mogli povezati uplatu, ili je uplata izvršena dok još niste bili član. U svakom slučaju Vas molimo da prijavite uplatu koja se ne vidi"] <a href="https://forms.monday.com/forms/174b8ca4311f8be5f848397c73f8220c" target="_blank">@T["OVDJE"]</a>.</p>
+                <p>@T["If you’ve paid a donation and it’s not seen here, don’t worry. Probably your OIB was not entered in the reference number, so we could not connect the payment, or the payment was made while you were not yet a member. In any case, please report a payment that is not visible"] <a href="https://forms.monday.com/forms/174b8ca4311f8be5f848397c73f8220c" target="_blank">@T["here"]</a>.</p>
                 <hr>
 
             </div>
