@@ -23,7 +23,7 @@ namespace Members.Payments
 
     public static class PaymentMigration
     {
-        public static void MigratePayment(IContentDefinitionManager _contentDefinitionManager)
+        public static void MigratePayment(this IContentDefinitionManager _contentDefinitionManager)
         {
             _contentDefinitionManager.AlterTypeDefinition("Payment", type => type
                 .DisplayedAs("Donacija")

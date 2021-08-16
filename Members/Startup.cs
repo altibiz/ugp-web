@@ -50,7 +50,11 @@ namespace Members
                 .ForEditor<PartTextFieldDriver>(d=>true);
 
             services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
-                .ForEditor<PartTaxonomyFieldTagsDriver>(d => string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase));
+                .ForEditor<TaxonomyFieldDisplayDriver>(d=>!string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))
+                .ForEditor<PartTaxonomyFieldTagsDriver>(d =>
+                {
+                    return string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) || string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase);
+                });
 
 
         }
