@@ -1,0 +1,22 @@
+@using OrchardCore.Contents;
+@{ // By using a tag builder, sub items can alter the
+    // menu element. Note how Display is called on the menu
+    // items before the tag is actually rendered.
+
+    TagBuilder tag = Tag(Model, "ul");
+    tag.AddCssClass("navbar-nav ms-auto");
+
+    foreach (var item in Model.Items)
+    {
+        tag.InnerHtml.AppendHtml(await DisplayAsync(item));
+    }
+
+    if (User.Identity.IsAuthenticated)
+    {
+        <menu alias="alias:main-menu-logged-in" cache-id="main-menu-logged-in" cache-fixed-duration="00:05:00" cache-tag="alias:main-menu-logged-in" />
+    }
+    else
+    {
+        @tag
+    }
+}

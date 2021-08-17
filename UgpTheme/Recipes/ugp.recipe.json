@@ -14,6 +14,7 @@
     "adminUrlPrefix": "[js: configuration('OrchardCore_Admin:AdminUrlPrefix', 'Admin')]",
     "blogContentItemId": "[js:uuid()]",
     "menuContentItemId": "[js:uuid()]",
+    "menuLoggedInContentItemId": "[js:uuid()]",
     "tagsContentItemId": "[js:uuid()]",
     "tagContentItemId": "[js:uuid()]",
     "earthTagContentItemId": "[js:uuid()]",
@@ -1015,6 +1016,71 @@
           },
           "AliasPart": {
             "Alias": "main-menu"
+          }
+        },
+        {
+          "ContentType": "Menu",
+          "ContentItemId": "[js: variables('menuLoggedInContentItemId')]",
+          "Owner": "[js: parameters('AdminUserId')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "DisplayText": "Main Menu Logged In",
+          "Latest": true,
+          "Published": true,
+          "MenuPart": {},
+          "TitlePart": {
+            "Title": "Main Menu Logged In"
+          },
+          "MenuItemsListPart": {
+            "MenuItems": [
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Početna",
+                "LinkMenuItemPart": {
+                  "Name": "Home",
+                  "Url": "~/"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Tko smo mi",
+                "LinkMenuItemPart": {
+                  "Name": "Tko smo mi",
+                  "Url": "~/o-nama"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Novosti",
+                "LinkMenuItemPart": {
+                  "Name": "Novosti",
+                  "Url": "~/blog"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Portal",
+                "LinkMenuItemPart": {
+                  "Name": "Portal",
+                  "Url": "~/members/portal"
+                }
+              },
+              {
+                "ContentType": "LinkMenuItem",
+                "ContentItemId": "[js: uuid()]",
+                "DisplayText": "Odjavi se",
+                "LinkMenuItemPart": {
+                  "Name": "Odjavi se",
+                  "Url": "/LogOut"
+                }
+              }
+            ]
+          },
+          "AliasPart": {
+            "Alias": "main-menu-logged-in"
           }
         },
         {
