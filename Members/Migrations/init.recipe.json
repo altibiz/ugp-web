@@ -3047,25 +3047,25 @@
 						}
 					]
 				},
-				{
-					"name": "Settings",
-					"RegistrationSettings": {
-						"UsersCanRegister": 1,
-						"UsersMustValidateEmail": false,
-						"UseSiteTheme": true,
-						"NoPasswordForExternalUsers": false,
-						"NoUsernameForExternalUsers": true,
-						"NoEmailForExternalUsers": false,
-						"UseScriptToGenerateUsername": false,
-						"GenerateUsernameScript": "/* Uncomment to map AzureAD\r\n// Uncomment to output the context variable in the logs\r\n// log(\"warning\", JSON.stringify(context));\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.userName = \"azad\" + uuid();\r\n        break;\r\n    default:\r\n        log(\"Warning\", \"Provider \" + context.loginProvider + \" was not handled\");\r\n        // Uncomment to generate a username as a uuid\r\n        // context.userName = \"u\" + uuid();\r\n        break;\r\n}\r\n*/\r\n"
-					},
-					"LoginSettings": {
-						"UseSiteTheme": true,
-						"UseExternalProviderIfOnlyOneDefined": false,
-						"DisableLocalLogin": false,
-						"UseScriptToSyncRoles": false,
-						"SyncRolesScript": "/* Uncomment to map AzureAD\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.externalClaims.forEach(claim => {\r\n            if (claim.Type === \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\") {\r\n                switch (claim.Value) {\r\n                    case \"Writer\":\r\n                        context.rolesToAdd.push(\"Author\");\r\n                        break;\r\n                    case \"Admin\":\r\n                        context.rolesToAdd.push(\"Administrator\");\r\n                        break;\r\n                    default:\r\n                        log(\"Warning\", \"Role \" + claim.Value + \" was not handled\");\r\n                        break;\r\n                }\r\n            }\r\n        });\r\n    default:\r\n        log(\"Warning\", \"Provider \" + loginProvider + \" was not handled\");\r\n        break;\r\n}\r\n*/\r\n"
-					}
-				}
-			]
+		{
+			"name": "Settings",
+			"RegistrationSettings": {
+				"UsersCanRegister": 1,
+				"UsersMustValidateEmail": false,
+				"UseSiteTheme": true,
+				"NoPasswordForExternalUsers": false,
+				"NoUsernameForExternalUsers": true,
+				"NoEmailForExternalUsers": false,
+				"UseScriptToGenerateUsername": false,
+				"GenerateUsernameScript": "/* Uncomment to map AzureAD\r\n// Uncomment to output the context variable in the logs\r\n// log(\"warning\", JSON.stringify(context));\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.userName = \"azad\" + uuid();\r\n        break;\r\n    default:\r\n        log(\"Warning\", \"Provider \" + context.loginProvider + \" was not handled\");\r\n        // Uncomment to generate a username as a uuid\r\n        // context.userName = \"u\" + uuid();\r\n        break;\r\n}\r\n*/\r\n"
+			},
+			"LoginSettings": {
+				"UseSiteTheme": true,
+				"UseExternalProviderIfOnlyOneDefined": false,
+				"DisableLocalLogin": false,
+				"UseScriptToSyncRoles": false,
+				"SyncRolesScript": "/* Uncomment to map AzureAD\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.externalClaims.forEach(claim => {\r\n            if (claim.Type === \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\") {\r\n                switch (claim.Value) {\r\n                    case \"Writer\":\r\n                        context.rolesToAdd.push(\"Author\");\r\n                        break;\r\n                    case \"Admin\":\r\n                        context.rolesToAdd.push(\"Administrator\");\r\n                        break;\r\n                    default:\r\n                        log(\"Warning\", \"Role \" + claim.Value + \" was not handled\");\r\n                        break;\r\n                }\r\n            }\r\n        });\r\n    default:\r\n        log(\"Warning\", \"Provider \" + loginProvider + \" was not handled\");\r\n        break;\r\n}\r\n*/\r\n"
+			}
 		}
+	]
+}
