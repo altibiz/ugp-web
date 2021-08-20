@@ -50,7 +50,7 @@
         "OrchardCore.Html",
         "OrchardCore.ContentFields",
         "OrchardCore.ContentFields.Indexing.SQL.UserPicker",
-
+        "OrchardCore.ContentFields.Indexing.SQL",
         "OrchardCore.ContentPreview",
         "OrchardCore.Contents",
         "OrchardCore.Contents.FileContentDefinition",

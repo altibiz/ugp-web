@@ -4,7 +4,6 @@ using OrchardCore.Data.Migration;
 using OrchardCore.Recipes.Services;
 using Members.Persons;
 using Members.Core;
-using Members.Payments;
 
 namespace Members
 {
@@ -30,7 +29,7 @@ namespace Members
 
             _contentDefinitionManager.ExecuteMemberMigrations();
             _contentDefinitionManager.MigratePayment();
-
+            _contentDefinitionManager.MigrateOffer();
             return 1;
         }
     }

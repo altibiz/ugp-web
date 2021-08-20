@@ -21,7 +21,8 @@ namespace Members.Core
     public enum ContentType
     {
         Member,
-        Company
+        Company,
+        Offer
     }
 
     public class MemberService
@@ -64,14 +65,26 @@ namespace Members.Core
             return companyContentItem;
         }
 
+        public async Task<ContentItem> GetUserOffers(ClaimsPrincipal cUSer = null)
+        {
+            var memberContentItem = await GetUserMember();
+
+            var offer = await _oHelper.QueryListItemsAsync(memberContentItem.ContentItemId);
+            offer = offer.Where(x => x.ContentType == nameof(ContentType.Offer));
+
+
+            return offer.FirstOrDefault();
+
+        }
+
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
             return await _userService.GetAuthenticatedUserAsync(user??_httpContextAccessor.HttpContext.User) as User;
         }
 
-        public async Task<(ContentItem,IShape)> GetNewItem(ContentType memberType)
+        public async Task<(ContentItem,IShape)> GetNewItem(ContentType cType)
         {
-            var contentItem = await _contentManager.NewAsync(memberType.ToString());
+            var contentItem = await _contentManager.NewAsync(cType.ToString());
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             return (contentItem,model);
         }
@@ -111,10 +124,10 @@ namespace Members.Core
             return await _contentManager.UpdateValidateAndCreateAsync(companyItem, VersionOptions.Published);
         }
 
-        public async Task<ContentValidateResult> UpdateMemberCompany(ContentItem companyItem)
+        public async Task<ContentValidateResult> UpdateContentItem(ContentItem contentItem)
         {
-            await _contentManager.UpdateAsync(companyItem);
-            return await  _contentManager.ValidateAsync(companyItem);
+            await _contentManager.UpdateAsync(contentItem);
+            return await  _contentManager.ValidateAsync(contentItem);
         }
 
         public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem) { 
@@ -128,6 +141,14 @@ namespace Members.Core
             });
 
             return await _contentManager.UpdateValidateAndCreateAsync(memberItem, VersionOptions.Draft);
+        }
+
+        public async Task<ContentValidateResult> CreateOfferDraft(ContentItem offerItem)
+        {
+            var member = await GetUserMember();
+            if (member == null) return new ContentValidateResult { Succeeded = false };
+            member.AddToList(offerItem);
+            return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
         }
     }
 }

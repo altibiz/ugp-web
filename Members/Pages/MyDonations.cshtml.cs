@@ -36,10 +36,10 @@ namespace Members.Pages
 
             if (ModelState.IsValid)
             {
-                var result = await _memberService.UpdateMemberCompany(contentItem);
+                var result = await _memberService.UpdateContentItem(contentItem);
 
                 if (result.Succeeded)
-                    _notifier.Success(H["Company updated successful"]);
+                    _notifier.Success(H["Donation updated successful"]);
             }
             return Page();
         }

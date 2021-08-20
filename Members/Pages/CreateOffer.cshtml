@@ -1,0 +1,21 @@
+﻿@page
+@model Members.Pages.CreateOfferModel
+@using OrchardCore.ContentManagement
+@using OrchardCore.ContentManagement.Metadata
+@using OrchardCore.Mvc.Utilities
+
+@inject IContentDefinitionManager ContentDefinitionManager
+
+
+@{ Html.RenderPartial("_Header", T["Create Offer"].Value); }
+
+
+@await RenderSectionAsync("Messages", required: false)
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    @await DisplayAsync(Model.Shape)
+
+    <button type="submit" asp-page-handler="Create" class="btn btn-success publish mt-2">@T["Save"]</button>
+</form>
+

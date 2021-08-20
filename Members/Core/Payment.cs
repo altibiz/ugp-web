@@ -6,7 +6,7 @@ using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Settings;
 
-namespace Members.Payments
+namespace Members.Core
 {
     public class Payment : ContentPart
     {
