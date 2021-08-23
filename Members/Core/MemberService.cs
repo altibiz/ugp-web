@@ -5,6 +5,7 @@ using OrchardCore.ContentFields.Indexing.SQL;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.ContentManagement.Handlers;
+using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Users.Models;
@@ -36,8 +37,8 @@ namespace Members.Core
         private IHttpContextAccessor _httpContextAccessor;
         private readonly IOrchardHelper _oHelper;
 
-        public MemberService(ISession session, IUserService userService,IContentManager contentManager, IOrchardHelper orchardHelper,
-            IContentItemDisplayManager contentItemDisplayManager,IUpdateModelAccessor updateModelAccessor,IHttpContextAccessor httpContextAccessor)
+        public MemberService(ISession session, IUserService userService, IContentManager contentManager, IOrchardHelper orchardHelper,
+            IContentItemDisplayManager contentItemDisplayManager, IUpdateModelAccessor updateModelAccessor, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _session = session;
@@ -47,7 +48,7 @@ namespace Members.Core
             _updateModelAccessor = updateModelAccessor;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<ContentItem> GetUserMember(bool includeDraft=false,ClaimsPrincipal cUSer = null)
+        public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
             var query = _session.Query<ContentItem, UserPickerFieldIndex>();
@@ -79,14 +80,14 @@ namespace Members.Core
 
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
-            return await _userService.GetAuthenticatedUserAsync(user??_httpContextAccessor.HttpContext.User) as User;
+            return await _userService.GetAuthenticatedUserAsync(user ?? _httpContextAccessor.HttpContext.User) as User;
         }
 
-        public async Task<(ContentItem,IShape)> GetNewItem(ContentType cType)
+        public async Task<(ContentItem, IShape)> GetNewItem(ContentType cType)
         {
             var contentItem = await _contentManager.NewAsync(cType.ToString());
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-            return (contentItem,model);
+            return (contentItem, model);
         }
 
         public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentType memberType)
@@ -127,10 +128,10 @@ namespace Members.Core
         public async Task<ContentValidateResult> UpdateContentItem(ContentItem contentItem)
         {
             await _contentManager.UpdateAsync(contentItem);
-            return await  _contentManager.ValidateAsync(contentItem);
+            return await _contentManager.ValidateAsync(contentItem);
         }
 
-        public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem) { 
+        public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem) {
 
             var user = await GetCurrentUser();
             // Set the current user as the owner to check for ownership permissions on creation
@@ -149,6 +150,16 @@ namespace Members.Core
             if (member == null) return new ContentValidateResult { Succeeded = false };
             member.AddToList(offerItem);
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
+        }
+
+        public async Task<List<ContentItem>> GetOffersForUser()
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>();
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published );
+
+            var list = await query.ListAsync();
+
+            return list.ToList();
         }
     }
 }

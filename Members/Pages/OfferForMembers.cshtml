@@ -1,4 +1,22 @@
 ﻿@page
+@model Members.Pages.OfferForMembersModel
 
 @{ Html.RenderPartial("_Header", @T["Offer For Members"].Value); }
 
+<div class="list-group-flush">
+    @if (Model.OfferContentItems.Count > 0)
+    {
+        @foreach (var item in Model.OfferContentItems)
+        {
+    <a asp-page="./ShowOffer" asp-route-companyId="@item.ContentItemId" class="list-group-item d-flex justify-content-between align-items-center">
+        @item.Content.Offer.DisplayText.Text
+    </a>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">
+            @T["No results found."]
+        </div>
+    }
+</div>
