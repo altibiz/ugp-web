@@ -83,7 +83,7 @@ msgstr "Newsletter"
 msgid "Fill out the form below to sign up for the newsletter"
 msgstr "Popunite obrazac u nastavku kako biste se prijavili na newsletter"
 
-msgctxt "Members.Pages.OfferForMembers"
+msgctxt "Members.Pages.OffersForMembers"
 msgid "Offer For Members"
 msgstr "Ponude za članove"
 

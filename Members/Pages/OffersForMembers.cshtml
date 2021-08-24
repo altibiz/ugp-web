@@ -1,0 +1,36 @@
+﻿@page
+@model Members.Pages.OffersForMembersModel
+
+@{ 
+    Html.RenderPartial("_Header", @T["Offer For Members"].Value);
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        @if (Model.OfferContentItems.Count > 0)
+        {
+            @foreach (var item in Model.OfferContentItems)
+            {
+                <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
+                    <div class="col">
+                        <div class="card">
+                            <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png"
+                                    class="card-img-top"
+                                    alt="..." />
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Content.Offer.DisplayText.Text</h5>
+                                <span>cat1</span>
+                                <span>cat2</span>
+                                <p class="card-text">@item.Content.Offer.ShortDescription.Text</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+        else
+        {
+            <div class="alert alert-info">
+                @T["No results found."]
+            </div>
+        }
+    </div>
+}

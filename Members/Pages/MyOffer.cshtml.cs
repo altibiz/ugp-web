@@ -27,7 +27,7 @@ namespace Members.Pages
             _memberService = mService;
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string offerId)
         {
             var offer = await _memberService.GetUserOffers();
 
@@ -37,7 +37,14 @@ namespace Members.Pages
             }
             else
             {
-                Shape = await _memberService.GetEditorById(offer.ContentItemId);
+                if (!offer.Published)
+                {
+                    _notifier.Information(H["Molimo prièekajte da naši administratori potvrde ponudu"]);
+                }
+                else
+                {
+                    Shape = await _memberService.GetEditorById(offer.ContentItemId);
+                }
             }
             return Page();
         }

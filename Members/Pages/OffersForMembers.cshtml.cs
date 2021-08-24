@@ -13,14 +13,14 @@ using OrchardCore.DisplayManagement.Notify;
 
 namespace Members.Pages
 {
-    public class OfferForMembersModel : PageModel
+    public class OffersForMembersModel : PageModel
     {
         private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
         public List<ContentItem> OfferContentItems { get; set; }
 
-        public OfferForMembersModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public OffersForMembersModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
             H = htmlLocalizer;

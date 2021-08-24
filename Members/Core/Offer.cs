@@ -30,7 +30,7 @@ public class Offer : ContentPart
     public LinkField Instagram { get; set; }
     public LinkField Facebook { get; set; }
     public LinkField LinkedIn { get; set; }
-    public TaxonomyField category { get; set; }
+    public TaxonomyField Category { get; set; }
 }
 
 
@@ -155,7 +155,7 @@ public class Offer : ContentPart
                         LinkTextMode = LinkTextMode.Url,
                     })
                 )
-                .WithField("category", field => field
+                .WithField("Category", field => field
                     .OfType("TaxonomyField")
                     .WithDisplayName("Kategorija")
                     .WithEditor("Tags")

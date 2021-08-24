@@ -1,0 +1,65 @@
+﻿@page
+@model Members.Pages.OfferModel
+
+@{ 
+
+    var offer = Model.contentItem.Content.Offer;
+
+
+    Html.RenderPartial("_Header", @T["Offer For Members"].Value);
+
+    <div class="container">
+
+        @*<shape type="Term" TaxonomyContentItemId="@Model.contentItem.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@Model.contentItem.Content.Offer.Category.TermContentItemId" />*@
+        <!-- Content here -->
+        <h5 class="text-center">@Model.contentItem.Content.Offer.DisplayText.Text</h5>
+        <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="rounded mx-auto d-block" alt="">
+
+        @Model.contentItem.Content.Offer.LongDescription.Text
+
+        @if (offer.YoutubeVideo.Url != null)
+        {
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="@offer.YoutubeVideo.Url"></iframe>
+            </div>
+        }
+
+        <ul class="list-group list-group-horizontal justify-content-center">
+            @if (offer.Web.Url != null)
+            {
+                <li class="list-group-item">
+                    <a href="@offer.Web.Url">
+                        <div class="icon-box"><i class="fas fa-globe"></i></div>
+                    </a>
+                </li>
+            }
+
+            @if (offer.Instagram.Url != null)
+            {
+                <li class="list-group-item">
+                    <a href="@offer.Instagram.Url">
+                        <div class="icon-box"><i class="fab fa-instagram"></i></div>
+                    </a>
+                </li>
+            }
+
+            @if (offer.Facebook.Url != null)
+            {
+                <li class="list-group-item">
+                    <a href="@offer.Facebook.Url">
+                        <div class="icon-box"><i class="fab fa-facebook"></i></div>
+                    </a>
+                </li>
+            }
+
+            @if (offer.LinkedIn.Url != null)
+            {
+                <li class="list-group-item">
+                    <a href="@offer.LinkedIn.Url">
+                        <div class="icon-box"><i class="fab fa-linkedin"></i></div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+}

@@ -3853,7 +3853,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Ponude za članove",
-											"Url": "/Members/offerformembers"
+											"Url": "/Members/offersformembers"
 										},
 										"LinkMenuItem": {
 											"Icon": {
