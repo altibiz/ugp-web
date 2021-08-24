@@ -9,6 +9,7 @@ using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -54,14 +55,27 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        public async Task<List<ContentItem>> GetUserCompanies(string contentItemId)
+        public async Task<List<ContentItem>> GetUserCompanies(string userMemberId)
         {
             var companyContentItem = new List<ContentItem>();
-            foreach (var contentItem in await _oHelper.QueryListItemsAsync(contentItemId))
+            foreach (var contentItem in await _oHelper.QueryListItemsAsync(userMemberId))
             {
                 companyContentItem.Add(contentItem);
             }
             return companyContentItem;
+        }
+
+        internal async void GetUserDonations()
+        {
+            var donations = new List<ContentItem>();
+            var member = await GetUserMember();
+            var companies = GetUserCompanies(member.ContentItemId);
+
+        }
+
+        internal async void GetPersonDonations(string contentItemId)
+        {
+            //var donations=
         }
 
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
