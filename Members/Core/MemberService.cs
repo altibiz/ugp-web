@@ -1,4 +1,5 @@
-﻿using Members.Utils;
+﻿using Members.Payments;
+using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using OrchardCore;
 using OrchardCore.ContentFields.Indexing.SQL;
@@ -54,14 +55,30 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        public async Task<List<ContentItem>> GetUserCompanies(string contentItemId)
+        public async Task<List<ContentItem>> GetUserCompanies(string userMemberId)
         {
             var companyContentItem = new List<ContentItem>();
-            foreach (var contentItem in await _oHelper.QueryListItemsAsync(contentItemId))
+            foreach (var contentItem in await _oHelper.QueryListItemsAsync(userMemberId))
             {
                 companyContentItem.Add(contentItem);
             }
             return companyContentItem;
+        }
+
+        internal async IAsyncEnumerable<Payment> GetUserPayments()
+        {
+            var member = await GetUserMember();
+            var companies = await GetUserCompanies(member.ContentItemId);
+            foreach (var payment in await GetPersonPayments(member.ContentItemId))
+                yield return payment.As<Payment>();
+            foreach (var comp in companies)
+                foreach (var payment in await GetPersonPayments(comp.ContentItemId))
+                    yield return payment.As<Payment>();
+        }
+
+        internal async Task<IEnumerable<ContentItem>> GetPersonPayments(string contentItemId)
+        {
+            return await _session.Query<ContentItem,PaymentIndex>(x => x.PersonContentItemId == contentItemId).ListAsync();
         }
 
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
