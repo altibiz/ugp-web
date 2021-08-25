@@ -4,6 +4,8 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.ContentManagement.Records;
+using OrchardCore.Media.Fields;
+using OrchardCore.Media.Settings;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Settings;
 using System;
@@ -17,21 +19,22 @@ namespace Members.Core
     
 public class Offer : ContentPart
 {
-    public TextField ShortDescription { get; set; }
-    public TextField PersonName { get; set; }
-    public TextField DisplayText { get; set; }
-    public TextField ContactPerson { get; set; }
-    public TextField Email { get; set; }
-    public TextField LongDescription { get; set; }
-    public LinkField YoutubeVideo { get; set; }
-    public TextField Address { get; set; }
-    public TextField Phone { get; set; }
-    public LinkField Web { get; set; }
-    public LinkField Instagram { get; set; }
-    public LinkField Facebook { get; set; }
-    public LinkField LinkedIn { get; set; }
-    public TaxonomyField Category { get; set; }
-}
+        public TextField ShortDescription { get; set; }
+        public TextField PersonName { get; set; }
+        public TextField DisplayText { get; set; }
+        public TextField ContactPerson { get; set; }
+        public TextField Email { get; set; }
+        public TextField LongDescription { get; set; }
+        public TextField Address { get; set; }
+        public TextField Phone { get; set; }
+        public LinkField Web { get; set; }
+        public LinkField Instagram { get; set; }
+        public LinkField Facebook { get; set; }
+        public LinkField LinkedIn { get; set; }
+        public TaxonomyField Category { get; set; }
+        public TextField YoutubeVideoId { get; set; }
+        public MediaField FeaturedImage { get; set; }
+    }
 
 
 
@@ -100,15 +103,6 @@ public class Offer : ContentPart
                     .WithDisplayName("Širi opis i dodatne specifikacije")
                     .WithPosition("6")
                 )
-                .WithField("YoutubeVideo", field => field
-                    .OfType("LinkField")
-                    .WithDisplayName("Youtube video")
-                    .WithPosition("7")
-                    .WithSettings(new LinkFieldSettings
-                    {
-                        LinkTextMode = LinkTextMode.Url,
-                    })
-                )
                 .WithField("Address", field => field
                     .OfType("TextField")
                     .WithDisplayName("Adresa")
@@ -165,6 +159,21 @@ public class Offer : ContentPart
                     {
                         Required = true,
                         TaxonomyContentItemId = "4a6d7mtpab04yt9yedrsardz4r",
+                    })
+                )
+                .WithField("YoutubeVideoId", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Youtube video ID")
+                    .WithPosition("7")
+                )
+                .WithField("FeaturedImage", field => field
+                    .OfType("MediaField")
+                    .WithDisplayName("Fotografija")
+                    .WithEditor("Attached")
+                    .WithSettings(new MediaFieldSettings
+                    {
+                        Multiple = false,
+                        AllowMediaText = false,
                     })
                 )
             );

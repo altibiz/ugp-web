@@ -1,65 +1,122 @@
 ﻿@page
 @model Members.Pages.OfferModel
 
+
+<style>
+
+</style>
 @{ 
 
     var offer = Model.contentItem.Content.Offer;
 
 
-    Html.RenderPartial("_Header", @T["Offer For Members"].Value);
+    Html.RenderPartial("_Header", @T["Offer"].Value);
 
-    <div class="container">
-
-        @*<shape type="Term" TaxonomyContentItemId="@Model.contentItem.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@Model.contentItem.Content.Offer.Category.TermContentItemId" />*@
+    <blockquote>
         <!-- Content here -->
-        <h5 class="text-center">@Model.contentItem.Content.Offer.DisplayText.Text</h5>
-        <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="rounded mx-auto d-block" alt="">
-
-        @Model.contentItem.Content.Offer.LongDescription.Text
-
-        @if (offer.YoutubeVideo.Url != null)
+        <h2 class="text-center">@offer.DisplayText.Text</h2>
+        @if (offer.FeaturedImage.Paths != null)
         {
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="@offer.YoutubeVideo.Url"></iframe>
+            <div class="icon-box">
+                <img src="@offer.FeaturedImage.Paths" class="w-25 d-block mx-auto d-block" alt="">
+            </div>
+        }
+        else
+        {
+            <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="rounded mx-auto d-block" alt="">
+        }
+        <div class="fs-5">
+            <small>
+                @offer.LongDescription.Text
+            </small>
+        </div>
+
+        @if (offer.YoutubeVideoId.Text != "")
+        {
+            <div class="ratio ratio-16x9 my-4">
+                <iframe class="embed-responsive-item" src="@(String.Format("https://www.youtube.com/embed/{0}", offer.YoutubeVideoId.Text))"></iframe>
             </div>
         }
 
-        <ul class="list-group list-group-horizontal justify-content-center">
+        <ul class="list-group d-inline-flex p-2 bd-highlight fs-6">
+
+
+
+            @if (offer.ContactPerson.Text != null)
+            {
+                <li class="list-group-item p-0 border-0">
+                    <div class="icon-box">
+                        <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="w-25 d-block" alt="">
+                    </div>
+                </li>
+            }
+
+            @if (offer.ContactPerson.Text != null)
+            {
+                <li class="list-group-item p-0 border-0 py-2">
+                    <div class="">@T["CompanyName"]:</div>
+                </li>
+            }
+
+            @if (offer.ContactPerson.Text != null)
+            {
+                <li class="list-group-item p-0 border-0 py-4">
+                    <div class="text-uppercase ">@T["Contact Person"]:</div>
+                    <div class="">@offer.ContactPerson.Text</div>
+                </li>
+            }
+
+            @if (offer.Address.Text != null)
+            {
+                <li class="list-group-item p-0 border-0">
+                    <div class="icon-box"><i class="fas fa-map-marker"></i><span class="px-2">@offer.Address.Text</span></div>
+                </li>
+            }
+
             @if (offer.Web.Url != null)
             {
-                <li class="list-group-item">
+                <li class="list-group-item p-0 border-0">
+                    <a href="@offer.Phone.Text">
+                        <div class="icon-box"><i class="fas fa-phone-square-alt"></i><span class="px-2">@offer.Phone.Text</span></div>
+                    </a>
+                </li>
+            }
+
+            @if (offer.Web.Url != null)
+            {
+                <li class="list-group-item p-0 border-0">
                     <a href="@offer.Web.Url">
-                        <div class="icon-box"><i class="fas fa-globe"></i></div>
+                        <div class="icon-box"><i class="fas fa-globe"></i><span class="px-2">@T["Web"]</span></div>
                     </a>
                 </li>
             }
 
             @if (offer.Instagram.Url != null)
             {
-                <li class="list-group-item">
+                <li class="list-group-item p-0 border-0">
                     <a href="@offer.Instagram.Url">
-                        <div class="icon-box"><i class="fab fa-instagram"></i></div>
+                        <div class="icon-box"><i class="fab fa-instagram-square"></i><span class="px-2">@T["Instagram"]</span></div>
                     </a>
                 </li>
             }
 
             @if (offer.Facebook.Url != null)
             {
-                <li class="list-group-item">
+                <li class="list-group-item p-0 border-0">
                     <a href="@offer.Facebook.Url">
-                        <div class="icon-box"><i class="fab fa-facebook"></i></div>
+                        <div class="icon-box"><i class="fab fa-facebook-square"></i><span class="px-2">@T["Facebook"]</span></div>
                     </a>
                 </li>
             }
 
             @if (offer.LinkedIn.Url != null)
             {
-                <li class="list-group-item">
+                <li class="list-group-item p-0 border-0">
                     <a href="@offer.LinkedIn.Url">
-                        <div class="icon-box"><i class="fab fa-linkedin"></i></div>
+                        <div class="icon-box"><i class="fab fa-linkedin"></i><span class="px-2">@T["LinkedIn"]</span></div>
                     </a>
                 </li>
             }
         </ul>
-    </div>
+    </blockquote>
 }
