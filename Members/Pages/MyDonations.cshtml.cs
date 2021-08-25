@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Localization;
 using OrchardCore.DisplayManagement.Notify;
 using Members.Core;
+using System.Collections.Generic;
+using Members.Payments;
+using System.Linq;
 
 namespace Members.Pages
 {
@@ -12,6 +15,7 @@ namespace Members.Pages
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
 
+        public List<Payment> Payments { get; set; }
         public MyDonationsModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
@@ -21,7 +25,7 @@ namespace Members.Pages
                 
         public async Task OnGetAsync(string companyId)
         {
-            _memberService.GetUserDonations();
+            Payments = await _memberService.GetUserPayments().ToListAsync();
         }
     }
 }
