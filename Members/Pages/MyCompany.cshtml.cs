@@ -16,6 +16,7 @@ namespace Members.Pages
         private readonly INotifier _notifier;
 
         public IShape Shape { get; set; }
+        public ContentItem ContentItem { get; set; }
 
         public MyCompanyModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
@@ -26,7 +27,7 @@ namespace Members.Pages
                 
         public async Task OnGetAsync(string companyId)
         {
-            Shape = await _memberService.GetEditorById(companyId);
+           (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
         }
 
         public async Task<IActionResult> OnPostAsync(string companyId)

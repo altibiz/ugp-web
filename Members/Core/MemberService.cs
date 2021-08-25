@@ -36,8 +36,8 @@ namespace Members.Core
         private IHttpContextAccessor _httpContextAccessor;
         private readonly IOrchardHelper _oHelper;
 
-        public MemberService(ISession session, IUserService userService,IContentManager contentManager, IOrchardHelper orchardHelper,
-            IContentItemDisplayManager contentItemDisplayManager,IUpdateModelAccessor updateModelAccessor,IHttpContextAccessor httpContextAccessor)
+        public MemberService(ISession session, IUserService userService, IContentManager contentManager, IOrchardHelper orchardHelper,
+            IContentItemDisplayManager contentItemDisplayManager, IUpdateModelAccessor updateModelAccessor, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _session = session;
@@ -47,7 +47,7 @@ namespace Members.Core
             _updateModelAccessor = updateModelAccessor;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<ContentItem> GetUserMember(bool includeDraft=false,ClaimsPrincipal cUSer = null)
+        public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
             var query = _session.Query<ContentItem, UserPickerFieldIndex>();
@@ -55,10 +55,10 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        public async Task<List<ContentItem>> GetUserCompanies(string userMemberId)
+        public async Task<List<ContentItem>> GetUserCompanies(string userMemberId, bool includeDrafts = false)
         {
             var companyContentItem = new List<ContentItem>();
-            foreach (var contentItem in await _oHelper.QueryListItemsAsync(userMemberId))
+            foreach (var contentItem in await _oHelper.QueryListItemsAsync(userMemberId, includeDrafts ? x => true : null))
             {
                 companyContentItem.Add(contentItem);
             }
@@ -78,19 +78,19 @@ namespace Members.Core
 
         internal async Task<IEnumerable<ContentItem>> GetPersonPayments(string contentItemId)
         {
-            return await _session.Query<ContentItem,PaymentIndex>(x => x.PersonContentItemId == contentItemId).ListAsync();
+            return await _session.Query<ContentItem, PaymentIndex>(x => x.PersonContentItemId == contentItemId).ListAsync();
         }
 
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
-            return await _userService.GetAuthenticatedUserAsync(user??_httpContextAccessor.HttpContext.User) as User;
+            return await _userService.GetAuthenticatedUserAsync(user ?? _httpContextAccessor.HttpContext.User) as User;
         }
 
-        public async Task<(ContentItem,IShape)> GetNewItem(ContentType memberType)
+        public async Task<(ContentItem, IShape)> GetNewItem(ContentType memberType)
         {
             var contentItem = await _contentManager.NewAsync(memberType.ToString());
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
-            return (contentItem,model);
+            return (contentItem, model);
         }
 
         public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentType memberType)
@@ -114,27 +114,29 @@ namespace Members.Core
             return (contentItem, shape);
         }
 
-        public async Task<IShape> GetEditorById(string contentId)
+        public async Task<(IShape,ContentItem)> GetEditorById(string contentId)
         {
-            var contentItem = await _contentManager.GetAsync(contentId);
+            var contentItem = await _contentManager.GetAsync(contentId,VersionOptions.Latest);
 
-            return await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
+            var shape= await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
+            return (shape, contentItem);
         }
         public async Task<ContentValidateResult> CreateMemberCompany(ContentItem companyItem)
         {
-            var member = await GetUserMember();
+            var member = await GetUserMember(true);
             if (member == null) return new ContentValidateResult { Succeeded = false };
             member.AddToList(companyItem);
-            return await _contentManager.UpdateValidateAndCreateAsync(companyItem, VersionOptions.Published);
+            return await _contentManager.UpdateValidateAndCreateAsync(companyItem, VersionOptions.Draft);
         }
 
         public async Task<ContentValidateResult> UpdateMemberCompany(ContentItem companyItem)
         {
             await _contentManager.UpdateAsync(companyItem);
-            return await  _contentManager.ValidateAsync(companyItem);
+            return await _contentManager.ValidateAsync(companyItem);
         }
 
-        public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem) { 
+        public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem)
+        {
 
             var user = await GetCurrentUser();
             // Set the current user as the owner to check for ownership permissions on creation
