@@ -29,7 +29,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var member = await _mService.GetUserMember();
+            var member = await _mService.GetUserMember(true);
 
             if (member == null)
             {
