@@ -88,7 +88,7 @@ namespace Members.Core
 		internal async IAsyncEnumerable<Payment> GetUserPayments()
         {
             var member = await GetUserMember();
-            var companies = await GetUserCompanies(member.ContentItemId);
+            var companies = await GetUserCompanies();
             foreach (var payment in await GetPersonPayments(member.ContentItemId))
                 yield return payment.As<Payment>();
             foreach (var comp in companies)

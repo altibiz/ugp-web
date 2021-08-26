@@ -30,7 +30,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync(string contentItemId=null)
         {
-
+            ContentItem contentItem;
             if (contentItemId == null)
             {
                 return RedirectToPage("OfferFor");
@@ -54,7 +54,7 @@ namespace Members.Pages
                 }
                 else
                 {
-                    Shape = await _memberService.GetEditorById(offer.ContentItemId);
+                    (Shape, contentItem) = await _memberService.GetEditorById(offer.ContentItemId);
                 }
             }
             return Page();
