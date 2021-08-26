@@ -159,6 +159,11 @@ public class Offer : ContentPart
                     {
                         Required = true,
                         TaxonomyContentItemId = "4a6d7mtpab04yt9yedrsardz4r",
+                        Unique = true,
+                    })
+                    .WithSettings(new TaxonomyFieldTagsEditorSettings
+                    {
+                        Open = false,
                     })
                 )
                 .WithField("YoutubeVideoId", field => field
