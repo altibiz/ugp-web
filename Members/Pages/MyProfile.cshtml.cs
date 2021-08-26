@@ -37,7 +37,7 @@ namespace Members.Pages
         {
             var member = await _memberService.GetUserMember();
 
-            CompanyContentItems = await _memberService.GetUserCompanies(member.ContentItemId);
+            CompanyContentItems = await _memberService.GetUserCompanies();
 
             Shape = await _contentItemDisplayManager.BuildEditorAsync(member, _updateModelAccessor.ModelUpdater, false);
         }

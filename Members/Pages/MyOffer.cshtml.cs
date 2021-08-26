@@ -19,6 +19,7 @@ namespace Members.Pages
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
         public dynamic Shape { get; set; }
+        public string ParentContentItemId { get; set; }
 
         public MyOfferModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
@@ -27,13 +28,23 @@ namespace Members.Pages
             _memberService = mService;
         }
 
-        public async Task<IActionResult> OnGetAsync(string offerId)
+        public async Task<IActionResult> OnGetAsync(string contentItemId=null)
         {
-            var offer = await _memberService.GetUserOffers();
+
+            if (contentItemId == null)
+            {
+                return RedirectToPage("OfferFor");
+            }
+            else
+            {
+                ParentContentItemId = contentItemId;
+            }
+
+            var offer = await _memberService.GetContentItemOffers(contentItemId, true);
 
             if (offer == null)
             {
-               return  RedirectToPage("CreateOffer");
+               return  RedirectToPage("CreateOffer", new { contentItemId });
             }
             else
             {
@@ -49,9 +60,9 @@ namespace Members.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string parentContentItemId)
         {
-            var offer = await _memberService.GetUserOffers();
+            var offer = await _memberService.GetContentItemOffers(parentContentItemId);
 
             ContentItem contentItem;
             (contentItem, Shape) = await _memberService.GetUpdatedItem(offer.ContentItemId);

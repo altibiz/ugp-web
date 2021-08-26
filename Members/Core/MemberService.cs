@@ -56,25 +56,31 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        public async Task<List<ContentItem>> GetUserCompanies(string contentItemId)
+        public async Task<List<ContentItem>> GetUserCompanies()
         {
+            ContentItem member = await GetUserMember();
             var companyContentItem = new List<ContentItem>();
-            foreach (var contentItem in await _oHelper.QueryListItemsAsync(contentItemId))
-            {
-                companyContentItem.Add(contentItem);
-            }
-            return companyContentItem;
+
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId);
+            companies = companies.Where(x => x.ContentType == nameof(ContentType.Company));
+
+            return companies.ToList();
         }
 
-        public async Task<ContentItem> GetUserOffers(ClaimsPrincipal cUSer = null)
+        public async Task<ContentItem> GetContentItemById(string contentItemId)
         {
-            var memberContentItem = await GetUserMember();
+            var query = _session.Query<ContentItem>();
+            query = query.With<ContentItemIndex>(x => x.ContentItemId == contentItemId);
+            var ci = await query.ListAsync();
+            return ci.FirstOrDefault();
+        }
 
-            var offer = await _oHelper.QueryListItemsAsync(memberContentItem.ContentItemId);
+        public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDrafts = false)
+        {
+            var offer = await _oHelper.QueryListItemsAsync(contentItemId, includeDrafts ? x => true : null);
             offer = offer.Where(x => x.ContentType == nameof(ContentType.Offer));
-
-
             return offer.FirstOrDefault();
+
 
         }
 
@@ -144,11 +150,11 @@ namespace Members.Core
             return await _contentManager.UpdateValidateAndCreateAsync(memberItem, VersionOptions.Draft);
         }
 
-        public async Task<ContentValidateResult> CreateOfferDraft(ContentItem offerItem)
+        public async Task<ContentValidateResult> CreateOfferDraft(ContentItem offerItem, string parentContentItemId)
         {
-            var member = await GetUserMember();
-            if (member == null) return new ContentValidateResult { Succeeded = false };
-            member.AddToList(offerItem);
+            var parentContentItem = await GetContentItemById(parentContentItemId);
+            if (parentContentItem == null) return new ContentValidateResult { Succeeded = false };
+            parentContentItem.AddToList(offerItem);
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
         }
 

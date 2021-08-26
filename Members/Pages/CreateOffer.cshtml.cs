@@ -17,7 +17,7 @@ namespace Members.Pages
         private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
-
+        public string ParentContentItemId { get; set; }
         public IShape Shape { get; set; }
         public CreateOfferModel(MemberService mService, IHtmlLocalizer<CreateOfferModel> htmlLocalizer, INotifier notifier)
         {
@@ -27,17 +27,19 @@ namespace Members.Pages
             _memberService = mService;
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async Task<IActionResult> OnGetAsync(string contentItemId)
         {
-            var offer = await _memberService.GetUserOffers();
+            ParentContentItemId =contentItemId;
+            var offer = await _memberService.GetContentItemOffers(contentItemId);
 
             if (offer != null) return RedirectToPage("MyOffer");
             (_, Shape) = await _memberService.GetNewItem(ContentType.Offer);
             return Page();
         }
 
-        public async Task<IActionResult> OnPostCreateAsync()
+        public async Task<IActionResult> OnPostCreateAsync(string parentContentItemId)
         {
+            ParentContentItemId = parentContentItemId;
             return await CreatePOST("Portal");
         }
 
@@ -47,7 +49,7 @@ namespace Members.Pages
             (contentItem, Shape) = await _memberService.GetUpdatedItem(ContentType.Offer);
             if (ModelState.IsValid)
             {
-                var result = await _memberService.CreateOfferDraft(contentItem);
+                var result = await _memberService.CreateOfferDraft(contentItem, ParentContentItemId);
                 if (result.Succeeded)
                 {
                     _notifier.Success(H["Offer created successful"]);
