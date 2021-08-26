@@ -30,6 +30,7 @@ namespace Members
             _contentDefinitionManager.ExecuteMemberMigrations();
             _contentDefinitionManager.MigratePayment();
             _contentDefinitionManager.MigrateOffer();
+			SchemaBuilder.CreatePaymentIndex();
             return 1;
         }
     }

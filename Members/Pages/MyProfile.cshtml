@@ -30,7 +30,9 @@
             {
                 <a asp-page="./MyCompany" asp-route-companyId="@item.ContentItemId" class="list-group-item d-flex justify-content-between align-items-center">
                     @item.DisplayText
-                    <span class="badge badge-primary badge-pill">14</span>
+                  @if (!item.Published) { 
+                    <span class="badge badge-primary bg-secondary badge-pill">Čeka provjeru</span>
+                  }
                 </a>
             }
         }

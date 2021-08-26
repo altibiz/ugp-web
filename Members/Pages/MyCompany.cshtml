@@ -11,9 +11,12 @@
 @await RenderSectionAsync("Messages", required: false)
 
 <form method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="All" class="text-danger"></div>
+	<div asp-validation-summary="All" class="text-danger"></div>
+	@if (!Model.ContentItem.Published)
+	{
+		<span class="badge badge-primary bg-secondary badge-pill">Čeka provjeru</span>
+	}
+	@await DisplayAsync(Model.Shape)
 
-    @await DisplayAsync(Model.Shape)
-
-    <button type="submit" class="btn btn-success publish mt-2">@T["Save Changes"]</button>
+	<button type="submit" class="btn btn-success publish mt-2">@T["Save Changes"]</button>
 </form>
