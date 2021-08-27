@@ -35,4 +35,8 @@
     <Folder Include="Views\Account\" />
     <Folder Include="Views\Fields\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\media.js" />
+  </ItemGroup>
 </Project>
