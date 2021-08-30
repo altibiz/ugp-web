@@ -15,19 +15,23 @@
                             @if (item.Content.Offer.FeaturedImage.Paths != null)
                             {
                                 <div class="icon-box">
-                                    <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="w-25 d-block mx-auto d-block" alt="">
+                                    <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]" class="w-100 d-block mx-auto d-block" alt="">
                                 </div>
                             }
                             else
                             {
                                 <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="rounded mx-auto d-block" alt="">
                             }
-                            <div class="card-body blockquote">
-                                <h6 class="card-title">@item.Content.Offer.DisplayText.Text</h6>
-                                <span>cat1</span>
-                                <span>cat2</span>
-                                <p class="card-text">@item.Content.Offer.ShortDescription.Text</p>
-                            </div>
+
+                        <div class="card-body blockquote">
+
+                            <span class="badge bg-primary">cat1</span>
+                            <span class="badge bg-secondary">category </span>
+                            <span class="badge bg-info">catteg2</span>
+
+                            <h5 class="card-title mt-3">@item.Content.Offer.DisplayText.Text</h5>
+                            <p class="card-text">@item.Content.Offer.ShortDescription.Text</p>
+                        </div>
                         </div>
                     </div>
                 </a>

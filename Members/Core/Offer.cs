@@ -3,21 +3,16 @@ using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
-using OrchardCore.ContentManagement.Records;
 using OrchardCore.Media.Fields;
 using OrchardCore.Media.Settings;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Settings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OrchardCore.Title.Models;
 
 namespace Members.Core
 {
-    
-public class Offer : ContentPart
+
+    public class Offer : ContentPart
 {
         public TextField ShortDescription { get; set; }
         public TextField PersonName { get; set; }
@@ -49,6 +44,15 @@ public class Offer : ContentPart
                 .Securable()
                 .WithPart("Offer", part => part
                     .WithPosition("0")
+                )
+                                
+                .WithPart("TitlePart", part => part
+                    .WithPosition("1")
+                    .WithSettings(new TitlePartSettings
+                    {
+                        Options = TitlePartOptions.GeneratedDisabled,
+                        Pattern = "{{ ContentItem.Content.DisplayText.Text }}",
+                    })
                 )
             );
 
