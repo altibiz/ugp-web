@@ -79,7 +79,7 @@ namespace Members.Core
         public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDrafts = false)
         {
             var offer = await _oHelper.QueryListItemsAsync(contentItemId, includeDrafts ? x => true : null);
-            offer = offer.Where(x => x.ContentType == nameof(ContentType.Offer));
+            offer = offer.Where(x => x.ContentType == nameof(ContentType.Offer) && x.Latest);
             return offer.FirstOrDefault();
 
 

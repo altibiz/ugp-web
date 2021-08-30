@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{contentItemId}"
 @model Members.Pages.CreateOfferModel
 @using OrchardCore.ContentManagement
 @using OrchardCore.ContentManagement.Metadata
@@ -16,6 +16,6 @@
 
     @await DisplayAsync(Model.Shape)
 
-    <button type="submit" asp-page-handler="Create" asp-route-parentContentItemId="@Model.ParentContentItemId" class="btn btn-success publish mt-2">@T["Save"]</button>
+    <button type="submit" asp-page-handler="Create"  class="btn btn-success publish mt-2">@T["Save"]</button>
 </form>
 
