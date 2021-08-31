@@ -19,6 +19,8 @@ namespace Members.Pages
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
         public List<ContentItem> OfferContentItems { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
 
         public OffersForMembersModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
@@ -27,10 +29,22 @@ namespace Members.Pages
             _memberService = mService;
         }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string catId = null)
         {
-            OfferContentItems = await _memberService.GetOffersForUser();
-        }
 
+            if (catId!=null)
+            {
+                OfferContentItems = await _memberService.GetOffersForUserByTag(catId);
+            }
+            else
+            {
+                OfferContentItems = await _memberService.GetOffersForUser();
+            }
+
+            if (SearchString != null)
+            {
+                OfferContentItems = (List<ContentItem>)OfferContentItems.Where(x => x.Content.Offer.DisplayText.Text.Contains(SearchString)).ToList();
+            }
+        }
     }
 }

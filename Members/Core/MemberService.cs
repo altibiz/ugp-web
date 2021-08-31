@@ -9,6 +9,7 @@ using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.Taxonomies.Indexing;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System.Collections.Generic;
@@ -76,12 +77,16 @@ namespace Members.Core
             return ci.FirstOrDefault();
         }
 
-        public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDrafts = false)
+        public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDraft = false)
         {
-            var offer = await _oHelper.QueryListItemsAsync(contentItemId, includeDrafts ? x => true : null);
-            offer = offer.Where(x => x.ContentType == nameof(ContentType.Offer) && x.Latest);
-            return offer.FirstOrDefault();
 
+
+            var company = await GetContentItemById(contentItemId);
+
+            var query = _session.Query<ContentItem, ContentPickerFieldIndex>();
+            query = query.With<ContentPickerFieldIndex>(x => x.ContentType == nameof(Offer) && (x.Published || includeDraft) && x.SelectedContentItemId == company.ContentItemId);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
 
         }
 		
@@ -173,7 +178,12 @@ namespace Members.Core
         {
             var parentContentItem = await GetContentItemById(parentContentItemId);
             if (parentContentItem == null) return new ContentValidateResult { Succeeded = false };
-            parentContentItem.AddToList(offerItem);
+
+            // DORADITI !!!!
+            //offerItem.Alter<Offer>(offer => {
+            //    offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId.ToString() };
+            //});
+
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
         }
 
@@ -181,6 +191,24 @@ namespace Members.Core
         {
             var query = _session.Query<ContentItem, ContentItemIndex>();
             query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published );
+
+            var list = await query.ListAsync();
+
+            return list.ToList();
+        }
+        public async Task<List<ContentItem>> GetOffersForUserByTag(string tagId)
+        {
+            var query = _session.Query<ContentItem, TaxonomyIndex>();
+            query = query.With<TaxonomyIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.TermContentItemId.Contains(tagId));
+
+            var list = await query.ListAsync();
+
+            return list.ToList();
+        }
+        public async Task<List<ContentItem>> GetOffersForUserSearch(string searchString)
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>();
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.DisplayText.Contains(searchString));
 
             var list = await query.ListAsync();
 

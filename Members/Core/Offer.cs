@@ -29,6 +29,7 @@ namespace Members.Core
         public TaxonomyField Category { get; set; }
         public TextField YoutubeVideoId { get; set; }
         public MediaField FeaturedImage { get; set; }
+        public ContentPickerField Company { get; set; }
     }
 
 
@@ -183,6 +184,15 @@ namespace Members.Core
                     {
                         Multiple = false,
                         AllowMediaText = false,
+                    })
+                )
+                .WithField("Company", field => field
+                    .OfType("ContentPickerField")
+                    .WithDisplayName("Company")
+                    .WithSettings(new ContentPickerFieldSettings
+                    {
+                        Required = true,
+                        DisplayedContentTypes = new[] { "Company" },
                     })
                 )
             );

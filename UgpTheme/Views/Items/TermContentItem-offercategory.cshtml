@@ -1,0 +1,6 @@
+﻿@using OrchardCore.ContentManagement
+
+@model dynamic
+<a href="/Members/offersformembers?catId=@Model.TermContentItem.ContentItemId">
+    <span class="badge bg-primary rounded-pill">@Model.TermContentItem.DisplayText</span>
+</a>

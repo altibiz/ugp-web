@@ -1,0 +1,18 @@
+﻿@model dynamic
+@{
+    // Morphing the shape to keep Model untouched
+    Model.Metadata.Alternates.Clear();
+    Model.Metadata.Type = "TermContentItem";
+}
+<li class="list-group-item border-0 p-0">
+    @await DisplayAsync(Model)
+    @if ((bool)Model.HasItems)
+    {
+        <ul class="list-group-item">
+            @foreach (var item in Model.Items)
+            {
+                @await DisplayAsync(item)
+            }
+        </ul>
+    }
+</li>

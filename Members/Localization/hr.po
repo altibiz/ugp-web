@@ -91,6 +91,15 @@ msgstr "Kontakt osoba"
 msgctxt "Members.Pages.OffersForMembers"
 msgid "Offer For Members"
 msgstr "Ponude za članove"
+msgid "Read More"
+msgstr "Više"
+msgid "Search Here"
+msgstr "Traži ovdje"
+msgid "Search"
+msgstr "Traži"
+
+
+
 
 msgctxt "Members.Pages.Portal"
 msgid "User Pages"
