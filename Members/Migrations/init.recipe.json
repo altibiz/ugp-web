@@ -3809,7 +3809,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Moja ponuda ",
-											"Url": "/Members/myoffer"
+											"Url": "/Members/offerfor"
 										},
 										"LinkMenuItem": {
 											"Icon": {

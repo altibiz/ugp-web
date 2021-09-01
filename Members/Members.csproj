@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Indexes\" />
     <Folder Include="Payments\" />
   </ItemGroup>
 
