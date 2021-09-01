@@ -18,19 +18,25 @@ namespace Members.Pages
         private readonly IHtmlLocalizer H;
         private readonly IContentManager _contentManager;
         private readonly INotifier _notifier;
+        private readonly MemberService _memberService;
         public dynamic Shape { get; set; }
-        public ContentItem contentItem { get; set; }
+        public ContentItem OfferContentItem { get; set; }
+        public ContentItem CompanyContentItem { get; set; }
 
-        public OfferModel(IContentManager cManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public OfferModel(MemberService mService, IContentManager cManager, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
             H = htmlLocalizer;
             _contentManager = cManager;
+            _memberService = mService;
         }
 
         public async Task OnGetAsync(string offerId)
         {
-            contentItem = await _contentManager.GetAsync(offerId);
+            OfferContentItem = await _contentManager.GetAsync(offerId);
+
+            var companyId = OfferContentItem.ContentItem.Content.Offer.Company.ContentItemIds[0];
+            CompanyContentItem = await _memberService.GetContentItemById(companyId.ToString());
         }
 
     }

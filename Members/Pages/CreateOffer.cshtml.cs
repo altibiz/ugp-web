@@ -35,11 +35,13 @@ namespace Members.Pages
             return Page();
         }
 
+        // contentItemId -> company content item
         public async Task<IActionResult> OnPostCreateAsync(string contentItemId)
         {
             return await CreatePOST("Portal", contentItemId);
         }
 
+        // contentItemId -> company content item
         private async Task<IActionResult> CreatePOST(string nextPage, string contentItemId)
         {
             ContentItem contentItem;

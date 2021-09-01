@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{contentItemId}"
 @model Members.Pages.MyOfferModel
 @{
 
@@ -15,6 +15,6 @@
 
     @if (Model.Shape != null)
     {
-        <button type="submit"asp-route-parentContentItemId="@Model.ParentContentItemId"   class="btn btn-success publish mt-2">@T["Save Changes"]</button>
+        <button type="submit" class="btn btn-success publish mt-2">@T["Save Changes"]</button>
     }
 </form>

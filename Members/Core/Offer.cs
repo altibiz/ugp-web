@@ -193,7 +193,6 @@ namespace Members.Core
                     .WithDisplayName("Company")
                     .WithSettings(new ContentPickerFieldSettings
                     {
-                        Required = true,
                         DisplayedContentTypes = new[] { "Company" },
                     })
                 )
