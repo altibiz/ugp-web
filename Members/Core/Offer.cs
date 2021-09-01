@@ -38,6 +38,7 @@ namespace Members.Core
     {
         public static void MigrateOffer(this IContentDefinitionManager _contentDefinitionManager)
         {
+            #region OfferType
             _contentDefinitionManager.AlterTypeDefinition("Offer", type => type
                 .DisplayedAs("Ponuda")
                 .Creatable()
@@ -52,11 +53,12 @@ namespace Members.Core
                     .WithSettings(new TitlePartSettings
                     {
                         Options = TitlePartOptions.GeneratedDisabled,
-                        Pattern = "{{ ContentItem.Content.DisplayText.Text }}",
+                        Pattern = "{{ ContentItem.Content.Offer.DisplayText.Text }}",
                     })
                 )
             );
-
+            #endregion
+            #region OfferPart
             _contentDefinitionManager.AlterPartDefinition("Offer", part => part
                 .WithField("ShortDescription", field => field
                     .OfType("TextField")
@@ -196,7 +198,7 @@ namespace Members.Core
                     })
                 )
             );
-
+            #endregion
         }
     }
 }
