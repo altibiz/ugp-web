@@ -5,7 +5,6 @@ using OrchardCore.Recipes.Services;
 using Members.Persons;
 using Members.Core;
 using Members.Payments;
-using Members.Indexes;
 
 namespace Members
 {

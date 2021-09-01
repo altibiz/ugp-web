@@ -22,7 +22,6 @@ using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Drivers;
 using Members.Payments;
 using YesSql.Indexes;
-using Members.Indexes;
 
 namespace Members
 {
