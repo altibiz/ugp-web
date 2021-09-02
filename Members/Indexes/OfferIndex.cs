@@ -21,13 +21,11 @@ namespace Members.Indexes
             context.For<OfferIndex>()
                 .Map(contentItem =>
                 {
-                    var of = contentItem.As<Offer>();
-                    if (of == null) return null;
 
                     return new OfferIndex
                     {
                         ContentItemId = contentItem.ContentItemId,
-                        DisplayText = of.DisplayText.ToString()
+                        DisplayText = contentItem.DisplayText.ToString()
                     };
                 });
         }

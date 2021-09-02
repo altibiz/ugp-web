@@ -180,9 +180,10 @@ namespace Members.Core
             if (parentContentItem == null) return new ContentValidateResult { Succeeded = false };
 
             // DORADITI !!!!
-            //offerItem.Alter<Offer>(offer => {
-            //    offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId.ToString() };
-            //});
+            offerItem.Alter<Offer>(offer =>
+            {
+               // offerItem.Content.Offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId.ToString() };
+            });
 
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
         }

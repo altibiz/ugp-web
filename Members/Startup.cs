@@ -46,6 +46,7 @@ namespace Members
             services.AddSingleton<IIndexProvider, PaymentIndexProvider>();
             services.AddSingleton<IIndexProvider, OfferIndexProvider>();
             services.AddContentPart<Payment>();
+            services.AddContentPart<Offer>();
             if (CurrentEnvironment.IsDevelopment()) 
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
