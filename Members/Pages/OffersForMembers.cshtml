@@ -18,7 +18,7 @@
             {
                 <div class="col">
                     <div class="card h-100 border-0">
-                        @if (item.Content.Offer.FeaturedImage.Paths != null)
+                        @if (item.Content.Offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
                         {
                             <div class="icon-box">
                                 <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
@@ -34,16 +34,19 @@
                             </a>
                         }
 
-                        <div class="card-body mx-0 px-0 fs-6">
-                            @foreach (var termId in item.Content.Offer.Category.TermContentItemIds)
-                            {
-                                <shape type="Term" TaxonomyContentItemId="@item.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@termId" />
-                            }
-                            <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
-                                <h4 class="card-title m-0 py-2">@item.Content.Offer.DisplayText.Text</h4>
-                            </a>
-                            <p class="card-text m-0">@item.Content.Offer.ShortDescription.Text</p>
-                        </div>
+                    <div class="card-body mx-0 px-0 fs-6">
+                        @foreach (var termId in item.Content.Offer.Category.TermContentItemIds)
+                        {
+                            <shape type="Term" TaxonomyContentItemId="@item.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@termId" />
+                        }
+                        <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
+                            <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]" class="w-25 d-block mx-auto d-block" alt="">
+                        </a>
+                        <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
+                            <h4 class="card-title m-0 py-2">@item.Content.Offer.DisplayText.Text</h4>
+                        </a>
+                        <p class="card-text m-0">@item.Content.Offer.ShortDescription.Text</p>
+                    </div>
                         <div class="card-body d-grid px-0">
                             <a class="" asp-page="./Offer" asp-route-offerId="@item.ContentItemId">@T["Read More"] ...</a>
                         </div>

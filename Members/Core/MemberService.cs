@@ -1,4 +1,5 @@
-﻿using Members.Payments;
+﻿using Members.Indexes;
+using Members.Payments;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using OrchardCore;
@@ -182,13 +183,13 @@ namespace Members.Core
             // DORADITI !!!!
             offerItem.Alter<Offer>(offer =>
             {
-               // offerItem.Content.Offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId.ToString() };
+                 offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId };
             });
 
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
         }
 
-        public async Task<List<ContentItem>> GetOffersForUser()
+        public async Task<List<ContentItem>> GetAllOffers()
         {
             var query = _session.Query<ContentItem, ContentItemIndex>();
             query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published );
@@ -197,7 +198,7 @@ namespace Members.Core
 
             return list.ToList();
         }
-        public async Task<List<ContentItem>> GetOffersForUserByTag(string tagId)
+        public async Task<List<ContentItem>> GetAllOffersByTag(string tagId)
         {
             var query = _session.Query<ContentItem, TaxonomyIndex>();
             query = query.With<TaxonomyIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.TermContentItemId.Contains(tagId));
@@ -206,10 +207,10 @@ namespace Members.Core
 
             return list.ToList();
         }
-        public async Task<List<ContentItem>> GetOffersForUserSearch(string searchString)
+        public async Task<List<ContentItem>> GetAllOffersSearch(string searchString)
         {
-            var query = _session.Query<ContentItem, ContentItemIndex>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.DisplayText.Contains(searchString));
+            var query = _session.Query<ContentItem, OfferIndex>();
+            query = query.With<OfferIndex>(x => x.Published && x.DisplayText.Contains(searchString));
 
             var list = await query.ListAsync();
 

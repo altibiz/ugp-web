@@ -11,7 +11,7 @@
     <blockquote>
         <!-- Content here -->
         <h2 class="text-center">@offer.DisplayText.Text</h2>
-        @if (offer.FeaturedImage.Paths != null)
+        @if (offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
         {
             <div class="icon-box">
                 <img src="../media/@offer.FeaturedImage.Paths[0]" class="w-100 d-block mx-auto d-block" alt="">
@@ -38,7 +38,7 @@
 
 
 
-            @if (company.Content.Company.Logo.Paths != null)
+            @if (company.Content.Company.Logo.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
             {
                 <li class="list-group-item p-0 border-0">
                     <div class="icon-box">

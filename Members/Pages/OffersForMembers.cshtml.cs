@@ -37,21 +37,16 @@ namespace Members.Pages
 
             if (catId!=null)
             {
-                OfferContentItems = await _memberService.GetOffersForUserByTag(catId);
+                OfferContentItems = await _memberService.GetAllOffersByTag(catId);
             }
             else
             {
-                OfferContentItems = await _memberService.GetOffersForUser();
+                OfferContentItems = await _memberService.GetAllOffers();
             }
 
             if (SearchString != null)
             {
-
-                List<ContentItem>contentItems = GetTextFieldIndexRecords("Offer", "DisplayText").Result.ToList();
-
-                OfferContentItems = contentItems.Where(x => x.DisplayText.Contains(SearchString)).ToList();
-
-                //OfferContentItems = OfferContentItems.Where(x => x.Content.Offer.DisplayText.Text.Contains(SearchString)).ToList();
+                OfferContentItems = await _memberService.GetAllOffersSearch(SearchString);
             }
         }
         public async Task<IEnumerable<ContentItem>> GetTextFieldIndexRecords(string contentType, string contentField)
