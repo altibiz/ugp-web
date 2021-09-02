@@ -18,8 +18,9 @@ namespace UgpWeb
         {
             services.AddOrchardCms()
 #if DEBUG
-                .AddSetupFeatures("OrchardCore.AutoSetup");
+                .AddSetupFeatures("OrchardCore.AutoSetup")
 #endif
+                ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
