@@ -90,8 +90,20 @@ namespace Members.Core
             return member.FirstOrDefault();
 
         }
-		
-		internal async IAsyncEnumerable<Payment> GetUserPayments()
+
+        public async Task<ContentItem> GetCompanyOffers(string companyContentItemId, bool includeDraft = false)
+        {
+
+
+            var company = await GetContentItemById(companyContentItemId);
+
+            var query = _session.Query<ContentItem, OfferIndex>();
+            query = query.With<OfferIndex>(x => (x.Published || includeDraft) && x.CompanyContentItemId == company.ContentItemId);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
+
+        }
+        internal async IAsyncEnumerable<Payment> GetUserPayments()
         {
             var member = await GetUserMember();
             var companies = await GetUserCompanies();

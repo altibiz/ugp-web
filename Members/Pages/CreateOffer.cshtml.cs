@@ -28,7 +28,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync(string contentItemId)
         {
-            var offer = await _memberService.GetContentItemOffers(contentItemId);
+            var offer = await _memberService.GetCompanyOffers(contentItemId);
 
             if (offer != null) return RedirectToPage("MyOffer");
             (_, Shape) = await _memberService.GetNewItem(ContentType.Offer);

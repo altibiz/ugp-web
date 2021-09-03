@@ -33,7 +33,7 @@ namespace Members.Pages
             {
                 return RedirectToPage("OfferFor");
             }
-            var offer = await _memberService.GetContentItemOffers(contentItemId, true);
+            var offer = await _memberService.GetCompanyOffers(contentItemId, true);
 
             if (offer == null)
             {
@@ -55,7 +55,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnPostAsync(string contentItemId)
         {
-            var offer = await _memberService.GetContentItemOffers(contentItemId);
+            var offer = await _memberService.GetCompanyOffers(contentItemId);
 
             ContentItem contentItem;
             (contentItem, Shape) = await _memberService.GetUpdatedItem(offer.ContentItemId);
