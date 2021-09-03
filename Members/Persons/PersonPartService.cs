@@ -3,8 +3,10 @@ using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentFields.Fields;
-using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Display.Models;
+using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentManagement.Metadata;
+using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System.Collections.Generic;
@@ -65,6 +67,11 @@ namespace Members.Persons
             return (await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib && o.ContentItemId != part.ContentItem.ContentItemId).CountAsync()) == 0;
         }
 
+        public async Task<IEnumerable<PersonPartIndex>> GetByOibAsync(string oib)
+        {
+            return await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib).ListAsync();
+        }
+
         private async Task<User> GetCurrentUser()
         {
             return await _userService.GetAuthenticatedUserAsync(_httpContextAccessor.HttpContext?.User) as User;
@@ -77,9 +84,18 @@ namespace Members.Persons
             part.Email = new TextField { Text = user.Email };
         }
 
-        public Task PublishedAsync(PersonPart instance)
+        public Task PublishedAsync(PersonPart instance, PublishContentContext context)
         {
             return Task.CompletedTask;
+        }
+
+        public System.Action<PersonPart> GetEditModel(PersonPart part, BuildPartEditorContext context)
+        {
+            return null;
+        }
+
+        public void OnUpdatingAsync(PersonPart model, IUpdateModel updater, UpdatePartEditorContext context)
+        {
         }
     }
 }

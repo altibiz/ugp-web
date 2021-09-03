@@ -40,6 +40,7 @@ namespace Members
             services.AddScoped<IDataMigration, Migrations>();
             services.AddContentPart<Member>();
             services.UsePartService<PersonPart, PersonPartService>();
+            services.UsePartService<BankStatPart, BankStatPartService>();
             services.AddScoped<MemberService>();
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
             services.AddSingleton<IIndexProvider, PaymentIndexProvider>();

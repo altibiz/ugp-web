@@ -32,7 +32,9 @@ namespace Members
                        .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Company" }))
                    .Add(S["Donacije"], "7", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Payment" }))
-                 ,new[] { "icon-class-fas", "icon-class-fa-users" });
+                   .Add(S["Izvodi"], "8", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
+                 , new[] { "icon-class-fas", "icon-class-fa-users" });
 
 
             return Task.CompletedTask;

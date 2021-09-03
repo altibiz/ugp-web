@@ -41,7 +41,7 @@ namespace Members.Persons
     {
         public PersonType? Type { get; set; }
 
-        public string GetFieldEditor(string name, string displayMode, BuildFieldEditorContext context)
+        public string GetFieldDisplayMode(string name, string displayMode, BuildFieldEditorContext context)
         {
             return context.IsNew ? displayMode : "Disabled";
         }
