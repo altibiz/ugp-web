@@ -29,7 +29,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Payments\" />
+    <EmbeddedResource Update="placement.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

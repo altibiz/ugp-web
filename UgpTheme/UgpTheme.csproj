@@ -27,13 +27,6 @@
     <PackageReference Include="OrchardCore.Theme.Targets" Version="1.0.0" />
     <PackageReference Include="OrchardCore.Menu" Version="1.0.0" />
     <PackageReference Include="OrchardCore.Users" Version="1.0.0" />
-
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Views\Account\" />
-    <Folder Include="Views\Fields\" />
   </ItemGroup>
 
   <ItemGroup>

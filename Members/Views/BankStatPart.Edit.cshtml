@@ -1,0 +1,23 @@
+﻿@using OrchardCore.ContentManagement
+@using Members.Payments
+@model BankStatPart
+@{ ContentItem contentItem = Model.ContentItem; }
+
+<div class="form-group" asp-validation-class-for="StatementJson">
+	<label asp-for="StatementJson">@T["Bank statement"] </label><br/>
+	<input class="btn btn-secondary" type="file" id="file-upload-button"/>
+	<textarea required asp-for="StatementJson" class="form-control content-preview-text"></textarea>
+	<span class="hint">@T["Text of bank statement"]</span>
+</div>
+
+<script at="Foot">
+	$(document).on('change', '#file-upload-button', function (event) {
+		var reader = new FileReader();
+
+		reader.onload = function (event) {
+			$('#BankStatPart_StatementJson').val(event.target.result);
+		}
+
+		reader.readAsText(event.target.files[0]);
+	});
+</script>

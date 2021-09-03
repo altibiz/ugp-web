@@ -27,7 +27,6 @@ namespace Members.Payments
                 {
                     var pp = contentItem.As<Payment>();
                     if (pp == null) return null;
-
                     return new PaymentIndex
                     {
                         ContentItemId = contentItem.ContentItemId,

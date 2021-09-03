@@ -31,9 +31,10 @@ namespace Members
 
             _contentDefinitionManager.ExecuteMemberMigrations();
             _contentDefinitionManager.MigratePayment();
+            SchemaBuilder.CreatePaymentIndex();
             _contentDefinitionManager.MigrateOffer();
-			SchemaBuilder.CreatePaymentIndex();
-			SchemaBuilder.CreateOfferIndex();
+            SchemaBuilder.CreateOfferIndex();
+            _contentDefinitionManager.CreateBankStatement();
             return 1;
         }
     }
