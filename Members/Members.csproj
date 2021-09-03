@@ -28,4 +28,11 @@
     <ProjectReference Include="..\UgpTheme\UgpTheme.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="placement.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
