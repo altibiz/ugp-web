@@ -28,4 +28,8 @@
     <PackageReference Include="OrchardCore.Menu" Version="1.0.0" />
     <PackageReference Include="OrchardCore.Users" Version="1.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\media.js" />
+  </ItemGroup>
 </Project>

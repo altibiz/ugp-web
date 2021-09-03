@@ -1047,6 +1047,877 @@
 							}
 						},
 						{
+							"ContentItemId": "4a6d7mtpab04yt9yedrsardz4r",
+							"ContentItemVersionId": "4njxhyx0cgpeq3041jg2y5bcn2",
+							"ContentType": "Taxonomy",
+							"DisplayText": "OfferCategory",
+							"Latest": true,
+							"Published": true,
+							"ModifiedUtc": "2021-08-23T13:46:15.1406209Z",
+							"PublishedUtc": "2021-08-23T13:46:15.1575678Z",
+							"CreatedUtc": "2021-08-23T13:00:25.6554354Z",
+							"Owner": "48f7bq8x61ed64mp0y50yj0bn7",
+							"Author": "admin",
+							"TitlePart": {
+								"Title": "OfferCategory"
+							},
+							"AliasPart": {
+								"Alias": "offercategory"
+							},
+							"AutoroutePart": {
+								"Path": "offercategory",
+								"SetHomepage": false,
+								"Disabled": false,
+								"RouteContainedItems": false,
+								"Absolute": false
+							},
+							"TaxonomyPart": {
+								"TermContentType": "Tag",
+								"Terms": [
+									{
+										"ContentItemId": "439qgxs7nwfyct41hvp6zjnh4n",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Trgovina",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:16:17.1103335Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Trgovina"
+										},
+										"AutoroutePart": {
+											"Path": "trgovina",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4yg64bqcy6jbq13xm7xg1zafnw",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Odjeća, obuća, dodaci",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:16:25.3657855Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Odjeća, obuća, dodaci"
+										},
+										"AutoroutePart": {
+											"Path": "odjeca-obuca-dodaci",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4kycyt7rz0m0trgbn0c0gyx9cf",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Ostalo",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:16:34.2384504Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Ostalo"
+										},
+										"AutoroutePart": {
+											"Path": "ostalo",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4hkcrv6erpq8tscsxv5dvneex6",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Hrana i piće",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:16:42.3377337Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Hrana i piće"
+										},
+										"AutoroutePart": {
+											"Path": "hrana-i-pice",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4c719yvaqvbd46vvdh14z3xp5k",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Marketing",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:42:58.6657873Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Marketing"
+										},
+										"AutoroutePart": {
+											"Path": "marketing",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "415jqnaxds2p032z6sztvhm356",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Dizajn",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:07.3882865Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Dizajn"
+										},
+										"AutoroutePart": {
+											"Path": "dizajn",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4pky3zc43aqwx25qf0x2r838wv",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Sport",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:14.2615264Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Sport"
+										},
+										"AutoroutePart": {
+											"Path": "sport",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "45sc2rs2jaexnrffxdq8f49xc4",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Putovanja / turizam",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:22.5028519Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Putovanja / turizam"
+										},
+										"AutoroutePart": {
+											"Path": "putovanja-turizam",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4heamcsk34dyyr5sy3m9939fd0",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Pravne usluge",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:30.0179914Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Pravne usluge"
+										},
+										"AutoroutePart": {
+											"Path": "pravne-usluge",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "47rr3gbvkgfs7rzrqx1tvd9en6",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Financijske usluge",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:37.7635858Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Financijske usluge"
+										},
+										"AutoroutePart": {
+											"Path": "financijske-usluge",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "40he14zkpcajc7etetepejgawe",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Novosti pretplate",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:46.6181413Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Novosti pretplate"
+										},
+										"AutoroutePart": {
+											"Path": "novosti-pretplate",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "464d1gzhdapqy12v2getksq0ce",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Upravljanje rizikom",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:43:53.9642267Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Upravljanje rizikom"
+										},
+										"AutoroutePart": {
+											"Path": "upravljanje-rizikom",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4k28b87e02fe1y0m9r7w123ymf",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Edukacija",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:01.2999628Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Edukacija"
+										},
+										"AutoroutePart": {
+											"Path": "edukacija",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4yf4esvrez1mnz24wc88c0bswy",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Konzalting",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:06.7127892Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Konzalting"
+										},
+										"AutoroutePart": {
+											"Path": "konzalting",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "42cwt18wa8j41rgsxv0z53wpdg",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Kultura",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:12.9773692Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Kultura"
+										},
+										"AutoroutePart": {
+											"Path": "kultura",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4b6jn05f6n4s7sjjwepteb1zmy",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Distribucija / logistika",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:19.4544797Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Distribucija / logistika"
+										},
+										"AutoroutePart": {
+											"Path": "distribucija-logistika",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4fzgj0bdbmkx3r9mvkh75q1kx7",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Osiguranje",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:25.538119Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Osiguranje"
+										},
+										"AutoroutePart": {
+											"Path": "osiguranje",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4psvspgn25nvdxq6exd7n7k851",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Zdravstvo",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:30.9311187Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Zdravstvo"
+										},
+										"AutoroutePart": {
+											"Path": "zdravstvo",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4nankbxpsa9464stt2zjz156xs",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Hotelske usluge",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:37.6335995Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Hotelske usluge"
+										},
+										"AutoroutePart": {
+											"Path": "hotelske-usluge",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4bhyrkw1cspga3baat8h215xdf",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Ljudski resursi",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:44.1706351Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Ljudski resursi"
+										},
+										"AutoroutePart": {
+											"Path": "ljudski-resursi",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4h8dmwytsg24x0rmd5jh6995ny",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Informacijske tehnologije",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:52.0779297Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Informacijske tehnologije"
+										},
+										"AutoroutePart": {
+											"Path": "informacijske-tehnologije",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "454phg8x9xkt9rp00t6hh7de4b",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Proizvodnja",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:44:57.0786533Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Proizvodnja"
+										},
+										"AutoroutePart": {
+											"Path": "proizvodnja",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "44mcbcr8c5zfmwg3v8h3mywndr",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Mediji / izdavaštvo",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:45:04.9442687Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Mediji / izdavaštvo"
+										},
+										"AutoroutePart": {
+											"Path": "mediji-izdavastvo",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4rr9a8qbxrz68rfh48n7a0rjwq",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Nekretnine",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:45:09.9678328Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Nekretnine"
+										},
+										"AutoroutePart": {
+											"Path": "nekretnine",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4dgw4e6eq35fsxxs8xb3xcwjxf",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Telekomunikacije",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:45:15.4401726Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Telekomunikacije"
+										},
+										"AutoroutePart": {
+											"Path": "telekomunikacije",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4eqws1pcgemwqzm3vwt3sds5my",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Usluge prevođenja",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:45:22.5212191Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Usluge prevođenja"
+										},
+										"AutoroutePart": {
+											"Path": "usluge-prevođenja",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "4a7k3bcawafwnycrtempvgkewt",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Dizajn interijera",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:45:28.9814246Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Dizajn interijera"
+										},
+										"AutoroutePart": {
+											"Path": "dizajn-interijera",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									},
+									{
+										"ContentItemId": "49a8kvdaskyzcr46s0tsmkvh5e",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Čišćenje i održavanje",
+										"Latest": false,
+										"Published": false,
+										"ModifiedUtc": "2021-08-23T13:45:35.7664476Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Čišćenje i održavanje"
+										},
+										"AutoroutePart": {
+											"Path": "ciscenje-i-odrzavanje",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4a6d7mtpab04yt9yedrsardz4r"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
+									}
+								]
+							}
+						},
+						{
 							"ContentItemId": "4m514eexhnwqnx4asz7xqadfcz",
 							"ContentItemVersionId": "49tfapk5k3k3k112avgn5wk245",
 							"ContentType": "Taxonomy",
@@ -2938,7 +3809,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Moja ponuda ",
-											"Url": "/Members/myoffer"
+											"Url": "/Members/offerfor"
 										},
 										"LinkMenuItem": {
 											"Icon": {
@@ -2982,7 +3853,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Ponude za članove",
-											"Url": "/Members/offerformembers"
+											"Url": "/Members/offersformembers"
 										},
 										"LinkMenuItem": {
 											"Icon": {

@@ -3,6 +3,7 @@ using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Lists.Models;
+using OrchardCore.Media.Settings;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Title.Models;
 
@@ -106,39 +107,107 @@ namespace Members.Core
 
             #region CompanyType
             _contentDefinitionManager.AlterTypeDefinition("Company", type => type
-                .DisplayedAs("Tvrtka")
-                .Creatable()
-                .Listable()
-                .Securable()
-                    .WithPart("PersonPart", part => part
-                    .WithPosition("0")
-                    .WithSettings(new PersonPartSettings
-                    {
-                        Type = PersonType.Legal
-                    })
-                )
-                .WithPart("Company", part => part
-                    .WithPosition("1")
-                )
-                .WithPart("AliasPart", part => part
-                    .WithPosition("1")
-                )
-                .WithPart("TitlePart", part => part
-                    .WithSettings(new TitlePartSettings
-                    {
-                        Options = TitlePartOptions.GeneratedDisabled,
-                        Pattern = "{{ ContentItem.Content.PersonPart.Name.Text }}",
-                    })
-                )
-            ); ;
+                 .DisplayedAs("Tvrtka")
+                 .Creatable()
+                 .Listable()
+                 .Securable()
+                 .WithPart("PersonPart", part => part
+                     .WithPosition("0")
+                     .WithSettings(new PersonPartSettings
+                     {
+                         Type = PersonType.Legal,
+                     })
+                 )
+                 .WithPart("Company", part => part
+                     .WithPosition("2")
+                 )
+                 .WithPart("AliasPart", part => part
+                     .WithPosition("3")
+                 )
+                 .WithPart("TitlePart", part => part
+                     .WithPosition("1")
+                     .WithSettings(new TitlePartSettings
+                     {
+                         Options = TitlePartOptions.GeneratedDisabled,
+                         Pattern = "{{ ContentItem.Content.PersonPart.Name.Text }}",
+                     })
+                 )
+             );
             #endregion
 
             #region CompanyPart
+            _contentDefinitionManager.AlterPartDefinition("PersonPart", part => part
+                .WithField("Name", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Ime")
+                    .WithPosition("1")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Required = true,
+                    })
+                )
+                .WithField("Surname", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Prezime")
+                    .WithPosition("1")
+                )
+                .WithField("Oib", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("OIB")
+                    .WithPosition("0")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Required = true,
+                    })
+                )
+                .WithField("Address", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Adresa")
+                    .WithPosition("4")
+                )
+                .WithField("City", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Grad/Općina")
+                    .WithPosition("5")
+                )
+                .WithField("Phone", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Telefon")
+                    .WithEditor("Tel")
+                    .WithPosition("7")
+                )
+                .WithField("County", field => field
+                    .OfType("TaxonomyField")
+                    .WithDisplayName("Županija")
+                    .WithEditor("Tags")
+                    .WithDisplayMode("Tags")
+                    .WithPosition("6")
+                    .WithSettings(new TaxonomyFieldSettings
+                    {
+                        TaxonomyContentItemId = "4d0dew9ar7h9nsbpcs7jg2egwe",
+                        Unique = true,
+                    })
+                    .WithSettings(new TaxonomyFieldTagsEditorSettings
+                    {
+                        Open = false,
+                    })
+                )
+                .WithField("Email", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Email")
+                    .WithEditor("Email")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Required = true,
+                    })
+                )
+            );
+
             _contentDefinitionManager.AlterPartDefinition("Company", part => part
                 .WithField("AuthorizedRepresentative", field => field
                     .OfType("TextField")
                     .WithDisplayName("Ovlaštena osoba za zastupanje")
-                    .WithPosition("4")
+                    .WithPosition("1")
                     .WithSettings(new TextFieldSettings
                     {
                         Required = true,
@@ -147,19 +216,19 @@ namespace Members.Core
                 .WithField("TurnoverIn2019", field => field
                     .OfType("NumericField")
                     .WithDisplayName("Promet u 2019")
-                    .WithPosition("5")
+                    .WithPosition("2")
                 )
                 .WithField("EmployeeNumber", field => field
                     .OfType("NumericField")
                     .WithDisplayName("Broj zaposlenih")
-                    .WithPosition("6")
+                    .WithPosition("3")
                 )
                 .WithField("OrganisationType", field => field
                     .OfType("TaxonomyField")
                     .WithDisplayName("Vrsta organizacije/Pravni oblik")
                     .WithEditor("Tags")
                     .WithDisplayMode("Tags")
-                    .WithPosition("7")
+                    .WithPosition("4")
                     .WithSettings(new TaxonomyFieldSettings
                     {
                         Required = true,
@@ -176,7 +245,7 @@ namespace Members.Core
                     .WithDisplayName("Funkcija")
                     .WithEditor("Tags")
                     .WithDisplayMode("Tags")
-                    .WithPosition("8")
+                    .WithPosition("5")
                     .WithSettings(new TaxonomyFieldSettings
                     {
                         Required = true,
@@ -193,7 +262,7 @@ namespace Members.Core
                     .WithDisplayName("Djelatnost")
                     .WithEditor("Tags")
                     .WithDisplayMode("Tags")
-                    .WithPosition("9")
+                    .WithPosition("6")
                     .WithSettings(new TaxonomyFieldSettings
                     {
                         Required = true,
@@ -207,7 +276,18 @@ namespace Members.Core
                 .WithField("PermanentAssociates", field => field
                     .OfType("NumericField")
                     .WithDisplayName("Broj stalnih suradnika")
-                    .WithPosition("10")
+                    .WithPosition("7")
+                )
+                .WithField("Logo", field => field
+                    .OfType("MediaField")
+                    .WithDisplayName("Logo")
+                    .WithPosition("0")
+                    .WithEditor("Attached")
+                    .WithSettings(new MediaFieldSettings
+                    {
+                        Multiple = false,
+                        AllowMediaText = false,
+                    })
                 )
             );
 

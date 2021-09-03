@@ -1,0 +1,5 @@
+﻿@model OrchardCore.ContentFields.ViewModels.EditContentPickerFieldViewModel
+
+@{
+    var culture = await Orchard.GetContentCultureAsync(Model.Field.ContentItem);
+}

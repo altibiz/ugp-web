@@ -1,4 +1,5 @@
-﻿using Members.Payments;
+﻿using Members.Indexes;
+using Members.Payments;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using OrchardCore;
@@ -6,8 +7,10 @@ using OrchardCore.ContentFields.Indexing.SQL;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.ContentManagement.Handlers;
+using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.Taxonomies.Indexing;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System.Collections.Generic;
@@ -22,7 +25,8 @@ namespace Members.Core
     public enum ContentType
     {
         Member,
-        Company
+        Company,
+        Offer
     }
 
     public class MemberService
@@ -55,20 +59,54 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        public async Task<List<ContentItem>> GetUserCompanies(string userMemberId, bool includeDrafts = false)
+        public async Task<List<ContentItem>> GetUserCompanies()
         {
+            ContentItem member = await GetUserMember();
             var companyContentItem = new List<ContentItem>();
-            foreach (var contentItem in await _oHelper.QueryListItemsAsync(userMemberId, includeDrafts ? x => true : null))
-            {
-                companyContentItem.Add(contentItem);
-            }
-            return companyContentItem;
+
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId);
+            companies = companies.Where(x => x.ContentType == nameof(ContentType.Company));
+
+            return companies.ToList();
         }
 
+        public async Task<ContentItem> GetContentItemById(string contentItemId)
+        {
+            var query = _session.Query<ContentItem>();
+            query = query.With<ContentItemIndex>(x => x.ContentItemId == contentItemId);
+            var ci = await query.ListAsync();
+            return ci.FirstOrDefault();
+        }
+
+        public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDraft = false)
+        {
+
+
+            var company = await GetContentItemById(contentItemId);
+
+            var query = _session.Query<ContentItem, ContentPickerFieldIndex>();
+            query = query.With<ContentPickerFieldIndex>(x => x.ContentType == nameof(Offer) && (x.Published || includeDraft) && x.SelectedContentItemId == company.ContentItemId);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
+
+        }
+
+        public async Task<ContentItem> GetCompanyOffers(string companyContentItemId, bool includeDraft = false)
+        {
+
+
+            var company = await GetContentItemById(companyContentItemId);
+
+            var query = _session.Query<ContentItem, OfferIndex>();
+            query = query.With<OfferIndex>(x => (x.Published || includeDraft) && x.CompanyContentItemId == company.ContentItemId);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
+
+        }
         internal async IAsyncEnumerable<Payment> GetUserPayments()
         {
             var member = await GetUserMember();
-            var companies = await GetUserCompanies(member.ContentItemId);
+            var companies = await GetUserCompanies();
             foreach (var payment in await GetPersonPayments(member.ContentItemId))
                 yield return payment.As<Payment>();
             foreach (var comp in companies)
@@ -80,15 +118,15 @@ namespace Members.Core
         {
             return await _session.Query<ContentItem, PaymentIndex>(x => x.PersonContentItemId == contentItemId).ListAsync();
         }
-
+		
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
             return await _userService.GetAuthenticatedUserAsync(user ?? _httpContextAccessor.HttpContext.User) as User;
         }
 
-        public async Task<(ContentItem, IShape)> GetNewItem(ContentType memberType)
+        public async Task<(ContentItem, IShape)> GetNewItem(ContentType cType)
         {
-            var contentItem = await _contentManager.NewAsync(memberType.ToString());
+            var contentItem = await _contentManager.NewAsync(cType.ToString());
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             return (contentItem, model);
         }
@@ -129,10 +167,10 @@ namespace Members.Core
             return await _contentManager.UpdateValidateAndCreateAsync(companyItem, VersionOptions.Draft);
         }
 
-        public async Task<ContentValidateResult> UpdateMemberCompany(ContentItem companyItem)
+        public async Task<ContentValidateResult> UpdateContentItem(ContentItem contentItem)
         {
-            await _contentManager.UpdateAsync(companyItem);
-            return await _contentManager.ValidateAsync(companyItem);
+            await _contentManager.UpdateAsync(contentItem);
+            return await _contentManager.ValidateAsync(contentItem);
         }
 
         public async Task<ContentValidateResult> CreateMemberDraft(ContentItem memberItem)
@@ -147,6 +185,48 @@ namespace Members.Core
             });
 
             return await _contentManager.UpdateValidateAndCreateAsync(memberItem, VersionOptions.Draft);
+        }
+
+        public async Task<ContentValidateResult> CreateOfferDraft(ContentItem offerItem, string parentContentItemId)
+        {
+            var parentContentItem = await GetContentItemById(parentContentItemId);
+            if (parentContentItem == null) return new ContentValidateResult { Succeeded = false };
+
+            // DORADITI !!!!
+            offerItem.Alter<Offer>(offer =>
+            {
+                 offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId };
+            });
+
+            return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
+        }
+
+        public async Task<List<ContentItem>> GetAllOffers()
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>();
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published );
+
+            var list = await query.ListAsync();
+
+            return list.ToList();
+        }
+        public async Task<List<ContentItem>> GetAllOffersByTag(string tagId)
+        {
+            var query = _session.Query<ContentItem, TaxonomyIndex>();
+            query = query.With<TaxonomyIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.TermContentItemId.Contains(tagId));
+
+            var list = await query.ListAsync();
+
+            return list.ToList();
+        }
+        public async Task<List<ContentItem>> GetAllOffersSearch(string searchString)
+        {
+            var query = _session.Query<ContentItem, OfferIndex>();
+            query = query.With<OfferIndex>(x => x.Published && x.DisplayText.Contains(searchString));
+
+            var list = await query.ListAsync();
+
+            return list.ToList();
         }
     }
 }

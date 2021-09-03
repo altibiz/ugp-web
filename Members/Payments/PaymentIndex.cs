@@ -3,6 +3,7 @@ using YesSql.Indexes;
 using YesSql.Sql;
 using System;
 using System.Linq;
+using Members.Core;
 
 namespace Members.Payments
 {
