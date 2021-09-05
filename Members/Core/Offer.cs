@@ -16,7 +16,7 @@ namespace Members.Core
 {
         public TextField ShortDescription { get; set; }
         public TextField PersonName { get; set; }
-        public TextField DisplayText { get; set; }
+        public TextField Title { get; set; }
         public TextField ContactPerson { get; set; }
         public TextField Email { get; set; }
         public TextField LongDescription { get; set; }
@@ -53,7 +53,7 @@ namespace Members.Core
                     .WithSettings(new TitlePartSettings
                     {
                         Options = TitlePartOptions.GeneratedDisabled,
-                        Pattern = "{{ ContentItem.Content.Offer.DisplayText.Text }}",
+                        Pattern = "{{ ContentItem.Content.Offer.Title.Text }}",
                     })
                 )
             );
@@ -78,9 +78,9 @@ namespace Members.Core
                         Required = true,
                     })
                 )
-                .WithField("DisplayText", field => field
+                .WithField("Title", field => field
                     .OfType("TextField")
-                    .WithDisplayName("Nalov")
+                    .WithDisplayName("Naslov")
                     .WithPosition("0")
                     .WithSettings(new TextFieldSettings
                     {

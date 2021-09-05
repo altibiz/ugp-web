@@ -20,7 +20,7 @@
         @T["My Companies"]
     </h5>
     <div class="d-grid gap-2 d-md-block">
-        <a class="btn btn-primary" type="button" href="./CreateCompany">@T["Add Company"]</a>
+        <a class="btn btn-primary" type="button" asp-page="./CreateCompany"  asp-route-returnPage="MyProfile">@T["Add Company"]</a>
     </div>
     <hr>
     <div class="list-group-flush">
@@ -28,7 +28,7 @@
         {
             @foreach (var item in Model.CompanyContentItems)
             {
-                <a asp-page="./MyCompany" asp-route-companyId="@item.ContentItemId" class="list-group-item d-flex justify-content-between align-items-center">
+                <a asp-page="./MyCompany" asp-route-companyId="@item.ContentItemId" asp- class="list-group-item d-flex justify-content-between align-items-center">
                     @item.DisplayText
                   @if (!item.Published) { 
                     <span class="badge badge-primary bg-secondary badge-pill">Čeka provjeru</span>

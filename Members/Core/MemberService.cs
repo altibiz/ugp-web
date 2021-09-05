@@ -64,7 +64,7 @@ namespace Members.Core
             ContentItem member = await GetUserMember();
             var companyContentItem = new List<ContentItem>();
 
-            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId);
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId,x=>true);
             companies = companies.Where(x => x.ContentType == nameof(ContentType.Company));
 
             return companies.ToList();
@@ -222,7 +222,7 @@ namespace Members.Core
         public async Task<List<ContentItem>> GetAllOffersSearch(string searchString)
         {
             var query = _session.Query<ContentItem, OfferIndex>();
-            query = query.With<OfferIndex>(x => x.Published && x.DisplayText.Contains(searchString));
+            query = query.With<OfferIndex>(x => x.Published && x.Title.Contains(searchString));
 
             var list = await query.ListAsync();
 

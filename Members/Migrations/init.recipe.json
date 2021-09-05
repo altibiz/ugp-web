@@ -768,6 +768,36 @@
 										"@WeldedPartSettings": {
 											"TermPart": {}
 										}
+									},
+									{
+										"ContentItemId": "samrcbqjad20q2pgckfbybruno",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Izvan Hrvatske",
+										"Latest": true,
+										"Published": false,
+										"ModifiedUtc": "2021-06-16T10:25:43.1759361Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"Tag": {},
+										"TitlePart": {
+											"Title": "Izvan Hrvatske"
+										},
+										"AutoroutePart": {
+											"Path": "izvan-hrvatske",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"TermPart": {
+											"TaxonomyContentItemId": "4d0dew9ar7h9nsbpcs7jg2egwe"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
 									}
 								]
 							}
@@ -3726,6 +3756,36 @@
 										"@WeldedPartSettings": {
 											"TermPart": {}
 										}
+									},
+									{
+										"ContentItemId": "brunozxqbgb8h6v16x5kt3q2dh",
+										"ContentItemVersionId": null,
+										"ContentType": "Tag",
+										"DisplayText": "Dom za starije i nemoćne",
+										"Latest": true,
+										"Published": false,
+										"ModifiedUtc": "2021-06-18T07:34:24.2762734Z",
+										"PublishedUtc": null,
+										"CreatedUtc": null,
+										"Owner": null,
+										"Author": "admin",
+										"TitlePart": {
+											"Title": "Dom za starije i nemoćne"
+										},
+										"AutoroutePart": {
+											"Path": "dom-stariji-nemocni",
+											"SetHomepage": false,
+											"Disabled": false,
+											"RouteContainedItems": false,
+											"Absolute": false
+										},
+										"Tag": {},
+										"TermPart": {
+											"TaxonomyContentItemId": "4gy5x0s0wck1p2k2mv19pmwsxw"
+										},
+										"@WeldedPartSettings": {
+											"TermPart": {}
+										}
 									}
 								]
 							}
@@ -3831,7 +3891,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Doniraj",
-											"Url": "/Members/donate"
+											"Url": "https://forms.monday.com/forms/fe29ac3a855ed7581b8e84afc32c7086"
 										},
 										"LinkMenuItem": {
 											"Icon": {

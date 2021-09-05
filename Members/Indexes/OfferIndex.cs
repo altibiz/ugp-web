@@ -11,7 +11,7 @@ namespace Members.Indexes
     {
         public string ContentItemId { get; set; }
         public string CompanyContentItemId { get; set; }
-        public string DisplayText { get; set; }
+        public string Title { get; set; }
         public bool Published { get; set; }
         public bool Latest { get; set; }
         public string Owner { get; set; }
@@ -31,7 +31,7 @@ namespace Members.Indexes
                     {
                         ContentItemId = contentItem.ContentItemId,
                         CompanyContentItemId = contentItem.ContentItem.Content.Offer.Company.ContentItemIds[0],
-                        DisplayText = contentItem.DisplayText,
+                        Title = contentItem.DisplayText,
                         Published = contentItem.Published,
                         Latest = contentItem.Latest,
                         Owner = contentItem.Owner
@@ -47,7 +47,7 @@ namespace Members.Indexes
             SchemaBuilder.CreateMapIndexTable<OfferIndex>(table => table
                 .Column<string>(nameof(OfferIndex.ContentItemId), c => c.WithLength(26))
                 .Column<string>(nameof(OfferIndex.CompanyContentItemId), c => c.WithLength(26))
-                .Column<string>(nameof(OfferIndex.DisplayText), c => c.WithLength(26))
+                .Column<string>(nameof(OfferIndex.Title), c => c.WithLength(26))
                 .Column<string>(nameof(OfferIndex.Owner), c => c.WithLength(26))
                 .Column<bool>(nameof(OfferIndex.Published))
                 .Column<bool>(nameof(OfferIndex.Latest))
