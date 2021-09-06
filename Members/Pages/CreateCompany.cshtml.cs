@@ -29,7 +29,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var member = await _mService.GetUserMember();
+            var member = await _mService.GetUserMember(true);
 
             if (member == null)
             {
@@ -41,9 +41,8 @@ namespace Members.Pages
 
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string returnPage)
         {
-
             ContentItem contentItem;
             (contentItem, Shape) = await _mService.GetUpdatedItem(ContentType.Company);
             if (ModelState.IsValid)
@@ -52,7 +51,7 @@ namespace Members.Pages
                 if (result.Succeeded)
                 {
                     _notifier.Success(H["Legal entity added successfully"]);
-                    return RedirectToPage("Portal");
+                    return RedirectToPage(returnPage ?? "Portal");
                 }
             }
             return Page();

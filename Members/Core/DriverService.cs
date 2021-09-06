@@ -30,7 +30,7 @@ namespace Members.Core
                     return false;
                 var textset = context.PartFieldDefinition.GetSettings<ContentPartFieldSettings>();
                 textset.DisplayName = partSettings.GetFieldLabel(context.PartFieldDefinition.Name, textset.DisplayName);
-                textset.Editor = partSettings.GetFieldEditor(context.PartFieldDefinition.Name, textset.DisplayMode, context);
+                textset.Editor = partSettings.GetFieldDisplayMode(context.PartFieldDefinition.Name, textset.DisplayMode, context);
             }
             return true;
         }

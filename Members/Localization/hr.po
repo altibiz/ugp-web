@@ -72,20 +72,34 @@ msgctxt "Members.Pages.Events"
 msgid "Events"
 msgstr "Događanja"
 
-msgctxt "Members.Pages.MyOffer"
-msgid "My Offer"
-msgstr "Moja ponuda"
-
-
 msgctxt "Members.Pages.Newsletter"
 msgid "Newsletter"
 msgstr "Newsletter"
 msgid "Fill out the form below to sign up for the newsletter"
 msgstr "Popunite obrazac u nastavku kako biste se prijavili na newsletter"
 
-msgctxt "Members.Pages.OfferForMembers"
+msgctxt "Members.Pages.MyOffer"
+msgid "My Offer"
+msgstr "Moja ponuda"
+
+msgctxt "Members.Pages.Offer"
+msgid "Offer"
+msgstr "Ponuda"
+msgid "Contact Person"
+msgstr "Kontakt osoba"
+
+msgctxt "Members.Pages.OffersForMembers"
 msgid "Offer For Members"
 msgstr "Ponude za članove"
+msgid "Read More"
+msgstr "Više"
+msgid "Search Here"
+msgstr "Traži ovdje"
+msgid "Search"
+msgstr "Traži"
+
+
+
 
 msgctxt "Members.Pages.Portal"
 msgid "User Pages"

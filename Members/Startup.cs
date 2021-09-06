@@ -20,6 +20,9 @@ using Members.PartFieldSettings;
 using OrchardCore.Data;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Drivers;
+using Members.Payments;
+using YesSql.Indexes;
+using Members.Indexes;
 
 namespace Members
 {
@@ -38,9 +41,14 @@ namespace Members
             services.AddScoped<IDataMigration, Migrations>();
             services.AddContentPart<Member>();
             services.UsePartService<PersonPart, PersonPartService>();
+            services.UsePartService<BankStatPart, BankStatPartService>();
             services.AddScoped<MemberService>();
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
-            if (CurrentEnvironment.IsDevelopment())
+            services.AddSingleton<IIndexProvider, PaymentIndexProvider>();
+            services.AddSingleton<IIndexProvider, OfferIndexProvider>();
+            services.AddContentPart<Payment>();
+            services.AddContentPart<Offer>();
+            if (CurrentEnvironment.IsDevelopment()) 
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
                 services.AddScoped<IContentTypeDefinitionDisplayDriver, CodeGenerationDisplayDriver>();

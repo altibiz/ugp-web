@@ -29,7 +29,15 @@ namespace Members
                    .Add(S["Fizičke osobe"], "5", childOne => childOne
                        .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Member" }))
                    .Add(S["Pravne osobe"], "6", childTwo => childTwo
-                       .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Company" })),new[] { "icon-class-fas","icon-class-fa-users" });
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Company" }))
+                   .Add(S["Donacije"], "7", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Payment" }))
+                   .Add(S["Ponude"], "8", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Offer" }))
+                   .Add(S["Izvodi"], "9", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
+                 , new[] { "icon-class-fas", "icon-class-fa-users" });
+
 
             return Task.CompletedTask;
         }

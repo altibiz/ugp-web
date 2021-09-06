@@ -2,45 +2,73 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Members.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Display;
+using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.DisplayManagement.Notify;
 
 namespace Members.Pages
 {
     public class MyOfferModel : PageModel
     {
+        private readonly IHtmlLocalizer H;
+        private readonly MemberService _memberService;
+        private readonly INotifier _notifier;
+        public dynamic Shape { get; set; }
 
-        [BindProperty]
-        public string OfferTitle { get; set; }
+        public MyOfferModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        {
+            _notifier = notifier;
+            H = htmlLocalizer;
+            _memberService = mService;
+        }
+        public async Task<IActionResult> OnGetAsync(string contentItemId=null)
+        {
+            ContentItem contentItem;
+            if (contentItemId == null)
+            {
+                return RedirectToPage("OfferFor");
+            }
+            var offer = await _memberService.GetCompanyOffers(contentItemId, true);
 
-        [BindProperty]
-        public string ShortDescription { get; set; }
-        [BindProperty]
-        public string Category { get; set; }
-        [BindProperty]
-        public string PersonName { get; set; }
-        [BindProperty]
-        public string ContactPerson { get; set; }
-        [BindProperty]
-        public string Email { get; set; }
+            if (offer == null)
+            {
+               return  RedirectToPage("CreateOffer", new { contentItemId });
+            }
+            else
+            {
+                if (!offer.Published)
+                {
+                    _notifier.Information(H["Molimo prièekajte da naši administratori potvrde ponudu"]);
+                }
+                else
+                {
+                    (Shape, contentItem) = await _memberService.GetEditorById(offer.ContentItemId);
+                }
+            }
+            return Page();
+         }
 
+        public async Task<IActionResult> OnPostAsync(string contentItemId)
+        {
+            var offer = await _memberService.GetCompanyOffers(contentItemId);
 
+            ContentItem contentItem;
+            (contentItem, Shape) = await _memberService.GetUpdatedItem(offer.ContentItemId);
 
-        [BindProperty]
-        public string Description { get; set; }
-        [BindProperty]
-        public string YoutubeId { get; set; }
-        [BindProperty]
-        public string Address { get; set; }
-        [BindProperty]
-        public string Phone { get; set; }
-        [BindProperty]
-        public string Web { get; set; }
-        [BindProperty]
-        public string Instagram { get; set; }
-        [BindProperty]
-        public string Facebook { get; set; }
-        [BindProperty]
-        public string LinkedIn { get; set; }
+            if (ModelState.IsValid)
+            {
+                var result = await _memberService.UpdateContentItem(contentItem);
+
+                if (result.Succeeded)
+                    _notifier.Success(H["Offer updated successful"]);
+            }
+            return Page();
+        }
+
     }
 }

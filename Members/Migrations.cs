@@ -5,6 +5,7 @@ using OrchardCore.Recipes.Services;
 using Members.Persons;
 using Members.Core;
 using Members.Payments;
+using Members.Indexes;
 
 namespace Members
 {
@@ -30,7 +31,10 @@ namespace Members
 
             _contentDefinitionManager.ExecuteMemberMigrations();
             _contentDefinitionManager.MigratePayment();
-
+            SchemaBuilder.CreatePaymentIndex();
+            _contentDefinitionManager.MigrateOffer();
+            SchemaBuilder.CreateOfferIndex();
+            _contentDefinitionManager.CreateBankStatement();
             return 1;
         }
     }

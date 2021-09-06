@@ -1,0 +1,16 @@
+﻿@model OrchardCore.ContentFields.ViewModels.EditLinkFieldViewModel
+
+@{ var settings = Model.PartFieldDefinition.GetSettings<LinkFieldSettings>(); }
+
+@{ var isRequired = settings.Required && String.IsNullOrWhiteSpace(settings.DefaultUrl);
+    var isTextRequired = settings.LinkTextMode == LinkTextMode.Required && String.IsNullOrWhiteSpace(settings.DefaultText);
+    var urlClass = settings.Required ? "required" : null;
+    var textClass = settings.LinkTextMode == LinkTextMode.Required ? "required" : null; }
+
+
+<div class="form-group">
+    <div class="form-floating">
+        <input asp-for="Url" class="form-control content-preview-text" placeholder="smth" required="@isRequired" />
+        <label asp-for="Url">@Model.PartFieldDefinition.DisplayName()</label>
+    </div>
+</div>
