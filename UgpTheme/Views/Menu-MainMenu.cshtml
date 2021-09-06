@@ -1,0 +1,25 @@
+@using Microsoft.AspNetCore.Identity
+@using OrchardCore.Entities
+@using OrchardCore.Settings
+@using OrchardCore.Users
+@using OrchardCore.Users.Models
+@inject ISiteService SiteService
+@inject SignInManager<IUser> SignInManager
+
+@{ var allowChangeEmail = (await SiteService.GetSiteSettingsAsync()).As<ChangeEmailSettings>().AllowChangeEmail;
+    var externalAuthenticationSchemes = await SignInManager.GetExternalAuthenticationSchemesAsync(); }
+
+@{ TagBuilder tag = Tag(Model, "ul");
+    tag.AddCssClass("nav navbar-nav");
+
+    foreach (var item in Model.Items)
+    {
+        tag.InnerHtml.AppendHtml(await DisplayAsync(item));
+    }
+}
+
+@tag
+
+
+
+@{ Html.RenderPartial("LoginMenu"); }
