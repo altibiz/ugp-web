@@ -213,7 +213,7 @@ namespace Members.Core
                         Required = true,
                     })
                 )
-                .WithField("TurnoverIn2019", field => field
+                .WithField("Revenue2019", field => field
                     .OfType("NumericField")
                     .WithDisplayName("Promet u 2019")
                     .WithPosition("2")
