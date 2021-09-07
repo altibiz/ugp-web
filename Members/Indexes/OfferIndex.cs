@@ -45,8 +45,8 @@ namespace Members.Indexes
         public static void CreateOfferIndex(this ISchemaBuilder SchemaBuilder)
         {
             SchemaBuilder.CreateMapIndexTable<OfferIndex>(table => table
-                .Column<string>(nameof(OfferIndex.ContentItemId), c => c.WithLength(26))
-                .Column<string>(nameof(OfferIndex.CompanyContentItemId), c => c.WithLength(26))
+                .Column<string>(nameof(OfferIndex.ContentItemId), c => c.WithLength(50))
+                .Column<string>(nameof(OfferIndex.CompanyContentItemId), c => c.WithLength(50))
                 .Column<string>(nameof(OfferIndex.Title), c => c.WithLength(26))
                 .Column<string>(nameof(OfferIndex.Owner), c => c.WithLength(26))
                 .Column<bool>(nameof(OfferIndex.Published))

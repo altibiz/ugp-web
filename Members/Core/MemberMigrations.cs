@@ -27,6 +27,7 @@ namespace Members.Core
                 ))
                 .WithPart("Member", part => part
                     .WithPosition("0")
+                    .WithSettings(new MemberSettings())
                 )
                 .WithPart("AliasPart", part => part
                     .WithPosition("2")
@@ -47,7 +48,7 @@ namespace Members.Core
                         ContainedContentTypes = new[] { "Company" },
                     })
                 )
-            ); ; ;
+            );
 
             #endregion
 
@@ -102,6 +103,12 @@ namespace Members.Core
                     .WithDisplayName("Opišite vaše vještine/znanja")
                     .WithEditor("TextArea")
                     .WithPosition("9")
+                    )
+                .WithField("AdminNotes", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Admin bilješke")
+                    .WithEditor("TextArea")
+                    .WithPosition("12")
                     ));
             #endregion
 

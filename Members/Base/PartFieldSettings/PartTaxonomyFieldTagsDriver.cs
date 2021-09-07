@@ -1,4 +1,4 @@
-﻿using Members.Core;
+﻿using Members.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using OrchardCore.Admin;
@@ -24,13 +24,13 @@ namespace Members.PartFieldSettings
 
         public override IDisplayResult Edit(TaxonomyField field, BuildFieldEditorContext context)
         {
-            if (!AdminAttribute.IsApplied(_httpCA.HttpContext) && !DriverService.CheckSettings(context)) return null;
+            if (!DriverService.CheckSettings(context, AdminAttribute.IsApplied(_httpCA.HttpContext))) return null;
             return base.Edit(field, context);
         }
 
         public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, IUpdateModel updater, UpdateFieldEditorContext context)
         {
-            if (!AdminAttribute.IsApplied(_httpCA.HttpContext) && !DriverService.CheckSettings(context)) return null;
+            if (!DriverService.CheckSettings(context, AdminAttribute.IsApplied(_httpCA.HttpContext))) return null;
             if (context.PartFieldDefinition.Editor() == "Disabled") return Edit(field, context);
             return await base.UpdateAsync(field, updater, context);
         }

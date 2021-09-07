@@ -1,16 +1,12 @@
-﻿using OrchardCore.ContentFields.Fields;
+﻿using Members.PartFieldSettings;
+using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
-using OrchardCore.ContentManagement.Records;
+using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.Taxonomies.Fields;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Members.Core
 {
-    public class Member:ContentPart
+    public class Member : ContentPart
     {
         public UserPickerField User { get; set; }
 
@@ -21,6 +17,22 @@ namespace Members.Core
         public TaxonomyField Activity { get; set; }
 
         public TextField Skills { get; set; }
+
+        public TextField AdminNotes { get; set; }
+    }
+
+    public class MemberSettings : IFieldEditorSettings
+    {
+        public DisplayModeResult GetFieldDisplayMode(string propertyName, string defaultMode, BuildFieldEditorContext context, bool isAdminTheme)
+        {
+            if (!isAdminTheme && propertyName == nameof(Member.AdminNotes)) return false;
+            return defaultMode;
+        }
+
+        public string GetFieldLabel(string propertyName, string defaultVale, bool isAdminTheme)
+        {
+            return defaultVale;
+        }
     }
 
 
