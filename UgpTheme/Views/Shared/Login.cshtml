@@ -22,14 +22,14 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style asp-name="font-awesome" version="5"></style>
 
-@{ Html.RenderPartial("_Header", "Log In"); }
+@{ Html.RenderPartial("_Header", @T["Log In"].Value); }
 <div class="container login-container">
 
     <div class="row">
         @if (!disableLocalLogin)
         {
             <div class="col-md-6 @(loginProviders.Count == 0 ? "offset-md-0" : String.Empty)">
-                <h4>@T["Prijava"]</h4>
+                <h4>@T["Log in"]</h4>
                 <hr />
 
                 <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
@@ -70,13 +70,13 @@
             {
                 <div class="col-md-6">
                     <div class="auth-form">
-                        <h4>REGISTRACIJA</h4>
+                        <h4>@T["Register"]</h4>
 
                         <hr />
                         <div class="form-floating">
-                            <p>Ukoliko još niste član, registrirajte se</p>
+                            <p>@T["If You still not a member, register"]</p>
 
-                            <a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Registrirajte se"]</a>
+                            <a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Sign Up"]</a>
                         </div>
 
                     </div>
