@@ -28,7 +28,9 @@ namespace Members.Pages
         public string Email { get; set; }
         [BindProperty]
         public string Note { get; set; }
-
+        [BindProperty]
+        public string PersonId { get; set; }
+        public List<ContentItem> PersonList { get; set; }
         public bool IsGuest { get; set; }
 
         public DonateModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
@@ -36,21 +38,21 @@ namespace Members.Pages
             _notifier = notifier;
             H = htmlLocalizer;
             _memberService = mService;
+            IsGuest = true;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
             ContentItem ci = await _memberService.GetUserMember();
-            if (Amount!= null && LegalName!=null)
+            if (ci != null)
+            {
+                await SetPersonList();
 
-
-            if (ci != null) {
-                IsGuest = true;
+                IsGuest = false;
                 LegalName = ci.Content.PersonPart.LegalName.ToString();
-                Amount = "100";
+                Amount = "1000";
                 Oib = ci.Content.PersonPart.Oib.Text;
                 Email = ci.Content.PersonPart.Email.Text;
-
             }
 
             return Page();
@@ -66,6 +68,35 @@ namespace Members.Pages
 
             return Page();
         }
+        public async Task<IActionResult> OnPost(string amount=null)
+        {
+            ContentItem person = await _memberService.GetContentItemById(PersonId);
+            IsGuest = false;
+            LegalName = person.Content.PersonPart.LegalName.ToString();
+            Oib = person.Content.PersonPart.Oib.Text;
+            Email = person.Content.PersonPart.Email.Text;
+
+            await SetPersonList();
+
+            return Page();
+        }
+        public async Task SetPersonList()
+        {
+            PersonList = new List<ContentItem>();
+
+            ContentItem ci = await _memberService.GetUserMember();
+            if (ci != null)
+            {
+                PersonList.Add(ci);
+
+                var companies = await _memberService.GetUserCompanies();
+                foreach (ContentItem item in companies)
+                {
+                    PersonList.Add(item);
+                }
+            }
+        }
+
         public async Task<IActionResult> OnPostGenerateQrFromFormAsync()
         {
             return Page();

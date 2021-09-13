@@ -11,8 +11,7 @@
     bool isGuest =Model.IsGuest;
 }
 
-@{ Html.RenderPartial("_Header", @T["Donate"].Value); }
-
+@{ Html.RenderPartial("_Header", T["Donate"].Value); }
 
 <script asp-name="ugptheme-jQuery"></script>
 
@@ -31,45 +30,66 @@
     var isGuest = "@isGuest";
 
     function drawBarcode(amount2) {
-    amount = amount2 || "@amount";
-    const data = {
-        header: 'HRVHUB30',
-        currency: 'HRK',
-        price: amount +'.00' ||'',
-        name: name || '',
-        email: email || '',
-        cityAndPostalCode: '',
-        recepient: 'UG',
-        recepientAddress: 'Ulica Republike Austrije 33',
-        recepientCityAndPostalCode: '10000 Zagreb',
-        IBAN: 'HR2324020061100970954',
-        callNumber: 'HR99',
-        OIB: oib || '',
-        code: 'COST',
-        description: note || 'sec'
-    }
-    $("#info-oib").html(data.OIB);
-    const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
+        amount = amount2 ||"@amount";
+        const data = {
+            header: 'HRVHUB30',
+            currency: 'HRK',
+            price: amount + '.00' || '',
+            name: name || '',
+            email: email || '',
+            cityAndPostalCode: '',
+            recepient: 'GLAS PODUZETNIKA',
+            recepientAddress: 'Ulica Republike Austrije 33',
+            recepientCityAndPostalCode: '10000 Zagreb',
+            IBAN: 'HR2324020061100970954',
+            callNumber: 'HR99',
+            OIB: oib || '',
+            code: 'COST',
+            description: note || 'sec'
+        }
+        $("#info-oib").html(data.OIB);
+        const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
-    var canvas = document.getElementById("barcode")
-    PDF417.draw(code.substr(1), canvas)
-    }
+        var canvas = document.getElementById("barcode")
+        if (canvas) {
 
+            PDF417.draw(code.substr(1), canvas)
+            var amountHelper = document.getElementById('amountHelper');
+            if (amountHelper) {
+                amountHelper.value = amount;
+            }
+        }
+    }
+    //Set selected
+
+    function setSelectedValue(selectObj, valueToSet) {
+        for (var i = 0; i < selectObj.options.length; i++) {
+            if (selectObj.options[i].text == valueToSet) {
+                selectObj.options[i].selected = true;
+                return;
+            }
+        }
+
+    }
     window.onload = function () {
         var amountSelector = document.getElementById('amountSelector');
         if (amountSelector) {
             amountSelector.value =event.target.value;
             amountSelector.addEventListener('change', (event) => {
-
+                var amountHelper = document.getElementById('amountHelper');
+                if (amountHelper) {
+                    amountHelper.value = event.target.value;
+                }
                 drawBarcode(event.target.value);
-
-                const amm = document.getElementById('donateFormAmount');
-                amm.value = selectElement.value;
             });
+
+            var amountSelector = document.getElementById('amountSelector');
+            if (amountSelector) {
+                setSelectedValue(amountSelector, amount);
+            }
+
         }
     }
-
-
 
 
   $(function () {
@@ -170,6 +190,22 @@
                     <div class="accordion-body">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
+                                <span class="input-group-text">Osoba/Tvrtka</span>
+                            </div>
+                            <form method="post" id="personSelector">
+                                <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
+                                    @if(Model.PersonList!=null){
+                                    @foreach(var item in Model.PersonList){
+                                    <option value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <input type="text"  asp-for="Amount"  id="amountHelper" style="display: none;"/>
+                            </form>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
                                 <span class="input-group-text">Doniraj</span>
                             </div>
                             <select class="form-select" aria-label="100" id="amountSelector">
@@ -182,9 +218,10 @@
                                 <span class="input-group-text">HRK</span>
                             </div>
                         </div>
-                        <ul class="list-group list-group-flush fs-6">
+                        <div class="list-group list-group-flush fs-6">
                             <canvas id="barcode"></canvas>
-                        </ul>
+
+                        </div>
                         <p class="lead fs-6 my-1 ">
                             Skenirajte 2D barkod iz Vašeg mobilnog bankarstva i<br />
                             obavezno pod „poziv na broj primatelja“ unesite<br />
