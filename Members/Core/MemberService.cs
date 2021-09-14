@@ -127,6 +127,13 @@ namespace Members.Core
         public async Task<(ContentItem, IShape)> GetNewItem(ContentType cType)
         {
             var contentItem = await _contentManager.NewAsync(cType.ToString());
+            if (cType.Equals(ContentType.Company))
+            {
+                ContentItem mem = await GetUserMember();
+                contentItem.Content.PersonPart.Address = mem.Content.PersonPart.Address;
+                contentItem.Content.PersonPart.County = mem.Content.PersonPart.County;
+                contentItem.Content.PersonPart.City = mem.Content.PersonPart.City;
+            }
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             return (contentItem, model);
         }
