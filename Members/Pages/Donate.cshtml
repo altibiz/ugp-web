@@ -1,4 +1,252 @@
 ﻿@page
+@model Members.Pages.DonateModel
 
-@{ Html.RenderPartial("_Header", @T["Donate"].Value); }
+@{
+    var name = Model.LegalName;
+    var oib = Model.Oib;
+    var amount = Model.Amount;
+    var email = Model.Email;
+    var note = Model.Note;
 
+    bool isGuest = Model.IsGuest;
+}
+
+@{ Html.RenderPartial("_Header", T["Donate"].Value); }
+
+<script asp-name="ugptheme-jQuery"></script>
+<script asp-name="ugptheme-libbcmath"></script>
+<script asp-name="ugptheme-bcmath"></script>
+<script asp-name="ugptheme-pdf417"></script>
+
+<script type="text/javascript">
+    var name="@name";
+    var oib="@oib";
+    var amount="@amount";
+    var email="@email";
+    var note = "@note";
+    var isGuest = "@isGuest";
+
+    function drawBarcode(amount2) {
+        amount = amount2 ||"@amount";
+        const data = {
+            header: 'HRVHUB30',
+            currency: 'HRK',
+            price: amount + '.00' || '',
+            name: name || '',
+            email: email || '',
+            cityAndPostalCode: '',
+            recepient: 'GLAS PODUZETNIKA',
+            recepientAddress: 'Ulica Republike Austrije 33',
+            recepientCityAndPostalCode: '10000 Zagreb',
+            IBAN: 'HR2324020061100970954',
+            callNumber: 'HR99',
+            OIB: oib || '',
+            code: 'COST',
+            description: note || 'sec'
+        }
+        $("#info-oib").html(data.OIB);
+        const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
+
+        var canvas = document.getElementById("barcode")
+        if (canvas) {
+
+            PDF417.draw(code.substr(1), canvas)
+            var amountHelper = document.getElementById('amountHelper');
+            if (amountHelper) {
+                amountHelper.value = amount;
+            }
+        }
+    }
+    //Set selected
+
+    function setSelectedValue(selectObj, valueToSet) {
+        for (var i = 0; i < selectObj.options.length; i++) {
+            if (selectObj.options[i].text == valueToSet) {
+                selectObj.options[i].selected = true;
+                return;
+            }
+        }
+
+    }
+    window.onload = function () {
+        var amountSelector = document.getElementById('amountSelector');
+        if (amountSelector) {
+            amountSelector.value =event.target.value;
+            amountSelector.addEventListener('change', (event) => {
+                var amountHelper = document.getElementById('amountHelper');
+                if (amountHelper) {
+                    amountHelper.value = event.target.value;
+                }
+                drawBarcode(event.target.value);
+            });
+
+            var amountSelector = document.getElementById('amountSelector');
+            if (amountSelector) {
+                setSelectedValue(amountSelector, amount);
+            }
+
+        }
+    }
+
+
+  $(function () {
+    drawBarcode();
+  });
+</script>
+
+<div class="row">
+    <div class="container">
+
+
+        <img src="/media/banner_2_0518.jpg" class="img-fluid" />
+        <h3 class="pt-4">Doniraj</h3>
+
+        <p class="lead fs-6">
+            Dragi članovi udruge Glas poduzetnika,
+            <br />
+            simpatizeri, podržavatelji i oni koji će nam se tek pridružiti, kao što smo najavili, udruga se neće financirati iz članarina. Želja nam je pokazati hrvatskoj javnosti da postoje bolji poslovni modeli od prisilnog plaćanja članarina raznim sustavima koji svoj posao ne rade kako bi trebali.
+            <br />
+            <br />
+
+            Rad udruge Glas poduzetnika financirat ćemo DONACIJAMA.<br />
+
+            <br />
+            <span>IBAN: HR2324020061100970954</span><br />
+            <span>GLAS PODUZETNIKA</span><br />
+            <span>Ulica Republike Austrije 33, Zagreb</span><br />
+            <span>model „HR00“ i poziv na broj „00000-OIB UPLATITELJA“.</span><br />
+            <br />
+
+            Ili kliknite ovdje, ispunite podatke i dobit ćete na mail podatke za uplatu:
+
+
+        </p>
+
+        <div class="accordion accordion-flush border" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed h2" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        Uplatnica na mail
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse  @if(isGuest){<text>show</text>}" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <form class="form-floating" method="post" id="donateForm">
+
+                            <h4>ŽELIM DONIRATI UGP-u</h4>
+                            <p class="fs-6">@T["Hvala Vam unaprijed na namjeri za donacijom UGP-u. Kada ispunite ove podatke, na mail će Vam doći podaci za uplatu. Radimo na pojednostavljenju sustava za donacijom, ali to se očekuje tek iza godišnjih odmora. Ovo je privremeno rješenje."]</p>
+
+                            <div class="form-floating mt-5">
+                                <input asp-for="LegalName" id="donateFormLegalName" placeholder="smth" type="text" class="form-control content-preview-text" />
+                                <label asp-for="LegalName">@T["LegalName"]</label>
+                            </div>
+
+                            <div class="form-floating mt-5">
+                                <input asp-for="Oib" id="donateFormOib" placeholder="smth" type="text" class="form-control content-preview-text" aria-describedby="oibHelpInline" />
+                                <label asp-for="Oib">@T["Oib"]</label>
+                                <span id="oibHelpInline" class="form-text fs-6">
+                                    @T["Molimo upišite OIB s kojim ste registrirani kao član. Ako ste registrirani kao tvrtka i kao fizička osoba, upišite onaj OIB koji je vezan na uplatitelja. (Primjerice ako plaćate s osobnog tekućeg računa, stavite OIB fizičke osobe). Provjerite da ste upisali ispravan OIB prije slanja."]
+                                </span>
+                            </div>
+
+                            <div class="form-floating mt-5">
+                                <input asp-for="Amount" id="donateFormAmount" placeholder="smth" type="number" class="form-control content-preview-text" min="1" step="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+                                <label asp-for="Amount">@T["Amount"]</label>
+                            </div>
+
+                            <div class="form-floating mt-5">
+                                <input asp-for="Email" id="donateFormEmail" placeholder="smth" type="email" class="form-control content-preview-text" aria-describedby="emailHelpInline" />
+                                <label asp-for="Email">@T["Email"]</label>
+                                <span id="emailHelpInline" class="form-text fs-6">
+                                    @T["Upišite email na koji želite dobiti podatke za uplatu."]
+                                </span>
+                            </div>
+
+                            <div class="form-floating mt-5">
+                                <textarea asp-for="Note" id="donateFormNote" placeholder="smth" class="form-control content-preview-text" aria-describedby="noteHelpInline" rows="3"></textarea>
+                                <label asp-for="Note">@T["Note"]</label>
+                                <span id="noteHelpInline" class="form-text fs-6">
+                                    @T["Želite li nam nešto posebno napisati, ovo je mjesto za to. Hvala Vam!!"]
+                                </span>
+                            </div>
+                            <button type="submit" asp-page-handler="GenerateQrFromForm" class="btn btn-success publish mt-5">@T["Submit"]</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            @if (!isGuest)
+            {
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed h2" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            Mobilno plaćanje
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse  @if(!isGuest){<text>show</text>}" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Osoba/Tvrtka</span>
+                                </div>
+                                <form method="post" id="personSelector">
+                                    <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
+                                        @if (Model.PersonList != null)
+                                        {
+                                            @foreach (var item in Model.PersonList)
+                                            {
+                                                <option value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                    <input type="text" asp-for="Amount" id="amountHelper" style="display: none;" />
+                                </form>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Doniraj</span>
+                                </div>
+                                <select class="form-select" aria-label="100" id="amountSelector">
+                                    <option value="100" selected>100</option>
+                                    <option value="300">300</option>
+                                    <option value="500">500</option>
+                                    <option value="1000">1000</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">HRK</span>
+                                </div>
+                            </div>
+                            <div class="list-group list-group-flush fs-6">
+                                <canvas id="barcode"></canvas>
+
+                            </div>
+                            <p class="lead fs-6 my-1 ">
+                                Skenirajte 2D barkod iz Vašeg mobilnog bankarstva i<br />
+                                obavezno pod „poziv na broj primatelja“ unesite<br />
+                                model „HR99“ i poziv na broj „00000-OIB UPLATITELJA“.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <p class="lead fs-6">
+            Kad se kao član imate kome obratiti u problemu, kad znate tko vas zastupa i kad smo dostupni za vas na raznim mrežama i platformama, kad osjetite da se borimo za svakoga od vas, znamo da ćete sukladno svojim mogućnostima pomoći radu udruge kroz donaciju. Svatko koliko može. Na taj način članarina neće biti potrebna da bi se financirao rad udruge. Oni koji nisu u mogućnosti uplatiti donaciju, ne brinite. Naš cilj je da svaki poduzetnik, obrtnik, samostalni djelatnik, iznajmljivač, udruga, ured, ordinacija, OPG-ovac, paušalac, i svi njihovi zaposlenici postanu stabilni u svom poslovanju, da brinu o svojim radnicima, da plaćaju redovno poreze – ali pravedne poreze. Da se nitko ne boji inspekcija ako radi pošteno.
+            <br />
+
+            <br />
+            Ako ste zadovoljni kako vas zastupamo, svatko za sebe sukladno svojim mogućnostima može uplatiti dobrovoljnu donaciju i pozvati svoje prijatelje i partnere da naprave isto. Pokažimo zajedno da nama poduzetnicima ne trebaju prisilne članarine, da mi znamo prepoznati kvalitetne borce i da sami znamo gdje naš novac najviše zastupa naše interese.
+            <br />
+
+            <br />
+            Donacijama ćemo financirati profesionalizaciju rada Udruge i aktivnosti koje nas vode prema postizanju naših ciljeva.
+            <br />
+            <br />
+            Mi se obvezujemo se na potpunu transparentnost u prikazivanju troškova i optimizirano trošenje pristiglih donacija isključivo u svrhu postizanja ciljeva koje ćemo transparentno komunicirati.
+        </p>
+
+    </div>
+</div>
