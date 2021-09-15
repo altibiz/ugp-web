@@ -145,7 +145,7 @@ namespace Members.Core
 
         public async Task<(ContentItem, IShape)> GetUpdatedItem(string id = null)
         {
-            return await GetUpdatedItem(await _contentManager.GetAsync(id));
+            return await GetUpdatedItem(await _contentManager.GetAsync(id, VersionOptions.Latest));
         }
 
         public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentItem contentItem)
