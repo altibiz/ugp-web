@@ -50,7 +50,7 @@ namespace Members.Pages
 
                 IsGuest = false;
                 LegalName = ci.Content.PersonPart.LegalName.ToString();
-                Amount = "1000";
+                Amount = "100";
                 Oib = ci.Content.PersonPart.Oib.Text;
                 Email = ci.Content.PersonPart.Email.Text;
             }
