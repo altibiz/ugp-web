@@ -169,11 +169,35 @@ msgctxt "UgpTheme.Views.Shared.Login"
 msgid "Remember me"
 msgstr "Zapamti me"
 
-#. <a asp-controller="Registration" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Register as a new user"]</a>
-#: OrchardCore.Users\Views\Account\Login.cshtml:60
+#. <a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Register"]</a>
+#: OrchardCore.Users\Views\Account\Login.cshtml:79
 msgctxt "UgpTheme.Views.Shared.Login"
-msgid "Register as a new user"
-msgstr "Registriraj se kao novi korisnik"
+msgid "Sign Up"
+msgstr "Registrirajte se"
+
+#. <p>@T["If You still not a member, register"]</p>
+#: OrchardCore.Users\Views\Account\Login.cshtml:77
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "If You still not a member, register"
+msgstr "Ukoliko još niste član, registrirajte se"
+
+#. <h4>@T["Log in"]</h4>
+#: OrchardCore.Users\Views\Account\Login.cshtml:32
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Log in"
+msgstr "Prijava"
+
+#. @{ Html.RenderPartial("_Header", @T["Log In"].Value); }
+#: OrchardCore.Users\Views\Account\Login.cshtml:25
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Log in"
+msgstr "Prijava"
+
+#. <h4>@T["Register"]</h4>
+#: OrchardCore.Users\Views\Account\Login.cshtml:73
+msgctxt "UgpTheme.Views.Shared.Login"
+msgid "Register"
+msgstr "REGISTRACIJA"
 
 #. <h4>@T["Use another service to log in"]</h4>
 #: OrchardCore.Users\Views\Account\Login.cshtml:70
@@ -224,3 +248,19 @@ msgstr "Lozinka"
 msgctxt "UgpTheme.Views.Shared.Register"
 msgid "Confirm password"
 msgstr "Potvrda lozinke"
+
+#. <a class="nav-link px-lg-3 py-3 py-lg-4" asp-route-area="OrchardCore.Users" asp-controller="Account" asp-action="LogOff" ><i class="fa fa-sign-out-alt fa-fw"></i> @T["Log Off"]</a>
+#: OrchardCore.Users\Views\Account\LoginMenu.cshtml:20
+msgctxt "UgpTheme.Views.Shared.LoginMenu"
+msgid "Log Off"
+msgstr "Odjavi se"
+
+
+#. <a class="nav-link px-lg-3 py-3 py-lg-4" href="/members/portal">@T["Log In"]</a>
+#: OrchardCore.Users\Views\Account\LoginMenu.cshtml:20
+msgctxt "UgpTheme.Views.Shared.LoginMenu"
+msgid "Log In"
+msgstr "Prijava"
+
+
+
