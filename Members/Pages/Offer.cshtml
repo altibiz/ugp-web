@@ -3,18 +3,18 @@
 
 @{ 
 
-    var offer = Model.OfferContentItem.Content.Offer;
+    var offer = Model.OfferContentItem;
     var company = Model.CompanyContentItem;
 
     Html.RenderPartial("_Header", @T["Offer"].Value);
 
     <blockquote>
         <!-- Content here -->
-        <h2 class="text-center">@offer.DisplayText.Text</h2>
-        @if (offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
+        <h2 class="text-center">@offer.Content.Offer.Title.Text</h2>
+        @if (!offer.Content.Offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
         {
             <div class="icon-box">
-                <img src="../media/@offer.FeaturedImage.Paths[0]" class="w-100 d-block mx-auto d-block" alt="">
+                <img src="../media/@offer.Content.Offer.FeaturedImage.Paths[0]" class="w-100 d-block mx-auto d-block" alt="">
             </div>
         }
         else
@@ -23,14 +23,14 @@
         }
         <div class="fs-5">
             <small>
-                @offer.LongDescription.Text
+                @offer.Content.Offer.LongDescription.Text
             </small>
         </div>
 
-        @if (offer.YoutubeVideoId.Text != "")
+        @if (offer.Content.Offer.YoutubeVideoId.Text != "")
         {
             <div class="ratio ratio-16x9 my-4">
-                <iframe class="embed-responsive-item" src="@(String.Format("https://www.youtube.com/embed/{0}", offer.YoutubeVideoId.Text))"></iframe>
+                <iframe class="embed-responsive-item" src="@(String.Format("https://www.youtube.com/embed/{0}", offer.Content.Offer.YoutubeVideoId.Text))"></iframe>
             </div>
         }
 
@@ -38,7 +38,7 @@
 
 
 
-            @if (company.Content.Company.Logo.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
+            @if (!company.Content.Company.Logo.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
             {
                 <li class="list-group-item p-0 border-0">
                     <div class="icon-box">
@@ -55,59 +55,59 @@
                 </li>
             }
 
-            @if (offer.ContactPerson.Text != null)
+            @if (offer.Content.Offer.ContactPerson.Text != null)
             {
                 <li class="list-group-item p-0 border-0 py-4">
                     <div class="text-uppercase ">@T["Contact Person"]:</div>
-                    <div class="">@offer.ContactPerson.Text</div>
+                    <div class="">@offer.Content.Offer.ContactPerson.Text</div>
                 </li>
             }
 
-            @if (offer.Address.Text != null)
+            @if (offer.Content.Offer.Address.Text != null)
             {
                 <li class="list-group-item p-0 border-0">
-                    <div class="icon-box"><i class="fas fa-map-marker"></i><span class="px-2">@offer.Address.Text</span></div>
+                    <div class="icon-box"><i class="fas fa-map-marker"></i><span class="px-2">@offer.Content.Offer.Address.Text</span></div>
                 </li>
             }
 
-            @if (offer.Web.Url != null)
+            @if (offer.Content.Offer.Web.Url != null)
             {
                 <li class="list-group-item p-0 border-0">
-                        <div class="icon-box"><i class="fas fa-phone-square-alt"></i><span class="px-2">@offer.Phone.Text</span></div>
+                        <div class="icon-box"><i class="fas fa-phone-square-alt"></i><span class="px-2">@offer.Content.Offer.Phone.Text</span></div>
                 </li>
             }
 
-            @if (offer.Web.Url != null)
+            @if (offer.Content.Offer.Web.Url != null)
             {
                 <li class="list-group-item p-0 border-0">
-                    <a href="@offer.Web.Url">
+                    <a href="@offer.Content.Offer.Web.Url">
                         <div class="icon-box"><i class="fas fa-globe"></i><span class="px-2">@T["Web"]</span></div>
                     </a>
                 </li>
             }
 
-            @if (offer.Instagram.Url != null)
+            @if (offer.Content.Offer.Instagram.Url != null)
             {
                 <li class="list-group-item p-0 border-0">
-                    <a href="@offer.Instagram.Url">
+                    <a href="@offer.Content.Offer.Instagram.Url">
                         <div class="icon-box"><i class="fab fa-instagram-square"></i><span class="px-2">@T["Instagram"]</span></div>
                     </a>
                 </li>
             }
 
-            @if (offer.Facebook.Url != null)
+            @if (offer.Content.Offer.Facebook.Url != null)
             {
                 <li class="list-group-item p-0 border-0">
-                    <a href="@offer.Facebook.Url">
+                    <a href="@offer.Content.Offer.Facebook.Url">
                         <div class="icon-box"><i class="fab fa-facebook-square"></i><span class="px-2">@T["Facebook"]</span></div>
                     </a>
                 </li>
             }
 
-            @if (offer.LinkedIn.Url != null)
+            @if (offer.Content.Offer.LinkedIn.Url != null)
             {
                 <li class="list-group-item p-0 border-0">
-                    <a href="@offer.LinkedIn.Url">
+                    <a href="@offer.Content.Offer.LinkedIn.Url">
                         <div class="icon-box"><i class="fab fa-linkedin"></i><span class="px-2">@T["LinkedIn"]</span></div>
                     </a>
                 </li>

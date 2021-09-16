@@ -88,7 +88,7 @@ namespace Members.Payments
             {
                 JsonConvert.DeserializeObject<BsJson>(part.StatementJson);
             }
-            catch (Exception e)
+            catch
             {
                 parsed = false;
             }

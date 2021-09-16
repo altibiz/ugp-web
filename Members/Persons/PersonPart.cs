@@ -41,23 +41,21 @@ namespace Members.Persons
     {
         public PersonType? Type { get; set; }
 
-        public string GetFieldDisplayMode(string name, string displayMode, BuildFieldEditorContext context)
+        public DisplayModeResult GetFieldDisplayMode(string propertyName, string displayMode, BuildFieldEditorContext context, bool isAdminTheme)
         {
+            if (isAdminTheme) return displayMode;
+            if (propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal) return false;
+
             return context.IsNew ? displayMode : "Disabled";
         }
 
-        public string GetFieldLabel(string propertyName, string displayName)
+        public string GetFieldLabel(string propertyName, string displayName, bool isAdminTheme)
         {
             return propertyName switch
             {
                 nameof(PersonPart.Name) => Type == PersonType.Legal ? "Naziv" : displayName,
                 _ => displayName
             };
-        }
-
-        public bool IsFieldHidden(string propertyName, BuildFieldEditorContext context)
-        {
-            return propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal;
         }
     }
 }

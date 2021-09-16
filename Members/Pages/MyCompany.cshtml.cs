@@ -41,6 +41,9 @@ namespace Members.Pages
 
                 if (result.Succeeded)
                     _notifier.Success(H["Company updated successful"]);
+
+                return RedirectToPage("MyCompany", new { companyId = companyId });
+
             }
             return Page();
         }

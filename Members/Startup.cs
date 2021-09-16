@@ -40,6 +40,7 @@ namespace Members
             services.AddScoped<INavigationProvider, AdminMenu>();
             services.AddScoped<IDataMigration, Migrations>();
             services.AddContentPart<Member>();
+            services.AddContentPart<Company>();
             services.UsePartService<PersonPart, PersonPartService>();
             services.UsePartService<BankStatPart, BankStatPartService>();
             services.AddScoped<MemberService>();

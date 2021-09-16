@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Members.Core
+namespace Members.Base
 {
     public class DriverService
     {
@@ -15,7 +15,7 @@ namespace Members.Core
                     .SelectMany(x => x.GetTypes())
                     .Where(t => typeof(IFieldEditorSettings).IsAssignableFrom(t) && t.IsClass).ToList();
 
-        public static bool CheckSettings(BuildFieldEditorContext context)
+        public static bool CheckSettings(BuildFieldEditorContext context, bool isAdminTheme)
         {
             IFieldEditorSettings partSettings = null;
             foreach (var typ in ImplementingTypes)
@@ -26,11 +26,12 @@ namespace Members.Core
             }
             if (partSettings != null)
             {
-                if (partSettings.IsFieldHidden(context.PartFieldDefinition.Name, context))
-                    return false;
                 var textset = context.PartFieldDefinition.GetSettings<ContentPartFieldSettings>();
-                textset.DisplayName = partSettings.GetFieldLabel(context.PartFieldDefinition.Name, textset.DisplayName);
-                textset.Editor = partSettings.GetFieldDisplayMode(context.PartFieldDefinition.Name, textset.DisplayMode, context);
+                var dmode = partSettings.GetFieldDisplayMode(context.PartFieldDefinition.Name, textset.DisplayMode, context, isAdminTheme);
+                if (!dmode.IsVisible)
+                    return false;
+                textset.Editor = dmode;
+                textset.DisplayName = partSettings.GetFieldLabel(context.PartFieldDefinition.Name, textset.DisplayName, isAdminTheme);
             }
             return true;
         }

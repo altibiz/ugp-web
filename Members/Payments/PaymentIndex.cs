@@ -46,8 +46,8 @@ namespace Members.Payments
             SchemaBuilder.CreateMapIndexTable<PaymentIndex>(table => table
                 .Column<DateTime>(nameof(PaymentIndex.Date))
                 .Column<decimal?>(nameof(PaymentIndex.Amount))
-                .Column<string>(nameof(PaymentIndex.ContentItemId), c => c.WithLength(26))
-                .Column<string>(nameof(PaymentIndex.PersonContentItemId), c => c.WithLength(26))
+                .Column<string>(nameof(PaymentIndex.ContentItemId), c => c.WithLength(50))
+                .Column<string>(nameof(PaymentIndex.PersonContentItemId), c => c.WithLength(50))
                 .Column<string>(nameof(PaymentIndex.PayerName), c => c.WithLength(126))
             );
 
