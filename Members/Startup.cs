@@ -23,6 +23,12 @@ using OrchardCore.Taxonomies.Drivers;
 using Members.Payments;
 using YesSql.Indexes;
 using Members.Indexes;
+using OrchardCore.ContentManagement.Handlers;
+using OrchardCore.Recipes;
+using Members.Base;
+using OrchardCore.Contents.Services;
+using OrchardCore.DisplayManagement.Handlers;
+using OrchardCore.Contents.ViewModels;
 
 namespace Members
 {
@@ -49,6 +55,12 @@ namespace Members
             services.AddSingleton<IIndexProvider, OfferIndexProvider>();
             services.AddContentPart<Payment>();
             services.AddContentPart<Offer>();
+            services.AddScoped<TaxonomyCachedService>();
+            //services.AddSingleton<IContentHandler, MemberHandler>();
+            services.AddRecipeExecutionStep<FastImport>();
+            services.AddScoped<Importer>();
+            services.AddTransient<IContentsAdminListFilterProvider, PersonPartAdminListFilterProvider>();
+            services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, PersonOptionsDisplayDriver>();
             if (CurrentEnvironment.IsDevelopment()) 
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
