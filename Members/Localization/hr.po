@@ -34,6 +34,15 @@ msgstr "Pravna osoba uspješno dodana"
 msgid "Company Name"
 msgstr "Naziv"
 
+
+msgctxt "Members.Pages.LogOut"
+msgid "LogOut"
+msgstr "Odjava"
+
+msgctxt "Members.Pages.LogOutModel"
+msgid "SignOut Success"
+msgstr "Uspješna odjava"
+
 msgctxt "Members.Pages.MyCompany"
 msgid "My company"
 msgstr "Moja tvrtka"

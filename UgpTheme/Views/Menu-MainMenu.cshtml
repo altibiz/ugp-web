@@ -6,6 +6,11 @@
 @inject ISiteService SiteService
 @inject SignInManager<IUser> SignInManager
 
+<style type="text/css">
+    .nav.navbar-nav.menu-main-menu.menu{
+        margin-left: auto;
+    }
+</style>
 @{ var allowChangeEmail = (await SiteService.GetSiteSettingsAsync()).As<ChangeEmailSettings>().AllowChangeEmail;
     var externalAuthenticationSchemes = await SignInManager.GetExternalAuthenticationSchemesAsync(); }
 
@@ -19,7 +24,3 @@
 }
 
 @tag
-
-
-
-@{ Html.RenderPartial("LoginMenu"); }

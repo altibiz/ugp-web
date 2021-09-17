@@ -1,0 +1,15 @@
+﻿@page
+@model Members.Pages.LogOutModel
+@{
+}
+
+@{ Html.RenderPartial("_Header", T["LogOut"].Value); }
+
+
+<div class="row">
+    <div class="container">
+
+        @await RenderSectionAsync("Messages", required: false)
+
+    </div>
+</div>
