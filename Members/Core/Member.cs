@@ -14,10 +14,6 @@ namespace Members.Core
 
         public TaxonomyField Sex { get; set; }
 
-        public TaxonomyField Activity { get; set; }
-
-        public TextField Skills { get; set; }
-
         public TextField AdminNotes { get; set; }
     }
 

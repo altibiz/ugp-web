@@ -989,7 +989,7 @@
 							"ContentItemId": "4k7n3gw5wm7660vqpm0805hedy",
 							"ContentItemVersionId": "4rd5egkwrehvv2319vh17yy3xs",
 							"ContentType": "Taxonomy",
-							"DisplayText": "Aktivnost člana",
+							"DisplayText": "Doprinos člana",
 							"Latest": true,
 							"Published": true,
 							"ModifiedUtc": "2021-07-14T10:33:39.4132374Z",
@@ -998,13 +998,13 @@
 							"Owner": "4qj457jqgfg0ht62psxyg33ydk",
 							"Author": "admin",
 							"TitlePart": {
-								"Title": "Aktivnost člana"
+								"Title": "Doprinos člana"
 							},
 							"AliasPart": {
-								"Alias": "AktivnostClana"
+								"Alias": "DoprinosClana"
 							},
 							"AutoroutePart": {
-								"Path": "aktivnost-clana",
+								"Path": "doprinos-clana",
 								"SetHomepage": false,
 								"Disabled": false,
 								"RouteContainedItems": false,

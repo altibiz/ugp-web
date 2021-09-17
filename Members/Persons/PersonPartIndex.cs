@@ -17,6 +17,9 @@ namespace Members.Persons
         public string LegalName { get; set; }
         public decimal? Revenue2019 { get; set; }
         public string PersonType { get; set; }
+
+        public decimal? Employees { get; set; }
+        public decimal? Associates { get; set; }
     }
 
     public class PersonPartIndexProvider : IndexProvider<ContentItem>, IScopedIndexProvider
@@ -35,23 +38,25 @@ namespace Members.Persons
                 .Map(contentItem =>
                 {
                     var pp = contentItem.As<PersonPart>();
-                    if (pp == null || string.IsNullOrEmpty(pp.Oib.Text)) return null; //skip non-oib, that's not a person
+                    if (pp == null || string.IsNullOrEmpty(pp.Oib?.Text)) return null; //skip non-oib, that's not a person
                     // Lazy initialization because of ISession cyclic dependency
                     contentDefinitionManager ??= _serviceProvider.GetRequiredService<IContentDefinitionManager>();
                     var typeDef = contentDefinitionManager.GetSettings<PersonPartSettings>(pp);
-
-                    var res= new PersonPartIndex
+                    var res = new PersonPartIndex
                     {
                         ContentItemId = contentItem.ContentItemId,
                         Oib = pp.Oib.Text,
                         LegalName = pp.LegalName,
                         PersonType = typeDef.Type?.ToString(),
                     };
+
                     var company = contentItem.As<Company>();
 
                     if (company != null)
                     {
                         res.Revenue2019 = company.Revenue2019?.Value;
+                        res.Employees = company.EmployeeNumber?.Value;
+                        res.Associates = company.PermanentAssociates?.Value;
                     }
 
                     return res;
@@ -69,6 +74,8 @@ namespace Members.Persons
                 .Column<string>("LegalName", c => c.WithLength(100))
                 .Column<string>("PersonType", c => c.WithLength(50))
                 .Column<decimal?>("Revenue2019")
+                .Column<decimal?>("Employees")
+                .Column<decimal?>("Associates")
                );
 
             SchemaBuilder.AlterIndexTable<PersonPartIndex>(table => table

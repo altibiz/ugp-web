@@ -31,6 +31,10 @@ namespace Members.Persons
 
         public TextField Email { get; set; }
 
+        public TaxonomyField ContribType { get; set; }
+
+        public TextField Skills { get; set; }
+
         public string LegalName
         {
             get => Name?.Text + (string.IsNullOrEmpty(Surname?.Text) ? "" : " " + Surname?.Text);

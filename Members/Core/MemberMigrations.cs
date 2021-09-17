@@ -70,22 +70,6 @@ namespace Members.Core
                         DisplayedRoles = new string[] { },
                     })
                 )
-                .WithField("Activity", field => field
-                    .OfType("TaxonomyField")
-                    .WithDisplayName("Želite li aktivno doprinijeti radu udruge?")
-                    .WithEditor("Tags")
-                    .WithDisplayMode("Tags")
-                    .WithPosition("10")
-                    .WithSettings(new TaxonomyFieldSettings
-                    {
-                        TaxonomyContentItemId = "4k7n3gw5wm7660vqpm0805hedy",
-                        Unique = true,
-                    })
-                    .WithSettings(new TaxonomyFieldTagsEditorSettings
-                    {
-                        Open = false,
-                    })
-                )
                 .WithField("Sex", field => field
                     .OfType("TaxonomyField")
                     .WithDisplayName("Spol")
@@ -98,12 +82,6 @@ namespace Members.Core
                         Unique = true,
                     })
                 )
-                .WithField("Skills", field => field
-                    .OfType("TextField")
-                    .WithDisplayName("Opišite vaše vještine/znanja")
-                    .WithEditor("TextArea")
-                    .WithPosition("9")
-                    )
                 .WithField("AdminNotes", field => field
                     .OfType("TextField")
                     .WithDisplayName("Admin bilješke")

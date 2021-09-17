@@ -27,8 +27,8 @@ namespace Members.Persons
         private IHttpContextAccessor _httpContextAccessor;
         private IUserService _userService;
 
-        public PersonPartService(IStringLocalizer<PersonPart> S, ISession session, IContentDefinitionManager cdm, 
-            IHttpContextAccessor httpContextAccessor,IUserService service
+        public PersonPartService(IStringLocalizer<PersonPart> S, ISession session, IContentDefinitionManager cdm,
+            IHttpContextAccessor httpContextAccessor, IUserService service
             )
         {
             this.session = session;
@@ -40,9 +40,12 @@ namespace Members.Persons
 
         public async IAsyncEnumerable<ValidationResult> ValidateAsync(PersonPart part)
         {
-
+            if (part.ContentItem.ContentItemId.StartsWith("nat_"))
+            {
+                yield break;
+            }
             var personPartSettings = _cdm.GetSettings<PersonPartSettings>(part);
-            if (!string.IsNullOrWhiteSpace(part.Oib.Text))
+            if (!string.IsNullOrWhiteSpace(part.Oib?.Text))
             {
                 var oib = part.Oib.Text;
                 if (oib.Length != 11)
@@ -79,7 +82,7 @@ namespace Members.Persons
 
         public async Task InitializingAsync(PersonPart part)
         {
-            var user =  await GetCurrentUser();
+            var user = await GetCurrentUser();
             if (user == null) return;
             part.Email = new TextField { Text = user.Email };
         }

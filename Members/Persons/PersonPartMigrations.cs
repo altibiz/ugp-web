@@ -1,6 +1,7 @@
 ﻿using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
+using OrchardCore.Indexing;
 using OrchardCore.Taxonomies.Settings;
 
 namespace Members.Persons
@@ -75,6 +76,28 @@ namespace Members.Persons
                         Required = true,
                     })
                 )
+                .WithField("ContribType", field => field
+                    .OfType("TaxonomyField")
+                    .WithDisplayName("Aktivan/neaktivan doprinos radu udruge?")
+                    .WithEditor("Tags")
+                    .WithDisplayMode("Tags")
+                    .WithPosition("10")
+                    .WithSettings(new TaxonomyFieldSettings
+                    {
+                        TaxonomyContentItemId = "4k7n3gw5wm7660vqpm0805hedy",
+                        Unique = true,
+                    })
+                    .WithSettings(new TaxonomyFieldTagsEditorSettings
+                    {
+                        Open = false,
+                    })
+                )
+                .WithField("Skills", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Vještine i znanja")
+                    .WithEditor("TextArea")
+                    .WithPosition("9")
+                    )
 
             );
         }
