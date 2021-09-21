@@ -46,6 +46,8 @@ msgstr "Uspješna odjava"
 msgctxt "Members.Pages.MyCompany"
 msgid "My company"
 msgstr "Moja tvrtka"
+msgid "Download Membership Document"
+msgstr "Preuzmi potvrdu o članstvu"
 msgid "Save Changes"
 msgstr "Spremi promjene"
 

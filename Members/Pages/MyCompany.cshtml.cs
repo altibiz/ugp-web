@@ -17,17 +17,26 @@ namespace Members.Pages
 
         public IShape Shape { get; set; }
         public ContentItem ContentItem { get; set; }
-
+        public string DocLink {get; set;}
         public MyCompanyModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
             H = htmlLocalizer;
             _memberService = mService;
         }
-                
+
         public async Task OnGetAsync(string companyId)
         {
-           (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
+
+            ContentItem company = await _memberService.GetContentItemById(companyId);
+
+            (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
+
+            var docUrl = Request.Host + "/Members/MemberConfirmationDocument/" + companyId;
+
+            var fileName = "Membership-"+company.DisplayText;
+
+            DocLink = string.Format("https://altibizhtml2pdf.azurewebsites.net/api/generatePdf?code=bPJSYSigg05QxJvYAsqPr584dwV897UbUialY99kTzNvtEt5lzBSkw==&fileName={0}&url={1}", fileName, docUrl);
         }
 
         public async Task<IActionResult> OnPostAsync(string companyId)

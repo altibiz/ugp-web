@@ -1,0 +1,19 @@
+﻿@page "{contentItemId}"
+
+@model Members.Pages.MemberConfirmationDocumentModel
+@{
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>@Model.Company.DisplayText @Model.Company.Content.Company.OrganisationType.TagNames[0]</h3>
+
+        <p><small>@T["OIB"]: @Model.Company.Content.PersonPart.Oib.Text</small></p>
+        <p><small>@T["Address"]: @Model.Company.Content.PersonPart.Address.Text</small></p>
+        <p><small>@T["City"]: @Model.Company.Content.PersonPart.City.Text</small></p>
+        <p><small>@T["County"]: @Model.Company.Content.PersonPart.County.TagNames[0]</small></p>
+
+    </div>
+</div> 
