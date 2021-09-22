@@ -12,7 +12,6 @@
             width: 100%;
             object-fit: contain;
             min-height: 200px;
-            max-height: 200px;
         }
         .card .companyLogo{
             float: left;
@@ -45,19 +44,19 @@
                             </a>
                         }
 
-                    <div class="card-body mx-0 px-0 fs-6 ">
-                        @foreach (var termId in item.Content.Offer.Category.TermContentItemIds)
-                        {
-                            <shape type="Term" TaxonomyContentItemId="@item.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@termId" class="dodo " />
-                        }
-                        <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
-                            <div class="card-title mt-2">
-                                <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]" class="w-25 d-block mx-auto d-block companyLogo" alt="">
-                                <h4 class="card-title m-0 py-2">@item.Content.Offer.Title.Text</h4>
-                            </div>
-                        </a>
-                        <p class="card-text m-0">@item.Content.Offer.ShortDescription.Text</p>
-                    </div>
+                        <div class="card-body mx-0 px-0 fs-6 ">
+                            @foreach (var termId in item.Content.Offer.Category.TermContentItemIds)
+                            {
+                                <shape type="Term" TaxonomyContentItemId="@item.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@termId" class="dodo " />
+                            }
+                            <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
+                                <div class="card-title mt-2">
+                                    <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]" class="w-25 d-block mx-auto d-block companyLogo" alt="">
+                                    <h4 class="card-title m-0 py-2">@item.Content.Offer.Title.Text</h4>
+                                </div>
+                            </a>
+                            <p class="card-text m-0">@item.Content.Offer.ShortDescription.Text</p>
+                        </div>
                         <div class="card-body d-grid px-0 fs-6">
                             <a class="" asp-page="./Offer" asp-route-offerId="@item.ContentItemId">@T["Read More"] ...</a>
                         </div>
