@@ -39,6 +39,9 @@ namespace Members.Persons
         {
             get => Name?.Text + (string.IsNullOrEmpty(Surname?.Text) ? "" : " " + Surname?.Text);
         }
+
+        public string OldSalt { get; set; }
+        public string OldHash { get; set; }
     }
 
     public class PersonPartSettings : IFieldEditorSettings

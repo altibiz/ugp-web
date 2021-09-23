@@ -10,109 +10,121 @@
 @inject UserManager<IUser> UserManager;
 
 @{
-    ViewLayout = "Layout__Login";
+	ViewLayout = "Layout__Login";
 
-    var userCanRegister = (await SiteService.GetSiteSettingsAsync()).As<RegistrationSettings>().UsersCanRegister == UserRegistrationType.AllowRegistration;
-    var allowResetPassword = (await SiteService.GetSiteSettingsAsync()).As<ResetPasswordSettings>().AllowResetPassword;
-    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-    var disableLocalLogin = (await SiteService.GetSiteSettingsAsync()).As<LoginSettings>().DisableLocalLogin;
+	var userCanRegister = (await SiteService.GetSiteSettingsAsync()).As<RegistrationSettings>().UsersCanRegister == UserRegistrationType.AllowRegistration;
+	var allowResetPassword = (await SiteService.GetSiteSettingsAsync()).As<ResetPasswordSettings>().AllowResetPassword;
+	var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+	var disableLocalLogin = (await SiteService.GetSiteSettingsAsync()).As<LoginSettings>().DisableLocalLogin;
 }
 <style asp-name="font-awesome" version="5"></style>
+<script asp-name="ugptheme-jQuery"></script>
 
 @{ Html.RenderPartial("_Header", @T["Log In"].Value); }
 <div class="container login-container">
 
-    <div class="row">
-        @if (!disableLocalLogin)
-        {
-        <div class="col-md-6 @(loginProviders.Count == 0 ? "offset-md-0" : String.Empty)  fs-6">
-            <h4>@T["Log in"]</h4>
-            <hr />
-            <span asp-validation-for="UserName" class="text-danger"></span>
+	<div class="row">
+		@if (!disableLocalLogin)
+		{
+			<div class="col-md-6 @(loginProviders.Count == 0 ? "offset-md-0" : String.Empty)  fs-6">
+				<h4>@T["Log in"]</h4>
+				<hr />
+				<span asp-validation-for="UserName" class="text-danger"></span>
 
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-floating">
-                    <input asp-for="UserName" class="form-control content-preview-text" autofocus tabindex="1" placeholder="smth" />
-                    <label asp-for="UserName">@T["Username or email address"]</label>
-                </div>
+				<form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
+					<div asp-validation-summary="All" class="text-danger"></div>
+					<div class="form-floating">
+						<input asp-for="UserName" class="form-control content-preview-text" autofocus tabindex="1" placeholder="smth" />
+						<label asp-for="UserName">@T["Username or email address"]</label>
+					</div>
 
-                <div class="form-floating">
+					<div class="form-floating">
 
-                    <input asp-for="Password" class="form-control content-preview-text" tabindex="2" placeholder="smth" />
-                    <label asp-for="Password">@T["Password"]</label>
-                </div>
-                <div class="form-check  fs-6 mb-4">
-                    <input asp-for="RememberMe" class="form-check-input" tabindex="3" placeholder="smth">
-                    <label asp-for="RememberMe" class="custom-control-label">@T["Remember me"]</label>
-                </div>
-                @await RenderSectionAsync("AfterLogin", required: false)
-                <button type="submit" class="btn btn-primary" tabindex="4">@T["Log in"]</button>
+						<input asp-for="Password" class="form-control content-preview-text" tabindex="2" placeholder="smth" />
+						<label asp-for="Password">@T["Password"]</label>
+					</div>
+					<div class="form-check  fs-6 mb-4">
+						<input asp-for="RememberMe" class="form-check-input" tabindex="3" placeholder="smth">
+						<label asp-for="RememberMe" class="custom-control-label">@T["Remember me"]</label>
+					</div>
+					@await RenderSectionAsync("AfterLogin", required: false)
+					<button type="submit" class="btn btn-primary" tabindex="4">@T["Log in"]</button>
+				</form>
+			</div>
 
-            </form>
-        </div>
 
+			@if (userCanRegister)
+			{
+				<div class="col-md-6 fs-6">
+					<div class="auth-form">
+						<h4>@T["Register"]</h4>
 
-            @if (userCanRegister)
-            {
-                <div class="col-md-6 fs-6">
-                    <div class="auth-form">
-                        <h4>@T["Register"]</h4>
+						<hr />
+						<div class="form-floating">
+							<p>@T["If You still not a member, register"]</p>
 
-                        <hr />
-                        <div class="form-floating">
-                            <p>@T["If You still not a member, register"]</p>
+							<a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Sign Up"]</a>
+						</div>
 
-                            <a asp-controller="Registration" class="btn btn-info" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">@T["Sign Up"]</a>
-                        </div>
+					</div>
+				</div>
+			}
 
-                    </div>
-                </div>
-            }
-
-        }
-        @if (loginProviders.Count > 0)
-        {
-            <div class="col-md-6 @(disableLocalLogin ? "offset-md-3" : String.Empty)">
-                <section>
-                    <h4>@T["Use another service to log in"]</h4>
-                    <hr />
-                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-primary @(disableLocalLogin ? "w-100" : String.Empty)" name="provider" value="@provider.Name" title="@T["Log in using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
-                                    @if (disableLocalLogin)
-                                    {
-                                        <br />
-                                    }
-                                }
-                            </p>
-                        </div>
-                    </form>
-                </section>
-            </div>
-        }
-    </div>
+		}
+		@if (loginProviders.Count > 0)
+		{
+			<div class="col-md-6 @(disableLocalLogin ? "offset-md-3" : String.Empty)">
+				<section>
+					<h4>@T["Use another service to log in"]</h4>
+					<hr />
+					<form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+						<div>
+							<p>
+								@foreach (var provider in loginProviders)
+								{
+									<button type="submit" class="btn btn-primary @(disableLocalLogin ? "w-100" : String.Empty)" name="provider" value="@provider.Name" title="@T["Log in using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
+									@if (disableLocalLogin)
+									{
+										<br />
+									}
+								}
+							</p>
+						</div>
+					</form>
+				</section>
+			</div>
+		}
+	</div>
 </div>
 <script at="Foot">
-    togglePassword = document.querySelector('#togglePassword');
-    password = document.querySelector('#Password');
 
-    togglePassword.addEventListener('click', function (e) {
-        @* toggle the type attribute *@
-        type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
+   function _serializeForm(id) {
+		var result = {};
+		$.each($(id).serializeArray(), function (i, field) {
+			result[field.name] = field.value.trim() || null;
+		});
+		return result;
+  }
 
-        @* toggle the eye slash icon *@
-        icon = this.getElementsByClassName('icon')[0];
-        if (icon.getAttribute('data-icon')){ @* if the icon is rendered as a svg *@
-            type === 'password' ? icon.setAttribute('data-icon', 'eye') : icon.setAttribute('data-icon', 'eye-slash');
-        }
-        else{ @* if the icon is still a <i> element *@
-            type === 'password' ? icon.classList.remove('fa-eye-slash') : icon.classList.remove('fa-eye');
-            type === 'password' ? icon.classList.add('fa-eye') : icon.classList.add('fa-eye-slash');
-        }
+	$('.auth-form').submit(function (e) {
+		e.preventDefault();
+		var data = _serializeForm('.auth-form');
+		var $form = $(this);
+    $.ajax({
+      type: "POST",
+			url: "/api/LegacyAccount",
+      data: JSON.stringify(data),
+      contentType: "application/json; charset=utf-8",
+			context: $form,
+			success: function (usr) {
+				$('#UserName').val(usr);
+				this.off('submit');
+				this.submit();
+			},
+			error: function (err) {
+				console.log(err);
+			}
     });
+	});
+
 </script>

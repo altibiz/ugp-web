@@ -1,4 +1,5 @@
-﻿using Members.Indexes;
+﻿using Members.Base;
+using Members.Indexes;
 using Members.Payments;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
@@ -54,8 +55,7 @@ namespace Members.Core
         public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
-            var query = _session.Query<ContentItem, UserPickerFieldIndex>();
-            query = query.With<UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && (x.Published || includeDraft) && x.SelectedUserId == user.UserId);
+            var query = _session.Query<ContentItem, UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && (x.Published || includeDraft) && x.SelectedUserId == user.UserId);
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
@@ -66,24 +66,18 @@ namespace Members.Core
 
             var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId,x=>true);
             companies = companies.Where(x => x.ContentType == nameof(ContentType.Company));
-
             return companies.ToList();
         }
 
         public async Task<ContentItem> GetContentItemById(string contentItemId)
         {
-            var query = _session.Query<ContentItem>();
-            query = query.With<ContentItemIndex>(x => x.ContentItemId == contentItemId);
-            var ci = await query.ListAsync();
-            return ci.FirstOrDefault();
+            return await _session.GetItemById(contentItemId);
         }
 
         public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDraft = false)
         {
 
-
             var company = await GetContentItemById(contentItemId);
-
             var query = _session.Query<ContentItem, ContentPickerFieldIndex>();
             query = query.With<ContentPickerFieldIndex>(x => x.ContentType == nameof(Offer) && (x.Published || includeDraft) && x.SelectedContentItemId == company.ContentItemId);
             var member = await query.ListAsync();
@@ -93,8 +87,6 @@ namespace Members.Core
 
         public async Task<ContentItem> GetCompanyOffers(string companyContentItemId, bool includeDraft = false)
         {
-
-
             var company = await GetContentItemById(companyContentItemId);
 
             var query = _session.Query<ContentItem, OfferIndex>();
