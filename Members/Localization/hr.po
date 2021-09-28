@@ -48,6 +48,8 @@ msgid "My company"
 msgstr "Moja tvrtka"
 msgid "Save Changes"
 msgstr "Spremi promjene"
+msgid "Membership Document"
+msgstr "Potvrda o članstvu"
 
 msgctxt "Members.Pages.MyCompanyModel"
 msgid "Company updated successful"

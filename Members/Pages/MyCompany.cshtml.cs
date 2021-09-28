@@ -14,10 +14,9 @@ namespace Members.Pages
         private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
-
         public IShape Shape { get; set; }
         public ContentItem ContentItem { get; set; }
-
+        public string DocLink { get; set; }
         public MyCompanyModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
@@ -27,7 +26,10 @@ namespace Members.Pages
                 
         public async Task OnGetAsync(string companyId)
         {
-           (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
+
+            (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
+
+            DocLink = Request.Host + "/Members/Print/" + companyId;
         }
 
         public async Task<IActionResult> OnPostAsync(string companyId)
