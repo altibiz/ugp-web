@@ -15,11 +15,11 @@ namespace Members.Core
     public class Offer : ContentPart
 {
         public TextField ShortDescription { get; set; }
+        public TextField Description { get; set; }
+        public TextField LongDescription { get; set; }
         public TextField PersonName { get; set; }
-        public TextField Title { get; set; }
         public TextField ContactPerson { get; set; }
         public TextField Email { get; set; }
-        public TextField LongDescription { get; set; }
         public TextField Address { get; set; }
         public TextField Phone { get; set; }
         public LinkField Web { get; set; }
@@ -45,43 +45,23 @@ namespace Members.Core
                 .Listable()
                 .Securable()
                 .WithPart("Offer", part => part
-                    .WithPosition("0")
-                )
-                                
-                .WithPart("TitlePart", part => part
                     .WithPosition("1")
+                )
+                .WithPart("TitlePart", part => part
+                    .WithPosition("0")
                     .WithSettings(new TitlePartSettings
                     {
-                        Options = TitlePartOptions.GeneratedDisabled,
-                        Pattern = "{{ ContentItem.Content.Offer.Title.Text }}",
+                        Options = TitlePartOptions.EditableRequired
                     })
                 )
             );
             #endregion
             #region OfferPart
             _contentDefinitionManager.AlterPartDefinition("Offer", part => part
-                .WithField("ShortDescription", field => field
-                    .OfType("TextField")
-                    .WithDisplayName("Kratki opis")
-                    .WithPosition("3")
-                    .WithSettings(new TextFieldSettings
-                    {
-                        Required = true,
-                    })
-                )
                 .WithField("PersonName", field => field
                     .OfType("TextField")
                     .WithDisplayName("Naziv pravne ili fizičke osobe")
                     .WithPosition("5")
-                    .WithSettings(new TextFieldSettings
-                    {
-                        Required = true,
-                    })
-                )
-                .WithField("Title", field => field
-                    .OfType("TextField")
-                    .WithDisplayName("Naslov")
-                    .WithPosition("0")
                     .WithSettings(new TextFieldSettings
                     {
                         Required = true,
@@ -100,6 +80,15 @@ namespace Members.Core
                     .OfType("TextField")
                     .WithDisplayName("Email")
                     .WithPosition("2")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Required = true,
+                    })
+                )
+               .WithField("ShortDescription", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Kratki opis")
+                    .WithPosition("3")
                     .WithSettings(new TextFieldSettings
                     {
                         Required = true,
