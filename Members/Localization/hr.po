@@ -48,6 +48,8 @@ msgid "My company"
 msgstr "Moja tvrtka"
 msgid "Save Changes"
 msgstr "Spremi promjene"
+msgid "Back To Profile"
+msgstr "Natrag na profil"
 
 msgctxt "Members.Pages.MyCompanyModel"
 msgid "Company updated successful"

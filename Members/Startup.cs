@@ -61,6 +61,10 @@ namespace Members
             services.AddScoped<Importer>();
             services.AddTransient<IContentsAdminListFilterProvider, PersonPartAdminListFilterProvider>();
             services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, PersonOptionsDisplayDriver>();
+
+            services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
+
+
             if (CurrentEnvironment.IsDevelopment()) 
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
