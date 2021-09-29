@@ -14,10 +14,9 @@ namespace Members.Pages
         private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
         private readonly INotifier _notifier;
-
         public IShape Shape { get; set; }
         public ContentItem ContentItem { get; set; }
-
+        public string DocLink { get; set; }
         public MyCompanyModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
@@ -27,7 +26,16 @@ namespace Members.Pages
                 
         public async Task OnGetAsync(string companyId)
         {
-           (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
+
+            ContentItem company = await _memberService.GetContentItemById(companyId);
+
+            (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
+
+            var docUrl = string.Format("https://{0}/Members/Print/{1}" , Request.Host, companyId);
+
+            var fileName = "Membership-" + company.DisplayText;
+
+            DocLink = string.Format("https://altibizhtml2pdf.azurewebsites.net/api/generatePdf?code=bPJSYSigg05QxJvYAsqPr584dwV897UbUialY99kTzNvtEt5lzBSkw==&fileName={0}&url={1}", fileName, docUrl);
         }
 
         public async Task<IActionResult> OnPostAsync(string companyId)

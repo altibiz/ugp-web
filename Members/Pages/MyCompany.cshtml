@@ -6,13 +6,15 @@
 
 @inject IContentDefinitionManager ContentDefinitionManager
 
-@{ Html.RenderPartial("_Header", T["My company"].Value); }
+@{ Html.RenderPartial("_Header", Model.ContentItem.DisplayText); }
 
 @await RenderSectionAsync("Messages", required: false)
 
+<a href="@Model.DocLink" class="btn btn-primary ft-6 ms-2">@T["Download Membership Document"]</a>
+
 <form method="post" enctype="multipart/form-data">
 
-    <a asp-page="./MyProfile" class="col-xs-2"><i class="far fa-arrow-alt-circle-left"></i>@T["Back To Profile"]</a>
+  <a asp-page="./MyProfile" class="col-xs-2"><i class="far fa-arrow-alt-circle-left"></i>@T["Back To Profile"]</a>
 
 	<div asp-validation-summary="All" class="text-danger"></div>
 	@if (!Model.ContentItem.Published)
@@ -21,5 +23,5 @@
 	}
 	@await DisplayAsync(Model.Shape)
 
-	<button type="submit" class="btn btn-success publish mt-2">@T["Save Changes"]</button>
+    <button type="submit" class="btn btn-success publish mt-2">@T["Save Changes"]</button>
 </form>

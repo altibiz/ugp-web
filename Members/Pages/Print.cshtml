@@ -1,0 +1,17 @@
+﻿@page "{contentId}"
+@model Members.Pages.PrintModel
+@{
+}
+
+<style>
+	.navbar {
+		display: none;
+	}
+
+	footer {
+		display: none;
+	}
+</style>
+
+@await DisplayAsync(Model.PrintHeader)
+@await DisplayAsync(Model.Shape)

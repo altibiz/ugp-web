@@ -3997,6 +3997,23 @@
 				"UseScriptToSyncRoles": false,
 				"SyncRolesScript": "/* Uncomment to map AzureAD\r\nswitch (context.loginProvider) {\r\n    case \"AzureAD\":\r\n        context.externalClaims.forEach(claim => {\r\n            if (claim.Type === \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\") {\r\n                switch (claim.Value) {\r\n                    case \"Writer\":\r\n                        context.rolesToAdd.push(\"Author\");\r\n                        break;\r\n                    case \"Admin\":\r\n                        context.rolesToAdd.push(\"Administrator\");\r\n                        break;\r\n                    default:\r\n                        log(\"Warning\", \"Role \" + claim.Value + \" was not handled\");\r\n                        break;\r\n                }\r\n            }\r\n        });\r\n    default:\r\n        log(\"Warning\", \"Provider \" + loginProvider + \" was not handled\");\r\n        break;\r\n}\r\n*/\r\n"
 			}
+		},
+		{
+			"name": "Templates",
+			"Templates": {
+				"Content_Print__Company": {
+					"Content": "Udruga glas poduzetnika\r\n\r\nNaziv:\r\n{{Model.ContentItem.Content.PersonPart.Name.Text}}\r\n<br/>\r\n{{Model.ContentItem | json}}",
+					"Description": "Print for member"
+				},
+				"Content_PrintHeader": {
+					"Content": "Udruga glas poduzetnika <br/>",
+					"Description": null
+				},
+				"Content_Print": {
+					"Content": "{{Model.ContentItem.Content | json}}",
+					"Description": "General print "
+				}
+			}
 		}
 	]
 }
