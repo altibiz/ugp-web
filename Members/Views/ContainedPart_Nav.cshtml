@@ -9,15 +9,16 @@
 
 @{  
 
-    var routeValues = new Microsoft.AspNetCore.Routing.RouteValueDictionary(AutorouteOptions.Value.GlobalRouteValues);
+        var routeValues = new Microsoft.AspNetCore.Routing.RouteValueDictionary(AutorouteOptions.Value.GlobalRouteValues);
 
-    routeValues[AutorouteOptions.Value.ContentItemIdKey] = Model.ListContentItemId;
-    var linkUrl = Url.RouteUrl(routeValues);
-    linkUrl = String.Format("/Admin{0}/Edit", linkUrl);
+        routeValues[AutorouteOptions.Value.ContentItemIdKey] = Model.ListContentItemId;
+        var linkUrl = Url.RouteUrl(routeValues);
+        linkUrl = String.Format("/Admin{0}/Edit", linkUrl);
 
-    TagBuilder tag = Tag(Model, "a");
-    tag.Attributes["href"] = linkUrl;
-    tag.InnerHtml.Append("To Parent"); }
+        TagBuilder tag = Tag(Model, "a");
+        tag.Attributes["href"] = linkUrl;
+        tag.InnerHtml.AppendHtml(@T["Back to "]);
+    tag.InnerHtml.Append(Model.ParentName); }
 
 @tag
 
