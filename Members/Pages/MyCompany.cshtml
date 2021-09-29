@@ -11,6 +11,9 @@
 @await RenderSectionAsync("Messages", required: false)
 
 <form method="post" enctype="multipart/form-data">
+
+    <a asp-page="./MyProfile" class="col-xs-2"><i class="far fa-arrow-alt-circle-left"></i>@T["Back To Profile"]</a>
+
 	<div asp-validation-summary="All" class="text-danger"></div>
 	@if (!Model.ContentItem.Published)
 	{
