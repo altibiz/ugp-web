@@ -50,6 +50,9 @@ msgid "Save Changes"
 msgstr "Spremi promjene"
 msgid "Download Membership Document"
 msgstr "Preuzmi potvrdu o članstvu"
+msgid "Back To Profile"
+msgstr "Natrag na profil"
+
 
 msgctxt "Members.Pages.MyCompanyModel"
 msgid "Company updated successful"

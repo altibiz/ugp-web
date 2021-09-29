@@ -255,12 +255,83 @@ msgctxt "UgpTheme.Views.Shared.LoginMenu"
 msgid "Log Off"
 msgstr "Odjavi se"
 
-
 #. <a class="nav-link px-lg-3 py-3 py-lg-4" href="/members/portal">@T["Log In"]</a>
 #: OrchardCore.Users\Views\Account\LoginMenu.cshtml:20
 msgctxt "UgpTheme.Views.Shared.LoginMenu"
 msgid "Log In"
 msgstr "Prijava"
 
+#. @{ Html.RenderPartial("_Header", @T["Forgot password?"].Value); }
+#: OrchardCore.Users\Views\ResetPassword\ForgotPassword.cshtml:7
+msgctxt "UgpTheme.Views.Shared.ForgotPassword"
+msgid "Forgot password?"
+msgstr "Zaboravljena lozinka?"
+
+#. <h4>@T["Please fill your email to reset your password."]</h4>
+#: OrchardCore.Users\Views\ResetPassword\ForgotPassword.cshtml:9
+msgctxt "UgpTheme.Views.Shared.ForgotPassword"
+msgid "Please fill your email to reset your password."
+msgstr "Upišite emial kako bi resetirali lozinku."
+
+#. <button type="submit" class="btn btn-primary mt-4" tabindex="2" >@T["Submit"]</button>
+#: OrchardCore.Users\Views\ResetPassword\ForgotPassword.cshtml:7
+msgctxt "UgpTheme.Views.Shared.ForgotPassword"
+msgid "Submit"
+msgstr "Pošalji"
+
+
+#. @{ Html.RenderPartial("_Header", @T["Forgot password?"].Value); }
+#: OrchardCore.Users\Views\ResetPassword\ForgotPasswordConfirmation.cshtml:3
+msgctxt "UgpTheme.Views.Shared.ForgotPasswordConfirmation"
+msgid "Forgot password?"
+msgstr "Zaboravljena lozinka?"
+
+#. <p>@T["Please check your email to reset your password."]</p>
+#: OrchardCore.Users\Views\ResetPassword\ForgotPasswordConfirmation.cshtml:7
+msgctxt "UgpTheme.Views.Shared.ForgotPasswordConfirmation"
+msgid "Please check your email to reset your password."
+msgstr "Link za resetiranje lozinke poslan je na email."
+
+#. @{ Html.RenderPartial("_Header", @T["Reset password"].Value); }
+#: OrchardCore.Users\Views\ResetPassword\ResetPassword.cshtml:4
+msgctxt "UgpTheme.Views.Shared.ResetPassword"
+msgid "Reset password"
+msgstr "Resetiraj lozinku"
+
+#. <label asp-for="NewPassword" >@T["New password"]</label>
+#: OrchardCore.Users\Views\ResetPassword\ResetPassword.cshtml:14
+msgctxt "UgpTheme.Views.Shared.ResetPassword"
+msgid "New password"
+msgstr "Nova lozinka"
+
+#. <label asp-for="PasswordConfirmation" >@T["New password confirmation"]</label>
+#: OrchardCore.Users\Views\ResetPassword\ResetPassword.cshtml:18
+msgctxt "UgpTheme.Views.Shared.ResetPassword"
+msgid "New password confirmation"
+msgstr "Potvrdi novu lozinku"
+
+#. <button type="submit" class="btn btn-primary" tabindex="4" >@T["Reset password"]</button>
+#: OrchardCore.Users\Views\ResetPassword\ResetPassword.cshtml:24
+msgctxt "UgpTheme.Views.Shared.ResetPassword"
+msgid "Reset password"
+msgstr "Resetiraj lozinku"
+
+#. @{ Html.RenderPartial("_Header", @T["Reset Password"].Value); }
+#: OrchardCore.Users\Views\ResetPassword\ResetPasswordConfirmation.cshtml:3
+msgctxt "UgpTheme.Views.Shared.ResetPasswordConfirmation"
+msgid "Reset password"
+msgstr "Resetiraj lozinku"
+
+#. @T["Your password has been reset."]
+#: OrchardCore.Users\Views\ResetPassword\ResetPasswordConfirmation.cshtml:7
+msgctxt "UgpTheme.Views.Shared.ResetPasswordConfirmation"
+msgid "Your password has been reset."
+msgstr "Vaša lozinka je resetirana"
+
+#. <a asp-route-area="OrchardCore.Users" asp-controller="Account" asp-action="Login">@T["Click here to log in"]</a>
+#: OrchardCore.Users\Views\ResetPassword\ResetPasswordConfirmation.cshtml:9
+msgctxt "UgpTheme.Views.Shared.ResetPasswordConfirmation"
+msgid "Click here to log in"
+msgstr "Kliknite ovdje za prijavu"
 
 
