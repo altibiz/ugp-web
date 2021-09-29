@@ -29,18 +29,6 @@ namespace Members.Base
             _contentManager = cman;
         }
 
-        //public override IDisplayResult Edit(ContentItem item)
-        //{
-
-        //    if (!AdminAttribute.IsApplied(_httpCA.HttpContext)) return null;
-
-        //    var part = item.As<ContainedPart>();
-        //    if (part == null) return null;
-
-        //    return Initialize<CpVm>("ContainedPart_Nav", m => { m.ListContentItemId = part.ListContentItemId; })
-        //    .Location("Content");
-        //}
-
         public override async Task<IDisplayResult> EditAsync(ContentItem model, BuildEditorContext context)
         {
             if (!AdminAttribute.IsApplied(_httpCA.HttpContext)) return null;
