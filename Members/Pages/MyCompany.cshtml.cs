@@ -27,9 +27,15 @@ namespace Members.Pages
         public async Task OnGetAsync(string companyId)
         {
 
+            ContentItem company = await _memberService.GetContentItemById(companyId);
+
             (Shape, ContentItem) = await _memberService.GetEditorById(companyId);
 
-            DocLink = Request.Host + "/Members/Print/" + companyId;
+            var docUrl = string.Format("https://{0}/Members/Print/{1}" , Request.Host, companyId);
+
+            var fileName = "Membership-" + company.DisplayText;
+
+            DocLink = string.Format("https://altibizhtml2pdf.azurewebsites.net/api/generatePdf?code=bPJSYSigg05QxJvYAsqPr584dwV897UbUialY99kTzNvtEt5lzBSkw==&fileName={0}&url={1}", fileName, docUrl);
         }
 
         public async Task<IActionResult> OnPostAsync(string companyId)

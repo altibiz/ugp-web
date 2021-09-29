@@ -6,11 +6,11 @@
 
 @inject IContentDefinitionManager ContentDefinitionManager
 
-@{ Html.RenderPartial("_Header", T["My company"].Value); }
+@{ Html.RenderPartial("_Header", Model.ContentItem.DisplayText); }
 
 @await RenderSectionAsync("Messages", required: false)
 
-<a href="https://@Model.DocLink" class="btn btn-primary ft-6 ms-2">@T["Membership Document"]</a>
+<a href="@Model.DocLink" class="btn btn-primary ft-6 ms-2">@T["Download Membership Document"]</a>
 
 <form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
