@@ -28,6 +28,9 @@
         {
             @foreach (var item in Model.OfferContentItems)
             {
+                var compId = item.Content.Offer.Company.ContentItemIds[0].Value;
+                var logoUrl = Model.Logos.FirstOrDefault(x=>x.CompanyID==compId).Url;
+                if (logoUrl == null) logoUrl = "";
                 <div class="col">
                     <div class="card border-0">
                         @if (!item.Content.Offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
@@ -51,7 +54,7 @@
                             }
                             <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
                                 <div class="card-title mt-2">
-                                    <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]" class="w-25 d-block mx-auto d-block companyLogo" alt="">
+                                    <img src="../media/@logoUrl" class="w-25 d-block mx-auto d-block companyLogo" alt="">
                                     <h4 class="card-title m-0 py-2">@item.Content.Offer.Title.Text</h4>
                                 </div>
                             </a>
