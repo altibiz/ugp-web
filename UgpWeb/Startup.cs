@@ -20,6 +20,8 @@ namespace UgpWeb
             services.AddOrchardCms()
 #if DEBUG
                 .AddSetupFeatures("OrchardCore.AutoSetup")
+#else
+                .AddAzureShellsConfiguration()
 #endif
                 ;
 
