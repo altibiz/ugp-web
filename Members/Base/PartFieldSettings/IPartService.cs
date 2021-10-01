@@ -8,6 +8,7 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Members.PartFieldSettings
@@ -59,9 +60,14 @@ namespace Members.PartFieldSettings
             return Task.CompletedTask;
         }
 
-        public virtual async IAsyncEnumerable<ValidationResult> ValidateAsync(T part)
+        public virtual IAsyncEnumerable<ValidationResult> ValidateAsync(T part)
         {
-            yield break;
+            return Validate(part).ToAsyncEnumerable();
+        }
+
+        public virtual IEnumerable<ValidationResult> Validate(T part)
+        {
+            return Array.Empty<ValidationResult>();
         }
     }
 }

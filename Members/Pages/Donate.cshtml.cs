@@ -57,7 +57,7 @@ namespace Members.Pages
 
             return Page();
         }
-        public async Task<IActionResult> OnGetProccessFormAsync(string legalName=null, string oib=null, string amount=null, string email=null, string note=null)
+        public IActionResult OnGetProccessForm(string legalName=null, string oib=null, string amount=null, string email=null, string note=null)
         {
             IsGuest  = true;
             LegalName = legalName;
@@ -97,7 +97,7 @@ namespace Members.Pages
             }
         }
 
-        public async Task<IActionResult> OnPostGenerateQrFromFormAsync()
+        public IActionResult OnPostGenerateQrFromForm()
         {
             return Page();
         }

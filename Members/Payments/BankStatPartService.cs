@@ -77,7 +77,7 @@ namespace Members.Payments
             return Task.CompletedTask;
         }
 
-        public async override IAsyncEnumerable<ValidationResult> ValidateAsync(BankStatPart part)
+        public override IEnumerable<ValidationResult> Validate(BankStatPart part)
         {
             if (string.IsNullOrEmpty(part.StatementJson))
             {
