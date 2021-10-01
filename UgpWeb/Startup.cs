@@ -1,9 +1,11 @@
+using Members.Base;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OrchardCore.Recipes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +23,7 @@ namespace UgpWeb
 #if DEBUG
                 .AddSetupFeatures("OrchardCore.AutoSetup")
 #else
-                .AddAzureShellsConfiguration()
+                .AddAzureShellsConfiguration() //put shells info into blob
 #endif
                 ;
 

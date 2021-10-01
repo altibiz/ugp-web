@@ -64,7 +64,7 @@
         "OrchardCore.Lucene",
         "OrchardCore.Lists",
         "OrchardCore.Markdown",
-        "[js: configuration('OrchardCore_Media')]'",
+        "[js: configuration('Media_Module')]",
         "OrchardCore.Menu",
         "OrchardCore.Placements",
         "OrchardCore.Queries",
