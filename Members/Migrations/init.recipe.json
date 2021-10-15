@@ -12,7 +12,8 @@
 				{
 					"name": "feature",
 					"enable": [
-						"OrchardCore.ContentFields.Indexing.SQL.UserPicker"
+						"OrchardCore.ContentFields.Indexing.SQL.UserPicker",
+						"OrchardCore.BackgroundTasks"
 					]
 				},
 				{

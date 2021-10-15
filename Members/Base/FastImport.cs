@@ -2,14 +2,17 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.Environment.Shell.Scope;
 using OrchardCore.Recipes.Models;
 using OrchardCore.Recipes.Services;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using YesSql;
 
@@ -31,21 +34,8 @@ namespace Members.Base
 
             var model = context.Step.ToObject<ContentStepModel>();
             var contentItems = model.Data.ToObject<ContentItem[]>();
-
-            // If the shell is activated there is no migration in progress.
-            if (ShellScope.Context.IsActivated)
-            {
-                var contentManager = ShellScope.Services.GetRequiredService<Importer>();
-                return contentManager.ImportAsync(contentItems);
-            }
-
-            // Otherwise, the import of content items is deferred after all migrations are completed,
-            // this prevents e.g. a content handler to trigger a workflow before worflows migrations.
-            ShellScope.AddDeferredTask(scope =>
-            {
-                var contentManager = scope.ServiceProvider.GetRequiredService<Importer>();
-                return contentManager.ImportAsync(contentItems);
-            });
+            for (int i = 0; i < contentItems.Length / 3000; i++)
+                FastImportBackgroundTask.PendingImports.Enqueue(contentItems.Skip(i).Take(3000).ToArray());
 
             return Task.CompletedTask;
         }
@@ -112,6 +102,22 @@ namespace Members.Base
                 _logger.LogDebug("Imported: " + skip);
                 batchedContentItems = contentItems.Skip(skip).Take(ImportBatchSize);
             }
+        }
+    }
+
+    [BackgroundTask(Schedule = "*/1 * * * *", Description = "Fast import background task.")]
+    public class FastImportBackgroundTask : IBackgroundTask
+    {
+        public static readonly ConcurrentQueue<ContentItem[]> PendingImports = new ConcurrentQueue<ContentItem[]>();
+        public Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
+        {
+            //var contentManager = serviceProvider.GetRequiredService<IContentManager>();
+            if (PendingImports.TryDequeue(out var toImport))
+            {
+                var contentManager = ShellScope.Services.GetRequiredService<Importer>();
+                return contentManager.ImportAsync(toImport);
+            }
+            return Task.CompletedTask;
         }
     }
 }
