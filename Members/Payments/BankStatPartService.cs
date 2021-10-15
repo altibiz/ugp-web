@@ -4,7 +4,6 @@ using Members.PartFieldSettings;
 using Members.Persons;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
@@ -107,6 +106,7 @@ namespace Members.Payments
                 payPart.Address.Text = pymnt.Partner.Address.Street;
                 payPart.PayerName.Text = pymnt.Partner.Name;
                 payPart.PaymentRef.Text = pymnt.RRN.Number;
+                payPart.BankContentItemId = part.ContentItem.ContentItemId;
                 var version = VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
                 {

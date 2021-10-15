@@ -189,7 +189,7 @@ namespace Members.Core
             );
 
             _contentDefinitionManager.AlterPartDefinition("Company", part => part
-                .WithField("AuthorizedRepresentative", field => field
+                .WithField("AuthorizedRep", field => field
                     .OfType("TextField")
                     .WithDisplayName("Ovlaštena osoba za zastupanje")
                     .WithPosition("1")
@@ -225,7 +225,7 @@ namespace Members.Core
                         Open = false,
                     })
                 )
-                .WithField("Function", field => field
+                .WithField("RepRole", field => field
                     .OfType("TaxonomyField")
                     .WithDisplayName("Funkcija")
                     .WithEditor("Tags")

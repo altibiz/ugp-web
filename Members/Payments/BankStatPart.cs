@@ -10,7 +10,6 @@ namespace Members.Payments
     {
         public string StatementJson { get; set; }
         public DateField Date { get; set; }
-        public TextField Stat { get; set; }
     }
 
     public static class BankStatementMigrations

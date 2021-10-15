@@ -6,7 +6,7 @@ using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Title.Models;
 
-namespace Members.Core
+namespace Members.Payments
 {
     public class Payment : ContentPart
     {
@@ -15,9 +15,9 @@ namespace Members.Core
         public TextField Address { get; set; }
         public TextField ReferenceNr { get; set; }
         public TextField PaymentRef { get; set; }
-        public TaxonomyField ProcessState { get; set; }
         public DateField Date { get; set; }
         public ContentPickerField Person { get; set; }
+        public string BankContentItemId { get; set; }
     }
 
 

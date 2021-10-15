@@ -50,6 +50,7 @@ namespace Members
             services.UsePartService<PersonPart, PersonPartService>();
             services.UsePartService<BankStatPart, BankStatPartService>();
             services.AddScoped<MemberService>();
+            services.AddScoped<PaymentService>();
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
             services.AddSingleton<IIndexProvider, PaymentIndexProvider>();
             services.AddSingleton<IIndexProvider, OfferIndexProvider>();

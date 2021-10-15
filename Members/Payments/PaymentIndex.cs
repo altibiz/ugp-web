@@ -10,12 +10,16 @@ namespace Members.Payments
     public class PaymentIndex : MapIndex
     {
         public string ContentItemId { get; set; }
+
         public string PersonContentItemId { get; set; }
+
         public decimal? Amount { get; set; }
 
         public string PayerName { get; set; }
 
-        public DateTime? Date { get; set; } 
+        public DateTime? Date { get; set; }
+
+        public string Address { get; set; }
     }
 
     public class PaymentIndexProvider : IndexProvider<ContentItem>
@@ -30,10 +34,11 @@ namespace Members.Payments
                     return new PaymentIndex
                     {
                         ContentItemId = contentItem.ContentItemId,
-                        Amount= pp.Amount.Value,
+                        Amount = pp.Amount.Value,
                         Date = pp.Date.Value,
-                        PersonContentItemId = pp.Person.ContentItemIds.FirstOrDefault(),
-                        PayerName=pp.PayerName.Text,
+                        PersonContentItemId = pp.Person.ContentItemIds?.FirstOrDefault(),
+                        PayerName = pp.PayerName.Text,
+                        Address = pp.Address?.Text?.Length > 255 ? pp.Address?.Text?.Substring(0, 255) : pp.Address?.Text,
                     };
                 });
         }
@@ -48,7 +53,8 @@ namespace Members.Payments
                 .Column<decimal?>(nameof(PaymentIndex.Amount))
                 .Column<string>(nameof(PaymentIndex.ContentItemId), c => c.WithLength(50))
                 .Column<string>(nameof(PaymentIndex.PersonContentItemId), c => c.WithLength(50))
-                .Column<string>(nameof(PaymentIndex.PayerName), c => c.WithLength(126))
+                .Column<string>(nameof(PaymentIndex.PayerName), c => c.WithLength(255))
+                .Column<string>(nameof(PaymentIndex.Address), c => c.WithLength(255))
             );
 
             //SchemaBuilder.AlterIndexTable<PaymentIndex>(table => table

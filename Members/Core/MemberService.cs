@@ -95,21 +95,6 @@ namespace Members.Core
             return member.FirstOrDefault();
 
         }
-        internal async IAsyncEnumerable<Payment> GetUserPayments()
-        {
-            var member = await GetUserMember();
-            var companies = await GetUserCompanies();
-            foreach (var payment in await GetPersonPayments(member.ContentItemId))
-                yield return payment.As<Payment>();
-            foreach (var comp in companies)
-                foreach (var payment in await GetPersonPayments(comp.ContentItemId))
-                    yield return payment.As<Payment>();
-        }
-
-        internal async Task<IEnumerable<ContentItem>> GetPersonPayments(string contentItemId)
-        {
-            return await _session.Query<ContentItem, PaymentIndex>(x => x.PersonContentItemId == contentItemId).ListAsync();
-        }
 		
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
