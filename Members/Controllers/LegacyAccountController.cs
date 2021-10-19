@@ -52,8 +52,8 @@ namespace Members.Controllers
                 {
                     memberItem = await _session.GetListParent(oldLoginItem);
                 }
-
-                var mem = memberItem.As<Member>().InitFields();
+                if (oldLoginItem == null || memberItem == null) return Ok(model.UserName);
+                var mem = memberItem?.As<Member>().InitFields();
                 var memPerson = memberItem.As<PersonPart>();
                 var oldPerson = oldLoginItem.As<PersonPart>();
 

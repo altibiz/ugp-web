@@ -34,8 +34,7 @@ namespace Members.Base
 
             var model = context.Step.ToObject<ContentStepModel>();
             var contentItems = model.Data.ToObject<ContentItem[]>();
-            for (int i = 0; i < contentItems.Length / 3000; i++)
-                FastImportBackgroundTask.PendingImports.Enqueue(contentItems.Skip(i).Take(3000).ToArray());
+            FastImportBackgroundTask.PendingImports.Enqueue(contentItems);
 
             return Task.CompletedTask;
         }
@@ -71,14 +70,6 @@ namespace Members.Base
 
             while (batchedContentItems.Any())
             {
-                // Preload all the versions for this batch from the database.
-                var versionIds = batchedContentItems
-                     .Where(x => !String.IsNullOrEmpty(x.ContentItemVersionId))
-                     .Select(x => x.ContentItemVersionId);
-
-                var itemIds = batchedContentItems
-                    .Where(x => !String.IsNullOrEmpty(x.ContentItemId))
-                    .Select(x => x.ContentItemId);
 
                 foreach (var importingItem in batchedContentItems)
                 {
@@ -92,12 +83,10 @@ namespace Members.Base
                         importedVersionIds.Add(importingItem.ContentItemVersionId);
                     }
                     MemberHandler.FixMemberDate(importingItem);
-                    var context = new ImportContentContext(importingItem);
                     _session.Save(importingItem);
 
                 }
-
-                await _session.FlushAsync();
+                await _session.SaveChangesAsync();
                 skip += ImportBatchSize;
                 _logger.LogDebug("Imported: " + skip);
                 batchedContentItems = contentItems.Skip(skip).Take(ImportBatchSize);
