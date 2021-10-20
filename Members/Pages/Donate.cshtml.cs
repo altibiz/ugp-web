@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Members.Core;
+using Members.Persons;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -47,9 +48,8 @@ namespace Members.Pages
             if (ci != null)
             {
                 await SetPersonList();
-
                 IsGuest = false;
-                LegalName = ci.Content.PersonPart.LegalName.ToString();
+                LegalName = ci.As<PersonPart>()?.LegalName;
                 Amount = "100";
                 Oib = ci.Content.PersonPart.Oib.Text;
                 Email = ci.Content.PersonPart.Email.Text;
