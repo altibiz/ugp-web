@@ -71,7 +71,7 @@ namespace Members.Persons
             SchemaBuilder.CreateMapIndexTable<PersonPartIndex>(table => table
                 .Column<string>("Oib", col => col.WithLength(20))
                 .Column<string>("ContentItemId", c => c.WithLength(50))
-                .Column<string>("LegalName", c => c.WithLength(100))
+                .Column<string>("LegalName", c => c.WithLength(255))
                 .Column<string>("PersonType", c => c.WithLength(50))
                 .Column<decimal?>("Revenue2019")
                 .Column<decimal?>("Employees")
