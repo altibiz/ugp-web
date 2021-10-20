@@ -8,6 +8,7 @@ namespace Members.Base
     {
         public static T InitFields<T>(this T part) where T:ContentPart
         {
+            if (part == null) return part;
             foreach(var prop in part.GetType().GetProperties())
             {
                 if (prop.PropertyType == typeof(TextField) && prop.GetValue(part)==null)

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Members.Base;
 using Members.Core;
 using Members.Persons;
 using Microsoft.AspNetCore.Mvc;
@@ -47,12 +48,13 @@ namespace Members.Pages
             ContentItem ci = await _memberService.GetUserMember();
             if (ci != null)
             {
+                var pp = ci.As<PersonPart>().InitFields();
                 await SetPersonList();
                 IsGuest = false;
-                LegalName = ci.As<PersonPart>()?.LegalName;
+                LegalName = pp.LegalName;
                 Amount = "100";
-                Oib = ci.Content.PersonPart.Oib.Text;
-                Email = ci.Content.PersonPart.Email.Text;
+                Oib = pp.Oib.Text;
+                Email = pp.Email.Text;
             }
 
             return Page();
