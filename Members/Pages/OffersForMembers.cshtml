@@ -33,7 +33,7 @@
                 if (logoUrl == null) logoUrl = "";
                 <div class="col">
                     <div class="card border-0">
-                        @if (!item.Content.Offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
+                        @if (item.Content.Offer.FeaturedImage.Paths.Count>0)
                         {
                                 <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" >
                                     <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]"  alt="">
@@ -55,7 +55,7 @@
                             <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
                                 <div class="card-title mt-2">
                                     <img src="../media/@logoUrl" class="w-25 d-block mx-auto d-block companyLogo" alt="">
-                                    <h4 class="card-title m-0 py-2">@item.Content.Offer.Title.Text</h4>
+                                    <h4 class="card-title m-0 py-2">@item.DisplayText</h4>
                                 </div>
                             </a>
                             <p class="card-text m-0">@item.Content.Offer.ShortDescription.Text</p>

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Members.Base;
 using Members.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
@@ -49,12 +50,15 @@ namespace Members.Pages
             {
                 OfferContentItems = await _memberService.GetAllOffersSearch(SearchString);
             }
-            foreach (ContentItem item in OfferContentItems)
+            foreach (var item in OfferContentItems.AsParts<Offer>())
             {
-                ContentItem company = await _memberService.GetContentItemById(item.ContentItem.Content.Offer.Company.ContentItemIds[0].Value);
+                var cid = item.Company.GetId();
+                if (cid == null) continue;
+                ContentItem company = await _memberService.GetContentItemById(item.Company.GetId());
+                var companyPart = company.As<Company>();
                 LogoUrl log = new();
-                log.CompanyID = item.Content.Offer.Company.ContentItemIds[0].Value;
-                log.Url = company.ContentItem.Content.Company.Logo.Paths[0].Value;
+                log.CompanyID = cid;
+                log.Url = companyPart.Logo?.Paths?.FirstOrDefault();
                 Logos.Add(log);
             }
         }

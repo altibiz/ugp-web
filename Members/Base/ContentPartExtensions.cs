@@ -1,6 +1,8 @@
 ﻿using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.Taxonomies.Fields;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Members.Base
 {
@@ -27,6 +29,16 @@ namespace Members.Base
                     prop.SetValue(part, new UserPickerField { ContentItem = part.ContentItem });
             }
             return part;
+        }
+
+        public static string GetId(this ContentPickerField contentPickerField)
+        {
+            return contentPickerField?.ContentItemIds?.FirstOrDefault();
+        }
+
+        public static IEnumerable<T> AsParts<T>(this IEnumerable<ContentItem> items) where T:ContentPart
+        {
+            return items.Select(x => x.As<T>());
         }
     }
 }
