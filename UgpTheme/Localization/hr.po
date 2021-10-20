@@ -271,7 +271,7 @@ msgstr "Zaboravljena lozinka?"
 #: OrchardCore.Users\Views\ResetPassword\ForgotPassword.cshtml:9
 msgctxt "UgpTheme.Views.Shared.ForgotPassword"
 msgid "Please fill your email to reset your password."
-msgstr "Upišite emial kako bi resetirali lozinku."
+msgstr "Upišite email kako bi resetirali lozinku."
 
 #. <button type="submit" class="btn btn-primary mt-4" tabindex="2" >@T["Submit"]</button>
 #: OrchardCore.Users\Views\ResetPassword\ForgotPassword.cshtml:7
