@@ -18,7 +18,7 @@
 	var disableLocalLogin = (await SiteService.GetSiteSettingsAsync()).As<LoginSettings>().DisableLocalLogin;
 }
 <style asp-name="font-awesome" version="5"></style>
-<script asp-name="ugptheme-jQuery"></script>
+<script asp-name="ugptheme-custom"></script>
 
 @{ Html.RenderPartial("_Header", @T["Log In"].Value); }
 <div class="container login-container">
@@ -31,7 +31,7 @@
 				<hr />
 				<span asp-validation-for="UserName" class="text-danger"></span>
 
-                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="auth-form">
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" id="auth-form">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-floating">
                         <input asp-for="UserName" class="form-control content-preview-text" autofocus tabindex="1" placeholder="smth" />
@@ -102,33 +102,6 @@
 </div>
 <script at="Foot">
 
-   function _serializeForm(id) {
-		var result = {};
-		$.each($(id).serializeArray(), function (i, field) {
-			result[field.name] = field.value.trim() || null;
-		});
-		return result;
-  }
-
-	$('.auth-form').submit(function (e) {
-		e.preventDefault();
-		var data = _serializeForm('.auth-form');
-		var $form = $(this);
-    $.ajax({
-      type: "POST",
-			url: "/api/LegacyAccount",
-      data: JSON.stringify(data),
-      contentType: "application/json; charset=utf-8",
-			context: $form,
-			success: function (usr) {
-				$('#UserName').val(usr);
-				this.off('submit');
-				this.submit();
-			},
-			error: function (err) {
-				console.log(err);
-			}
-    });
-	});
+	interceptLogin('auth-form', "UserName", "Password")
 
 </script>

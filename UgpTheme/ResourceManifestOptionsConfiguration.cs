@@ -35,6 +35,12 @@ namespace OrchardCore.Themes.UgpTheme
                 .SetVersion("6.0.0");
 
             _manifest
+                .DefineScript("ugptheme-custom")
+                .SetDependencies("ugptheme-jQuery")
+                .SetUrl("~/UgpTheme/js/custom.js")
+                .SetVersion("6.0.0");
+
+            _manifest
                 .DefineScript("ugptheme-libbcmath")
                 .SetUrl("~/UgpTheme/js/libbcmath.js");
             _manifest

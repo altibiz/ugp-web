@@ -33,10 +33,16 @@ namespace Members.Controllers
             _userService = userService;
         }
 
+
+        public class LegacyLoginModel
+        {
+            public string UserName { get; set; }
+            public string Password { get; set; }
+        }
+
         [HttpPost]
         [AllowAnonymous]
-
-        public async Task<IActionResult> Post(LoginViewModel model)
+        public async Task<IActionResult> Post(LegacyLoginModel model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));
