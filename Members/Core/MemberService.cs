@@ -55,7 +55,8 @@ namespace Members.Core
         public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
-            var query = _session.Query<ContentItem, UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && (x.Published || includeDraft) && x.SelectedUserId == user.UserId);
+            var query = _session.Query<ContentItem, UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && x.SelectedUserId == user.UserId);
+            if (!includeDraft) query=query.Where(x => x.Published);
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
@@ -64,7 +65,7 @@ namespace Members.Core
             ContentItem member = await GetUserMember();
             var companyContentItem = new List<ContentItem>();
 
-            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId,x=>true);
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId, x => true);
             companies = companies.Where(x => x.ContentType == nameof(ContentType.Company));
             return companies.ToList();
         }
@@ -95,7 +96,7 @@ namespace Members.Core
             return member.FirstOrDefault();
 
         }
-		
+
         private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
             return await _userService.GetAuthenticatedUserAsync(user ?? _httpContextAccessor.HttpContext.User) as User;
@@ -106,7 +107,7 @@ namespace Members.Core
             var contentItem = await _contentManager.NewAsync(cType.ToString());
             if (cType.Equals(ContentType.Company))
             {
-                ContentItem mem = await GetUserMember();
+                ContentItem mem = await GetUserMember(true);
                 contentItem.Content.PersonPart.Address = mem.Content.PersonPart.Address;
                 contentItem.Content.PersonPart.County = mem.Content.PersonPart.County;
                 contentItem.Content.PersonPart.City = mem.Content.PersonPart.City;
@@ -136,11 +137,11 @@ namespace Members.Core
             return (contentItem, shape);
         }
 
-        public async Task<(IShape,ContentItem)> GetEditorById(string contentId)
+        public async Task<(IShape, ContentItem)> GetEditorById(string contentId)
         {
-            var contentItem = await _contentManager.GetAsync(contentId,VersionOptions.Latest);
+            var contentItem = await _contentManager.GetAsync(contentId, VersionOptions.Latest);
 
-            var shape= await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
+            var shape = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, false);
             return (shape, contentItem);
         }
         public async Task<ContentValidateResult> CreateMemberCompany(ContentItem companyItem)
@@ -179,7 +180,7 @@ namespace Members.Core
             // DORADITI !!!!
             offerItem.Alter<Offer>(offer =>
             {
-                 offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId };
+                offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId };
             });
 
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);
@@ -188,7 +189,7 @@ namespace Members.Core
         public async Task<List<ContentItem>> GetAllOffers()
         {
             var query = _session.Query<ContentItem, ContentItemIndex>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published );
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published);
 
             var list = await query.ListAsync();
 

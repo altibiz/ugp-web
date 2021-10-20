@@ -70,10 +70,10 @@ namespace Members.Controllers
                 var email = memPerson?.Email?.Text
                                 ?? oldPerson?.Email?.Text;
 
-                var newusrname = memPerson?.Oib?.Text ?? oldPerson?.Oib?.Text 
-                    ?? email?.Replace("@","_");
+                var newusrname = memPerson?.Oib?.Text ?? oldPerson?.Oib?.Text
+                    ?? email?.Replace("@", "_");
 
-                var passWord = newusrname+Guid.NewGuid();
+                var passWord = newusrname + Guid.NewGuid();
                 if (!string.IsNullOrEmpty(oldPerson.OldHash) && !string.IsNullOrEmpty(oldPerson.OldSalt))
                 {
                     string thHash = GetHash(model.Password, oldPerson.OldSalt);
@@ -83,7 +83,9 @@ namespace Members.Controllers
                     }
                 }
 
-                var newuser = await _userService.CreateUserAsync(new User { UserName = newusrname, Email = email, EmailConfirmed = true, IsEnabled = true }, passWord, (key, message) => ModelState.AddModelError(key, message));
+                var newuser = await _userManager.FindByNameAsync(newusrname)
+                    ?? await _userManager.FindByEmailAsync(email)
+                    ?? await _userService.CreateUserAsync(new User { UserName = newusrname, Email = email, EmailConfirmed = true, IsEnabled = true }, passWord, (key, message) => ModelState.AddModelError(key, message));
 
                 mem.User.UserIds = new[] { (newuser as User).UserId };
                 memberItem.Apply(mem);
