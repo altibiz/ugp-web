@@ -45,7 +45,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            ContentItem ci = await _memberService.GetUserMember();
+            ContentItem ci = await _memberService.GetUserMember(true);
             if (ci != null)
             {
                 var pp = ci.As<PersonPart>().InitFields();
