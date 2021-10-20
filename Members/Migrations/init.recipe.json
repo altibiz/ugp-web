@@ -3892,7 +3892,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Doniraj",
-											"Url": "https://forms.monday.com/forms/fe29ac3a855ed7581b8e84afc32c7086"
+											"Url": "/Members/Donate"
 										},
 										"LinkMenuItem": {
 											"Icon": {
@@ -3958,7 +3958,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Newsletter",
-											"Url": "/Members/newsletter"
+											"Url": "https://email.glaspoduzetnika.hr/x/plugin/?pName=subscribe&MIDRID=S7Y1.J9ra2z2v8jW0MLSzBAAA68&Z=-1506188824"
 										},
 										"LinkMenuItem": {
 											"Icon": {

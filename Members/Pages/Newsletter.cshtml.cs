@@ -24,7 +24,6 @@ namespace Members.Pages
         private const string companyType = "Company";
 
         private readonly IContentItemDisplayManager _contentItemDisplayManager;
-        private readonly IHtmlLocalizer H;
         private readonly dynamic New;
         private readonly INotifier _notifier;
         private readonly ISession _session;
@@ -84,7 +83,7 @@ namespace Members.Pages
         public dynamic Pager { get; set; }
 
 
-        public NewsletterModel(IContentItemDisplayManager contentItemDisplayManager, IHtmlLocalizer htmlLocalizer, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
+        public NewsletterModel(IContentItemDisplayManager contentItemDisplayManager, INotifier notifier, ISession session, IShapeFactory shapeFactory, ISiteService siteService, IUpdateModelAccessor updateModelAccessor)
         {
             _notifier = notifier;
 
@@ -93,8 +92,6 @@ namespace Members.Pages
 
             _session = session;
             _siteService = siteService;
-
-            H = htmlLocalizer;
             New = shapeFactory;
         }
 
