@@ -290,7 +290,7 @@ msgstr "Zaboravljena lozinka?"
 #: OrchardCore.Users\Views\ResetPassword\ForgotPasswordConfirmation.cshtml:7
 msgctxt "UgpTheme.Views.Shared.ForgotPasswordConfirmation"
 msgid "Please check your email to reset your password."
-msgstr "Link za resetiranje lozinke poslan je na email."
+msgstr "Link za resetiranje lozinke poslan je na email (ako ga ne dobijete uskoro, provjerite Spam direktorij)."
 
 #. @{ Html.RenderPartial("_Header", @T["Reset password"].Value); }
 #: OrchardCore.Users\Views\ResetPassword\ResetPassword.cshtml:4
