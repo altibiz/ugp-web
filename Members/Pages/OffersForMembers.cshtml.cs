@@ -54,7 +54,8 @@ namespace Members.Pages
             {
                 var cid = item.Company.GetId();
                 if (cid == null) continue;
-                ContentItem company = await _memberService.GetContentItemById(item.Company.GetId());
+                
+                ContentItem company = await _memberService.GetContentItemById(cid);
                 var companyPart = company.As<Company>();
                 LogoUrl log = new();
                 log.CompanyID = cid;
