@@ -1,77 +1,82 @@
 ﻿@page
 
 @model Members.Pages.OffersForMembersModel
+@using Members.Base
+@using Members.Core
 
 @{
-    Html.RenderPartial("_Header", @T["Offer For Members"].Value);
-    <style type="text/css">
-        .card>a{
-            text-align: center;
-        }
-        .card > a > img {
-            width: 100%;
-            object-fit: contain;
-            min-height: 200px;
-        }
-        .card .companyLogo{
-            float: left;
-        }
-    </style>
-    <form method="get">
-        <div class="input-group mb-3">
-            <input type="text" class="form-control form-control-xs"  asp-for="SearchString" placeholder="@T["Search Here"]">
-            <button type="submit" class="input-group-text btn-primary"><i class="bi bi-search me-2"></i> @T["Search"]</button>
-        </div>
-    </form>
-    <div class="row row-cols-1 row-cols-md-2 g-5">
-        @if (Model.OfferContentItems.Count > 0)
-        {
-            @foreach (var item in Model.OfferContentItems)
-            {
-                var compId = item.Content.Offer.Company.ContentItemIds[0].Value;
-                var logoUrl = Model.Logos.FirstOrDefault(x=>x.CompanyID==compId).Url;
-                if (logoUrl == null) logoUrl = "";
-                <div class="col">
-                    <div class="card border-0">
-                        @if (item.Content.Offer.FeaturedImage.Paths.Count>0)
-                        {
-                                <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" >
-                                    <img src="../media/@item.Content.Offer.FeaturedImage.Paths[0]"  alt="">
-                                </a>
-                        }
-                        else
-                        {
-                            <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
+	Html.RenderPartial("_Header", @T["Offer For Members"].Value);
+	<style type="text/css">
+		.card > a {
+			text-align: center;
+		}
 
-                                <img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="card-img-top" alt="">
-                            </a>
-                        }
+			.card > a > img {
+				width: 100%;
+				object-fit: contain;
+				min-height: 200px;
+			}
 
-                        <div class="card-body mx-0 px-0 fs-6 ">
-                            @foreach (var termId in item.Content.Offer.Category.TermContentItemIds)
-                            {
-                                <shape type="Term" TaxonomyContentItemId="@item.Content.Offer.Category.TaxonomyContentItemId" TermContentItemId="@termId" class="dodo " />
-                            }
-                            <a asp-page="./Offer" asp-route-offerId="@item.ContentItemId" class="">
-                                <div class="card-title mt-2">
-                                    <img src="../media/@logoUrl" class="w-25 d-block mx-auto d-block companyLogo" alt="">
-                                    <h4 class="card-title m-0 py-2">@item.DisplayText</h4>
-                                </div>
-                            </a>
-                            <p class="card-text m-0">@item.Content.Offer.ShortDescription.Text</p>
-                        </div>
-                        <div class="card-body d-grid px-0 fs-6">
-                            <a class="" asp-page="./Offer" asp-route-offerId="@item.ContentItemId">@T["Read More"] ...</a>
-                        </div>
-                    </div>
-                </div>
-            }
-        }
-        else
-        {
-            <div class="alert alert-info">
-                @T["No results found."]
-            </div>
-        }
-    </div>
+		.card .companyLogo {
+			float: left;
+		}
+	</style>
+	<form method="get">
+		<div class="input-group mb-3">
+			<input type="text" class="form-control form-control-xs" asp-for="SearchString" placeholder="@T["Search Here"]">
+			<button type="submit" class="input-group-text btn-primary"><i class="bi bi-search me-2"></i> @T["Search"]</button>
+		</div>
+	</form>
+	<div class="row row-cols-1 row-cols-md-2 g-5">
+		@if (Model.OfferContentItems.Count > 0)
+		{
+			@foreach (var item in Model.OfferContentItems.AsParts<Offer>())
+			{
+				var cid = item.ContentItem.ContentItemId;
+				var compId = item.Company.GetId();
+				var logoUrl = Model.Logos.FirstOrDefault(x => x.CompanyID == compId)?.Url;
+				if (logoUrl == null) logoUrl = "";
+				<div class="col">
+					<div class="card border-0">
+						@if (item.FeaturedImage?.Paths?.Length > 0)
+						{
+							<a asp-page="./Offer" asp-route-offerId="@cid">
+								<img src="../media/@item.FeaturedImage.Paths[0]" alt="">
+							</a>
+						}
+						else
+						{
+							<a asp-page="./Offer" asp-route-offerId="@cid" class="">
+
+								<img src="https://www.glaspoduzetnika.hr/assets/images/glaspoduzetnika-logo.png" class="card-img-top" alt="">
+							</a>
+						}
+
+						<div class="card-body mx-0 px-0 fs-6 ">
+							@foreach (var termId in item.Category.TermContentItemIds)
+							{
+								<shape type="Term" TaxonomyContentItemId="@item.Category.TaxonomyContentItemId" TermContentItemId="@termId" class="dodo " />
+							}
+							<a asp-page="./Offer" asp-route-offerId="@cid" class="">
+								<div class="card-title mt-2">
+									<img src="../media/@logoUrl" class="w-25 d-block mx-auto d-block companyLogo" alt="">
+									<h4 class="card-title m-0 py-2">@item.ContentItem.DisplayText</h4>
+								</div>
+							</a>
+							<p class="card-text m-0">@item.ShortDescription.Text</p>
+						</div>
+						<div class="card-body d-grid px-0 fs-6">
+							<a class="" asp-page="./Offer" asp-route-offerId="@cid">@T["Read More"] ...</a>
+						</div>
+					</div>
+				</div>
+			}
+		}
+		else
+		{
+			<div class="alert alert-info">
+				@T["No results found."]
+			</div>
+		}
+	</div>
 }
