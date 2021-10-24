@@ -13,7 +13,7 @@
 	<blockquote>
 		<!-- Content here -->
 		<h2 class="text-center">@offer.ContentItem.DisplayText</h2>
-		@if (!offer.FeaturedImage.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
+		@if (offer.FeaturedImage?.Paths.FirstOrDefault()!=null)
 		{
 			<div class="icon-box">
 				<img src="/media/@offer.FeaturedImage.Paths.FirstOrDefault()" class="w-100 d-block mx-auto d-block" alt="">
@@ -43,7 +43,7 @@
 			{
 				var company = companyItem.As<Company>();
 
-				if (!company.Logo.Paths.Equals(Newtonsoft.Json.JsonToken.Null))
+				if (company.Logo?.Paths.FirstOrDefault()!=null)
 				{
 					<li class="list-group-item p-0 border-0">
 						<div class="icon-box">
