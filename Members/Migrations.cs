@@ -35,7 +35,17 @@ namespace Members
             _contentDefinitionManager.MigrateOffer();
             SchemaBuilder.CreateOfferIndex();
             _contentDefinitionManager.CreateBankStatement();
-            return 1;
+            return 2;
+        }
+
+        public int UpdateFrom1()
+        {
+            _contentDefinitionManager.AlterPartDefinition("Offer", part => part
+                .RemoveField("LongDescription")//remove to add
+                .RemoveField("NestoTamo")//remove to add
+                );
+            _contentDefinitionManager.MigrateOffer();
+            return 2;
         }
     }
 }

@@ -4,6 +4,7 @@ using YesSql.Sql;
 using System;
 using System.Linq;
 using Members.Core;
+using Members.Base;
 
 namespace Members.Indexes
 {
@@ -26,11 +27,10 @@ namespace Members.Indexes
                 {
                     var offer = contentItem.As<Offer>();
                     if (offer == null) return null;
-
                     var offerIndex = new OfferIndex
                     {
                         ContentItemId = contentItem.ContentItemId,
-                        CompanyContentItemId = contentItem.ContentItem.Content.Offer.Company.ContentItemIds[0],
+                        CompanyContentItemId = offer.Company?.ContentItemIds.FirstOrDefault(),
                         Title = contentItem.DisplayText,
                         Published = contentItem.Published,
                         Latest = contentItem.Latest,

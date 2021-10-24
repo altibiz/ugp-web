@@ -1,5 +1,5 @@
 declare @idPattern nvarchar(50)
-SET @idPattern='bankst_%'
+SET @idPattern='offer_%'
 DELETE FROM AliasPartIndex WHERE documentId IN
 (SELECT Id
   FROM [dbo].[Document]
@@ -26,6 +26,16 @@ DELETE FROM ContentItemIndex WHERE documentId IN
   WHERE JSON_VALUE(Content,'$.ContentItemId') Like @idPattern)
 
 DELETE FROM PaymentIndex WHERE documentId IN
+(SELECT Id
+  FROM [dbo].[Document]
+  WHERE JSON_VALUE(Content,'$.ContentItemId') Like @idPattern)
+
+DELETE FROM OfferIndex WHERE documentId IN
+(SELECT Id
+  FROM [dbo].[Document]
+  WHERE JSON_VALUE(Content,'$.ContentItemId') Like @idPattern)
+
+DELETE FROM AutoroutePartIndex WHERE documentId IN
 (SELECT Id
   FROM [dbo].[Document]
   WHERE JSON_VALUE(Content,'$.ContentItemId') Like @idPattern)

@@ -13,7 +13,7 @@ using YesSql;
 
 namespace Members.Pages
 {
-    public class OffersForMembersModel : PageModel
+    public class OffersModel : PageModel
     {
         private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
@@ -25,7 +25,7 @@ namespace Members.Pages
         public string SearchString { get; set; }
         public List<LogoUrl> Logos { get; set; }
 
-        public OffersForMembersModel(ISession session, MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public OffersModel(ISession session, MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _notifier = notifier;
             H = htmlLocalizer;

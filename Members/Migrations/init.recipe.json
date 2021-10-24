@@ -3914,7 +3914,7 @@
 										"Author": "admin",
 										"LinkMenuItemPart": {
 											"Name": "Ponude za članove",
-											"Url": "/Members/offersformembers"
+											"Url": "/Members/Offers"
 										},
 										"LinkMenuItem": {
 											"Icon": {

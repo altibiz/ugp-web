@@ -1,4 +1,5 @@
-﻿using OrchardCore.ContentFields.Fields;
+﻿using OrchardCore.Autoroute.Models;
+using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
@@ -16,7 +17,7 @@ namespace Members.Core
 {
         public TextField ShortDescription { get; set; }
         public TextField Description { get; set; }
-        public TextField LongDescription { get; set; }
+        public HtmlField LongDescription { get; set; }
         public TextField PersonName { get; set; }
         public TextField ContactPerson { get; set; }
         public TextField Email { get; set; }
@@ -54,10 +55,70 @@ namespace Members.Core
                         Options = TitlePartOptions.EditableRequired
                     })
                 )
+                .WithPart("AutoroutePart", part => part
+                        .WithPosition("2")
+                        .WithSettings(new AutoroutePartSettings
+                        {
+                            Pattern = "offers-{{ ContentItem.DisplayText | slugify }}",
+                        })
+                )
             );
             #endregion
             #region OfferPart
             _contentDefinitionManager.AlterPartDefinition("Offer", part => part
+                 .WithField("Category", field => field
+                    .OfType("TaxonomyField")
+                    .WithDisplayName("Kategorija")
+                    .WithEditor("Tags")
+                    .WithDisplayMode("Tags")
+                    .WithPosition("0")
+                    .WithSettings(new TaxonomyFieldSettings
+                    {
+                        Required = true,
+                        TaxonomyContentItemId = "4a6d7mtpab04yt9yedrsardz4r",
+                        Unique = true,
+                    })
+                    .WithSettings(new TaxonomyFieldTagsEditorSettings
+                    {
+                        Open = false,
+                    })
+                )
+                .WithField("ShortDescription", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Kratki opis")
+                    .WithPosition("1")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Required = true,
+                    })
+                )
+                .RemoveField("LongDescription")//some additions
+                .WithField("LongDescription", field => field
+                    .OfType("HtmlField")
+                    .WithDisplayName("Širi opis i dodatne specifikacije")
+                    .WithEditor("Wysiwyg")
+                    .WithPosition("2")
+                )
+                .WithField("FeaturedImage", field => field
+                    .OfType("MediaField")
+                    .WithDisplayName("Fotografija")
+                    .WithEditor("Attached")
+                    .WithPosition("3")
+                    .WithSettings(new MediaFieldSettings
+                    {
+                        Multiple = false,
+                        AllowMediaText = false,
+                    })
+                )
+                .WithField("Company", field => field
+                    .OfType("ContentPickerField")
+                    .WithPosition("4")
+                    .WithDisplayName("Company")
+                    .WithSettings(new ContentPickerFieldSettings
+                    {
+                        DisplayedContentTypes = new[] { "Company" },
+                    })
+                )
                 .WithField("PersonName", field => field
                     .OfType("TextField")
                     .WithDisplayName("Naziv pravne ili fizičke osobe")
@@ -70,7 +131,7 @@ namespace Members.Core
                 .WithField("ContactPerson", field => field
                     .OfType("TextField")
                     .WithDisplayName("Kontakt osoba")
-                    .WithPosition("1")
+                    .WithPosition("6")
                     .WithSettings(new TextFieldSettings
                     {
                         Required = true,
@@ -79,34 +140,20 @@ namespace Members.Core
                 .WithField("Email", field => field
                     .OfType("TextField")
                     .WithDisplayName("Email")
-                    .WithPosition("2")
+                    .WithPosition("7")
                     .WithSettings(new TextFieldSettings
                     {
                         Required = true,
                     })
-                )
-               .WithField("ShortDescription", field => field
-                    .OfType("TextField")
-                    .WithDisplayName("Kratki opis")
-                    .WithPosition("3")
-                    .WithSettings(new TextFieldSettings
-                    {
-                        Required = true,
-                    })
-                )
-                .WithField("LongDescription", field => field
-                    .OfType("TextField")
-                    .WithDisplayName("Širi opis i dodatne specifikacije")
-                    .WithPosition("6")
-                )
-                .WithField("Address", field => field
-                    .OfType("TextField")
-                    .WithDisplayName("Adresa")
-                    .WithPosition("8")
                 )
                 .WithField("Phone", field => field
                     .OfType("TextField")
                     .WithDisplayName("Telefon")
+                    .WithPosition("8")
+                )
+                .WithField("Address", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Adresa")
                     .WithPosition("9")
                 )
                 .WithField("Web", field => field
@@ -145,45 +192,10 @@ namespace Members.Core
                         LinkTextMode = LinkTextMode.Url,
                     })
                 )
-                .WithField("Category", field => field
-                    .OfType("TaxonomyField")
-                    .WithDisplayName("Kategorija")
-                    .WithEditor("Tags")
-                    .WithDisplayMode("Tags")
-                    .WithPosition("4")
-                    .WithSettings(new TaxonomyFieldSettings
-                    {
-                        Required = true,
-                        TaxonomyContentItemId = "4a6d7mtpab04yt9yedrsardz4r",
-                        Unique = true,
-                    })
-                    .WithSettings(new TaxonomyFieldTagsEditorSettings
-                    {
-                        Open = false,
-                    })
-                )
                 .WithField("YoutubeVideoId", field => field
                     .OfType("TextField")
                     .WithDisplayName("Youtube video ID")
-                    .WithPosition("7")
-                )
-                .WithField("FeaturedImage", field => field
-                    .OfType("MediaField")
-                    .WithDisplayName("Fotografija")
-                    .WithEditor("Attached")
-                    .WithSettings(new MediaFieldSettings
-                    {
-                        Multiple = false,
-                        AllowMediaText = false,
-                    })
-                )
-                .WithField("Company", field => field
-                    .OfType("ContentPickerField")
-                    .WithDisplayName("Company")
-                    .WithSettings(new ContentPickerFieldSettings
-                    {
-                        DisplayedContentTypes = new[] { "Company" },
-                    })
+                    .WithPosition("14")
                 )
             );
             #endregion

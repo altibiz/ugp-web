@@ -6,6 +6,7 @@ using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.Environment.Shell.Scope;
+using OrchardCore.Modules;
 using OrchardCore.Recipes.Models;
 using OrchardCore.Recipes.Services;
 using System;
@@ -82,7 +83,8 @@ namespace Members.Base
 
                         importedVersionIds.Add(importingItem.ContentItemVersionId);
                     }
-                    MemberHandler.FixMemberDate(importingItem);
+                    var context = new ImportContentContext(importingItem);
+                    await Handlers.InvokeAsync((handler, context) => handler.ImportingAsync(context), context, _logger);
                     _session.Save(importingItem);
 
                 }
@@ -100,10 +102,9 @@ namespace Members.Base
         public static readonly ConcurrentQueue<ContentItem[]> PendingImports = new ConcurrentQueue<ContentItem[]>();
         public Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
-            //var contentManager = serviceProvider.GetRequiredService<IContentManager>();
             if (PendingImports.TryDequeue(out var toImport))
             {
-                var contentManager = ShellScope.Services.GetRequiredService<Importer>();
+                var contentManager = serviceProvider.GetRequiredService<Importer>();
                 return contentManager.ImportAsync(toImport);
             }
             return Task.CompletedTask;
