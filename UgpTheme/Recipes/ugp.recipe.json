@@ -1927,7 +1927,7 @@
                   "Expression": "info@glaspoduzetnika.hr"
                 },
                 "Recipients": {
-                  "Expression": "{{ Workflow.Input.ContentItem.PersonPart.Email }}"
+                  "Expression": "{{ Workflow.Input.ContentItem.Content.PersonPart.Email.Text }}"
                 },
                 "ReplyTo": {
                   "Expression": null
