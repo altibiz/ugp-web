@@ -14,10 +14,6 @@ namespace OrchardCore.Themes.UgpTheme
         {
             serviceCollection.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();
             serviceCollection.AddScoped<IDataMigration, Migrations>();
-            serviceCollection.Configure<MvcOptions>((options) =>
-            {
-                options.Filters.Add(typeof(NotifyFilter));
-            });
         }
     }
 }
