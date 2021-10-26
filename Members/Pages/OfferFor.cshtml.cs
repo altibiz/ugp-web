@@ -15,23 +15,20 @@ namespace Members.Pages
 {
     public class OfferForModel : PageModel
     {
-        private readonly IHtmlLocalizer H;
-        private readonly IContentManager _contentManager;
-        private readonly INotifier _notifier;
         private readonly MemberService _memberService;
         public List<ContentItem> CompanyContentItems { get; set; }
 
-        public OfferForModel(IContentManager cManager, MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public OfferForModel(MemberService mService)
         {
-            _notifier = notifier;
-            H = htmlLocalizer;
-            _contentManager = cManager;
             _memberService = mService;
         }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
             CompanyContentItems = await _memberService.GetUserCompanies();
+            if (CompanyContentItems.Count == 1)
+                return RedirectToPage("MyOffer", new { contentItemId = CompanyContentItems[0].ContentItemId });
+            return Page();
         }
 
     }

@@ -91,7 +91,9 @@ namespace Members.Core
             var company = await GetContentItemById(companyContentItemId);
 
             var query = _session.Query<ContentItem, OfferIndex>();
-            query = query.With<OfferIndex>(x => (x.Published || includeDraft) && x.CompanyContentItemId == company.ContentItemId);
+            query = query.With<OfferIndex>(x => x.CompanyContentItemId == company.ContentItemId);
+            if (!includeDraft)
+                query = query.Where(x => x.Published == true);
             var member = await query.ListAsync();
             return member.FirstOrDefault();
 
