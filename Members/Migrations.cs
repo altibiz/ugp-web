@@ -35,7 +35,7 @@ namespace Members
             _contentDefinitionManager.MigrateOffer();
             SchemaBuilder.CreateOfferIndex();
             _contentDefinitionManager.CreateBankStatement();
-            return 2;
+            return 3;
         }
 
         public int UpdateFrom1()
@@ -46,6 +46,12 @@ namespace Members
                 );
             _contentDefinitionManager.MigrateOffer();
             return 2;
+        }
+
+        public int UpdateFrom2()
+        {
+            SchemaBuilder.AddPublished();
+            return 3;
         }
     }
 }

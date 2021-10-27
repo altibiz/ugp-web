@@ -7,6 +7,7 @@ using OrchardCore.ContentManagement.Metadata;
 using Members.Utils;
 using OrchardCore.Data;
 using Members.Core;
+using Members.Base;
 
 namespace Members.Persons
 {
@@ -17,9 +18,9 @@ namespace Members.Persons
         public string LegalName { get; set; }
         public decimal? Revenue2019 { get; set; }
         public string PersonType { get; set; }
-
         public decimal? Employees { get; set; }
         public decimal? Associates { get; set; }
+        public bool Published { get; set; }
     }
 
     public class PersonPartIndexProvider : IndexProvider<ContentItem>, IScopedIndexProvider
@@ -48,6 +49,7 @@ namespace Members.Persons
                         Oib = pp.Oib.Text,
                         LegalName = pp.LegalName,
                         PersonType = typeDef.Type?.ToString(),
+                        Published = contentItem.Published,
                     };
 
                     var company = contentItem.As<Company>();
@@ -76,6 +78,7 @@ namespace Members.Persons
                 .Column<decimal?>("Revenue2019")
                 .Column<decimal?>("Employees")
                 .Column<decimal?>("Associates")
+                .Column<bool>("Published")
                );
 
             SchemaBuilder.AlterIndexTable<PersonPartIndex>(table => table
@@ -84,6 +87,14 @@ namespace Members.Persons
                     "Oib",
                     "ContentItemId")
             );
+        }
+
+        public static void AddPublished(this ISchemaBuilder schemaBuilder)
+        {
+            schemaBuilder.AlterIndexTable<PersonPartIndex>(table => table
+            .AddColumn<bool>("Published"));
+            schemaBuilder.ExecuteSql("UPDATE ppi SET ppi.Published=cii.Published FROM PersonPartIndex ppi INNER JOIN " +
+"ContentItemIndex cii ON ppi.DocumentId=cii.DocumentId");
         }
     }
 }

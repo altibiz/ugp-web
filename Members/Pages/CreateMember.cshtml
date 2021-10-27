@@ -11,12 +11,15 @@
 
 
 @await RenderSectionAsync("Messages", required: false)
-@T["Please Add User Data"]
+<h5>1. @T["Please Add User Data"]</h5>
 <form method="post" enctype="multipart/form-data">
 	<div asp-validation-summary="All" class="text-danger"></div>
 
 	@await DisplayAsync(Model.Shape)
 
-	<button type="submit" asp-page-handler="CreateMemberToCompany" class="btn btn-success publish mt-2">@T["Register Legal Entity"]</button>
-	<button type="submit" asp-page-handler="CreateMember" class="btn btn-success publish mt-2">@T["Register User"]</button>
+	<button type="submit" asp-page-handler="CreateMemberToCompany" class="btn btn-success publish mt-2">@T["Next: Register Legal Entity"]</button>
+	<div style="padding:10px">
+	@T["Or"]
+	</div>
+	<button type="submit" asp-page-handler="CreateMember" class="btn btn-success publish mt-2">@T["Register As A Natural Entity"]</button>
 </form>

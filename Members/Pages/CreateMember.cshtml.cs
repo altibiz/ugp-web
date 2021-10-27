@@ -29,7 +29,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var mbr = await _memberService.GetUserMember();
+            var mbr = await _memberService.GetUserMember(true);
             if (mbr != null) return RedirectToPage("Portal");
             (_, Shape) = await _memberService.GetNewItem(ContentType.Member);
             return Page();
@@ -53,7 +53,7 @@ namespace Members.Pages
                 var result = await _memberService.CreateMemberDraft(contentItem);
                 if (result.Succeeded)
                 {
-                    _notifier.Success(H["Member registration successful"]);
+                    await _notifier.SuccessAsync(H["Member registration successful"]);
                     return RedirectToPage(nextPage);
                 }
             }
