@@ -149,7 +149,7 @@ msgstr "Prijava"
 #: OrchardCore.Users\Views\Account\Login.cshtml:30
 msgctxt "UgpTheme.Views.Shared.Login"
 msgid "Username or email address"
-msgstr "Email ili korisničko ime"
+msgstr "OIB, email ili korisničko ime"
 
 #. @T["Password"]
 #: OrchardCore.Users\Views\Account\Login.cshtml:36

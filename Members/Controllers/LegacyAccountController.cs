@@ -8,7 +8,6 @@ using OrchardCore.ContentManagement;
 using OrchardCore.Users;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
-using OrchardCore.Users.ViewModels;
 using System;
 using System.Security.Cryptography;
 using System.Text;

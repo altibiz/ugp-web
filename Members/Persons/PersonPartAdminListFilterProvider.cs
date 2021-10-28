@@ -1,11 +1,5 @@
 ﻿using OrchardCore.ContentManagement;
 using OrchardCore.Contents.Services;
-using OrchardCore.Contents.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YesSql.Filters.Query;
 
 namespace Members.Persons
@@ -15,7 +9,7 @@ namespace Members.Persons
         public void Build(QueryEngineBuilder<ContentItem> builder)
         {
             builder
-                .WithNamedTerm("oib", builder => builder
+                .WithDefaultTerm("oib", builder => builder
                     .OneCondition((val, query) =>
                     {
                         if (!string.IsNullOrEmpty(val))
