@@ -39,7 +39,7 @@ namespace Members.Persons
                 .Map(contentItem =>
                 {
                     var pp = contentItem.As<PersonPart>();
-                    if (pp == null || string.IsNullOrEmpty(pp.Oib?.Text)) return null; //skip non-oib, that's not a person
+                    if (pp == null) return null;
                     // Lazy initialization because of ISession cyclic dependency
                     contentDefinitionManager ??= _serviceProvider.GetRequiredService<IContentDefinitionManager>();
                     var typeDef = contentDefinitionManager.GetSettings<PersonPartSettings>(pp);
