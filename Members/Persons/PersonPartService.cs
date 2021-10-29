@@ -67,7 +67,9 @@ namespace Members.Persons
 
         private async Task<bool> IsPersonUniqueAsync(PersonPart part, string oib)
         {
-            return (await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib && o.ContentItemId != part.ContentItem.ContentItemId).CountAsync()) == 0;
+            var typeDef = _cdm.GetSettings<PersonPartSettings>(part);
+            var personType = typeDef.Type?.ToString();
+            return (await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib && o.ContentItemId != part.ContentItem.ContentItemId && o.PersonType == personType).CountAsync()) == 0;
         }
 
         public async Task<IEnumerable<PersonPartIndex>> GetByOibAsync(string oib)
