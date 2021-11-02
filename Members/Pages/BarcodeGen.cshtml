@@ -1,0 +1,116 @@
+﻿@page "{purposeId}"
+@model Members.Pages.BarcodeGenModel
+
+@{
+    var name = Model.LegalName;
+    var oib = Model.Oib;
+    var amount = Model.Amount;
+    var note = Model.Note;
+    var refPrefix = "11-";
+    var cModel = "HR00";
+}
+
+@{ Html.RenderPartial("_Header", T["Donate"].Value); }
+
+<script asp-name="ugptheme-jQuery"></script>
+<script asp-name="ugptheme-libbcmath"></script>
+<script asp-name="ugptheme-bcmath"></script>
+<script asp-name="ugptheme-pdf417"></script>
+
+<script type="text/javascript">
+    var name="@name";
+    var oib="@oib";
+    var amount="@(((int)(amount*100)).ToString("D15"))";
+    var note = "@note";
+
+    function drawBarcode(amount2) {
+        amount = amount2 || amount;
+        const data = {
+            header: 'HRVHUB30',
+            currency: 'HRK',
+            price: amount || '',
+            name: name || '',
+            address: '',
+            cityAndPostalCode: '',
+            recepient: 'UDRUGA GLAS PODUZETNIKA',
+            recepientAddress: 'Ulica Republike Austrije 33',
+            recepientCityAndPostalCode: '10000 Zagreb',
+            IBAN: 'HR2324020061100970954',
+            callNumber: '@cModel',
+            OIB: "@refPrefix" +(oib || ''),
+            code: 'COST',
+            description: note || 'sec'
+        }
+        $("#info-oib").html(data.OIB);
+        const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
+
+        var canvas = document.getElementById("barcode")
+        if (canvas) {
+            PDF417.draw(code.substr(1), canvas)
+            var amountHelper = document.getElementById('amountHelper');
+            if (amountHelper) {
+                amountHelper.value = amount;
+            }
+        }
+    }
+
+
+  $(function () {
+    drawBarcode();
+  });
+</script>
+
+<div class="row">
+    <div class="container">
+        <h3 class="pt-4">Donacijska večera UGPa</h3>
+        <h4>Podaci za uplatu</h4>
+        <form method="post" id="personSelector">
+            @if (!string.IsNullOrEmpty(Model.PersonId))
+            {
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Osoba/Tvrtka</span>
+                    </div>
+
+                    <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
+                        @if (Model.PersonList != null)
+                        {
+                            @foreach (var item in Model.PersonList)
+                            {
+                                <option value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+            }
+            <div class="form-floating">
+                <input asp-for="LegalName" class="form-control">
+                <label asp-for="LegalName">Platitelj</label>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Oib" class="form-control">
+                <label asp-for="Oib">OIB</label>
+            </div>
+            <input type="hidden" asp-for="OriginalId"/>
+            <button class="btn btn-success publish" type="submit">Generiraj kod</button>
+        </form>
+        <p class="lead fs-6">
+            <span>IBAN: HR2324020061100970954</span><br />
+            <span>UDRUGA GLAS PODUZETNIKA</span><br />
+            <span>Ulica Republike Austrije 33, Zagreb</span><br />
+            <span>Iznos: @amount kn</span><br />
+            <span>model „@(cModel)“ i poziv na broj „@(refPrefix+oib)“.</span><br />
+            <span>Opis plaćanja: @note</span>
+        </p>
+        <div class="list-group list-group-flush fs-6">
+            <canvas id="barcode"></canvas>
+
+        </div>
+        <p class="lead fs-6 my-1 ">
+            Skenirajte 2D barkod iz Vašeg mobilnog bankarstva
+        </p>
+
+
+    </div>
+</div>
