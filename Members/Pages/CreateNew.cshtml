@@ -1,0 +1,14 @@
+﻿@page "{contentType}"
+@model Members.Pages.CreateNewModel
+
+@{ Html.RenderPartial("_Header", T["Upis"].Value); }
+
+
+@await RenderSectionAsync("Messages", required: false)
+<form method="post">
+	<div asp-validation-summary="All" class="text-danger"></div>
+	@await DisplayAsync(Model.Shape)
+	<button type="submit" class="btn btn-success publish mt-2">
+		Generiraj kod
+	</button>
+</form>

@@ -99,8 +99,14 @@ namespace Members.Persons
             return null;
         }
 
-        public void OnUpdatingAsync(PersonPart model, IUpdateModel updater, UpdatePartEditorContext context)
+        public Task OnUpdatingAsync(PersonPart model, IUpdateModel updater, UpdatePartEditorContext context)
         {
+            return Task.CompletedTask;
+        }
+
+        public Task UpdatedAsync<TPart>(UpdateContentContext context, PersonPart instance)
+        {
+            return Task.CompletedTask;
         }
     }
 }

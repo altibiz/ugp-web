@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Members.Core;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +42,7 @@ namespace Members.Pages
         private async Task<IActionResult> CreatePOST(string nextPage, string contentItemId)
         {
             ContentItem contentItem;
-            (contentItem, Shape) = await _memberService.GetUpdatedItem(ContentType.Offer);
+            (contentItem, Shape) = await _memberService.ModelToNew(ContentType.Offer);
             if (ModelState.IsValid)
             {
                 var result = await _memberService.CreateOfferDraft(contentItem, contentItemId);

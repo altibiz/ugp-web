@@ -53,5 +53,12 @@ namespace Members
             SchemaBuilder.AddPublished();
             return 3;
         }
+
+        public async Task<int> UpdateFrom3()
+        {
+            await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
+            _contentDefinitionManager.CreatePledge();
+            return 4;
+        }
     }
 }

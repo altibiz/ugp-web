@@ -2,6 +2,7 @@
 using Members.Core;
 using Members.PartFieldSettings;
 using Members.Persons;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using OrchardCore.ContentFields.Fields;
@@ -48,17 +49,13 @@ namespace Members.Payments
 
     public class BankStatPartService : PartService<BankStatPart>
     {
-        public BankStatPartService()
-        {
-
-        }
 
         public IStringLocalizer<BankStatPartService> S { get; }
 
         private IContentManager _contentManager;
         private PersonPartService _pService;
 
-        public BankStatPartService(IStringLocalizer<BankStatPartService> S, IContentManager contentManager, PersonPartService personService)
+        public BankStatPartService(IStringLocalizer<BankStatPartService> S, IContentManager contentManager, PersonPartService personService,IHttpContextAccessor htp):base(htp)
         {
             this.S = S;
             _contentManager = contentManager;

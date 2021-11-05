@@ -63,6 +63,7 @@ namespace Members
             services.AddScoped<Importer>();
             services.AddTransient<IContentsAdminListFilterProvider, PersonPartAdminListFilterProvider>();
             services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, PersonOptionsDisplayDriver>();
+            services.UsePartService<Pledge, PledgeService>();
 
             services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();
@@ -75,6 +76,8 @@ namespace Members
 
             services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
                 .ForEditor<PartTextFieldDriver>(d=>true);
+            services.AddContentField<NumericField>().ForEditor<NumericFieldDisplayDriver>(d => false)
+    .ForEditor<PartNumericFieldDriver>(d => true);
 
             services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
                 .ForEditor<TaxonomyFieldDisplayDriver>(d=>!string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))

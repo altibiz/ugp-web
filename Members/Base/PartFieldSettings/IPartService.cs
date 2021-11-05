@@ -1,5 +1,7 @@
 ﻿using Members.Persons;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
@@ -19,9 +21,10 @@ namespace Members.PartFieldSettings
 
         Task InitializingAsync(T part);
         Task PublishedAsync(T instance, PublishContentContext context);
-        void OnUpdatingAsync(T model, IUpdateModel updater, UpdatePartEditorContext context);
+        Task OnUpdatingAsync(T model, IUpdateModel updater, UpdatePartEditorContext context);
 
         Action<T> GetEditModel(T part, BuildPartEditorContext context);
+        Task UpdatedAsync<TPart>(UpdateContentContext context, T instance);
     }
 
     public static class PartServiceExtensions
@@ -39,8 +42,16 @@ namespace Members.PartFieldSettings
 
     public abstract class PartService<T> : IPartService<T>
     {
+        private IHttpContextAccessor _httpCa;
 
-        public virtual Task InitializingAsync(T part)
+        public PartService(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpCa = httpContextAccessor;
+        }
+        
+        public bool IsAdmin => AdminAttribute.IsApplied(_httpCa.HttpContext);
+
+    public virtual Task InitializingAsync(T part)
         {
             return Task.CompletedTask;
         }
@@ -50,9 +61,9 @@ namespace Members.PartFieldSettings
             return null;
         }
 
-        public virtual void OnUpdatingAsync(T model, IUpdateModel updater, UpdatePartEditorContext context)
+        public virtual Task OnUpdatingAsync(T model, IUpdateModel updater, UpdatePartEditorContext context)
         {
-
+            return Task.CompletedTask;
         }
 
         public virtual Task PublishedAsync(T instance, PublishContentContext context)
@@ -68,6 +79,11 @@ namespace Members.PartFieldSettings
         public virtual IEnumerable<ValidationResult> Validate(T part)
         {
             return Array.Empty<ValidationResult>();
+        }
+
+        public virtual Task UpdatedAsync<TPart>(UpdateContentContext context, T instance)
+        {
+            return Task.CompletedTask;
         }
     }
 }

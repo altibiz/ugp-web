@@ -1,0 +1,88 @@
+﻿@using OrchardCore.ContentManagement
+@using Members.Payments
+
+@{ ContentItem contentItem = Model.ContentItem;
+
+		var pledge = contentItem.As<Pledge>();
+		var name = pledge.PayerName.Text;
+		var oib = pledge.Oib.Text;
+		var amount = pledge.Amount.Value;
+		var note = pledge.Note?.Text;
+		var refPrefix = pledge.ReferenceNr.Text;
+		var cModel = "HR00";
+}
+
+@{ Html.RenderPartial("_Header", T["Donate"].Value); }
+
+<script asp-name="ugptheme-jQuery"></script>
+<script asp-name="ugptheme-libbcmath"></script>
+<script asp-name="ugptheme-bcmath"></script>
+<script asp-name="ugptheme-pdf417"></script>
+
+<script type="text/javascript">
+	var name = "@name";
+	var oib = "@oib";
+	var amount = "@(((int)(amount*100)).ToString("D15"))";
+	var note = "@note";
+
+	function drawBarcode(amount2) {
+		amount = amount2 || amount;
+		const data = {
+			header: 'HRVHUB30',
+			currency: 'HRK',
+			price: amount || '',
+			name: name || '',
+			address: '',
+			cityAndPostalCode: '',
+			recepient: 'UDRUGA GLAS PODUZETNIKA',
+			recepientAddress: 'Ulica Republike Austrije 33',
+			recepientCityAndPostalCode: '10000 Zagreb',
+			IBAN: 'HR2324020061100970954',
+			callNumber: '@cModel',
+			OIB: "@refPrefix" + (oib || ''),
+			code: 'COST',
+			description: note || 'sec'
+		}
+		$("#info-oib").html(data.OIB);
+		const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
+
+		var canvas = document.getElementById("barcode")
+		if (canvas) {
+			PDF417.draw(code.substr(1), canvas)
+			var amountHelper = document.getElementById('amountHelper');
+			if (amountHelper) {
+				amountHelper.value = amount;
+			}
+		}
+	}
+
+
+	$(function () {
+		drawBarcode();
+	});
+</script>
+
+<div class="row">
+	<div class="container">
+		<h3 class="pt-4">Hvala Vam na prijavi!</h3>
+		<h4>Podaci za uplatu</h4>
+		<p class="lead fs-6">
+			<span>IBAN: HR2324020061100970954</span><br />
+			<span>UDRUGA GLAS PODUZETNIKA</span><br />
+			<span>Ulica Republike Austrije 33, Zagreb</span><br />
+			<span>Iznos: @amount kn</span><br />
+			<span>model „@(cModel)“ i poziv na broj „@(refPrefix+(oib??"OIB"))“.</span><br />
+			<span>Opis plaćanja: @note </span>
+		</p>
+		<p class="lead fs-6 my-1 ">
+			Možete skenirati 2D barkod iz Vašeg mobilnog bankarstva
+		</p>
+		<div>
+			<canvas id="barcode"></canvas>
+		</div>
+		<br />
+		<img style="width:100%" src="https://clanovi.glaspoduzetnika.hr/media/donatorska.jpeg" />
+
+
+	</div>
+</div>

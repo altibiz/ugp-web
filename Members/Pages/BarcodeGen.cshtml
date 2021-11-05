@@ -68,7 +68,6 @@
 			Na donatorskom partyju Vas očekuje:
 			<ul>
 				<li>panel uz Petra Štefanića i goste</li>
-				<li>edukacija o financijskom tržištu powered by Zagrebačka banka</li>
 				<li>dodjela nagrada za UGP-ovca, antipoduzetnika, državnog službenika i novinara godine</li>
 				<li>piće dobrodošlice i probrani jelovnik u tri slijeda uz piće</li>
 				<li>aukcija originalnih crteža Dijane Novak</li>
@@ -104,11 +103,11 @@
 				</div>
 			}
 			<div class="form-floating">
-				<input placeholder="somethi" asp-for="LegalName" class="form-control">
+				<input required placeholder="somethi" asp-for="LegalName" class="form-control">
 				<label asp-for="LegalName">Ime platitelja</label>
 			</div>
 			<div class="form-floating">
-				<input placeholder="somethi" asp-for="Oib" class="form-control">
+				<input required placeholder="somethi" asp-for="Oib" class="form-control">
 				<label asp-for="Oib">OIB platitelja (član/tvrtka/osoba)</label>
 			</div>
 			<input type="hidden" asp-for="OriginalId" />
