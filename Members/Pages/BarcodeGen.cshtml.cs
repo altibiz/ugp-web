@@ -45,17 +45,7 @@ namespace Members.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            ContentItem ci = await _memberService.GetUserMember(true);
-            if (ci != null)
-            {
-                PersonId = ci.ContentItemId;
-                OriginalId = PersonId;
-                var pp = ci.As<PersonPart>().InitFields();
-                await SetPersonList();
-                LegalName = pp.LegalName;
-                Oib = pp.Oib.Text;
-            }
-            return Page();
+            return Redirect("https://clanovi.glaspoduzetnika.hr/ugp-donacijska-vecera");
         }
 
         public async Task<IActionResult> OnPost()
