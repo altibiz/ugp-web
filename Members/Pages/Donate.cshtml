@@ -44,7 +44,6 @@
             code: 'COST',
             description: note || 'sec'
         }
-        $("#info-oib").html(data.OIB);
         const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
         var canvas = document.getElementById("barcode")

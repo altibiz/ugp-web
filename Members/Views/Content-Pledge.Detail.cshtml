@@ -5,10 +5,9 @@
 
 		var pledge = contentItem.As<Pledge>();
 		var name = pledge.PayerName.Text;
-		var oib = pledge.Oib.Text;
 		var amount = pledge.Amount.Value;
 		var note = pledge.Note?.Text;
-		var refPrefix = pledge.ReferenceNr.Text;
+		var refNumber = pledge.ReferenceNr.Text;
 		var cModel = "HR00";
 }
 
@@ -21,7 +20,6 @@
 
 <script type="text/javascript">
 	var name = "@name";
-	var oib = "@oib";
 	var amount = "@(((int)(amount*100)).ToString("D15"))";
 	var note = "@note";
 
@@ -39,11 +37,10 @@
 			recepientCityAndPostalCode: '10000 Zagreb',
 			IBAN: 'HR2324020061100970954',
 			callNumber: '@cModel',
-			OIB: "@refPrefix" + (oib || ''),
+			RefNumber: "@refNumber",
 			code: 'COST',
 			description: note || 'sec'
 		}
-		$("#info-oib").html(data.OIB);
 		const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
 		var canvas = document.getElementById("barcode")
@@ -71,7 +68,7 @@
 			<span>UDRUGA GLAS PODUZETNIKA</span><br />
 			<span>Ulica Republike Austrije 33, Zagreb</span><br />
 			<span>Iznos: @amount kn</span><br />
-			<span>model „@(cModel)“ i poziv na broj „@(refPrefix+(oib??"OIB"))“.</span><br />
+			<span>model „@(cModel)“ i poziv na broj „@(refNumber)“.</span><br />
 			<span>Opis plaćanja: @note </span>
 		</p>
 		<p class="lead fs-6 my-1 ">
