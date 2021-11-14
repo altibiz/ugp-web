@@ -3,7 +3,7 @@
 <article class="{{ Model.Classes | join: " " }}">
     <figure class="figure">
       {% if url != nil %}
-          <a href="{{url}}">
+          <a href="{{url | absolute_url }}">
       {% endif %}
         <img src="{{ Model.ContentItem.Content.Image.Media.Paths[0] | asset_url }}" class="figure-img img-fluid rounded" alt="{{ Model.ContentItem.Content.Image.Caption.Text }}" />
       {% if url != nil %}
