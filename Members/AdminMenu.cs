@@ -36,6 +36,8 @@ namespace Members
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Offer" }))
                    .Add(S["Izvodi"], "9", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
+                   .Add(S["Uplatnice"], "10", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Pledge" }))
                  , new[] { "icon-class-fas", "icon-class-fa-users" });
 
 

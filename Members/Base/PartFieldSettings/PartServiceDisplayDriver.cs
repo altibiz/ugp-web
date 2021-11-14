@@ -35,7 +35,7 @@ namespace Members.Persons
         {
             await updater.TryUpdateModelAsync(model, Prefix);
 
-            _service.OnUpdatingAsync(model, updater, context);
+            await _service.OnUpdatingAsync(model, updater, context);
 
             await foreach (var item in _service.ValidateAsync(model))
             {

@@ -44,13 +44,13 @@ namespace Members.Pages
         public async Task<IActionResult> OnPostAsync(string returnPage)
         {
             ContentItem contentItem;
-            (contentItem, Shape) = await _mService.GetUpdatedItem(ContentType.Company);
+            (contentItem, Shape) = await _mService.ModelToNew(ContentType.Company);
             if (ModelState.IsValid)
             {
                 var result = await _mService.CreateMemberCompany(contentItem);
                 if (result.Succeeded)
                 {
-                    _notifier.Success(H["Legal entity added successfully"]);
+                    await _notifier.SuccessAsync(H["Legal entity added successfully"]);
                     return RedirectToPage(returnPage ?? "Portal");
                 }
             }

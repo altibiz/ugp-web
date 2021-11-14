@@ -3,6 +3,7 @@ using OrchardCore.ContentManagement;
 using OrchardCore.Taxonomies.Fields;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Members.Base
@@ -27,6 +28,18 @@ namespace Members.Base
                 res.Add(contentItem);
             }
             return res;
+        }
+
+        public async Task<ContentItem> GetFirstTerm(TaxonomyField field)
+        {
+            var res = new List<ContentItem>();
+            foreach (var trm in field?.TermContentItemIds ?? Array.Empty<string>())
+            {
+                if (!_cached.TryGetValue((field.TaxonomyContentItemId, trm), out var contentItem))
+                    _cached[(field.TaxonomyContentItemId, trm)] = contentItem = await _helper.GetTaxonomyTermAsync(field.TaxonomyContentItemId, trm);
+                res.Add(contentItem);
+            }
+            return res.FirstOrDefault(); ;
         }
     }
 }

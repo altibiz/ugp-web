@@ -58,7 +58,7 @@ namespace Members.Pages
             var offer = await _memberService.GetCompanyOffers(contentItemId);
 
             ContentItem contentItem;
-            (contentItem, Shape) = await _memberService.GetUpdatedItem(offer.ContentItemId);
+            (contentItem, Shape) = await _memberService.ModelToItem(offer.ContentItemId);
 
             if (ModelState.IsValid)
             {

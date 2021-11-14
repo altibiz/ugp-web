@@ -41,7 +41,6 @@
             code: 'COST',
             description: note || 'sec'
         }
-        $("#info-oib").html(data.OIB);
         const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
         var canvas = document.getElementById("barcode")
@@ -61,56 +60,78 @@
 </script>
 
 <div class="row">
-    <div class="container">
-        <h3 class="pt-4">Donacijska večera UGPa</h3>
-        <h4>Podaci za uplatu</h4>
-        <form method="post" id="personSelector">
-            @if (!string.IsNullOrEmpty(Model.PersonId))
-            {
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Osoba/Tvrtka</span>
-                    </div>
-
-                    <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
-                        @if (Model.PersonList != null)
-                        {
-                            @foreach (var item in Model.PersonList)
-                            {
-                                <option value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
-                            }
-                        }
-                    </select>
-
-                </div>
-            }
-            <div class="form-floating">
-                <input asp-for="LegalName" class="form-control">
-                <label asp-for="LegalName">Platitelj</label>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Oib" class="form-control">
-                <label asp-for="Oib">OIB</label>
-            </div>
-            <input type="hidden" asp-for="OriginalId"/>
-            <button class="btn btn-success publish" type="submit">Generiraj kod</button>
-        </form>
-        <p class="lead fs-6">
-            <span>IBAN: HR2324020061100970954</span><br />
-            <span>UDRUGA GLAS PODUZETNIKA</span><br />
-            <span>Ulica Republike Austrije 33, Zagreb</span><br />
-            <span>Iznos: @amount kn</span><br />
-            <span>model „@(cModel)“ i poziv na broj „@(refPrefix+(oib??"OIB"))“.</span><br />
-            <span>Opis plaćanja: @note</span>
-        </p>
-        <div class="list-group list-group-flush fs-6">
-            <canvas id="barcode"></canvas>
-
-        </div>
-        <p class="lead fs-6 my-1 ">
-            Skenirajte 2D barkod iz Vašeg mobilnog bankarstva
-        </p>
+	<div class="container">
+		<h3 class="pt-4">Donacijska večera UGPa</h3>
+		<p>
+			Udruga Glas poduzetnika organizira donatorski party za sve vjerne donatore i članove udruge koji će se održati 25.11.2021. godine u AvantGardenu (Magazinska ulica 16, Zagreb) s početkom u 18:00 sati.
+			Na donatorskom partyju Vas očekuje:
+			<ul>
+				<li>panel uz Petra Štefanića i goste</li>
+				<li>dodjela nagrada za UGP-ovca, antipoduzetnika, državnog službenika i novinara godine</li>
+				<li>piće dobrodošlice i probrani jelovnik u tri slijeda uz piće</li>
+				<li>aukcija originalnih crteža Dijane Novak</li>
+				<li>nastup Giuliana s bendom</li>
+			</ul>
+			Broj mjesta je ograničen!<br />
 
 
-    </div>
+			<b>Ne propustite najluđi party poduzetnika ove godine!</b>
+
+
+		</p>
+		<h4>Podaci za uplatu</h4>
+		<span>Upišite podatke kako bi dobili uputstva za uplatu</span>
+		<form method="post" id="personSelector">
+			@if (!string.IsNullOrEmpty(Model.PersonId))
+			{
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Osoba/Tvrtka</span>
+					</div>
+
+					<select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
+						@if (Model.PersonList != null)
+						{
+							@foreach (var item in Model.PersonList)
+							{
+								<option value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+							}
+						}
+					</select>
+
+				</div>
+			}
+			<div class="form-floating">
+				<input required placeholder="somethi" asp-for="LegalName" class="form-control">
+				<label asp-for="LegalName">Ime platitelja</label>
+			</div>
+			<div class="form-floating">
+				<input required placeholder="somethi" asp-for="Oib" class="form-control">
+				<label asp-for="Oib">OIB platitelja (član/tvrtka/osoba)</label>
+			</div>
+			<input type="hidden" asp-for="OriginalId" />
+			<button class="btn btn-success publish" type="submit">Generiraj podatke za plaćanje</button>
+		</form>
+		@if (!string.IsNullOrEmpty(oib)) { 
+		<p class="lead fs-6">
+			<span>IBAN: HR2324020061100970954</span><br />
+			<span>UDRUGA GLAS PODUZETNIKA</span><br />
+			<span>Ulica Republike Austrije 33, Zagreb</span><br />
+			<span>Iznos: minimalno @amount kn po ulaznici</span><br />
+			<span>model „@(cModel)“ i poziv na broj „@(refPrefix+(oib??"OIB"))“.</span><br />
+			<span>Opis plaćanja: @note </span>
+		</p>
+		<p class="lead fs-6 my-1 ">
+			Možete skenirati 2D barkod iz Vašeg mobilnog bankarstva
+		</p>
+		<div class="list-group list-group-flush fs-6">
+			<canvas id="barcode"></canvas>
+
+		</div>
+		}
+		<br/>
+		<img style="width:100%" src="https://clanovi.glaspoduzetnika.hr/media/donatorska.jpeg" />
+
+
+	</div>
 </div>

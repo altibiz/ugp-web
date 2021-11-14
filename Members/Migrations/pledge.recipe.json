@@ -1,0 +1,55 @@
+{
+	"steps": [
+		{
+			"name": "content",
+			"data": [
+				{
+					"ContentItemId": "5599209fa3d04b0da7482e655",
+					"ContentType": "Taxonomy",
+					"DisplayText": "Cijene donacija",
+					"Latest": true,
+					"Published": true,
+					"TitlePart": {
+						"Title": "Cijene donacija"
+					},
+					"AliasPart": {
+						"Alias": "cijene-donacija"
+					},
+					"AutoroutePart": {
+						"Path": "cijene-donacija",
+						"SetHomepage": false,
+						"Disabled": false,
+						"RouteContainedItems": false,
+						"Absolute": false
+					},
+					"TaxonomyPart": {
+						"TermContentType": "PledgeVariant",
+						"Terms": [
+							{
+								"ContentItemId": "[js:uuid()]",
+								"ContentType": "PledgeVariant",
+								"DisplayText": "1 ulaznica",
+								"Latest": true,
+								"Published": true,
+								"TitlePart": {
+									"Title": "1 ulaznica"
+								},
+								"PledgeVariant": {
+									"Price": {
+										"Value": 750
+									}
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "5599209fa3d04b0da7482e655"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}

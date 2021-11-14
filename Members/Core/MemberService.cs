@@ -1,6 +1,7 @@
 ﻿using Members.Base;
 using Members.Indexes;
 using Members.Payments;
+using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using OrchardCore;
@@ -56,7 +57,7 @@ namespace Members.Core
         {
             var user = await GetCurrentUser(cUSer);
             var query = _session.Query<ContentItem, UserPickerFieldIndex>(x => x.ContentType == nameof(Member) && x.SelectedUserId == user.UserId);
-            if (!includeDraft) query=query.Where(x => x.Published);
+            if (!includeDraft) query = query.Where(x => x.Published);
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
@@ -73,6 +74,11 @@ namespace Members.Core
         public async Task<ContentItem> GetContentItemById(string contentItemId)
         {
             return await _session.GetItemById(contentItemId);
+        }
+
+        public async Task<ContentItem> GetByOib(string oib)
+        {
+            return await _session.Query<ContentItem>().With<PersonPartIndex>(x => x.Oib == oib).FirstOrDefaultAsync();
         }
 
         public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDraft = false)
@@ -106,6 +112,11 @@ namespace Members.Core
 
         public async Task<(ContentItem, IShape)> GetNewItem(ContentType cType)
         {
+            return await GetNewItem(cType.ToString());
+        }
+
+        public async Task<(ContentItem, IShape)> GetNewItem(string cType)
+        {
             var contentItem = await _contentManager.NewAsync(cType.ToString());
             if (cType.Equals(ContentType.Company))
             {
@@ -118,17 +129,22 @@ namespace Members.Core
             return (contentItem, model);
         }
 
-        public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentType memberType)
+        public async Task<(ContentItem, IShape)> ModelToNew(ContentType memberType)
         {
-            return await GetUpdatedItem(await _contentManager.NewAsync(memberType.ToString()));
+            return await ModelToNew(memberType.ToString());
         }
 
-        public async Task<(ContentItem, IShape)> GetUpdatedItem(string id = null)
+        public async Task<(ContentItem, IShape)> ModelToNew(string memberType)
         {
-            return await GetUpdatedItem(await _contentManager.GetAsync(id, VersionOptions.Latest));
+            return await ModelToItem(await _contentManager.NewAsync(memberType));
         }
 
-        public async Task<(ContentItem, IShape)> GetUpdatedItem(ContentItem contentItem)
+        public async Task<(ContentItem, IShape)> ModelToItem(string id = null)
+        {
+            return await ModelToItem(await _contentManager.GetAsync(id, VersionOptions.Latest));
+        }
+
+        public async Task<(ContentItem, IShape)> ModelToItem(ContentItem contentItem)
         {
             var shape = await _contentItemDisplayManager.UpdateEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
 
@@ -172,6 +188,11 @@ namespace Members.Core
             });
 
             return await _contentManager.UpdateValidateAndCreateAsync(memberItem, VersionOptions.Draft);
+        }
+
+        public async Task<ContentValidateResult> CreateNew(ContentItem memberItem, bool published = false)
+        {
+            return await _contentManager.UpdateValidateAndCreateAsync(memberItem, published ? VersionOptions.Published : VersionOptions.Draft);
         }
 
         public async Task<ContentValidateResult> CreateOfferDraft(ContentItem offerItem, string parentContentItemId)

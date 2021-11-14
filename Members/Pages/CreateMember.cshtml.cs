@@ -48,7 +48,7 @@ namespace Members.Pages
         private async Task<IActionResult> CreatePOST(string nextPage)
         {
             ContentItem contentItem;
-            (contentItem, Shape) = await _memberService.GetUpdatedItem(ContentType.Member);
+            (contentItem, Shape) = await _memberService.ModelToNew(ContentType.Member);
             if (ModelState.IsValid) {
                 var result = await _memberService.CreateMemberDraft(contentItem);
                 if (result.Succeeded)

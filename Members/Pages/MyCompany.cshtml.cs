@@ -41,7 +41,7 @@ namespace Members.Pages
         public async Task<IActionResult> OnPostAsync(string companyId)
         {
             ContentItem contentItem;
-            (contentItem, Shape) = await _memberService.GetUpdatedItem(companyId);
+            (contentItem, Shape) = await _memberService.ModelToItem(companyId);
 
             if (ModelState.IsValid)
             {

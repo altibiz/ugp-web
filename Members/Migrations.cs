@@ -6,6 +6,10 @@ using Members.Persons;
 using Members.Core;
 using Members.Payments;
 using Members.Indexes;
+using OrchardCore.ContentManagement.Metadata.Settings;
+using OrchardCore.Media.Settings;
+using OrchardCore.ContentFields.Settings;
+using Members.Base;
 
 namespace Members
 {
@@ -35,7 +39,10 @@ namespace Members
             _contentDefinitionManager.MigrateOffer();
             SchemaBuilder.CreateOfferIndex();
             _contentDefinitionManager.CreateBankStatement();
-            return 3;
+            await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
+            _contentDefinitionManager.CreatePledge();
+            _contentDefinitionManager.DefineImageBanner();
+            return 5;
         }
 
         public int UpdateFrom1()
@@ -52,6 +59,19 @@ namespace Members
         {
             SchemaBuilder.AddPublished();
             return 3;
+        }
+
+        public async Task<int> UpdateFrom3()
+        {
+            await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
+            _contentDefinitionManager.CreatePledge();
+            return 4;
+        }
+
+        public int UpdateFrom4()
+        {
+            _contentDefinitionManager.DefineImageBanner();
+            return 5;
         }
     }
 }
