@@ -12,7 +12,7 @@ namespace Members.Pages
         private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
         public Dictionary<string, List<(string, string)>> DocLinks { get; } = new();
-        public MyDocumentsModel(MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public MyDocumentsModel(MemberService mService, IHtmlLocalizer<MyDocumentsModel> htmlLocalizer, INotifier notifier)
         {
             H = htmlLocalizer;
             _memberService = mService;

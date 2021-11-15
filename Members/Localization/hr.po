@@ -60,6 +60,16 @@ msgctxt "Members.Pages.MyCompanyModel"
 msgid "Company updated successful"
 msgstr "Tvrtka je uspješno ažurirana"
 
+msgctxt "Members.Pages.MyDocuments"
+msgid "My Documents"
+msgstr "Moji dokumenti"
+msgid "Donations"
+msgstr "Donacije"
+
+msgctxt "Members.Pages.MyDocumentsModel"
+msgid "Membership"
+msgstr "Članstvo"
+
 msgctxt "Members.Pages.MyProfile"
 msgid "My Profile"
 msgstr "Moj Profil"
