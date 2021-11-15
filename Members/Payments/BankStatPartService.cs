@@ -38,7 +38,7 @@ namespace Members.Payments
             }
             public int BankID { get; set; }
             public decimal Amount { get; set; }
-
+            public string PaymentDescription { get; set; }
             public string Type { get; set; }
             public Rrn RRN { get; set; }
             public CPartner Partner { get; set; }
@@ -104,6 +104,7 @@ namespace Members.Payments
                 payPart.PayerName.Text = pymnt.Partner.Name;
                 payPart.PaymentRef.Text = pymnt.RRN.Number;
                 payPart.BankContentItemId = part.ContentItem.ContentItemId;
+                payPart.Description.Text = pymnt.PaymentDescription;
                 var version = VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
                 {

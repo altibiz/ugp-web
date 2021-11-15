@@ -42,7 +42,7 @@ namespace Members
             await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
             _contentDefinitionManager.CreatePledge();
             _contentDefinitionManager.DefineImageBanner();
-            return 5;
+            return 6;
         }
 
         public int UpdateFrom1()
@@ -72,6 +72,12 @@ namespace Members
         {
             _contentDefinitionManager.DefineImageBanner();
             return 5;
+        }
+
+        public int UpdateFrom5()
+        {
+            _contentDefinitionManager.MigratePayment();
+            return 6;
         }
     }
 }

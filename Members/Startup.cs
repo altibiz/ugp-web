@@ -30,6 +30,7 @@ using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.Contents.ViewModels;
 using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement.Handlers;
+using Members.ContentHandlers;
 
 namespace Members
 {
@@ -59,6 +60,7 @@ namespace Members
             services.AddContentPart<Offer>();
             services.AddScoped<TaxonomyCachedService>();
             services.AddSingleton<IContentHandler, MemberHandler>();
+            services.AddSingleton<IContentHandler, UserMenuHandler>();
             services.AddRecipeExecutionStep<FastImport>();
             services.AddScoped<Importer>();
             services.AddTransient<IContentsAdminListFilterProvider, PersonPartAdminListFilterProvider>();
