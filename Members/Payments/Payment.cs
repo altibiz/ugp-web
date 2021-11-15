@@ -3,7 +3,6 @@ using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
-using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Title.Models;
 
 namespace Members.Payments

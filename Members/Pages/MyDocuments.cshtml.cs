@@ -18,7 +18,7 @@ namespace Members.Pages
             _memberService = mService;
         }
 
-        public async Task OnGetAsync(string companyId)
+        public async Task OnGetAsync()
         {
             var companies = await _memberService.GetUserCompanies();
             var member = await _memberService.GetUserMember();
