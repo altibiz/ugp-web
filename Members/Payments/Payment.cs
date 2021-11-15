@@ -17,6 +17,8 @@ namespace Members.Payments
         public TextField PaymentRef { get; set; }
         public DateField Date { get; set; }
         public ContentPickerField Person { get; set; }
+
+        public TextField Description { get; set; }
         public string BankContentItemId { get; set; }
     }
 
@@ -78,6 +80,11 @@ namespace Members.Payments
                     .OfType("TextField")
                     .WithDisplayName("Referenca plaćanja")
                     .WithPosition("4")
+                )
+                .WithField("Description", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Opis plaćanja")
+                    .WithPosition("5")
                 )
                 .WithField("Date", field => field
                     .OfType("DateField")

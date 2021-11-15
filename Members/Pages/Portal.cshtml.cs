@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using OrchardCore.ContentFields.Fields;
+using OrchardCore.Admin;
+using Microsoft.AspNetCore.Http;
 
 namespace Members.Pages
 {
@@ -61,45 +63,10 @@ namespace Members.ContentHandlers
     }
     public class UserMenuHandler : ContentHandlerBase
     {
-        public MenuItem[] json = new[]{new MenuItem{
-                                            Name= "Moji podaci",
-                                            Url= "/Members/myprofile",
-                                                Text= "far fa-address-card"
-},
-        new MenuItem{
-            Name="Moji Dokumenti",
-            Url="/Members/MyDocuments",
-            Text="far fa-file-alt"
-        },
-            new MenuItem                        {
-    Name= "Doniraj",
-                                            Url= "/Members/Donate",
-            Text= "far fa-hand-point-up"
-},
-    new MenuItem                                {
-
-                                            Name= "Moje donacije",
-                                            Url= "/Members/mydonations",
-        Text= "fas fa-file-contract"
-                                    },
-        new MenuItem                            {
-        Name= "Moja ponuda ",
-                                            Url= "/Members/offerfor",
-            Text= "fa fa-store"
-},
-        new MenuItem                            {
-    Name= "Ponude za članove",
-                                            Url= "/Members/Offers",
-
-            Text= "fas fa-percent"
-},
-        new MenuItem                            {
-    Name= "Događanja",
-                                            Url= "/Members/events",
-            Text= "far fa-calendar-alt"
-}};
-
-
+        public UserMenuHandler(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpCA = httpContextAccessor;
+        }
         public IEnumerable<ContentItem> GetMenuCi()
         {
             return json.Select(x =>
@@ -128,6 +95,7 @@ namespace Members.ContentHandlers
 
         public override Task LoadedAsync(LoadContentContext context)
         {
+            if (AdminAttribute.IsApplied(_httpCA.HttpContext)) return null;
             if (context.ContentItem.ContentType == "Menu")
             {
                 var alias = context.ContentItem.As<AliasPart>();
@@ -142,5 +110,51 @@ namespace Members.ContentHandlers
             }
             return Task.CompletedTask;
         }
+
+        public static readonly MenuItem[] json = new[]{
+            new MenuItem{
+                Name= "Moji podaci",
+                Url= "/Members/myprofile",
+                Text= "far fa-address-card"
+            },
+            new MenuItem
+            {
+                Name="Moji Dokumenti",
+                Url="/Members/MyDocuments",
+                Text="far fa-file-alt"
+            },
+            new MenuItem
+            {
+                Name= "Doniraj",
+                Url= "/Members/Donate",
+                Text= "far fa-hand-point-up"
+            },
+            new MenuItem
+            {
+
+                Name= "Moje donacije",
+                Url= "/Members/mydonations",
+                Text= "fas fa-file-contract"
+            },
+            new MenuItem
+            {
+                Name= "Moja ponuda ",
+                Url= "/Members/offerfor",
+                Text= "fa fa-store"
+            },
+            new MenuItem
+            {
+                Name= "Ponude za članove",
+                Url= "/Members/Offers",
+                Text= "fas fa-percent"
+            },
+            new MenuItem
+            {
+                Name= "Događanja",
+                Url= "/Members/events",
+                Text= "far fa-calendar-alt"
+            }
+        };
+        private IHttpContextAccessor _httpCA;
     }
 }
