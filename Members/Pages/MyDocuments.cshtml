@@ -19,7 +19,7 @@
 		{
 			<div class="list-group-item d-flex justify-content-between align-items-center">
 				@doc.Item1
-				<a asp-page="./Print" asp-page-handler="Download" asp-route-fileName="@doc.Item1" asp-route-contentId="@doc.Item2" class="badge badge-primary bg-secondary badge-pill">Download</a>
+				<a asp-page="./Print" asp-page-handler="Download" asp-route-fileName="Member-@doc.Item2" asp-route-contentId="@doc.Item2" class="badge badge-primary bg-secondary badge-pill">Download</a>
 			</div>
 		}
 	</div>

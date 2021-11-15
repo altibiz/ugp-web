@@ -22,10 +22,10 @@ namespace Members.Pages
         {
             var companies = await _memberService.GetUserCompanies();
             var member = await _memberService.GetUserMember();
-            AddLink(H["Membership"].Value, "Member-" + member.ContentItemId, member.ContentItemId);
-            foreach (var cmp in companies)
+            AddLink(H["Membership"].Value, member.DisplayText, member.ContentItemId);
+            foreach(var cmp in companies)
             {
-                AddLink(H["Membership"].Value, "Company-" + cmp.ContentItemId, cmp.ContentItemId);
+                AddLink(H["Membership"].Value, cmp.DisplayText, cmp.ContentItemId);
             }
         }
 
