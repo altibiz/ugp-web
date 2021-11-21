@@ -86,7 +86,7 @@
           "ContentItemId": "4dgj6ce33vdsbxqz8hw4c4c24d",
           "ContentItemVersionId": "476aamdac2ta275kebek9j2s43",
           "ContentType": "Taxonomy",
-          "DisplayText": "Categories",
+          "DisplayText": "Kategorije",
           "Latest": true,
           "Published": true,
           "ModifiedUtc": "2021-11-21T20:15:33.0377328Z",
@@ -95,7 +95,7 @@
           "Owner": "44wrdpzwqfd8d4g3kpc1bj08nk",
           "Author": "admin",
           "TitlePart": {
-            "Title": "Categories"
+            "Title": "Kategorije"
           },
           "AliasPart": {
             "Alias": "categories"

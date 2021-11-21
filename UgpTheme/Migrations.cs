@@ -76,17 +76,21 @@ namespace OrchardCore.Themes.UgpTheme
             return 1;
         }
 
-        public async Task<int> UpdateFrom1Async()
+        public async Task<int> UpdateFrom1()
         {
             var ci=await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Categories").FirstOrDefaultAsync();
-            _session.Delete(ci);
+            if(ci!=null)
+                _session.Delete(ci);
             ci = await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Tags").FirstOrDefaultAsync();
-            _session.Delete(ci);
+            if(ci!=null)
+                _session.Delete(ci);
             await _session.SaveChangesAsync();
 
+            return 2;
+        }
 
-            await _migrator.ExecuteAsync("tags-cats.json", this);
-
+        public async Task<int> UpdateFrom2()
+        {
             _contentDefinitionManager.AlterTypeDefinition("BlogPost", type => type.RemovePart("MarkdownBodyPart")
                 .DisplayedAs("Blog Post")
                 .Draftable()
@@ -161,7 +165,8 @@ namespace OrchardCore.Themes.UgpTheme
                 )
             );
 
-            return 2;
+            await _migrator.ExecuteAsync("tags-cats.json", this);
+            return 3;
         }
     }
 }
