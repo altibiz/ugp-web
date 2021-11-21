@@ -1,0 +1,221 @@
+{
+  "name": "",
+  "displayName": "",
+  "description": "",
+  "author": "",
+  "website": "",
+  "version": "",
+  "issetuprecipe": false,
+  "categories": [],
+  "tags": [],
+  "steps": [
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "45j76cwwz4f4v4hx5zqxfpzvwq",
+          "ContentItemVersionId": "4kj2sknxz3s20t74v50856dm49",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Tags",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-11-05T03:06:34.8565724Z",
+          "PublishedUtc": "2021-11-05T03:06:34.8695059Z",
+          "CreatedUtc": "2021-11-05T03:06:34.7920675Z",
+          "Owner": "44wrdpzwqfd8d4g3kpc1bj08nk",
+          "Author": "admin",
+          "TitlePart": {
+            "Title": "Tags"
+          },
+          "AliasPart": {
+            "Alias": "tags"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "4ecpaxvw282q6wb9e3seerghdw",
+                "ContentType": "Tag",
+                "DisplayText": "Earth",
+                "TitlePart": {
+                  "Title": "Earth"
+                },
+                "AutoroutePart": {
+                  "Path": "earth"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "45j76cwwz4f4v4hx5zqxfpzvwq"
+                }
+              },
+              {
+                "ContentItemId": "4aj94x0kx9s5kzz9m25006az47",
+                "ContentType": "Tag",
+                "DisplayText": "Exploration",
+                "TitlePart": {
+                  "Title": "Exploration"
+                },
+                "AutoroutePart": {
+                  "Path": "exploration"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "45j76cwwz4f4v4hx5zqxfpzvwq"
+                }
+              },
+              {
+                "ContentItemId": "44kv4z05xzb6jv7qg3h7sbdpmx",
+                "ContentType": "Tag",
+                "DisplayText": "Space",
+                "TitlePart": {
+                  "Title": "Space"
+                },
+                "AutoroutePart": {
+                  "Path": "space"
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "45j76cwwz4f4v4hx5zqxfpzvwq"
+                }
+              }
+            ],
+            "TermContentType": "Tag"
+          },
+          "AutoroutePart": {
+            "Path": "tags",
+            "RouteContainedItems": true
+          }
+        },
+        {
+          "ContentItemId": "4dgj6ce33vdsbxqz8hw4c4c24d",
+          "ContentItemVersionId": "476aamdac2ta275kebek9j2s43",
+          "ContentType": "Taxonomy",
+          "DisplayText": "Categories",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2021-11-21T20:15:33.0377328Z",
+          "PublishedUtc": "2021-11-21T20:15:33.07414Z",
+          "CreatedUtc": "2021-11-05T03:06:34.8744475Z",
+          "Owner": "44wrdpzwqfd8d4g3kpc1bj08nk",
+          "Author": "admin",
+          "TitlePart": {
+            "Title": "Categories"
+          },
+          "AliasPart": {
+            "Alias": "categories"
+          },
+          "TaxonomyPart": {
+            "Terms": [
+              {
+                "ContentItemId": "4rdx19ywganqtwbtf2x1qdwxcd",
+                "ContentItemVersionId": null,
+                "ContentType": "Category",
+                "DisplayText": "Objave",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-11-21T20:07:40.2519536Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "Category": {
+                  "Icon": {
+                    "Text": "fas fa-bullhorn"
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Objave"
+                },
+                "AutoroutePart": {
+                  "Path": "objave",
+                  "SetHomepage": false,
+                  "Disabled": false,
+                  "RouteContainedItems": false,
+                  "Absolute": false
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4dgj6ce33vdsbxqz8hw4c4c24d"
+                },
+                "@WeldedPartSettings": {
+                  "TermPart": {}
+                }
+              },
+              {
+                "ContentItemId": "4kfxrxxz0dx8v74a8fw05rz2me",
+                "ContentItemVersionId": null,
+                "ContentType": "Category",
+                "DisplayText": "Aktivnosti",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-11-21T20:08:00.4218493Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "Category": {
+                  "Icon": {
+                    "Text": "fas fa-chart-line"
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Aktivnosti"
+                },
+                "AutoroutePart": {
+                  "Path": "activity",
+                  "SetHomepage": false,
+                  "Disabled": false,
+                  "RouteContainedItems": false,
+                  "Absolute": false
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4dgj6ce33vdsbxqz8hw4c4c24d"
+                },
+                "@WeldedPartSettings": {
+                  "TermPart": {}
+                }
+              },
+              {
+                "ContentItemId": "49sszza5ampvxsbnat97w25tcx",
+                "ContentItemVersionId": null,
+                "ContentType": "Category",
+                "DisplayText": "Najave",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2021-11-21T20:08:32.4153694Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "Category": {
+                  "Icon": {
+                    "Text": "fas fa-scroll"
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Najave"
+                },
+                "AutoroutePart": {
+                  "Path": "najave",
+                  "SetHomepage": false,
+                  "Disabled": false,
+                  "RouteContainedItems": false,
+                  "Absolute": false
+                },
+                "TermPart": {
+                  "TaxonomyContentItemId": "4dgj6ce33vdsbxqz8hw4c4c24d"
+                },
+                "@WeldedPartSettings": {
+                  "TermPart": {}
+                }
+              }
+            ],
+            "TermContentType": "Category"
+          },
+          "AutoroutePart": {
+            "Path": "categories",
+            "RouteContainedItems": true,
+            "SetHomepage": false,
+            "Disabled": false,
+            "Absolute": false
+          }
+        }
+      ]
+    }
+  ]
+}

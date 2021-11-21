@@ -1,17 +1,29 @@
+using OrchardCore.Autoroute.Models;
 using OrchardCore.ContentFields.Settings;
+using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
+using OrchardCore.ContentManagement.Records;
 using OrchardCore.Data.Migration;
 using OrchardCore.Flows.Models;
+using OrchardCore.Indexing;
 using OrchardCore.Media.Settings;
+using OrchardCore.Recipes.Services;
+using OrchardCore.Taxonomies.Settings;
+using System.Threading.Tasks;
+using YesSql;
 
 namespace OrchardCore.Themes.UgpTheme
 {
     public class Migrations : DataMigration {
         private readonly IContentDefinitionManager _contentDefinitionManager;
+        private readonly ISession _session;
+        private readonly IRecipeMigrator _migrator;
 
-        public Migrations(IContentDefinitionManager contentDefinitionManager) {
+        public Migrations(IContentDefinitionManager contentDefinitionManager,ISession session, IRecipeMigrator migrator) {
             _contentDefinitionManager = contentDefinitionManager;
+            _session = session;
+            _migrator = migrator;
         }
 
         public int Create() {
@@ -62,6 +74,94 @@ namespace OrchardCore.Themes.UgpTheme
                 .Stereotype("Widget"));
 
             return 1;
+        }
+
+        public async Task<int> UpdateFrom1Async()
+        {
+            var ci=await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Categories").FirstOrDefaultAsync();
+            _session.Delete(ci);
+            ci = await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Tags").FirstOrDefaultAsync();
+            _session.Delete(ci);
+            await _session.SaveChangesAsync();
+
+
+            await _migrator.ExecuteAsync("tags-cats.json", this);
+
+            _contentDefinitionManager.AlterTypeDefinition("BlogPost", type => type.RemovePart("MarkdownBodyPart")
+                .DisplayedAs("Blog Post")
+                .Draftable()
+                .Versionable()
+                .WithPart("TitlePart", part => part
+                    .WithPosition("0")
+                )
+                .WithPart("AutoroutePart", part => part
+                    .WithPosition("2")
+                    .WithSettings(new AutoroutePartSettings
+                    {
+                        AllowCustomPath = true,
+                        Pattern = "{{ Model.ContentItem | container | display_text | slugify }}/{{ Model.ContentItem | display_text | slugify }}",
+                        ShowHomepageOption = false,
+                    })
+                )
+                .WithPart("BlogPost", part => part
+                    .WithPosition("3")
+                )
+                .WithPart("HtmlBodyPart", part => part
+                    .WithPosition("1")
+                    .WithEditor("Wysiwyg")
+                )
+            );
+
+
+            _contentDefinitionManager.AlterPartDefinition("BlogPost", part => part.RemoveField("Category").RemoveField("Tags"));
+
+            _contentDefinitionManager.AlterPartDefinition("BlogPost", part => part
+                .WithField("Subtitle", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Subtitle")
+                    .WithPosition("0")
+                )
+                .WithField("Image", field => field
+                    .OfType("MediaField")
+                    .WithDisplayName("Banner Image")
+                    .WithPosition("1")
+                    .WithSettings(new ContentIndexSettings
+                    {
+                        Included = false,
+                        Stored = false,
+                        Analyzed = false
+                    })
+                    .WithSettings(new MediaFieldSettings
+                    {
+                        Multiple = false,
+                        AllowAnchors = true,
+                    })
+                )
+                .WithField("Tags", field => field
+                    .OfType("TaxonomyField")
+                    .WithDisplayName("Tags")
+                    .WithEditor("Tags")
+                    .WithDisplayMode("Tags")
+                    .WithPosition("2")
+                    .WithSettings(new TaxonomyFieldSettings
+                    {
+                        TaxonomyContentItemId = "45j76cwwz4f4v4hx5zqxfpzvwq",
+                    })
+                )
+                .WithField("Category", field => field
+                    .OfType("TaxonomyField")
+                    .WithDisplayName("Category")
+                    .WithPosition("3")
+                    .WithSettings(new TaxonomyFieldSettings
+                    {
+                        TaxonomyContentItemId = "4dgj6ce33vdsbxqz8hw4c4c24d",
+                        Unique = true,
+                        LeavesOnly = true,
+                    })
+                )
+            );
+
+            return 2;
         }
     }
 }
