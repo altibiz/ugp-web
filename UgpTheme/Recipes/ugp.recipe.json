@@ -999,7 +999,7 @@
                 "DisplayText": "Novosti",
                 "LinkMenuItemPart": {
                   "Name": "Novosti",
-                  "Url": "~/blog"
+                  "Url": "~/novosti"
                 }
               }
             ]
@@ -1132,7 +1132,7 @@
             "Html": "Što je novo u UGPu"
           },
           "AutoroutePart": {
-            "Path": "blog"
+            "Path": "novosti"
           },
           "ListPart": {},
           "Blog": {

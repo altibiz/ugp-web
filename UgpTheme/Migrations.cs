@@ -15,18 +15,21 @@ using YesSql;
 
 namespace OrchardCore.Themes.UgpTheme
 {
-    public class Migrations : DataMigration {
+    public class Migrations : DataMigration
+    {
         private readonly IContentDefinitionManager _contentDefinitionManager;
         private readonly ISession _session;
         private readonly IRecipeMigrator _migrator;
 
-        public Migrations(IContentDefinitionManager contentDefinitionManager,ISession session, IRecipeMigrator migrator) {
+        public Migrations(IContentDefinitionManager contentDefinitionManager, ISession session, IRecipeMigrator migrator)
+        {
             _contentDefinitionManager = contentDefinitionManager;
             _session = session;
             _migrator = migrator;
         }
 
-        public int Create() {
+        public int Create()
+        {
             _contentDefinitionManager.AlterPartDefinition("GPiece", cfg => cfg
                 .WithDescription("Contains the fields for the current type")
                 .WithField("Caption",
@@ -42,7 +45,7 @@ namespace OrchardCore.Themes.UgpTheme
                     fieldBuilder => fieldBuilder
                         .OfType("MediaField")
                         .WithDisplayName("Image")
-                        .WithSettings(new MediaFieldSettings { Required = true, Multiple = false}))
+                        .WithSettings(new MediaFieldSettings { Required = true, Multiple = false }))
                 .WithField("ImageClass",
                     fieldBuilder => fieldBuilder
                         .OfType("TextField")
@@ -78,17 +81,17 @@ namespace OrchardCore.Themes.UgpTheme
 
         public async Task<int> UpdateFrom1()
         {
-            var ci=await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Categories").FirstOrDefaultAsync();
-            if(ci!=null)
+            var ci = await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Categories").FirstOrDefaultAsync();
+            if (ci != null)
                 _session.Delete(ci);
             ci = await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == "Tags").FirstOrDefaultAsync();
-            if(ci!=null)
+            if (ci != null)
                 _session.Delete(ci);
             await _session.SaveChangesAsync();
 
             return 2;
         }
-
+        public static bool firstPass = true;//for some reason this script is executed twice on recipe execution
         public async Task<int> UpdateFrom2()
         {
             _contentDefinitionManager.AlterTypeDefinition("BlogPost", type => type.RemovePart("MarkdownBodyPart")
@@ -164,8 +167,9 @@ namespace OrchardCore.Themes.UgpTheme
                     })
                 )
             );
-
-            await _migrator.ExecuteAsync("tags-cats.json", this);
+            if (firstPass)
+                await _migrator.ExecuteAsync("tags-cats.json", this);
+            firstPass = false;
             return 3;
         }
     }
