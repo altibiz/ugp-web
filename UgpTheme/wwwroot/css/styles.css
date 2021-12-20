@@ -10849,3 +10849,6 @@ header.masthead .post-heading .meta a {
 .carousel-item img {
   width: 100%;
 }
+.articleBody {
+    font-size: 1rem;
+}
