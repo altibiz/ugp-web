@@ -10571,6 +10571,24 @@ blockquote {
   color: #6c757d;
 }
 
+.articleBody {
+  font-size: 1rem;
+}
+
+#mainNav .navbar-cust > li.nav-item > a.nav-link {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.0625em;
+  text-transform: uppercase;
+}
+
+ul.dropdown-menu.navbar-cust.show,
+.dropdown-menu.navbar-cust {
+  border: 0px;
+  top: 70%;
+  margin-top: 0;
+}
+
 .btn {
   letter-spacing: 0.0625em;
 }
@@ -10848,7 +10866,4 @@ header.masthead .post-heading .meta a {
 }
 .carousel-item img {
   width: 100%;
-}
-.articleBody {
-    font-size: 1rem;
 }
