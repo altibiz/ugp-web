@@ -10585,6 +10585,7 @@ blockquote {
 ul.dropdown-menu.navbar-cust.show,
 .dropdown-menu.navbar-cust {
   border: 0px;
+  min-width: 16rem;
   top: 70%;
   margin-top: 0;
 }
