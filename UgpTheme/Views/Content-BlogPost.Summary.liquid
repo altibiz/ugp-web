@@ -8,7 +8,7 @@
         </h5>
     {% enda %}
     <p class="post-meta">
-        {% assign format = "dd.mm.yy." | t %}
+        {% assign format = "dd.MM.yyyy." | t %}
         {% assign dateTime = "DateTime" | shape_new: utc: Model.ContentItem.CreatedUtc, format: format | shape_stringify %}
         {{ "Objavljeno {0}" | t: dateTime | raw }}
   
