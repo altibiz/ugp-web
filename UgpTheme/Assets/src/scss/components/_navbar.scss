@@ -1,129 +1,135 @@
-// 
+//
 // Navbar
-// 
+//
 
 // Global styling for the navbar
 
 #mainNav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: $zindex-fixed;
-    border-bottom: $border-width solid $border-color;
-    background-color: $white;
-    font-family: $headings-font-family;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: $zindex-fixed;
+	font-family: $headings-font-family;
+	transition: background-color 0.5s ease;
 
-    .navbar-brand {
-        font-weight: $headings-font-weight;
-        img{
-          max-height:50px;
-        }
-    }
+	&.navbar-shown {
+		background: $white;
+		.navbar-toggler {
+			color: rgba(0, 0, 0, 0.55);
+			border-color: rgba(0, 0, 0, 0.55);
+		}
+	}
 
-    .navbar-toggler {
-        font-size: 0.75rem;
-        font-weight: $headings-font-weight;
-        padding: 0.75rem;
-        text-transform: uppercase;
-    }
+	.navbar-brand {
+		font-weight: $headings-font-weight;
 
-    .navbar-nav {
-        >li.nav-item {
-            >a.nav-link {
-                font-size: 0.75rem;
-                font-weight: $headings-font-weight;
-                letter-spacing: 0.0625em;
-                text-transform: uppercase;
-            }
-        }
-    }
+		img {
+			max-height: 50px;
+		}
+	}
 
-    // Desktop only styling for the navbar
-    // Set to large breakpoint and up (this should always match the .navbar-expand-* class
+	.navbar-toggler {
+		font-size: 0.75rem;
+		font-weight: $headings-font-weight;
+		padding: 0.75rem;
+		text-transform: uppercase;
+		color: $white;
+		border-color: $white;
+	}
 
-    @include media-breakpoint-up(lg) {
-        border-bottom: $border-width solid transparent;
-        background: transparent;
+	.navbar-nav {
+		> li.nav-item {
+			> a.nav-link {
+				font-size: 0.75rem;
+				font-weight: $headings-font-weight;
+				letter-spacing: 0.0625em;
+				text-transform: uppercase;
+			}
+		}
+	}
+	// Desktop only styling for the navbar
+	// Set to large breakpoint and up (this should always match the .navbar-expand-* class
 
-        .navbar-brand {
-            color: $white;
+	@include media-breakpoint-up(lg) {
+		border-bottom: $border-width solid transparent;
+		background: transparent;
 
-            &:focus,
-            &:hover {
-                color: fade-out($white, .2);
-            }
-        }
+		.navbar-brand {
+			color: $white;
 
-        .navbar-nav {
-            >li.nav-item {
-                >a.nav-link {
-                    color: $white;
+			&:focus,
+			&:hover {
+				color: fade-out($white, .2);
+			}
+		}
 
-                    &:focus,
-                    &:hover {
-                        color: fade-out($white, .2);
-                    }
-                }
-            }
-        }
-    }
+		.navbar-nav {
+			> li.nav-item {
+				> a.nav-link {
+					color: $white;
 
-    // Styling for the JS behavior of the navbar
+					&:focus,
+					&:hover {
+						color: fade-out($white, .2);
+					}
+				}
+			}
+		}
+	}
+	// Styling for the JS behavior of the navbar
 
-    @include media-breakpoint-up(lg) {
-        -webkit-transition: background-color 0.2s;
-        -moz-transition: background-color 0.2s;
-        transition: background-color 0.2s;
-        /* Force Hardware Acceleration in WebKit */
-        -webkit-transform: translate3d(0, 0, 0);
-        -moz-transform: translate3d(0, 0, 0);
-        -ms-transform: translate3d(0, 0, 0);
-        -o-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
+	@include media-breakpoint-up(lg) {
+		-webkit-transition: background-color 0.2s;
+		-moz-transition: background-color 0.2s;
+		transition: background-color 0.2s;
+		/* Force Hardware Acceleration in WebKit */
+		-webkit-transform: translate3d(0, 0, 0);
+		-moz-transform: translate3d(0, 0, 0);
+		-ms-transform: translate3d(0, 0, 0);
+		-o-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
 
-        &.is-fixed {
-            /* when the user scrolls down, we hide the header right above the viewport */
-            position: fixed;
-            top: -83px;
-            -webkit-transition: -webkit-transform 0.2s;
-            -moz-transition: -moz-transform 0.2s;
-            transition: transform 0.2s;
-            border-bottom: 1px solid darken($white, .05);
-            background-color: fade-out($white, .1);
+		&.is-fixed {
+			/* when the user scrolls down, we hide the header right above the viewport */
+			position: fixed;
+			top: -83px;
+			transition: transform 0.2s;
+			border-bottom: 1px solid darken($white, .05);
+			background-color: fade-out($white, .1);
 
-            .navbar-brand {
-                color: $body-color;
+			.navbar-brand {
+				color: $body-color;
 
-                &:focus,
-                &:hover {
-                    color: $primary;
-                }
-            }
+				&:focus,
+				&:hover {
+					color: $primary;
+				}
+			}
 
-            .navbar-nav {
-                >li.nav-item {
-                    >a {
-                        color: $body-color;
+			.navbar-nav {
+				> li.nav-item {
+					> a {
+						color: $body-color;
 
-                        &:focus,
-                        &:hover {
-                            color: $primary;
-                        }
-                    }
-                }
-            }
-        }
+						&:focus,
+						&:hover {
+							color: $primary;
+						}
+					}
+				}
+			}
+		}
 
-        &.is-visible {
-            /* if the user changes the scrolling direction, we show the header */
-            -webkit-transform: translate3d(0, 100%, 0);
-            -moz-transform: translate3d(0, 100%, 0);
-            -ms-transform: translate3d(0, 100%, 0);
-            -o-transform: translate3d(0, 100%, 0);
-            transform: translate3d(0, 100%, 0);
-        }
-    }
+		&.is-visible {
+			/* if the user changes the scrolling direction, we show the header */
+			-webkit-transform: translate3d(0, 100%, 0);
+			-moz-transform: translate3d(0, 100%, 0);
+			-ms-transform: translate3d(0, 100%, 0);
+			-o-transform: translate3d(0, 100%, 0);
+			transform: translate3d(0, 100%, 0);
+		}
+	}
 }
