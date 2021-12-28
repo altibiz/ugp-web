@@ -7,12 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include=".htaccess">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Etch.OrchardCore.SEO" Version="1.1.0" />
     <PackageReference Include="OrchardCore.Application.Cms.Targets" Version="1.1.0" />
     <PackageReference Include="OrchardCore.Application.Targets" Version="1.1.0" />
     <PackageReference Include="OrchardCore.Shells.Azure" Version="1.1.0" />
