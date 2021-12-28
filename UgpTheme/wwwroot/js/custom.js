@@ -27,6 +27,9 @@ function interceptLogin(formId, userInputId, passInputId) {
 				this.submit();
 			},
 			error: function (err) {
+				if (err.status === 400) {
+					$("#" + formId + " .validation-summary-valid").html(err.responseText)
+				}
 				console.log(err);
 			}
 		});

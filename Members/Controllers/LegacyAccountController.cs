@@ -75,6 +75,8 @@ namespace Members.Controllers
                 var email = memPerson?.Email?.Text
                                 ?? oldPerson?.Email?.Text;
 
+                if (string.IsNullOrWhiteSpace(email))
+                    return ValidationProblem("Član nema upisanu email adresu, molim kontaktirajte udrugu sa svojim OIB-om");
                 var newusrname = memPerson?.Oib?.Text ?? oldPerson?.Oib?.Text
                     ?? email?.Replace("@", "_");
 
