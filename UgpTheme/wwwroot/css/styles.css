@@ -10550,10 +10550,6 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-body {
-  font-size: 1.25rem;
-}
-
 hr {
   background-color: #dee2e6;
   opacity: 1;
