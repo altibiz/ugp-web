@@ -27,8 +27,8 @@ function interceptLogin(formId, userInputId, passInputId) {
 				this.submit();
 			},
 			error: function (err) {
-				if (err.status === 400) {
-					$("#" + formId + " .validation-summary-valid").html(err.responseText)
+				if (err.status === 400 && err.responseJSON && err.responseJSON.detail) {
+					$("#" + formId + " .validation-summary-valid").html(err.responseJSON.detail)
 				}
 				console.log(err);
 			}
