@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display;
 using OrchardCore.DisplayManagement;
@@ -10,21 +11,24 @@ namespace Members.Pages
 {
     public class PrintModel : PageModel
     {
-        private const string DownloadFormat = "https://altibizhtml2pdf.azurewebsites.net/api/generatePdf?code=bPJSYSigg05QxJvYAsqPr584dwV897UbUialY99kTzNvtEt5lzBSkw==&fileName={0}&url={1}";
+        //this is a url used for fetching printed doc
+        private readonly string downloadFormat;
 
         private IContentManager _contentManager;
         private IContentItemDisplayManager _contentItemDisplayManager;
         private IUpdateModelAccessor _updateModelAccessor;
+        private IConfiguration _configuration;
 
         public IShape PrintHeader { get; set; }
         public IShape Shape { get; set; }
 
-        public PrintModel(IContentItemDisplayManager cidm, IContentManager cm, IUpdateModelAccessor updateModelAccessor)
+        public PrintModel(IContentItemDisplayManager cidm, IContentManager cm, IUpdateModelAccessor updateModelAccessor, IConfiguration configuration)
         {
 
             _contentManager = cm;
             _contentItemDisplayManager = cidm;
             _updateModelAccessor = updateModelAccessor;
+            downloadFormat = configuration.GetValue<string>("PrintPdfUrl");
         }
 
         public async Task<IActionResult> OnGetAsync(string contentId)
@@ -39,7 +43,7 @@ namespace Members.Pages
         {
             fileName = string.IsNullOrWhiteSpace(fileName) ? contentId : fileName;
             var docUrl = string.Format("https://{0}/Members/Print/{1}/", Request.Host, contentId);
-            return Redirect(string.Format(DownloadFormat, fileName, docUrl));
+            return Redirect(string.Format(downloadFormat, fileName, docUrl));
         }
     }
 }

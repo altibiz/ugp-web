@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 		<PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <UserSecretsId>c8eac6c0-98cb-4945-a40d-b8b29388a8f2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
