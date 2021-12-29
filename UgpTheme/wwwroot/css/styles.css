@@ -10586,6 +10586,10 @@ ul.dropdown-menu.navbar-cust.show,
   margin-top: 0;
 }
 
+p img {
+  max-width: 100%;
+}
+
 .btn {
   letter-spacing: 0.0625em;
 }
