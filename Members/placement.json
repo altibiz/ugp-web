@@ -4,5 +4,11 @@
       "place": "-",
       "contentType": [ "BankStatement", "Payment" ]
     }
+  ],
+  "HtmlField": [
+    {
+      "contentType": [ "Offer" ],
+      "place":  "DescriptionZone"
+    }
   ]
 }
