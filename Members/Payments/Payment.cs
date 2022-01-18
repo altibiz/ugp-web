@@ -19,6 +19,7 @@ namespace Members.Payments
 
         public TextField Description { get; set; }
         public string BankContentItemId { get; set; }
+        public bool IsPayout {get;set;}
     }
 
 
