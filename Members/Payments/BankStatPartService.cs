@@ -44,6 +44,7 @@ namespace Members.Payments
             public decimal Amount { get; set; }
             public string PaymentDescription { get; set; }
             public string Type { get; set; }
+            public bool IsPayout { get; set; }
             public Rrn RRN { get; set; }
             public CPartner Partner { get; set; }
         }
@@ -124,7 +125,7 @@ namespace Members.Payments
                 stat.Type = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
                 stat.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
                 stat.Amount = decimal.Parse(nTry.XPathSelectElement("NtryDtls/TxDtls/AmtDtls/TxAmt/Amt").Value, CultureInfo.InvariantCulture);
-
+                stat.IsPayout = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("ICDT");
                 stat.RRN = rrn;
                 stat.Partner = cPartner;
                 stat.Partner.Address = cAddress;
@@ -178,6 +179,7 @@ namespace Members.Payments
                 payPart.PaymentRef.Text = pymnt.RRN.Number;
                 payPart.BankContentItemId = part.ContentItem.ContentItemId;
                 payPart.Description.Text = pymnt.PaymentDescription;
+                payPart.IsPayout = pymnt.IsPayout;
                 var version = VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
                 {
