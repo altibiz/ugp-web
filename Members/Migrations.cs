@@ -79,5 +79,13 @@ namespace Members
             _contentDefinitionManager.MigratePayment();
             return 6;
         }
+
+        public async Task<int> UpdateFrom6()
+        {
+
+            await _recipeMigrator.ExecuteAsync("laocalization.recipe.json", this);
+
+            return 7;
+        }
     }
 }
