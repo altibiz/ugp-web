@@ -5,7 +5,6 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
-using OrchardCore.Flows.Models;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Title.Models;

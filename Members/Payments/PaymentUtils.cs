@@ -6,12 +6,12 @@ using YesSql;
 
 namespace Members.Payments
 {
-    public class PaymentService
+    public class PaymentUtils
     {
         private MemberService _memService;
         private ISession _session;
 
-        public PaymentService(MemberService memberService,ISession session)
+        public PaymentUtils(MemberService memberService,ISession session)
         {
             _memService = memberService;
             _session = session;
