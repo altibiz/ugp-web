@@ -20,4 +20,5 @@ DROP TABLE WorkflowBlockingActivitiesIndex
 DROP TABLE WorkflowIndex
 DROP TABLE WorkflowTypeIndex
 DROP TABLE WorkflowTypeStartActivitiesIndex
+DROP TABLE DashboardPartIndex
 DROP TABLE Document
