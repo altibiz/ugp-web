@@ -208,3 +208,4 @@ UgpWeb/wwwroot/*
 /UgpWeb/Localization/es
 /UgpWeb/Localization/fr
 /UgpWeb/Localization/it
+UgpTheme/package-lock.json
