@@ -1,7 +1,7 @@
 .gallery {
 	display: flex;
 	width: 100%;
-
+	flex-wrap:wrap;
 	img {
 		width: 100%;
 		max-height: 100px;
@@ -9,5 +9,6 @@
 
 	.gallery-item {
 		margin: auto;
+		padding: 0 20px 20px 0;
 	}
 }

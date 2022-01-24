@@ -5,7 +5,7 @@
 
 /*!
 * Start Bootstrap - Clean Blog v6.0.3 (https://startbootstrap.com/theme/clean-blog)
-* Copyright 2013-2021 Start Bootstrap
+* Copyright 2013-2022 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
 window.addEventListener('DOMContentLoaded', function () {
