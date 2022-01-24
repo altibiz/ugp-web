@@ -30,19 +30,15 @@ namespace Members
                        .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Member" }))
                    .Add(S["Pravne osobe"], "6", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents",contentTypeId="Company" }))
+                   .Add(S["Donacije"], "7", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Payment" }))
                    .Add(S["Ponude"], "8", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Offer" }))
-                 , new[] { "icon-class-fas", "icon-class-fa-users" })
-                .Add(S["Financije"],"0", rootView => rootView
-                   .Add(S["Uplate"], "7", childTwo => childTwo
-                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Payment",q="payout:false" }))
-                    .Add(S["Isplate"], "7", childTwo => childTwo
-                       .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Payment", q = "payout:true" }))
                    .Add(S["Izvodi"], "9", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
                    .Add(S["Uplatnice"], "10", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Pledge" }))
-                 , new[] { "icon-class-fas", "icon-class-fa-coins" });
+                 , new[] { "icon-class-fas", "icon-class-fa-users" });
 
 
             return Task.CompletedTask;

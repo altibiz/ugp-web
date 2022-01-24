@@ -41,7 +41,7 @@ namespace Members.Pages
             }
             if (!Member.Published)
             {
-                await _notifier.InformationAsync(H["Molimo pričekajte da naši administratori potvrde prijavu"]);
+                _notifier.Information(H["Molimo pričekajte da naši administratori potvrde prijavu"]);
             }
             return Page();
         }
@@ -95,8 +95,8 @@ namespace Members.ContentHandlers
 
         public override Task LoadedAsync(LoadContentContext context)
         {
-            if (context.ContentItem.ContentType == "Menu" && !
-                AdminAttribute.IsApplied(_httpCA.HttpContext))
+            if (AdminAttribute.IsApplied(_httpCA.HttpContext)) return null;
+            if (context.ContentItem.ContentType == "Menu")
             {
                 var alias = context.ContentItem.As<AliasPart>();
                 if (alias != null)

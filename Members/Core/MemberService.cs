@@ -81,11 +81,23 @@ namespace Members.Core
             return await _session.Query<ContentItem>().With<PersonPartIndex>(x => x.Oib == oib).FirstOrDefaultAsync();
         }
 
+        public async Task<ContentItem> GetContentItemOffers(string contentItemId, bool includeDraft = false)
+        {
+
+            var company = await GetContentItemById(contentItemId);
+            var query = _session.Query<ContentItem, ContentPickerFieldIndex>();
+            query = query.With<ContentPickerFieldIndex>(x => x.ContentType == nameof(Offer) && (x.Published || includeDraft) && x.SelectedContentItemId == company.ContentItemId);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
+
+        }
+
         public async Task<ContentItem> GetCompanyOffers(string companyContentItemId, bool includeDraft = false)
         {
             var company = await GetContentItemById(companyContentItemId);
 
-            var query = _session.Query<ContentItem, OfferIndex>(x => x.CompanyContentItemId == company.ContentItemId);
+            var query = _session.Query<ContentItem, OfferIndex>();
+            query = query.With<OfferIndex>(x => x.CompanyContentItemId == company.ContentItemId);
             if (!includeDraft)
                 query = query.Where(x => x.Published == true);
             var member = await query.ListAsync();
@@ -199,7 +211,8 @@ namespace Members.Core
 
         public async Task<List<ContentItem>> GetAllOffers()
         {
-            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published);
+            var query = _session.Query<ContentItem, ContentItemIndex>();
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Offer) && x.Published);
 
             var list = await query.ListAsync();
 
@@ -207,7 +220,8 @@ namespace Members.Core
         }
         public async Task<List<ContentItem>> GetAllOffersByTag(string tagId)
         {
-            var query = _session.Query<ContentItem, TaxonomyIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.TermContentItemId.Contains(tagId));
+            var query = _session.Query<ContentItem, TaxonomyIndex>();
+            query = query.With<TaxonomyIndex>(x => x.ContentType == nameof(Offer) && x.Published && x.TermContentItemId.Contains(tagId));
 
             var list = await query.ListAsync();
 
@@ -215,7 +229,8 @@ namespace Members.Core
         }
         public async Task<List<ContentItem>> GetAllOffersSearch(string searchString)
         {
-            var query = _session.Query<ContentItem, OfferIndex>(x => x.Published && x.Title.Contains(searchString));
+            var query = _session.Query<ContentItem, OfferIndex>();
+            query = query.With<OfferIndex>(x => x.Published && x.Title.Contains(searchString));
 
             var list = await query.ListAsync();
 

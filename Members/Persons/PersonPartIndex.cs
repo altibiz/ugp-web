@@ -38,7 +38,7 @@ namespace Members.Persons
             context.For<PersonPartIndex>()
                 .Map(contentItem =>
                 {
-                    var pp = contentItem.AsReal<PersonPart>();
+                    var pp = contentItem.As<PersonPart>();
                     if (pp == null) return null;
                     // Lazy initialization because of ISession cyclic dependency
                     contentDefinitionManager ??= _serviceProvider.GetRequiredService<IContentDefinitionManager>();
@@ -52,7 +52,7 @@ namespace Members.Persons
                         Published = contentItem.Published,
                     };
 
-                    var company = contentItem.AsReal<Company>();
+                    var company = contentItem.As<Company>();
 
                     if (company != null)
                     {

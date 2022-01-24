@@ -6,6 +6,9 @@ using Members.Persons;
 using Members.Core;
 using Members.Payments;
 using Members.Indexes;
+using OrchardCore.ContentManagement.Metadata.Settings;
+using OrchardCore.Media.Settings;
+using OrchardCore.ContentFields.Settings;
 using Members.Base;
 
 namespace Members
@@ -39,9 +42,7 @@ namespace Members
             await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
             _contentDefinitionManager.CreatePledge();
             _contentDefinitionManager.DefineImageBanner();
-            SchemaBuilder.AddPayoutField();
-            SchemaBuilder.AddPaymentPublished();
-            return 9;
+            return 6;
         }
 
         public int UpdateFrom1()
@@ -77,24 +78,6 @@ namespace Members
         {
             _contentDefinitionManager.MigratePayment();
             return 6;
-        }
-
-        public int UpdateFrom6()
-        {
-            SchemaBuilder.AddPayoutField();
-            return 7;
-        }
-
-        public int UpdateFrom7()
-        {
-            _contentDefinitionManager.MigratePayment();
-            return 8;
-        }
-
-        public int UpdateFrom8()
-        {
-            SchemaBuilder.AddPaymentPublished();
-            return 9;
         }
     }
 }
