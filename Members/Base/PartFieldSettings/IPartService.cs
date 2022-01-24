@@ -6,6 +6,7 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Handlers;
+using OrchardCore.DisplayManagement.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,8 @@ namespace Members.PartFieldSettings
 
         Task InitializingAsync(T part);
         Task PublishedAsync(T instance, PublishContentContext context);
+        Task OnUpdatingAsync(T model, IUpdateModel updater, UpdatePartEditorContext context);
+
         Action<T> GetEditModel(T part, BuildPartEditorContext context);
         Task UpdatedAsync<TPart>(UpdateContentContext context, T instance);
     }
@@ -56,6 +59,11 @@ namespace Members.PartFieldSettings
         public virtual Action<T> GetEditModel(T part, BuildPartEditorContext context)
         {
             return null;
+        }
+
+        public virtual Task OnUpdatingAsync(T model, IUpdateModel updater, UpdatePartEditorContext context)
+        {
+            return Task.CompletedTask;
         }
 
         public virtual Task PublishedAsync(T instance, PublishContentContext context)

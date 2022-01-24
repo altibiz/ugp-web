@@ -28,8 +28,6 @@ namespace Members.Base
                     prop.SetValue(part, new ContentPickerField { ContentItem = part.ContentItem });
                 if (prop.PropertyType == typeof(UserPickerField) && prop.GetValue(part) == null)
                     prop.SetValue(part, new UserPickerField { ContentItem = part.ContentItem });
-                if (prop.PropertyType == typeof(BooleanField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new BooleanField { ContentItem = part.ContentItem });
             }
             return part;
         }

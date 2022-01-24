@@ -1,9 +1,10 @@
 ﻿using OrchardCore.ContentManagement;
 using YesSql.Indexes;
 using YesSql.Sql;
+using System;
 using System.Linq;
 using Members.Core;
-using Members.Utils;
+using Members.Base;
 
 namespace Members.Indexes
 {
@@ -24,7 +25,7 @@ namespace Members.Indexes
             context.For<OfferIndex>()
                 .Map(contentItem =>
                 {
-                    var offer = contentItem.AsReal<Offer>();
+                    var offer = contentItem.As<Offer>();
                     if (offer == null) return null;
                     var offerIndex = new OfferIndex
                     {

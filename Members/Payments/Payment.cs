@@ -13,12 +13,12 @@ namespace Members.Payments
         public TextField PayerName { get; set; }
         public TextField Address { get; set; }
         public TextField ReferenceNr { get; set; }
+        public TextField PaymentRef { get; set; }
         public DateField Date { get; set; }
         public ContentPickerField Person { get; set; }
 
         public TextField Description { get; set; }
         public string BankContentItemId { get; set; }
-        public BooleanField IsPayout {get;set;}
     }
 
 
@@ -27,7 +27,7 @@ namespace Members.Payments
         public static void MigratePayment(this IContentDefinitionManager _contentDefinitionManager)
         {
             _contentDefinitionManager.AlterTypeDefinition("Payment", type => type
-                .DisplayedAs("Plaćanje")
+                .DisplayedAs("Donacija")
                 .Creatable()
                 .Listable()
                 .Securable()
@@ -40,25 +40,16 @@ namespace Members.Payments
                     .WithSettings(new TitlePartSettings
                     {
                         Options = TitlePartOptions.GeneratedDisabled,
-                        Pattern = "{{ ContentItem.Content.Payment.PayerName.Text }} | {{ ContentItem.Content.Payment.Amount.Value | format_number: \"C\"  }} | {{ ContentItem.Content.Payment.Date.Value | date: \"%D\" }}",
+                        Pattern = "{{ ContentItem.Content.Payment.PayerName.Text }} - {{ ContentItem.Content.Payment.Amount.Value | format_number: \"C\"  }} - {{ ContentItem.Content.Payment.Date.Value | date: \"%D\" }}",
                     })
                 )
             );
 
             _contentDefinitionManager.AlterPartDefinition("Payment", part => part
-                .WithField("IsPayout", field => field
-                    .OfType("BooleanField")
-                    .WithDisplayName("Isplata")
-                    .WithPosition("0")
-                    .WithSettings(new BooleanFieldSettings
-                    {
-                        DefaultValue = false,
-                    })
-                )
                 .WithField("Amount", field => field
                     .OfType("NumericField")
                     .WithDisplayName("Iznos")
-                    .WithPosition("1")
+                    .WithPosition("0")
                     .WithSettings(new NumericFieldSettings
                     {
                         Required = true,
@@ -67,8 +58,8 @@ namespace Members.Payments
                 )
                 .WithField("PayerName", field => field
                     .OfType("TextField")
-                    .WithDisplayName("Ime")
-                    .WithPosition("2")
+                    .WithDisplayName("Platitelj")
+                    .WithPosition("1")
                     .WithSettings(new TextFieldSettings
                     {
                         Required = true,
@@ -77,27 +68,30 @@ namespace Members.Payments
                 .WithField("Address", field => field
                     .OfType("TextField")
                     .WithDisplayName("Mjesto")
-                    .WithPosition("3")
+                    .WithPosition("2")
                 )
                 .WithField("ReferenceNr", field => field
                     .OfType("TextField")
                     .WithDisplayName("Poziv na broj")
                     .WithPosition("3")
                 )
+                .WithField("PaymentRef", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Referenca plaćanja")
+                    .WithPosition("4")
+                )
                 .WithField("Description", field => field
                     .OfType("TextField")
                     .WithDisplayName("Opis plaćanja")
-                    .WithPosition("4")
+                    .WithPosition("5")
                 )
                 .WithField("Date", field => field
                     .OfType("DateField")
                     .WithDisplayName("Datum plaćanja")
-                    .WithPosition("5")
                 )
                 .WithField("Person", field => field
                     .OfType("ContentPickerField")
                     .WithDisplayName("Član")
-                    .WithPosition("6")
                     .WithSettings(new ContentPickerFieldSettings
                     {
                         DisplayedContentTypes = new[] { "Member", "Company" },
