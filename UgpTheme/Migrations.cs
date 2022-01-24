@@ -172,5 +172,13 @@ namespace OrchardCore.Themes.UgpTheme
             firstPass = false;
             return 3;
         }
+
+        public async Task<int> UpdateFrom3()
+        {
+
+            await _migrator.ExecuteAsync("localization.recipe.json", this);
+
+            return 4;
+        }
     }
 }
