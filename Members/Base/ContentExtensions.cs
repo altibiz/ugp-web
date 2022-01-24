@@ -20,5 +20,12 @@ namespace Members.Utils
             child.Weld<ContainedPart>();
             child.Alter<ContainedPart>(x => x.ListContentItemId = parent.ContentItemId);
         }
+
+        //Returns content part only if the item is not deleted (not latest or published)
+        public static T AsReal<T>(this ContentItem contentItem) where T : ContentPart
+        {
+            if (!contentItem.Latest && !contentItem.Published) return null;
+            return contentItem.As<T>();
+        }
     }
 }

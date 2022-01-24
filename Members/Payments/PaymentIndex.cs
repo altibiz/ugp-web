@@ -3,7 +3,8 @@ using YesSql.Indexes;
 using YesSql.Sql;
 using System;
 using System.Linq;
-using Members.Core;
+using Members.Utils;
+using Members.Base;
 
 namespace Members.Payments
 {
@@ -20,6 +21,10 @@ namespace Members.Payments
         public DateTime? Date { get; set; }
 
         public string Address { get; set; }
+
+        public bool IsPayout { get; set; }
+
+        public bool Published { get; set; }
     }
 
     public class PaymentIndexProvider : IndexProvider<ContentItem>
@@ -29,7 +34,7 @@ namespace Members.Payments
             context.For<PaymentIndex>()
                 .Map(contentItem =>
                 {
-                    var pp = contentItem.As<Payment>();
+                    var pp = contentItem.AsReal<Payment>();
                     if (pp == null) return null;
                     return new PaymentIndex
                     {
@@ -39,6 +44,8 @@ namespace Members.Payments
                         PersonContentItemId = pp.Person.ContentItemIds?.FirstOrDefault(),
                         PayerName = pp.PayerName.Text,
                         Address = pp.Address?.Text?.Length > 255 ? pp.Address?.Text?.Substring(0, 255) : pp.Address?.Text,
+                        IsPayout = pp.IsPayout.Value,
+                        Published = contentItem.Published,
                     };
                 });
         }
@@ -56,13 +63,25 @@ namespace Members.Payments
                 .Column<string>(nameof(PaymentIndex.PayerName), c => c.WithLength(255))
                 .Column<string>(nameof(PaymentIndex.Address), c => c.WithLength(255))
             );
+        }
 
-            //SchemaBuilder.AlterIndexTable<PaymentIndex>(table => table
-            //    .CreateIndex("IDX_PaymentIndex_PersonContentItemId",
-            //        "DocumentId",
-            //        "PersonContentItemId",
-            //        "ContentItemId")
-            //);
+        public static void AddPayoutField(this ISchemaBuilder SchemaBuilder)
+        {
+            SchemaBuilder.AlterIndexTable<PaymentIndex>(table =>
+            {
+                table.AddColumn<bool>("IsPayout");
+            }
+            );
+        }
+
+        public static void AddPaymentPublished(this ISchemaBuilder SchemaBuilder)
+        {
+            SchemaBuilder.AlterIndexTable<PaymentIndex>(table =>
+            {
+                table.AddColumn<bool>("Published");
+            }
+            );
+            SchemaBuilder.ExecuteSql("UPDATE PaymentIndex SET Published=(SELECT Published FROM ContentItemIndex WHERE PaymentIndex.DocumentId=ContentItemIndex.DocumentId)");
         }
     }
 }
