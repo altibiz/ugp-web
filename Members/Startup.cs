@@ -52,7 +52,7 @@ namespace Members
             services.UsePartService<PersonPart, PersonPartService>();
             services.UsePartService<BankStatPart, BankStatPartService>();
             services.AddScoped<MemberService>();
-            services.AddScoped<PaymentService>();
+            services.AddScoped<PaymentUtils>();
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
             services.AddSingleton<IIndexProvider, PaymentIndexProvider>();
             services.AddSingleton<IIndexProvider, OfferIndexProvider>();
@@ -64,8 +64,10 @@ namespace Members
             services.AddRecipeExecutionStep<FastImport>();
             services.AddScoped<Importer>();
             services.AddTransient<IContentsAdminListFilterProvider, PersonPartAdminListFilterProvider>();
+            services.AddTransient<IContentsAdminListFilterProvider,PaymentAdminListFilterProvider>();
             services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, PersonOptionsDisplayDriver>();
             services.UsePartService<Pledge, PledgeService>();
+            services.UsePartService<Payment, PaymentPartService>();
 
             services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();

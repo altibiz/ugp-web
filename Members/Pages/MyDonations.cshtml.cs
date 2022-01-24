@@ -10,10 +10,10 @@ namespace Members.Pages
 {
     public class MyDonationsModel : PageModel
     {
-        private readonly PaymentService _pService;
+        private readonly PaymentUtils _pService;
 
         public List<Payment> Payments { get; set; }
-        public MyDonationsModel(PaymentService pService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public MyDonationsModel(PaymentUtils pService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
         {
             _pService = pService;
         }
