@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.Contents.Services;
+using System.Threading.Tasks;
 using YesSql.Filters.Query;
 using YesSql.Services;
 

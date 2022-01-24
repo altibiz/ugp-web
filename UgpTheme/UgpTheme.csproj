@@ -16,10 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DevExpress.Xpo" Version="20.1.7" />
     <PackageReference Include="OrchardCore.Alias" Version="1.1.0" />
     <PackageReference Include="OrchardCore.Autoroute" Version="1.1.0" />
     <PackageReference Include="OrchardCore.ContentFields" Version="1.1.0" />
-    <PackageReference Include="OrchardCore.ContentLocalization" Version="1.1.0" />
     <PackageReference Include="OrchardCore.Contents" Version="1.1.0" />
     <PackageReference Include="OrchardCore.DisplayManagement" Version="1.1.0" />
     <PackageReference Include="OrchardCore.Flows" Version="1.1.0" />
