@@ -1,5 +1,4 @@
 using OrchardCore.Autoroute.Models;
-using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
@@ -179,6 +178,18 @@ namespace OrchardCore.Themes.UgpTheme
             await _migrator.ExecuteAsync("localization.recipe.json", this);
 
             return 4;
+        }
+
+        public int UpdateFrom4()
+        {
+            _contentDefinitionManager.AlterPartDefinition("GPiece", cfg => cfg
+               .WithField("Link",
+                   fieldBuilder => fieldBuilder
+                       .OfType("TextField")
+                       .WithDisplayName("Link")
+                       .WithEditor("Url"))
+           );
+            return 5;
         }
     }
 }
