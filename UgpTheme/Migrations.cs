@@ -191,5 +191,13 @@ namespace OrchardCore.Themes.UgpTheme
            );
             return 5;
         }
+
+        public async Task<int> UpdateFrom5()
+        {
+
+            await _migrator.ExecuteAsync("localizemenu.recipe.json", this);
+
+            return 6;
+        }
     }
 }

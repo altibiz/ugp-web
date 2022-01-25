@@ -1,0 +1,11 @@
+{% if Culture.Name == "en" %}
+    {% shape "menu", alias: "alias:main-menu-en", cache_id: "main-menu-en", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu-en" %}
+{% else %}
+    {% shape "menu", alias: "alias:main-menu", cache_id: "main-menu", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu" %}
+{% endif %} 
+
+
+
+{% comment %}
+    add if for each translation ELSE show main-menu (HR)
+{% endcomment %}

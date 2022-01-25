@@ -193,6 +193,12 @@ msgctxt "UgpTheme.Views.Shared.Login"
 msgid "Log in"
 msgstr "Prijava"
 
+msgctxt "UgpTheme.Views.Layout"
+msgid "Sign In"
+msgstr "Učlani se"
+msgid "Donate"
+msgstr "Doniraj"
+
 #. <h4>@T["Register"]</h4>
 #: OrchardCore.Users\Views\Account\Login.cshtml:73
 msgctxt "UgpTheme.Views.Shared.Login"
@@ -260,6 +266,12 @@ msgstr "Odjavi se"
 msgctxt "UgpTheme.Views.Shared.LoginMenu"
 msgid "Log In"
 msgstr "Prijava"
+
+#. <a class="nav-link px-lg-3 py-3 py-lg-4" href="/members/portal">@T["Portal"]</a>
+#: OrchardCore.Users\Views\Account\LoginMenu.cshtml:20
+msgctxt "UgpTheme.Views.Shared.LoginMenu"
+msgid "Portal"
+msgstr "Portal"
 
 #. @{ Html.RenderPartial("_Header", @T["Forgot password?"].Value); }
 #: OrchardCore.Users\Views\ResetPassword\ForgotPassword.cshtml:7
