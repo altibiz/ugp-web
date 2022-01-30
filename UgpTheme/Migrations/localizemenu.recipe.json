@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "Menu",
+          "ContentTypePartDefinitionRecords": [
+
+            {
+              "PartName": "LocalizationPart",
+              "Name": "LocalizationPart",
+              "Settings": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
