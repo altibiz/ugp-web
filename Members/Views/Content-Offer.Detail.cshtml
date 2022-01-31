@@ -31,7 +31,7 @@
             </small>
 		</div>
 
-		@if (offer.YoutubeVideoId.Text != "")
+		@if (!string.IsNullOrWhiteSpace(offer.YoutubeVideoId.Text))
 		{
 			<div class="ratio ratio-16x9 my-4">
 				<iframe class="embed-responsive-item" src="@(String.Format("https://www.youtube.com/embed/{0}", offer.YoutubeVideoId.Text))"></iframe>
@@ -54,7 +54,7 @@
 					</li>
 				}
 
-				@if (company.ContentItem.DisplayText != null)
+				@if (!string.IsNullOrWhiteSpace(company.ContentItem.DisplayText))
 				{
 					<li class="list-group-item p-0 border-0 py-2">
 						<div class="">@T["CompanyName"]:</div>
@@ -63,7 +63,7 @@
 				}
 			}
 
-			@if (offer.ContactPerson.Text != null)
+			@if (!string.IsNullOrWhiteSpace(offer.ContactPerson.Text))
 			{
 				<li class="list-group-item p-0 border-0 py-4">
 					<div class="text-uppercase ">@T["Contact Person"]:</div>
@@ -71,21 +71,21 @@
 				</li>
 			}
 
-			@if (offer.Address.Text != null)
+			@if (!string.IsNullOrWhiteSpace(offer.Address.Text))
 			{
 				<li class="list-group-item p-0 border-0">
 					<div class="icon-box"><i class="fas fa-map-marker"></i><span class="px-2">@offer.Address.Text</span></div>
 				</li>
 			}
 
-			@if (offer.Web.Url != null)
+			@if (!string.IsNullOrWhiteSpace(offer.Web.Url))
 			{
 				<li class="list-group-item p-0 border-0">
 					<div class="icon-box"><i class="fas fa-phone-square-alt"></i><span class="px-2">@offer.Phone.Text</span></div>
 				</li>
 			}
 
-			@if (offer.Web.Url != null)
+			@if (!string.IsNullOrWhiteSpace(offer.Web.Url))
 			{
 				<li class="list-group-item p-0 border-0">
 					<a href="@offer.Web.Url">
@@ -94,7 +94,7 @@
 				</li>
 			}
 
-			@if (offer.Instagram.Url != null)
+			@if (!string.IsNullOrWhiteSpace(offer.Instagram.Url))
 			{
 				<li class="list-group-item p-0 border-0">
 					<a href="@offer.Instagram.Url">
@@ -103,7 +103,7 @@
 				</li>
 			}
 
-			@if (offer.Facebook.Url != null)
+			@if (!string.IsNullOrWhiteSpace(offer.Facebook.Url))
 			{
 				<li class="list-group-item p-0 border-0">
 					<a href="@offer.Facebook.Url">
@@ -112,7 +112,7 @@
 				</li>
 			}
 
-			@if (offer.LinkedIn.Url != null)
+			@if (!string.IsNullOrWhiteSpace(offer.LinkedIn.Url))
 			{
 				<li class="list-group-item p-0 border-0">
 					<a href="@offer.LinkedIn.Url">
