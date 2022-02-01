@@ -41,7 +41,8 @@ namespace Members
             _contentDefinitionManager.DefineImageBanner();
             SchemaBuilder.AddPayoutField();
             SchemaBuilder.AddPaymentPublished();
-            return 9;
+            _contentDefinitionManager.AdminPage();
+            return 10;
         }
 
         public int UpdateFrom1()
@@ -95,6 +96,12 @@ namespace Members
         {
             SchemaBuilder.AddPaymentPublished();
             return 9;
+        }
+
+        public int UpdateFrom9()
+        {
+            _contentDefinitionManager.AdminPage();
+            return 10;
         }
     }
 }
