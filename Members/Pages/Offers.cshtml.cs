@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Members.Base;
 using Members.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,6 +14,7 @@ using YesSql;
 
 namespace Members.Pages
 {
+    [Authorize]
     public class OffersModel : PageModel
     {
         private readonly IHtmlLocalizer H;

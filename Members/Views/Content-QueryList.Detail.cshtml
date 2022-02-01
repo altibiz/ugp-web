@@ -1,0 +1,14 @@
+﻿@using OrchardCore.ContentManagement
+
+@{
+	ContentItem contentItem = Model.ContentItem;
+
+	if (!User.IsInRole("Administrator"))
+	{
+		<div>Access denied</div>
+	}
+	else
+	{
+			DisplayAsync(Model.Content);
+	}
+}
