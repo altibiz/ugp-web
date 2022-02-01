@@ -1,14 +1,16 @@
 ﻿@using OrchardCore.ContentManagement
 
 @{
-	ContentItem contentItem = Model.ContentItem;
-
-	if (!User.IsInRole("Administrator"))
-	{
+		ContentItem contentItem = Model.ContentItem;
+		Html.RenderPartial("_Header","List");
+		if (!User.IsInRole("Administrator"))
+		{
 		<div>Access denied</div>
 	}
 	else
 	{
-			DisplayAsync(Model.Content);
+		<div class="col primary">
+			@await DisplayAsync(Model.Content);
+		</div>
 	}
 }
