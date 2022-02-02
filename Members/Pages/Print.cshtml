@@ -1,17 +1,8 @@
 ﻿@page "{contentId}/{handler?}"
 @model Members.Pages.PrintModel
 @{
+		ViewLayout = "LayoutPrint";
 }
-
-<style>
-	.navbar {
-		display: none;
-	}
-
-	footer {
-		display: none;
-	}
-</style>
 
 @await DisplayAsync(Model.PrintHeader)
 @await DisplayAsync(Model.Shape)

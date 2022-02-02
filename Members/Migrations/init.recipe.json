@@ -3877,10 +3877,6 @@
 				"Content_PrintHeader": {
 					"Content": "Udruga glas poduzetnika <br/>",
 					"Description": null
-				},
-				"Content_Print": {
-					"Content": "{{Model.ContentItem.Content | json}}",
-					"Description": "General print "
 				}
 			}
 		}

@@ -21,8 +21,8 @@
 @if (hasPublished && hasViewPermission)
 {
 	<a display-for="@contentItem" target="_blank" class="btn btn-sm btn-success view"><span>@T["View"]</span></a>
-
-	<a href="/Members/Print/@contentItem.ContentItemId/Download" target="_blank" class="btn btn-sm btn-success view"><span>@T["Print"]</span></a>
+	<a href="/Members/Print/@contentItem.ContentItemId" target="_blank" class="btn btn-sm btn-success view"><span>@T["Print"]</span></a>
+	<a href="/Members/Print/@contentItem.ContentItemId/Download" target="_blank" class="btn btn-sm btn-success view"><span>@T["PDF"]</span></a>
 }
 
 @if (hasDraft && hasPreviewPermission)
