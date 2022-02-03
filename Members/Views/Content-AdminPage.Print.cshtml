@@ -1,10 +1,13 @@
-﻿@{
+﻿<span style="white-space: pre-line">
+	@string.Join("\r\n",User.Claims.Select(x => x.Type + " " + x.Value))
+	</span>
+@{
 	if (!User.IsInRole("Administrator"))
 	{
 		<div>Access denied</div>
 	}
 	else
 	{
-			@await DisplayAsync(Model.Content)
+		@await DisplayAsync(Model.Content)
 	}
 }
