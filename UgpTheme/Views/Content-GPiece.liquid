@@ -3,7 +3,7 @@
 <div class="gallery-item">
 
 {% assign link = '' %}
-{% if gPiece.Link.Text %}
+{% if gPiece.Link.Text.size > 0 %}
 {%  assign link = gPiece.Link.Text %}
 {% else %}
 {%  assign link = gPiece.Link.Url %}
