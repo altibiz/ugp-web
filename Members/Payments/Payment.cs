@@ -18,6 +18,8 @@ namespace Members.Payments
 
         public TextField Description { get; set; }
         public string BankContentItemId { get; set; }
+
+        public string TransactionRef { get; set; }
         public BooleanField IsPayout {get;set;}
     }
 

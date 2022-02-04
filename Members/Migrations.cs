@@ -42,7 +42,8 @@ namespace Members
             SchemaBuilder.AddPayoutField();
             SchemaBuilder.AddPaymentPublished();
             _contentDefinitionManager.AdminPage();
-            return 10;
+            SchemaBuilder.AddTransactionRef();
+            return 11;
         }
 
         public int UpdateFrom1()
@@ -102,6 +103,12 @@ namespace Members
         {
             _contentDefinitionManager.AdminPage();
             return 10;
+        }
+
+        public int UpdateFrom10()
+        {
+            SchemaBuilder.AddTransactionRef();
+            return 11;
         }
     }
 }

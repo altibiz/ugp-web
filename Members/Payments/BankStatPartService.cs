@@ -1,7 +1,6 @@
 ﻿using Members.Base;
 using Members.PartFieldSettings;
 using Members.Persons;
-using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
@@ -48,6 +47,7 @@ namespace Members.Payments
             public string Type { get; set; }
             public Rrn RRN { get; set; }
             public CPartner Partner { get; set; }
+            public string Number { get; set; }
         }
 
         public List<Stat> Data { get; set; }
@@ -60,12 +60,14 @@ namespace Members.Payments
 
         private IContentManager _contentManager;
         private PersonPartService _pService;
+        private YesSql.ISession _session;
 
-        public BankStatPartService(IStringLocalizer<BankStatPartService> S, IContentManager contentManager, PersonPartService personService, IHttpContextAccessor htp) : base(htp)
+        public BankStatPartService(IStringLocalizer<BankStatPartService> S, IContentManager contentManager, PersonPartService personService, IHttpContextAccessor htp, YesSql.ISession session) : base(htp)
         {
             this.S = S;
             _contentManager = contentManager;
             _pService = personService;
+            _session = session;
         }
 
         public override Action<BankStatPart> GetEditModel(BankStatPart part, BuildPartEditorContext context)
@@ -119,7 +121,7 @@ namespace Members.Payments
                 cPartner.Name = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr/Nm")?.Value
                     ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr/Nm")?.Value;
                 cAddress.Street = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr/PstlAdr/AdrLine")?.Value
-                    ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr/PstlAdr/AdrLine").Value;
+                    ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr/PstlAdr/AdrLine")?.Value;
 
                 rrn.Model = document.XPathSelectElement("BkToCstmrStmt/Stmt/Ntry").Value;
 
@@ -130,6 +132,7 @@ namespace Members.Payments
                 stat.RRN = rrn;
                 stat.Partner = cPartner;
                 stat.Partner.Address = cAddress;
+                stat.Number= nTry.XPathSelectElement("AcctSvcrRef").Value;
                 statement.Data.Add(stat);
             }
 
@@ -170,11 +173,12 @@ namespace Members.Payments
 
         public async override Task PublishedAsync(BankStatPart part, PublishContentContext context)
         {
-
             var json = ParseStmt(part.StatementJson);
             foreach (var pymnt in json.Data)
             {
-                var ciPayment = await _contentManager.NewAsync("Payment");
+                var ciPayment = await _session.FirstOrDefaultAsync<PaymentIndex>(_contentManager, x => x.TransactionRef == pymnt.Number);
+                if(ciPayment==null)
+                    ciPayment = await _contentManager.NewAsync("Payment");
                 var payPart = ciPayment.As<Payment>().InitFields();
                 payPart.Amount.Value = pymnt.Amount;
                 payPart.Address.Text = pymnt.Partner.Address.Street;
@@ -184,6 +188,7 @@ namespace Members.Payments
                 payPart.Description.Text = pymnt.PaymentDescription;
                 payPart.IsPayout.Value = pymnt.Type != "Uplata";
                 payPart.Date.Value = part.Date.Value;
+                payPart.TransactionRef = pymnt.Number;
                 if (payPart.IsPayout.Value && payPart.Amount.Value > 0) payPart.Amount.Value = -payPart.Amount.Value; //payouts are negative values
                 var version = payPart.IsPayout.Value ? VersionOptions.Published : VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
@@ -196,7 +201,10 @@ namespace Members.Payments
                     }
                 }
                 ciPayment.Apply(payPart);
-                await _contentManager.UpdateValidateAndCreateAsync(ciPayment, version);
+                if (ciPayment.CreatedUtc != null)
+                    await _contentManager.UpdateAsync(ciPayment);
+                else
+                    await _contentManager.UpdateValidateAndCreateAsync(ciPayment, version);
             }
         }
     }

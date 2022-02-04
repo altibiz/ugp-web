@@ -25,6 +25,8 @@ namespace Members.Payments
         public bool IsPayout { get; set; }
 
         public bool Published { get; set; }
+
+        public string TransactionRef { get; set; }
     }
 
     public class PaymentIndexProvider : IndexProvider<ContentItem>
@@ -46,6 +48,7 @@ namespace Members.Payments
                         Address = pp.Address?.Text?.Length > 255 ? pp.Address?.Text?.Substring(0, 255) : pp.Address?.Text,
                         IsPayout = pp.IsPayout.Value,
                         Published = contentItem.Published,
+                        TransactionRef = pp.TransactionRef,
                     };
                 });
         }
@@ -82,6 +85,14 @@ namespace Members.Payments
             }
             );
             SchemaBuilder.ExecuteSql("UPDATE PaymentIndex SET Published=(SELECT Published FROM ContentItemIndex WHERE PaymentIndex.DocumentId=ContentItemIndex.DocumentId)");
+        }
+
+        public static void AddTransactionRef(this ISchemaBuilder SchemaBuilder)
+        {
+            SchemaBuilder.AlterIndexTable<PaymentIndex>(table =>
+            {
+                table.AddColumn<string>("TransactionRef", c => c.WithLength(50));
+            });
         }
     }
 }

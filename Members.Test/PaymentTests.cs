@@ -17,12 +17,14 @@ namespace Members.Test
 
             Assert.AreEqual("Drugi", bs.Data[1].Partner.Name);
             Assert.AreEqual("Isplata", bs.Data[1].Type);
+            Assert.AreEqual("2021-75752768-9734965634", bs.Data[0].Number);
 
             bs = BankStatPartService.ParseStmt(Constants.jsonbnkstatement);
             Assert.IsNotNull(bs.Date);
 
             Assert.AreEqual("Something someone", bs.Data[0].Partner.Name);
             Assert.AreEqual("Uplata", bs.Data[0].Type);
+            Assert.AreEqual("2020-19206899-8688860902", bs.Data[0].Number);
         }
     }
 }
