@@ -36,9 +36,6 @@ namespace Members.Pages
         }
         public async Task<IActionResult> OnGetAsync()
         {
-            await _mService._session.RefreshReduceIndex(new PaymentByDayIndexProvider(),"Payment");
-            await _mService._session.RefreshMapIndex(new PaymentIndexProvider(),"Payment");
-            await _mService._session.SaveChangesAsync();
             Member = await _mService.GetUserMember(true);
             if (Member == null)
             {
