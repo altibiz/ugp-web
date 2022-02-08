@@ -32,7 +32,7 @@ namespace Members.Pages
 
         public async Task OnGetAsync()
         {
-           PaymentsByDay  = await _session.QueryIndex<PaymentByDayIndex>().ListAsync();
+           PaymentsByDay  = (await _session.QueryIndex<PaymentByDayIndex>().ListAsync()).OrderByDescending(x=>x.Date);
         }
     }
 }
