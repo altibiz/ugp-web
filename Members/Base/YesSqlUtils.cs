@@ -68,9 +68,13 @@ namespace Members.Base
             desc.Delete = (ndx, map) => ndx;//disable deletion for new stuff
             var docs = await conn.GetContentItems(contentItemType, store.Configuration, collection);
             var items = sess.Get<ContentItem>(docs.ToList(), collection);
+            int i = 1;
             foreach (var itm in items)
             {
                 sess.Save(itm);
+                if (i % 100 == 0)
+                    await sess.SaveChangesAsync();
+                i++;
             }
             await sess.SaveChangesAsync();
         }
