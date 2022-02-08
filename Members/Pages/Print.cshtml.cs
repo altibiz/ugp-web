@@ -14,10 +14,9 @@ namespace Members.Pages
         //this is a url used for fetching printed doc
         private readonly string downloadFormat;
 
-        private IContentManager _contentManager;
-        private IContentItemDisplayManager _contentItemDisplayManager;
-        private IUpdateModelAccessor _updateModelAccessor;
-        private IConfiguration _configuration;
+        private readonly IContentManager _contentManager;
+        private readonly IContentItemDisplayManager _contentItemDisplayManager;
+        private readonly IUpdateModelAccessor _updateModelAccessor;
 
         public IShape PrintHeader { get; set; }
         public IShape Shape { get; set; }

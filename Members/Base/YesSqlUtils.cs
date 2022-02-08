@@ -1,6 +1,4 @@
 ﻿using Dapper;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Debug;
 using OrchardCore.ContentManagement;
 using System;
 using System.Collections.Generic;
@@ -22,34 +20,22 @@ namespace Members.Base
             var documentTable = configuration.TableNameConvention.GetDocumentTable(collection);
 
             var bridgeTableName = indexTable + "_" + documentTable;
-
-            try
-            {
-                connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + bridgeTableName)}");
-                connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable)}");
-            }
-            catch
-            {
-            }
+            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + bridgeTableName)}");
+            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable)}");
         }
 
-        public static void ClearMapIndexTable(this DbConnection connection,Type indexType, IConfiguration configuration, string collection = "")
+        public static void ClearMapIndexTable(this DbConnection connection, Type indexType, IConfiguration configuration, string collection = "")
         {
             var indexTable = configuration.TableNameConvention.GetIndexTable(indexType, collection);
-
-            try
-            {
-                connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable)}");
-            }
-            catch { }
+            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable)}");
         }
 
-        public async static Task<IEnumerable<Document>> GetContentItems(this DbConnection conn,string contentItemType,IConfiguration configuration,string collection="")
+        public async static Task<IEnumerable<Document>> GetContentItems(this DbConnection conn, string contentItemType, IConfiguration configuration, string collection = "")
         {
             var sqlBuilder = new SqlBuilder(configuration.TablePrefix, configuration.SqlDialect);
             sqlBuilder.Select();
             sqlBuilder.Selector("*");
-            sqlBuilder.Table(configuration.TableNameConvention.GetDocumentTable(collection),"dd");
+            sqlBuilder.Table(configuration.TableNameConvention.GetDocumentTable(collection), "dd");
             sqlBuilder.WhereAnd(" dd.Type='OrchardCore.ContentManagement.ContentItem, OrchardCore.ContentManagement.Abstractions' ");
             if (!string.IsNullOrEmpty(contentItemType))
             {
@@ -66,15 +52,17 @@ namespace Members.Base
             return descs.First();
         }
 
-        public async static Task RefreshReduceIndex(this ISession templateSess, IIndexProvider indexProvider, string contentItemType="",string collection="")
+        public async static Task RefreshReduceIndex(this ISession templateSess, IIndexProvider indexProvider, string contentItemType = "", string collection = "")
         {
             //templateSess.Store.Configuration.Logger = new LoggerFactory(new[] { new DebugLoggerProvider() }).CreateLogger("YesSql");
             var store = await StoreFactory.CreateAndInitializeAsync(templateSess.Store.Configuration);
             using var sess = (Session)store.CreateSession();
             sess.RegisterIndexes(indexProvider);
             var desc = GetDescriptor(sess, indexProvider);
+            if (!typeof(ReduceIndex).IsAssignableFrom(desc.IndexType)) throw new InvalidOperationException(
+                  "Wrong index type expected reduceIndex, got " + desc.IndexType);
             var conn = await sess.CreateConnectionAsync();
-            conn.ClearReduceIndexTable(desc.IndexType, templateSess.Store.Configuration);
+            conn.ClearReduceIndexTable(desc.IndexType, store.Configuration);
             desc.Delete = (ndx, map) => ndx;//disable deletion for new stuff
             var docs = await conn.GetContentItems(contentItemType, store.Configuration, collection);
             var items = sess.Get<ContentItem>(docs.ToList(), collection);
@@ -85,14 +73,15 @@ namespace Members.Base
             await sess.SaveChangesAsync();
         }
 
-        public async static Task RefreshMapIndex(this ISession templateSes, IIndexProvider indexProvider, string contentItemType="", string collection="")
+        public async static Task RefreshMapIndex(this ISession templateSes, IIndexProvider indexProvider, string contentItemType = "", string collection = "")
         {
             var store = await StoreFactory.CreateAndInitializeAsync(templateSes.Store.Configuration);
             using var sess = (Session)store.CreateSession();
             sess.RegisterIndexes(indexProvider);
             var conn = await sess.CreateConnectionAsync();
             var desc = GetDescriptor(sess, indexProvider);
-            //conn.ClearMapIndexTable(desc.IndexType, templateSes.Store.Configuration);
+            if (!typeof(MapIndex).IsAssignableFrom(desc.IndexType)) throw new InvalidOperationException(
+                        "Wrong index type expected MapIndex, got " + desc.IndexType);
             var docs = await conn.GetContentItems(contentItemType, store.Configuration, collection);
             var items = sess.Get<ContentItem>(docs.ToList(), collection);
             foreach (var itm in items)
