@@ -36,7 +36,7 @@ namespace Members.Base
         {
             var sqlBuilder = new SqlBuilder(configuration.TablePrefix, configuration.SqlDialect);
             sqlBuilder.Select();
-            sqlBuilder.Selector("dd.*");
+            sqlBuilder.Selector("dd","*");
             sqlBuilder.Table(configuration.TableNameConvention.GetDocumentTable(collection), "dd");
             sqlBuilder.WhereAnd(" dd.Type='OrchardCore.ContentManagement.ContentItem, OrchardCore.ContentManagement.Abstractions' ");
             if (!string.IsNullOrEmpty(contentItemType))
