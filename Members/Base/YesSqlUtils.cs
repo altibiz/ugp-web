@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using OrchardCore.ContentManagement;
 using System;
 using System.Collections.Generic;
@@ -52,9 +54,9 @@ namespace Members.Base
             return descs.First();
         }
 
-        public async static Task RefreshReduceIndex(this ISession templateSess, IIndexProvider indexProvider, string contentItemType = "", string collection = "")
+        public async static Task RefreshReduceIndex(this ISession templateSess, IIndexProvider indexProvider, string contentItemType = "", string collection = "",ILogger logger=null)
         {
-            //templateSess.Store.Configuration.Logger = new LoggerFactory(new[] { new DebugLoggerProvider() }).CreateLogger("YesSql");
+            templateSess.Store.Configuration.Logger = logger;
             var store = await StoreFactory.CreateAndInitializeAsync(templateSess.Store.Configuration);
             using var sess = (Session)store.CreateSession();
             sess.RegisterIndexes(indexProvider);
