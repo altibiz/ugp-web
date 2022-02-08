@@ -1,11 +1,9 @@
-﻿using Members.Core;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
-using OrchardCore.Environment.Shell.Scope;
 using OrchardCore.Modules;
 using OrchardCore.Recipes.Models;
 using OrchardCore.Recipes.Services;
@@ -45,12 +43,12 @@ namespace Members.Base
     {
 
         private const int ImportBatchSize = 500;
-        private ISession _session;
+        private readonly ISession _session;
 
         public IEnumerable<IContentHandler> Handlers { get; }
         public IContentHandler[] ReversedHandlers { get; }
 
-        private ILogger<DefaultContentManager> _logger;
+        private readonly ILogger<DefaultContentManager> _logger;
 
         public Importer(ISession session, ILogger<DefaultContentManager> logger, IEnumerable<IContentHandler> handlers)
         {
@@ -99,7 +97,7 @@ namespace Members.Base
     [BackgroundTask(Schedule = "*/1 * * * *", Description = "Fast import background task.")]
     public class FastImportBackgroundTask : IBackgroundTask
     {
-        public static readonly ConcurrentQueue<ContentItem[]> PendingImports = new ConcurrentQueue<ContentItem[]>();
+        public static readonly ConcurrentQueue<ContentItem[]> PendingImports = new();
         public Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
             if (PendingImports.TryDequeue(out var toImport))

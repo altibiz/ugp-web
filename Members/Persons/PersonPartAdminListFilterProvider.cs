@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.Contents.Services;
+using System.Threading.Tasks;
+using YesSql;
 using YesSql.Filters.Query;
 using YesSql.Services;
 
@@ -28,19 +30,25 @@ namespace Members.Persons
                         .ManyCondition(
                             async (val, query, ctx) =>
                             {
-                                var context = (ContentQueryContext)ctx;
-                                var accessr = context.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
-                                if(accessr.HttpContext.Request.RouteValues.TryGetValue("contentTypeId", out var selectedContentType));
-                                if(selectedContentType?.ToString()=="Member"|| selectedContentType?.ToString() == "Company")
+                                return await Task.Run<IQuery<ContentItem>>(() =>
                                 {
-                                    return query.With<PersonPartIndex>(x => x.Oib == val || x.LegalName.Contains(val));
-                                }
-                                else
-                                return query.With<ContentItemIndex>(x => x.DisplayText.Contains(val));
+                                    var context = (ContentQueryContext)ctx;
+                                    var accessr = context.ServiceProvider.GetRequiredService<IHttpContextAccessor>();
+                                    accessr.HttpContext.Request.RouteValues.TryGetValue("contentTypeId", out var selectedContentType);
+                                    if (selectedContentType?.ToString() == "Member" || selectedContentType?.ToString() == "Company")
+                                    {
+                                        return query.With<PersonPartIndex>(x => x.Oib == val || x.LegalName.Contains(val));
+                                    }
+                                    else
+                                        return query.With<ContentItemIndex>(x => x.DisplayText.Contains(val));
+                                });
                             },
                             async (val, query, ctx) =>
                             {
-                                return query.With<ContentItemIndex>(x => x.DisplayText.IsNotIn<ContentItemIndex>(s => s.DisplayText, w => w.DisplayText.Contains(val)));
+                                return await Task.Run<IQuery<ContentItem>>(() =>
+                                {
+                                    return query.With<ContentItemIndex>(x => x.DisplayText.IsNotIn<ContentItemIndex>(s => s.DisplayText, w => w.DisplayText.Contains(val)));
+                                });
                             }
                         )
                     );

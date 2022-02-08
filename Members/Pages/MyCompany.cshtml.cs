@@ -48,9 +48,9 @@ namespace Members.Pages
                 var result = await _memberService.UpdateContentItem(contentItem);
 
                 if (result.Succeeded)
-                    _notifier.Success(H["Company updated successful"]);
+                    await _notifier.SuccessAsync(H["Company updated successful"]);
 
-                return RedirectToPage("MyCompany", new { companyId = companyId });
+                return RedirectToPage("MyCompany", new { companyId });
 
             }
             return Page();

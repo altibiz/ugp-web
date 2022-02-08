@@ -56,6 +56,7 @@ namespace Members
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
             services.AddSingleton<IIndexProvider, PaymentIndexProvider>();
             services.AddSingleton<IIndexProvider, OfferIndexProvider>();
+            services.AddSingleton<IIndexProvider,PaymentByDayIndexProvider>();
             services.AddContentPart<Payment>();
             services.AddContentPart<Offer>();
             services.AddScoped<TaxonomyCachedService>();

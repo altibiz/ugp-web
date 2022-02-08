@@ -18,7 +18,7 @@ namespace Members.Base
 
     public class ContainedPartDisplayDriver : ContentDisplayDriver
     {
-        private IHttpContextAccessor _httpCA;
+        private readonly IHttpContextAccessor _httpCA;
 
         private readonly IContentManager _contentManager;
 

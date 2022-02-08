@@ -17,9 +17,7 @@ namespace Members.Pages
     [Authorize]
     public class OffersModel : PageModel
     {
-        private readonly IHtmlLocalizer H;
         private readonly MemberService _memberService;
-        private readonly INotifier _notifier;
         private readonly ISession _session;
 
         public List<ContentItem> OfferContentItems { get; set; }
@@ -27,10 +25,8 @@ namespace Members.Pages
         public string SearchString { get; set; }
         public List<LogoUrl> Logos { get; set; }
 
-        public OffersModel(ISession session, MemberService mService, IHtmlLocalizer<CreateMemberModel> htmlLocalizer, INotifier notifier)
+        public OffersModel(ISession session, MemberService mService)
         {
-            _notifier = notifier;
-            H = htmlLocalizer;
             _memberService = mService;
             _session = session;
 

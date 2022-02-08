@@ -28,7 +28,6 @@ namespace Members.Pages
         }
         public async Task<IActionResult> OnGetAsync(string contentItemId=null)
         {
-            ContentItem contentItem;
             if (contentItemId == null)
             {
                 return RedirectToPage("OfferFor");
@@ -43,11 +42,11 @@ namespace Members.Pages
             {
                 if (!offer.Published)
                 {
-                    _notifier.Information(H["Molimo prièekajte da naši administratori potvrde ponudu"]);
+                    await _notifier.InformationAsync(H["Molimo prièekajte da naši administratori potvrde ponudu"]);
                 }
                 else
                 {
-                    (Shape, contentItem) = await _memberService.GetEditorById(offer.ContentItemId);
+                    (Shape, _) = await _memberService.GetEditorById(offer.ContentItemId);
                 }
             }
             return Page();
@@ -65,7 +64,7 @@ namespace Members.Pages
                 var result = await _memberService.UpdateContentItem(contentItem);
 
                 if (result.Succeeded)
-                    _notifier.Success(H["Offer updated successful"]);
+                    await _notifier.SuccessAsync(H["Offer updated successful"]);
             }
             return Page();
         }

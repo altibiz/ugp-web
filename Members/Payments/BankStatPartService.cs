@@ -58,9 +58,9 @@ namespace Members.Payments
 
         public IStringLocalizer<BankStatPartService> S { get; }
 
-        private IContentManager _contentManager;
-        private PersonPartService _pService;
-        private YesSql.ISession _session;
+        private readonly IContentManager _contentManager;
+        private readonly PersonPartService _pService;
+        private readonly YesSql.ISession _session;
 
         public BankStatPartService(IStringLocalizer<BankStatPartService> S, IContentManager contentManager, PersonPartService personService, IHttpContextAccessor htp, YesSql.ISession session) : base(htp)
         {
@@ -95,13 +95,13 @@ namespace Members.Payments
             }
             //if it continues, try xml;
 
-            XmlDocument doc = new XmlDocument();
+            XmlDocument doc = new();
             doc.LoadXml(xmlOrJson);
             xmlOrJson = Regex.Replace(xmlOrJson, "<Document.*?>", "<Document>"); //get rid of namespaces
                                                                                  //new test
             XElement document = XElement.Parse(xmlOrJson);
 
-            BsJson statement = new BsJson();
+            BsJson statement = new();
             statement.Data = new List<BsJson.Stat>();
             var strDate = document.XPathSelectElement("/BkToCstmrStmt/Stmt/FrToDt/FrDtTm")?.Value;
             statement.Date = strDate != null ? DateTime.Parse(strDate) : null;
@@ -109,10 +109,10 @@ namespace Members.Payments
             {
 
 
-                BsJson.Stat stat = new BsJson.Stat();
-                BsJson.Stat.Rrn rrn = new BsJson.Stat.Rrn();
-                BsJson.Stat.CPartner cPartner = new BsJson.Stat.CPartner();
-                BsJson.Stat.CPartner.CAddress cAddress = new BsJson.Stat.CPartner.CAddress();
+                BsJson.Stat stat = new();
+                BsJson.Stat.Rrn rrn = new();
+                BsJson.Stat.CPartner cPartner = new();
+                BsJson.Stat.CPartner.CAddress cAddress = new();
 
                 rrn.Model = nTry.XPathSelectElement("NtryDtls/TxDtls/Refs/EndToEndId").Value;
                 rrn.Number = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref").Value;
@@ -193,7 +193,7 @@ namespace Members.Payments
                 var version = payPart.IsPayout.Value ? VersionOptions.Published : VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
                 {
-                    var person = (await _pService.GetByOibAsync(pymnt.RRN.Number?.Substring(pymnt.RRN.Number.Length - 11))).FirstOrDefault();
+                    var person = (await _pService.GetByOibAsync(pymnt.RRN.Number?[^11..])).FirstOrDefault();
                     if (person != null)
                     {
                         payPart.Person.ContentItemIds = new[] { person.ContentItemId };

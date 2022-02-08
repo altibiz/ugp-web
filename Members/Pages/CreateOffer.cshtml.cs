@@ -48,7 +48,7 @@ namespace Members.Pages
                 var result = await _memberService.CreateOfferDraft(contentItem, contentItemId);
                 if (result.Succeeded)
                 {
-                    _notifier.Success(H["Offer created successful"]);
+                    await _notifier.SuccessAsync(H["Offer created successful"]);
                     return RedirectToPage(nextPage);
                 }
             }

@@ -12,9 +12,11 @@ namespace Members.Base
     public class DriverService
     {
         private static IEnumerable<Type> _implementingTypes;
-        public static IEnumerable<Type> ImplementingTypes = _implementingTypes ??= AppDomain.CurrentDomain.GetAssemblies()
+        private static IEnumerable<Type> implementingTypes = _implementingTypes ??= AppDomain.CurrentDomain.GetAssemblies()
                     .SelectMany(x => x.GetTypes())
                     .Where(t => typeof(IFieldEditorSettings).IsAssignableFrom(t) && t.IsClass).ToList();
+
+        public static IEnumerable<Type> ImplementingTypes { get => implementingTypes; set => implementingTypes = value; }
 
         public static ContentPartFieldDefinition GetFieldDef(BuildFieldEditorContext context, bool isAdminTheme)
         {
@@ -34,9 +36,11 @@ namespace Members.Base
                     return null;
                 var newDispName = partSettings.GetFieldLabel(context.PartFieldDefinition.Name, textset.DisplayName, isAdminTheme);
                 if (textset.Editor != newEditor || textset.DisplayName != newDispName)
-                { 
-                    var newDef= new ContentPartFieldDefinition(oldDef.FieldDefinition, oldDef.Name, oldDef.Settings);
-                    newDef.PartDefinition = oldDef.PartDefinition;
+                {
+                    var newDef = new ContentPartFieldDefinition(oldDef.FieldDefinition, oldDef.Name, oldDef.Settings)
+                    {
+                        PartDefinition = oldDef.PartDefinition
+                    };
                     var newSett = newDef.GetSettings<ContentPartFieldSettings>();
                     newSett.Editor = newEditor;
                     newSett.DisplayName = newDispName;

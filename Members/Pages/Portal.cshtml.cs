@@ -15,15 +15,18 @@ using System.Linq;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.Admin;
 using Microsoft.AspNetCore.Http;
+using Members.Utils;
+using Members.Payments;
+using Members.Base;
 
 namespace Members.Pages
 {
     [Authorize]
     public class PortalModel : PageModel
     {
-        private MemberService _mService;
-        private INotifier _notifier;
-        private IHtmlLocalizer<PortalModel> H;
+        private readonly MemberService _mService;
+        private readonly INotifier _notifier;
+        private readonly IHtmlLocalizer<PortalModel> H;
         public ContentItem Member;
         public PortalModel(MemberService mService, INotifier notifier, IHtmlLocalizer<PortalModel> localizer)
         {
@@ -33,8 +36,10 @@ namespace Members.Pages
         }
         public async Task<IActionResult> OnGetAsync()
         {
+            await _mService._session.RefreshReduceIndex(new PaymentByDayIndexProvider(),"Payment");
+            await _mService._session.RefreshMapIndex(new PaymentIndexProvider(),"Payment");
+            await _mService._session.SaveChangesAsync();
             Member = await _mService.GetUserMember(true);
-
             if (Member == null)
             {
                 return RedirectToPage("CreateMember");
@@ -67,7 +72,7 @@ namespace Members.ContentHandlers
         {
             _httpCA = httpContextAccessor;
         }
-        public IEnumerable<ContentItem> GetMenuCi()
+        public static IEnumerable<ContentItem> GetMenuCi()
         {
             return json.Select(x =>
             {
@@ -155,6 +160,6 @@ namespace Members.ContentHandlers
                 Text= "far fa-calendar-alt"
             }
         };
-        private IHttpContextAccessor _httpCA;
+        private readonly IHttpContextAccessor _httpCA;
     }
 }

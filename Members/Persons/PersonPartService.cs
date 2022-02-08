@@ -6,7 +6,6 @@ using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentManagement.Metadata;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System.Collections.Generic;
@@ -23,9 +22,9 @@ namespace Members.Persons
 
         public IStringLocalizer<PersonPart> S { get; }
 
-        private IContentDefinitionManager _cdm;
-        private IHttpContextAccessor _httpContextAccessor;
-        private IUserService _userService;
+        private readonly IContentDefinitionManager _cdm;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserService _userService;
 
         public PersonPartService(IStringLocalizer<PersonPart> S, ISession session, IContentDefinitionManager cdm,
             IHttpContextAccessor httpContextAccessor, IUserService service
@@ -97,11 +96,6 @@ namespace Members.Persons
         public System.Action<PersonPart> GetEditModel(PersonPart part, BuildPartEditorContext context)
         {
             return null;
-        }
-
-        public Task OnUpdatingAsync(PersonPart model, IUpdateModel updater, UpdatePartEditorContext context)
-        {
-            return Task.CompletedTask;
         }
 
         public Task UpdatedAsync<TPart>(UpdateContentContext context, PersonPart instance)

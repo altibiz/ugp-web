@@ -43,7 +43,7 @@ namespace Members.Pages
             Note = "Donatorska vecera";
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGetAsync()
         {
             return Redirect("https://clanovi.glaspoduzetnika.hr/ugp-donacijska-vecera");
         }

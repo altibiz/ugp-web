@@ -21,9 +21,9 @@ namespace Members.Controllers
     [Authorize(AuthenticationSchemes = "Api"), IgnoreAntiforgeryToken, AllowAnonymous]
     public class LegacyAccountController : Controller
     {
-        private UserManager<IUser> _userManager;
-        private ISession _session;
-        private IUserService _userService;
+        private readonly UserManager<IUser> _userManager;
+        private readonly ISession _session;
+        private readonly IUserService _userService;
 
         public LegacyAccountController(UserManager<IUser> userManager, ISession session, IUserService userService)
         {
@@ -102,10 +102,10 @@ namespace Members.Controllers
             return Ok(model.UserName);
         }
 
-        public string GetHash(string password, string salt)
+        public static string GetHash(string password, string salt)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(password + salt);
-            SHA256Managed hashstring = new SHA256Managed();
+            SHA256Managed hashstring = new();
             byte[] hash = hashstring.ComputeHash(bytes);
             string hashString = string.Empty;
             foreach (byte x in hash)

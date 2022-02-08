@@ -1,6 +1,5 @@
 ﻿using Members.Base;
 using Members.Indexes;
-using Members.Payments;
 using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
@@ -33,13 +32,13 @@ namespace Members.Core
 
     public class MemberService
     {
-        private IUserService _userService;
-        private ISession _session;
+        private readonly IUserService _userService;
+        public ISession _session;
 
-        private IContentManager _contentManager;
-        private IContentItemDisplayManager _contentItemDisplayManager;
-        private IUpdateModelAccessor _updateModelAccessor;
-        private IHttpContextAccessor _httpContextAccessor;
+        public IContentManager _contentManager;
+        private readonly IContentItemDisplayManager _contentItemDisplayManager;
+        private readonly IUpdateModelAccessor _updateModelAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IOrchardHelper _oHelper;
 
         public MemberService(ISession session, IUserService userService, IContentManager contentManager, IOrchardHelper orchardHelper,

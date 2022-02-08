@@ -7,6 +7,8 @@ using Members.Core;
 using Members.Payments;
 using Members.Indexes;
 using Members.Base;
+using YesSql;
+using Members.Utils;
 
 namespace Members
 {
@@ -43,7 +45,8 @@ namespace Members
             SchemaBuilder.AddPaymentPublished();
             _contentDefinitionManager.AdminPage();
             SchemaBuilder.AddTransactionRef();
-            return 11;
+            SchemaBuilder.CreatePaymentByDayIndex();
+            return 12;
         }
 
         public int UpdateFrom1()
@@ -109,6 +112,12 @@ namespace Members
         {
             SchemaBuilder.AddTransactionRef();
             return 11;
+        }
+
+        public int UpdateFrom11()
+        {
+            SchemaBuilder.CreatePaymentByDayIndex();
+            return 12;
         }
     }
 }

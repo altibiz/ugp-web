@@ -8,8 +8,8 @@ namespace Members.Payments
 {
     public class PaymentUtils
     {
-        private MemberService _memService;
-        private ISession _session;
+        private readonly MemberService _memService;
+        private readonly ISession _session;
 
         public PaymentUtils(MemberService memberService,ISession session)
         {

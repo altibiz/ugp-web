@@ -27,7 +27,7 @@ namespace Members.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             await _signInManager.SignOutAsync();
-            _notifier.Success(H["SignOut Success"]);
+            await _notifier.SuccessAsync(H["SignOut Success"]);
             return Page();
         }
     }

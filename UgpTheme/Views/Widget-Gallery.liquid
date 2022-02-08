@@ -1,7 +1,7 @@
 {% assign id = "gallery-" | append: Model.ContentItem.Id %}
 {% assign displayType = Model.ContentItem.Content.Gallery.DisplayType.Value %}
 
-<h2>{{ Model.ContentItem.DisplayText }}</h2>
+<h2 class="section-heading">{{ Model.ContentItem.DisplayText }}</h2>
 <div id="{{ id }}" class="gallery {{displayType}}">
         {% for slide in Model.ContentItem.Content.GPieces.ContentItems %}
             {{ slide | shape_build_display: displayType | shape_render }}
