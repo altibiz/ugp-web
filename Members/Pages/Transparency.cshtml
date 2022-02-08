@@ -1,0 +1,63 @@
+﻿@page
+@model Members.Pages.TransparencyModel
+
+@{ Html.RenderPartial("_Header", @T["Transparentnost"].Value); }
+<h2 class="section-heading">Prihodi</h2>
+<br />
+<div class="top-features-section">
+	<div class="row">
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.TotalIncome.ToString("n2") </h2>
+			<p>kn ukupno prihod</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.PayIns.ToString("n0") </h2>
+			<p>Broj uplata</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.AverageIn.ToString("n2") </h2>
+			<p>kn prosječna uplata</p>
+		</div>
+	</div>
+</div>
+<h2 class="section-heading">Rashodi</h2>
+<br />
+<div class="top-features-section">
+	<div class="row">
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.TotalExpense.ToString("n2") </h2>
+			<p>kn ukupno rashoda</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.PayOuts.ToString("n0") </h2>
+			<p>Broj isplata</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.AverageOut.ToString("n2") </h2>
+			<p>kn prosječna isplata</p>
+		</div>
+	</div>
+</div>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Datum</th>
+			<th scope="col">Iznos uplata (kn)</th>
+			<th scope="col">Broj uplata</th>
+			<th scope="col">Iznos isplata (kn)</th>
+			<th scope="col">Broj isplata</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var paym in Model.PaymentsByDay)
+		{
+			<tr>
+				<th scope="row">@paym.Date.Value.ToString("dd.MM.yy.")</th>
+				<td>@paym.PayIn.ToString("n2")</td>
+				<td>@paym.CountIn</td>
+				<td>@paym.PayOut</td>
+				<td>@paym.CountOut</td>
+			</tr>
+		}
+	</tbody>
+</table>

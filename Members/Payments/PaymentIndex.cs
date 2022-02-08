@@ -46,7 +46,7 @@ namespace Members.Payments
                         PersonContentItemId = pp.Person.ContentItemIds?.FirstOrDefault(),
                         PayerName = pp.PayerName.Text,
                         Address = pp.Address?.Text?.Length > 255 ? pp.Address?.Text?.Substring(0, 255) : pp.Address?.Text,
-                        IsPayout = pp.IsPayout.Value,
+                        IsPayout = pp.IsPayout?.Value ?? false,
                         Published = contentItem.Published,
                         TransactionRef = pp.TransactionRef,
                     };

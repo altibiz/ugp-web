@@ -26,13 +26,14 @@ namespace Members.Payments
                 {
                     var pp = contentItem.AsReal<Payment>();
                     if (pp == null) return Enumerable.Empty<PaymentByDayIndex>();
+                    var isPayout = pp.IsPayout?.Value ?? false;
                     var res= new PaymentByDayIndex
                     {
-                        PayOut = pp.IsPayout.Value ? pp.Amount.Value ?? 0 : 0,
-                        PayIn = !pp.IsPayout.Value ? pp.Amount.Value ?? 0 : 0,
+                        PayOut = isPayout ? pp.Amount.Value ?? 0 : 0,
+                        PayIn = !isPayout ? pp.Amount.Value ?? 0 : 0,
                         Date = pp.Date.Value.Value.Date,
-                        CountOut = pp.IsPayout.Value ? 1 : 0,
-                        CountIn =  pp.IsPayout.Value ? 0 : 1
+                        CountOut = isPayout ? 1 : 0,
+                        CountIn =  isPayout ? 0 : 1
                     };
                     return new[] { res };
                 }).Group(x => x.Date)
