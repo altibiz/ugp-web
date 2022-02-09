@@ -4,6 +4,7 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Title.Models;
+using System;
 
 namespace Members.Payments
 {
@@ -20,6 +21,10 @@ namespace Members.Payments
         public string BankContentItemId { get; set; }
 
         public string TransactionRef { get; set; }
+
+        [Obsolete("Use TransactionRef, this is for initial imports and legacy projections")]
+        public TextField PaymentRef { get; set; }
+
         public BooleanField IsPayout {get;set;}
     }
 

@@ -48,7 +48,9 @@ namespace Members.Payments
                         Address = pp.Address?.Text?.Length > 255 ? pp.Address?.Text?.Substring(0, 255) : pp.Address?.Text,
                         IsPayout = pp.IsPayout?.Value ?? false,
                         Published = contentItem.Published,
-                        TransactionRef = pp.TransactionRef,
+#pragma warning disable 0618
+                        TransactionRef = pp.TransactionRef ?? pp.PaymentRef?.Text,
+#pragma warning restore 0618
                     };
                 });
         }
