@@ -1,96 +1,97 @@
-// 
+//
 // Masthead
-// 
+//
 
 header.masthead {
-    position: relative;
-    margin-bottom: 3rem;
-    padding-top: calc(4rem + 57px);
-    padding-bottom: 4rem;
+	position: relative;
+	margin-bottom: 3rem;
+	padding-top: calc(4rem + 57px);
+	padding-bottom: 4rem;
+	// TIP: Background images are set within the HTML using inline CSS!
+	background: no-repeat center center;
+	background-color: $gray-600;
+	background-size: cover;
+	background-attachment: scroll;
+	// Create the overlay for the masthead
+	// Modify the overlay color and opacity in src/variables/overlay.scss
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: $overlay-background;
+		opacity: $overlay-opacity;
+	}
+	// Set color for all headings
 
-    // TIP: Background images are set within the HTML using inline CSS!
-    background: no-repeat center center;
-    background-color: $gray-600;
-    background-size: cover;
-    background-attachment: scroll;
+	.page-heading,
+	.post-heading,
+	.site-heading {
+		color: $white;
+	}
+	// Styling shared by site and page heading
 
-    // Create the overlay for the masthead
-    // Modify the overlay color and opacity in src/variables/overlay.scss
-    &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: $overlay-background;
-        opacity: $overlay-opacity;
-    }
+	.page-heading,
+	.site-heading {
+		text-align: center;
 
-    // Set color for all headings
+		h1 {
+			font-size: 2rem;
+		}
 
-    .page-heading,
-    .post-heading,
-    .site-heading {
-        color: $white;
-    }
+		.subheading {
+			font-size: 1.5rem;
+			font-weight: 300;
+			line-height: 1.1;
+			display: block;
+			margin-top: 0.625rem;
+			font-family: $headings-font-family;
+		}
+	}
+	// Styling specific to post headings
 
-    // Styling shared by site and page heading
+	.post-heading {
+		h1 {
+			font-size: 2.25rem;
+		}
 
-    .page-heading,
-    .site-heading {
-        text-align: center;
+		.meta,
+		.subheading {
+			line-height: 1.1;
+			display: block;
+		}
 
-        h1 {
-            font-size: 3rem;
-        }
+		.subheading {
+			font-size: 1.5rem;
+			font-weight: 600;
+			margin: 0.75rem 0 2rem;
+			font-family: $headings-font-family;
+		}
 
-        .subheading {
-            font-size: 1.5rem;
-            font-weight: 300;
-            line-height: 1.1;
-            display: block;
-            margin-top: 0.625rem;
-            font-family: $headings-font-family;
-        }
-    }
+		.meta {
+			font-size: 1.25rem;
+			font-weight: 300;
+			font-style: italic;
+			font-family: $font-family-base;
 
-    // Styling specific to post headings
+			a {
+				color: $white;
+			}
+		}
+	}
+	// Desktop styling for headings
 
-    .post-heading {
-        h1 {
-            font-size: 2.25rem;
-        }
+	@include media-breakpoint-up(lg) {
+		padding-top: 7.5rem;
+		padding-bottom: 5.5rem;
 
-        .meta,
-        .subheading {
-            line-height: 1.1;
-            display: block;
-        }
-
-        .subheading {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0.75rem 0 2rem;
-            font-family: $headings-font-family;
-        }
-
-        .meta {
-            font-size: 1.25rem;
-            font-weight: 300;
-            font-style: italic;
-            font-family: $font-family-base;
-
-            a {
-                color: $white;
-            }
-        }
-    }
-
-    // Desktop styling for headings
-
-    @include media-breakpoint-up(lg) {
-        padding-top: 7.5rem;
-        padding-bottom: 5.5rem;
-    }
+		.page-heading,
+		.site-heading {
+			h1 {
+				font-size: 3rem;
+			}
+		}
+	}
 }

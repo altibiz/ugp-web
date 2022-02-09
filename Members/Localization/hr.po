@@ -113,7 +113,6 @@ msgid "Offer"
 msgstr "Ponuda"
 msgid "Contact Person"
 msgstr "Kontakt osoba"
-
 msgctxt "Members.Pages.Offers"
 msgid "Offer For Members"
 msgstr "Ponude za članove"
@@ -123,6 +122,9 @@ msgid "Search Here"
 msgstr "Traži ovdje"
 msgid "Search"
 msgstr "Traži"
+msgid "Members only, click here to log in"
+msgstr "Samo za članove, klikni ovdje za prijavu"
+
 
 
 

@@ -4,23 +4,20 @@
 
 @{
 	ContentItem contentItem = Model.ContentItem;
+	var offer = contentItem.As<Offer>();
+	var companyItem = await Orchard.GetContentItemByIdAsync(offer.Company?.GetId());
+	Html.RenderPartial("_Header", offer.ContentItem.DisplayText);
 
 	if (!User.Identity.IsAuthenticated)
 	{
-		<div>Access denied</div>
-		<a asp-route-area="OrchardCore.Users" asp-controller="Account" asp-action="Login" asp-route-returnurl="@FullRequestPath">@T["Click here to log in"]</a>
+		<h2>
+			<a asp-route-area="OrchardCore.Users" asp-controller="Account" asp-action="Login" asp-route-returnurl="@FullRequestPath">@T["Members only, click here to log in"]</a>
+		</h2>
 	}
 	else
 	{
-		var offer = contentItem.As<Offer>();
-		var companyItem = await Orchard.GetContentItemByIdAsync(offer.Company?.GetId());
-
-
-		Html.RenderPartial("_Header", @T["Offer"].Value);
 
 		<blockquote>
-			<!-- Content here -->
-			<h2 class="text-center">@offer.ContentItem.DisplayText</h2>
 			@if (offer.FeaturedImage?.Paths.FirstOrDefault() != null)
 			{
 				<div class="icon-box">
