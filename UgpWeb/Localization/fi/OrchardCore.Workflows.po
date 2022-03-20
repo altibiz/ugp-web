@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Finnish\n"
 "Language: fi_FI\n"
-"PO-Revision-Date: 2021-10-07 22:57\n"
+"PO-Revision-Date: 2022-03-05 10:50\n"
 
 #. builder.Add(S["Workflows"], NavigationConstants.AdminMenuWorkflowsPosition, workflow => workflow
 #: OrchardCore.Workflows\AdminMenu.cs:24
@@ -289,13 +289,13 @@ msgid "Done"
 msgstr "Valmis"
 
 #. await _notifier.SuccessAsync(H["Activity added successfully."]);
-#: OrchardCore.Workflows\Controllers\ActivityController.cs:113
+#: OrchardCore.Workflows\Controllers\ActivityController.cs:112
 msgctxt "OrchardCore.Workflows.Controllers.ActivityController"
 msgid "Activity added successfully."
 msgstr "Toiminnan lisäys onnistui."
 
 #. await _notifier.SuccessAsync(H["Activity updated successfully."]);
-#: OrchardCore.Workflows\Controllers\ActivityController.cs:169
+#: OrchardCore.Workflows\Controllers\ActivityController.cs:168
 msgctxt "OrchardCore.Workflows.Controllers.ActivityController"
 msgid "Activity updated successfully."
 msgstr "Toiminnan päivitys onnistui."
@@ -387,19 +387,19 @@ msgid "Done"
 msgstr "Valmis"
 
 #. public override LocalizedString DisplayText => S["Http Redirect Task"];
-#: OrchardCore.Workflows\Http\Activities\HttpRedirectTask.cs:34
+#: OrchardCore.Workflows\Http\Activities\HttpRedirectTask.cs:33
 msgctxt "OrchardCore.Workflows.Http.Activities.HttpRedirectTask"
 msgid "Http Redirect Task"
 msgstr "Http-uudelleenohjaus tehtävä"
 
 #. public override LocalizedString Category => S["HTTP"];
-#: OrchardCore.Workflows\Http\Activities\HttpRedirectTask.cs:36
+#: OrchardCore.Workflows\Http\Activities\HttpRedirectTask.cs:35
 msgctxt "OrchardCore.Workflows.Http.Activities.HttpRedirectTask"
 msgid "HTTP"
 msgstr ""
 
 #. return Outcomes(S["Done"]);
-#: OrchardCore.Workflows\Http\Activities\HttpRedirectTask.cs:52
+#: OrchardCore.Workflows\Http\Activities\HttpRedirectTask.cs:51
 msgctxt "OrchardCore.Workflows.Http.Activities.HttpRedirectTask"
 msgid "Done"
 msgstr "Valmis"
@@ -548,8 +548,8 @@ msgctxt "OrchardCore.Workflows.Views.ActivityMetadata.Edit"
 msgid "Optionally provide a custom title for this activity."
 msgstr "Voit halutessasi antaa oman otsikon tälle aktiviteetille."
 
-#. <button class="btn btn-warning" type="submit" name="submit.Save" value="user-task.@action">@T[action] @T["and Save"]</button>
-#. <button type="submit" name="submit.Save" class="dropdown-item" value="user-task.@action">@T[action] @T["and Save"]</button>
+#. <button class="btn btn-warning" type="submit" name="submit.Save" value="user-task.@action">@T[Html.Encode(action)] @T["and Save"]</button>
+#. <button type="submit" name="submit.Save" class="dropdown-item" value="user-task.@action">@T[Html.Encode(action)] @T["and Save"]</button>
 #: OrchardCore.Workflows\Views\Content.UserTaskButton.cshtml:11
 #: OrchardCore.Workflows\Views\Content.UserTaskButton.cshtml:30
 msgctxt "OrchardCore.Workflows.Views.Content.UserTaskButton"
@@ -562,8 +562,8 @@ msgctxt "OrchardCore.Workflows.Views.Content.UserTaskButton"
 msgid "Toggle Dropdown"
 msgstr "Vaihda pudotusvalikon tilaa"
 
-#. <button type="submit" name="submit.Publish" class="dropdown-item" value="user-task.@action">@T[action] @T["and Publish"]</button>
-#. <button type="submit" name="submit.Publish" class="dropdown-item" value="user-task.@action">@T[action] @T["and Publish"]</button>
+#. <button type="submit" name="submit.Publish" class="dropdown-item" value="user-task.@action">@T[Html.Encode(action)] @T["and Publish"]</button>
+#. <button type="submit" name="submit.Publish" class="dropdown-item" value="user-task.@action">@T[Html.Encode(action)] @T["and Publish"]</button>
 #: OrchardCore.Workflows\Views\Content.UserTaskButton.cshtml:16
 #: OrchardCore.Workflows\Views\Content.UserTaskButton.cshtml:31
 msgctxt "OrchardCore.Workflows.Views.Content.UserTaskButton"
@@ -678,11 +678,11 @@ msgctxt "OrchardCore.Workflows.Views.Items.CorrelateTask.Fields.Edit"
 msgid "Value"
 msgstr "Arvo"
 
-#. <span class="hint">@T["The value to correlate workflow instances with. With Liquid support."]</span>
-#: OrchardCore.Workflows\Views\Items\CorrelateTask.Fields.Edit.cshtml:8
+#. <span class="hint">@T["The value to correlate workflow instances with. With Javascript support."]</span>
+#: OrchardCore.Workflows\Views\Items\CorrelateTask.Fields.Edit.cshtml:9
 msgctxt "OrchardCore.Workflows.Views.Items.CorrelateTask.Fields.Edit"
-msgid "The value to correlate workflow instances with. With Liquid support."
-msgstr "Arvo, joka korreloi työnkulun ilmentymien kanssa. Tukee Liquid:ia."
+msgid "The value to correlate workflow instances with. With Javascript support."
+msgstr ""
 
 #. <h4 class="card-title"><i class="fa fa-link" aria-hidden="true"></i>@T["Correlate"]</h4>
 #: OrchardCore.Workflows\Views\Items\CorrelateTask.Fields.Thumbnail.cshtml:1
@@ -1171,31 +1171,31 @@ msgid "Content Type"
 msgstr "Sisältötyyppi"
 
 #. <span class="hint">@T["The content type of the response body."]</span>
-#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:20
+#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:21
 msgctxt "OrchardCore.Workflows.Views.Items.HttpResponseTask.Fields.Edit"
 msgid "The content type of the response body."
 msgstr "Vastauksen sisällön tyyppi."
 
 #. <label asp-for="Content">@T["Content"]</label>
-#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:25
+#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:26
 msgctxt "OrchardCore.Workflows.Views.Items.HttpResponseTask.Fields.Edit"
 msgid "Content"
 msgstr "Sisältö"
 
 #. <span class="hint">@T["The body to send back. With Liquid support."]</span>
-#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:28
+#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:29
 msgctxt "OrchardCore.Workflows.Views.Items.HttpResponseTask.Fields.Edit"
 msgid "The body to send back. With Liquid support."
 msgstr "Takaisin lähetettävä sisältö. Liquid-tuella."
 
 #. <label asp-for="Headers">@T["Headers"] </label>
-#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:32
+#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:33
 msgctxt "OrchardCore.Workflows.Views.Items.HttpResponseTask.Fields.Edit"
 msgid "Headers"
 msgstr "Otsakkeet"
 
 #. <span class="hint">@T["Provide additional HTTP response headers. Enter one key/value pair per line. For example: \"X-MyHeader: Foo\". With Liquid support."]</span>
-#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:35
+#: OrchardCore.Workflows\Views\Items\HttpResponseTask.Fields.Edit.cshtml:36
 msgctxt "OrchardCore.Workflows.Views.Items.HttpResponseTask.Fields.Edit"
 msgid "Provide additional HTTP response headers. Enter one key/value pair per line. For example: \"X-MyHeader: Foo\". With Liquid support."
 msgstr "Anna lisää HTTP-otsikoita, yksi per rivi. Esimerkiksi: \"X-MyHeader: Foo\". Liquid-tuella."
@@ -1411,7 +1411,7 @@ msgid "Script"
 msgstr "Komentosarja"
 
 #. <span class="hint">@T["The script to execute. Make sure to call `setOutcome` with any of the specified available outcomes at least once."]</span>
-#: OrchardCore.Workflows\Views\Items\ScriptTask.Fields.Edit.cshtml:15
+#: OrchardCore.Workflows\Views\Items\ScriptTask.Fields.Edit.cshtml:16
 msgctxt "OrchardCore.Workflows.Views.Items.ScriptTask.Fields.Edit"
 msgid "The script to execute. Make sure to call `setOutcome` with any of the specified available outcomes at least once."
 msgstr "Suoritettava skripti. Varmista, että kutsut `setOutcome`-funktiota vähintään kerran."
@@ -1596,13 +1596,13 @@ msgctxt "OrchardCore.Workflows.Views.Items.UserTaskEvent.Fields.Design"
 msgid "Request any user action of <em>{0}</em>"
 msgstr "Pyydä kaikki <em>{0}</em> käyttäjätapahtumat"
 
-#. <span>@T["Required roles: <em>{0}</em>", Model.Activity.Roles.Any() ? new LocalizedHtmlString("RequiredRoles", string.Join(", ", Model.Activity.Roles)) : T["Any"]]</span>
+#. <span>@T["Required roles: <em>{0}</em>", Model.Activity.Roles.Any() ? Html.Raw(Html.Encode(string.Join(", ", Model.Activity.Roles))) : T["Any"]]</span>
 #: OrchardCore.Workflows\Views\Items\UserTaskEvent.Fields.Design.cshtml:11
 msgctxt "OrchardCore.Workflows.Views.Items.UserTaskEvent.Fields.Design"
 msgid "Any"
 msgstr "Mikä tahansa"
 
-#. <span>@T["Required roles: <em>{0}</em>", Model.Activity.Roles.Any() ? new LocalizedHtmlString("RequiredRoles", string.Join(", ", Model.Activity.Roles)) : T["Any"]]</span>
+#. <span>@T["Required roles: <em>{0}</em>", Model.Activity.Roles.Any() ? Html.Raw(Html.Encode(string.Join(", ", Model.Activity.Roles))) : T["Any"]]</span>
 #: OrchardCore.Workflows\Views\Items\UserTaskEvent.Fields.Design.cshtml:11
 msgctxt "OrchardCore.Workflows.Views.Items.UserTaskEvent.Fields.Design"
 msgid "Required roles: <em>{0}</em>"

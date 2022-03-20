@@ -1,0 +1,12 @@
+﻿@model Etch.OrchardCore.Fields.Eventbrite.ViewModels.DisplayEventbriteFieldViewModel
+
+<ul class="@Model.PartFieldDefinition.HtmlClassify()">
+    <li><em>Event Name:</em> @Model.Data.Name</li>
+    <li><em>Start:</em> @Model.Data.StartUtc</li>
+    <li><em>End:</em> @Model.Data.EndUtc</li>
+    @if (!string.IsNullOrWhiteSpace(Model.Data.MultiLineAddress))
+    {
+        <li><em>Address:</em> @Model.Data.MultiLineAddress</li>
+    }
+    <li><a href="@Model.Data.Url">Sign up Here!</a></li>
+</ul>

@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language-Team: Finnish\n"
 "Language: fi_FI\n"
-"PO-Revision-Date: 2021-10-07 22:26\n"
+"PO-Revision-Date: 2022-03-05 10:49\n"
 
 #. await builder.AddAsync(S["Content"], NavigationConstants.AdminMenuContentPosition, async content =>
 #: OrchardCore.Contents\AdminMenu.cs:60
@@ -254,10 +254,10 @@ msgstr "Kohteen \"{0}\" julkaisu on lopetettu."
 #. title: S["One or more validation errors occurred."],
 #. title: S["One or more validation errors occurred."],
 #. title: S["One or more validation errors occurred."],
-#: OrchardCore.Contents\Controllers\ApiController.cs:112
-#: OrchardCore.Contents\Controllers\ApiController.cs:121
-#: OrchardCore.Contents\Controllers\ApiController.cs:143
-#: OrchardCore.Contents\Controllers\ApiController.cs:152
+#: OrchardCore.Contents\Controllers\ApiController.cs:120
+#: OrchardCore.Contents\Controllers\ApiController.cs:129
+#: OrchardCore.Contents\Controllers\ApiController.cs:151
+#: OrchardCore.Contents\Controllers\ApiController.cs:160
 msgctxt "OrchardCore.Contents.Controllers.ApiController"
 msgid "One or more validation errors occurred."
 msgstr "Yksi tai useampi validointivirhe on tapahtunut."
@@ -275,13 +275,13 @@ msgid "Full-text doesn't contain a valid Liquid expression. Details: {0}"
 msgstr "Tekstieditori ei sisällä kelvollista Liquid-lauseketta. Tarkemmat tiedot: {0}"
 
 #. await _notifier.WarningAsync(H["'{0}' was not restored, the version is not valid.", contentItem.DisplayText]);
-#: OrchardCore.Contents\AuditTrail\Controllers\AuditTrailContentController.cs:116
+#: OrchardCore.Contents\AuditTrail\Controllers\AuditTrailContentController.cs:117
 msgctxt "OrchardCore.Contents.AuditTrail.Controllers.AuditTrailContentController"
 msgid "'{0}' was not restored, the version is not valid."
 msgstr "'{0}' ei palautettu, versio ei ole kelvollinen."
 
 #. await _notifier.SuccessAsync(H["'{0}' has been restored.", contentItem.DisplayText]);
-#: OrchardCore.Contents\AuditTrail\Controllers\AuditTrailContentController.cs:125
+#: OrchardCore.Contents\AuditTrail\Controllers\AuditTrailContentController.cs:128
 msgctxt "OrchardCore.Contents.AuditTrail.Controllers.AuditTrailContentController"
 msgid "'{0}' has been restored."
 msgstr "{0} palautettiin."
@@ -378,14 +378,14 @@ msgstr "Sisällön kohde palautettiin edelliseen versioon."
 
 #. await _notifier.SuccessAsync(H["Content added successfully to the deployment plan."]);
 #. await _notifier.SuccessAsync(H["Content added successfully to the deployment plan."]);
-#: OrchardCore.Contents\Deployment\AddToDeploymentPlan\AddToDeploymentPlanController.cs:83
-#: OrchardCore.Contents\Deployment\AddToDeploymentPlan\AddToDeploymentPlanController.cs:130
+#: OrchardCore.Contents\Deployment\AddToDeploymentPlan\AddToDeploymentPlanController.cs:82
+#: OrchardCore.Contents\Deployment\AddToDeploymentPlan\AddToDeploymentPlanController.cs:129
 msgctxt "OrchardCore.Contents.Deployment.AddToDeploymentPlan.AddToDeploymentPlanController"
 msgid "Content added successfully to the deployment plan."
 msgstr "Sisältö on lisätty onnistuneesti käyttöönottosuunnitelmaan."
 
 #. await _notifier.WarningAsync(H["Couldn't add selected content to deployment plan."]);
-#: OrchardCore.Contents\Deployment\AddToDeploymentPlan\AddToDeploymentPlanController.cs:120
+#: OrchardCore.Contents\Deployment\AddToDeploymentPlan\AddToDeploymentPlanController.cs:119
 msgctxt "OrchardCore.Contents.Deployment.AddToDeploymentPlan.AddToDeploymentPlanController"
 msgid "Couldn't add selected content to deployment plan."
 msgstr "Valittua sisältöä ei voitu lisätä käyttöönottosuunnitelmaan."
@@ -946,7 +946,7 @@ msgctxt "OrchardCore.Contents.Views.ContentsAdminListSearch"
 msgid "Multiple"
 msgstr "Useita"
 
-#. <span class="hint dashed">@T["Logical operators and groups are supported"]
+#. <span class="hint dashed">@T["Logical operators and groups are supported"]</span>
 #: OrchardCore.Contents\Views\ContentsAdminListSearch.cshtml:62
 msgctxt "OrchardCore.Contents.Views.ContentsAdminListSearch"
 msgid "Logical operators and groups are supported"
@@ -1226,13 +1226,13 @@ msgctxt "OrchardCore.Contents.Views.NavigationItemText-new.Id"
 msgid "New"
 msgstr "Uusi"
 
-#. <zone Name="Title"><h1>@RenderTitleSegments(T["New {0}", Html.Raw(typeDisplayName)])</h1></zone>
+#. <zone Name="Title"><h1>@RenderTitleSegments(T["New {0}", typeDisplayName])</h1></zone>
 #: OrchardCore.Contents\Views\Admin\Create.cshtml:13
 msgctxt "OrchardCore.Contents.Views.Admin.Create"
 msgid "New {0}"
 msgstr "Uusi {0}"
 
-#. <zone Name="Title"><h1>@RenderTitleSegments(T["Edit {0}", Html.Raw(typeDisplayName)])</h1></zone>
+#. <zone Name="Title"><h1>@RenderTitleSegments(T["Edit {0}", typeDisplayName])</h1></zone>
 #: OrchardCore.Contents\Views\Admin\Edit.cshtml:13
 msgctxt "OrchardCore.Contents.Views.Admin.Edit"
 msgid "Edit {0}"
@@ -1254,7 +1254,7 @@ msgctxt "OrchardCore.Contents.Views.AuditTrailContent.Display"
 msgid "{0} {1} - Version {2}"
 msgstr "{0} {1} - Versio {2}"
 
-#. <zone Name="Title"><h1>@RenderTitleSegments(T["View As JSON {0}", Html.Raw(typeDisplayName)])</h1></zone>
+#. <zone Name="Title"><h1>@RenderTitleSegments(T["View As JSON {0}", typeDisplayName])</h1></zone>
 #: OrchardCore.Contents\Views\Download\Display.cshtml:16
 msgctxt "OrchardCore.Contents.Views.Download.Display"
 msgid "View As JSON {0}"

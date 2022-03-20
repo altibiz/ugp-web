@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Version>1.1.2</Version>
+    <PackageId>Etch.OrchardCore.Fields</PackageId>
+    <Title>Etch OrchardCore Fields</Title>
+    <Authors>Etch</Authors>
+    <Description>Module providing useful content fields for Orchard Core</Description>
+    <PackageTags>orchardcore;etch;fields</PackageTags>
+    <RepositoryUrl>https://github.com/etchuk/Etch.OrchardCore.Fields</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/etchuk/Etch.OrchardCore.Fields</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="docs\**" />
+    <EmbeddedResource Remove="docs\**" />
+    <None Remove="docs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="OrchardCore.ContentFields" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.Liquid.Abstractions" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.Media" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.Media.Abstractions" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.Module.Targets" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.Queries.Abstractions" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.ResourceManagement" Version="1.3.0" />
+    <PackageReference Include="OrchardCore.Taxonomies" Version="1.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <Target Name="BuildStaticAssetsForRelease" BeforeTargets="BeforeBuild" Condition="'$(Configuration)' == 'Release'">
+    <Exec Command="npm install" />
+    <Exec Command="npm run build" />
+  </Target>
+
+</Project>

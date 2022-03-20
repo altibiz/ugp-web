@@ -1,0 +1,15 @@
+﻿@model Etch.OrchardCore.Fields.Colour.ViewModels.ColourSettingsViewModel
+
+@using Etch.OrchardCore.Fields.Colour.ViewModels
+
+<div class="form-group">
+    <div class="row col-sm-6">
+        <label asp-for="Colours">@T["Colours"]</label>
+    </div>
+
+    <div class="row col-sm-12">
+        <p class="hint">@T["Define colour palette used by colour fields configured to use global settings."]</p>
+    </div>
+
+    <partial name="./Shared/ColoursEditor.cshtml" model="@(new ColoursFieldViewModel { Colours = Model.Colours, FieldId = Html.IdFor(x => x.Colours) })" />
+</div>
