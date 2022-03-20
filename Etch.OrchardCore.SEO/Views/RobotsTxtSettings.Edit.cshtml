@@ -1,0 +1,59 @@
+﻿@model Etch.OrchardCore.SEO.RobotsTxt.ViewModels.RobosTxtSettingsViewModel
+
+@using Etch.OrchardCore.SEO.RobotsTxt.Models
+
+@if (Model.Mode == RobotsTxtModes.NotDefined)
+{
+    <p class="alert alert-warning">@T["<a href=\"/robots.txt\">robots.txt</a> will be a 404 response when no mode has been selected."]</p>
+}
+
+<div class="form-group">
+    <label asp-for="Mode">@T["Mode"]</label>
+    <select asp-for="Mode" class="form-control content-preview-select js-mode-select">
+        <option value="@RobotsTxtModes.NotDefined">@T["- Select mode -"]</option>
+        <option value="@RobotsTxtModes.AllowAllPages">@T["Allow all pages"]</option>
+        <option value="@RobotsTxtModes.DisallowAllPages">@T["Disallow all pages"]</option>
+        <option value="@RobotsTxtModes.Recommended">@T["Recommended"]</option>
+        <option value="@RobotsTxtModes.Custom">@T["Custom"]</option>
+    </select>
+</div>
+
+<div class="form-group js-custom-content-field" style="display: none;">
+    <label asp-for="CustomContent">@T["Custom Content"]</label>
+    <textarea asp-for="CustomContent" rows="5" class="form-control content-preview-text"></textarea>
+    <span class="hint">@T["For more information on formatting robots.txt, visit <a href=\"https://robotstxt.org\">robotstxt.org</a>."]</span>
+</div>
+
+<hr />
+
+<fieldset class="form-group" asp-validation-class-for="NoIndex">
+    <div class="custom-control custom-checkbox">
+        <input asp-for="NoIndex" type="checkbox" class="custom-control-input">
+        <label class="custom-control-label" asp-for="NoIndex">@T["Block search indexing with 'noindex'"]</label><br />
+        <span class="hint">@T["Prevent site from appearing in search engines by including <a href=\"https://developers.google.com/search/docs/advanced/crawling/block-indexing\">noindex response header</a>."]</span>
+    </div>
+</fieldset>
+
+<script type="text/javascript">
+    document.onreadystatechange = function () {
+        if (document.readyState != "interactive") {
+            return;
+        }
+
+        var $customContentField = document.querySelector('.js-custom-content-field');
+        var $modeSelect = document.querySelector('.js-mode-select');
+
+        var setCustomContentFieldVisibility = function () {
+            if ($modeSelect.value === "@RobotsTxtModes.Custom") {
+                $customContentField.style.display = 'block';
+                return;
+            }
+
+            $customContentField.style.display = 'none';
+        };
+
+        $modeSelect.addEventListener('change', setCustomContentFieldVisibility);
+
+        setCustomContentFieldVisibility();
+    };
+</script>
