@@ -10,26 +10,27 @@
     <div class="row">
       
         <div class="col">
-            <span>@T["Last Export:"]  @ViewBag.Date.ToString("d.M.yyyy")  </span>
+            <span>@T["Zadnji izvoz podataka:"]  @ViewBag.Date.ToString("d.M.yyyy")  </span>
             
         </div>
     </div>
 
     <hr />
     <div class="row">
+
         <div class="col-1">
                 @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddDays(-7).Date }, FormMethod.Post )){ 
-                    <button class="btn btn-secondary">1 tjedan</button>
+                    <button class="btn btn-secondary">Export novih èlanova u zadnjih  tjedan dana</button>
                 }
         </div>
         <div class="col-1">
             @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddMonths(-1).Date }, FormMethod.Post)){ 
-                <button class="btn btn-secondary">1 mjesec</button>
+                <button class="btn btn-secondary">Export novih èlanova u zadnjih  mjesec dana </button>
             }
         </div>
         <div class="col-1">
                 @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddYears(-1).Date }, FormMethod.Post)){ 
-                    <button class="btn btn-secondary">1 godina</button>
+                    <button class="btn btn-secondary">Export novih èlanova u zadnjih godinu dana</button>
             }
         </div>
     </div>
@@ -53,6 +54,6 @@
         <br />
         <br />
 
-        <a href="https://glas-poduzetnika.webpower.eu/admin/?campaign=1&_page=/admin/dmdelivery/recipient/import/%3FTID%3D18%26DMDcid%3D1" class="elements"><span>Link to <bold>WebPower</bold></span></a>
+        <a target="_blank" href="https://glas-poduzetnika.webpower.eu/admin/?campaign=1&_page=/admin/dmdelivery/recipient/import/%3FTID%3D18%26DMDcid%3D1" class="elements"><span>Link to <bold>WebPower</bold></span></a>
     </div>
 
