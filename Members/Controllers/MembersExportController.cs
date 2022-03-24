@@ -60,14 +60,12 @@ namespace Members.Controllers
 
                     tvrtka = "",
 
-                    zemlja = "",
 
-                    datum_rodenja = birthdate.Date.ToString("d.M.yyyy", new CultureInfo("hr-HR")),
+                    datum_rodjenja = birthdate.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")),
 
                     djelatnost = "",
                     spol = gender,
-                    tip_korisnika = "Fizicke",
-                    vrsta_organizacije = "",
+                    tip_korisnika = "Fizičke",
                     gsm = member.ContentItem.Content.PersonPart.Phone.Text,
 
                     zupanija = county,
@@ -153,14 +151,12 @@ namespace Members.Controllers
 
                 tvrtka = company.ContentItem.Content.PersonPart.Name.Text,
 
-                zemlja = "",
 
-                datum_rodenja =birthdate.Date.ToString("d.M.yyyy", new CultureInfo("hr-HR")),
+                datum_rodjenja =birthdate.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")),
 
                 djelatnost = string.Join(", ", company.ContentItem.Content.Company.Activity.TagNames),
                 spol = gender,
                 tip_korisnika = "Pravne",
-                vrsta_organizacije = company.ContentItem.Content.Company.OrganisationType.TagNames[0],
                 gsm = company.ContentItem.Content.PersonPart.Phone.Text,
                 zupanija = cCounty,
                 mjesto = company.ContentItem.Content.PersonPart.City.Text
@@ -180,12 +176,10 @@ namespace Members.Controllers
         public string ime { get; set; }
         public string prezime { get; set; }
         public string tvrtka { get; set; }
-        public string zemlja { get; set; }
-        public string datum_rodenja { get; set; }
+        public string datum_rodjenja { get; set; }
         public string djelatnost { get; set; }
         public string spol { get; set; }
         public string tip_korisnika { get; set; }
-        public string vrsta_organizacije { get; set; }
         public string gsm { get; set; }
         public string pretplacen { get; set; }
         public string zupanija { get; set; }
