@@ -1,0 +1,40 @@
+
+    <div class="row">
+      
+        <div class="col">
+            <h2>@T["Member Export"]</h2>
+        </div>
+    </div>
+
+
+    <div class="row">
+      
+        <div class="col">
+            <span>@T["Last Export:"]  @ViewBag.Date.ToString("d.M.yyyy")  </span>
+            
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+        <div class="col-1">
+                @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddDays(-7).Date }, FormMethod.Post )){ 
+                    <button class="btn btn-secondary">1 tjedan</button>
+                }
+        </div>
+        <div class="col-1">
+            @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddMonths(-1).Date }, FormMethod.Post)){ 
+                <button class="btn btn-secondary">1 mjesec</button>
+            }
+        </div>
+        <div class="col-1">
+                @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddYears(-1).Date }, FormMethod.Post)){ 
+                    <button class="btn btn-secondary">1 godina</button>
+            }
+        </div>
+    </div>
+
+    <div class="pt-4"> 
+    <a href="www.google.com" class="elements"><span>Link to external</span></a>
+    </div>
+

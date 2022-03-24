@@ -11,9 +11,11 @@ using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
+using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Indexing;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -52,6 +54,13 @@ namespace Members.Core
             _updateModelAccessor = updateModelAccessor;
             _httpContextAccessor = httpContextAccessor;
         }
+        public async Task<ContentItem>GetCompanyMember(ContentItem company, bool includeDraft = false)
+        {
+            var query = _session.Query<ContentItem,UserPickerFieldIndex>(x=>x.ContentType==nameof(Member) && x.SelectedUserId==company.Owner);
+            if (!includeDraft) query = query.Where(x => x.Published);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
+        }
         public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
@@ -60,6 +69,53 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
+        //get's all members published after the date 
+        public async Task<IEnumerable<ContentItem>> GetAllMembers(DateTime afterDate)
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
+            if (afterDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > afterDate);
+
+            var members = await query.ListAsync();
+
+            return members;
+        }
+        //get's all members companies published after the date 
+        public async Task<IEnumerable<ContentItem>> GetMemberCompanies(DateTime afterDate, ContentItem member, bool distinctEmailsfromMember=false)
+        {
+            var companyContentItem = new List<ContentItem>();
+
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId, x => true);
+            companies = companies.Where(x => x.ContentType == nameof(ContentType.Company) );
+            if (afterDate < DateTime.Now.Date)
+                companies =companies.Where(x => x.PublishedUtc > afterDate);
+            if (distinctEmailsfromMember)
+                companies = companies.Where(x => x.ContentItem.Content.PersonPart.Email.Text != member.ContentItem.Content.PersonPart.Email.Text );
+
+            companies = companies.GroupBy(x => x.ContentItem.Content.PersonPart.Email.Text).Select(x=>x.FirstOrDefault());
+
+            return companies.ToList();
+        }
+
+        public async Task<IEnumerable<ContentItem>> GetOnlyNewCompanies(DateTime afterDate)
+        {
+
+            List<ContentItem> newCompanies=new List<ContentItem>();
+
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest && x.PublishedUtc > afterDate);
+            var companies = await query.ListAsync();
+            companies = companies.GroupBy(x => x.ContentItem.Content.PersonPart.Email.Text).Select(x => x.FirstOrDefault());
+
+            foreach (ContentItem item  in companies)
+            {
+                if((await GetCompanyMember(item)).PublishedUtc < afterDate)
+                {
+                    newCompanies.Add(item);
+                }
+            }
+
+            return newCompanies;
+        }
+
         public async Task<List<ContentItem>> GetUserCompanies()
         {
             ContentItem member = await GetUserMember();
