@@ -164,7 +164,7 @@ namespace Members.Payments
                 yield return new ValidationResult(S["Statement not valid"], new[] { nameof(part.StatementJson) });
         }
 
-        public override Task UpdatedAsync<TPart>(UpdateContentContext context, BankStatPart instance)
+        public override Task UpdatedAsync(UpdateContentContext context, BankStatPart instance)
         {
             var json = ParseStmt(instance.StatementJson);
             instance.Date.Value = json.Date;

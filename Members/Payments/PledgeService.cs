@@ -17,7 +17,7 @@ namespace Members.Payments
         {
             _memberService = memberService;
         }
-        public override async Task UpdatedAsync<TPart>(UpdateContentContext context, Pledge model)
+        public override async Task UpdatedAsync(UpdateContentContext context, Pledge model)
         {
             model.InitFields();
             if (!IsAdmin)

@@ -14,7 +14,7 @@ namespace Members.Payments
 
         }
 
-        public override Task UpdatedAsync<TPart>(UpdateContentContext context, Payment instance)
+        public override Task UpdatedAsync(UpdateContentContext context, Payment instance)
         {
             instance.InitFields();
             if (instance.IsPayout.Value ^ instance.Amount.Value < 0)
