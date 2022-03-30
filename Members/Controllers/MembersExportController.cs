@@ -48,8 +48,8 @@ namespace Members.Controllers
 
                 var companies = await _memberService.GetMemberCompanies(date.Date, item, true);
 
-                var county = StripCounty(person.County.GetTagNames().FirstOrDefault()?.ToString());
-                var gender  = StripGender(member.Sex.GetTagNames().FirstOrDefault()?.ToString());
+                var county = StripCounty(member.ContentItem.Content.PersonPart.County.TagNames[0].ToString());
+                var gender  = StripGender(member.ContentItem.Content.Member.Sex.TagNames[0].ToString());
                 DateTime? birthdate = member.DateOfBirth.Value;
                 
                 csvList.Add(new CsvModel
@@ -143,9 +143,9 @@ namespace Members.Controllers
 
             DateTime? birthdate = mpart.DateOfBirth.Value;
 
-            var gender = StripGender(mpart.Sex.GetTagNames().FirstOrDefault());
+            var gender = StripGender(mpart.ContentItem.Content.Member.Sex.TagNames[0].ToString());
 
-            var cCounty = StripCounty(ppart.County.GetTagNames().FirstOrDefault());
+            var cCounty = StripCounty(cppart.ContentItem.Content.PersonPart.County.TagNames[0].ToString());
 
             return new CsvModel
             {
