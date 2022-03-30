@@ -53,13 +53,12 @@ namespace Members.Core
             _updateModelAccessor = updateModelAccessor;
             _httpContextAccessor = httpContextAccessor;
         }
-        public async Task<ContentItem>GetCompanyMember(ContentItem company, bool includeDraft = false)
+
+        public async Task<ContentItem>GetCompanyMember(ContentItem company)
         {
-            var query = _session.Query<ContentItem,UserPickerFieldIndex>(x=>x.ContentType==nameof(Member) && x.SelectedUserId==company.Owner);
-            if (!includeDraft) query = query.Where(x => x.Published);
-            var member = await query.ListAsync();
-            return member.FirstOrDefault();
+            return await _session.GetListItemParent(company);
         }
+
         public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);

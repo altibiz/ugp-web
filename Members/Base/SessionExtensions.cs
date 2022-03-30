@@ -16,7 +16,7 @@ namespace Members.Base
             return await session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == contentItemId).FirstOrDefaultAsync();
         }
 
-        public async static Task<ContentItem> GetListParent(this ISession session, ContentItem childItem)
+        public async static Task<ContentItem> GetListItemParent(this ISession session, ContentItem childItem)
         {
             return await session.GetItemById(childItem.As<ContainedPart>()?.ListContentItemId);
         }
