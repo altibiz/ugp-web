@@ -11,7 +11,6 @@ using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
-using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Indexing;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
@@ -89,9 +88,9 @@ namespace Members.Core
             if (afterDate < DateTime.Now.Date)
                 companies =companies.Where(x => x.PublishedUtc > afterDate);
             if (distinctEmailsfromMember)
-                companies = companies.Where(x => x.ContentItem.Content.PersonPart.Email.Text != member.ContentItem.Content.PersonPart.Email.Text );
+                companies = companies.Where(x => x.As<PersonPart>().Email.Text != member.As<PersonPart>().Email.Text );
 
-            companies = companies.GroupBy(x => x.ContentItem.Content.PersonPart.Email.Text).Select(x=>x.FirstOrDefault());
+            companies = companies.GroupBy(x => x.As<PersonPart>().Email.Text).Select(x=>x.FirstOrDefault());
 
             return companies.ToList();
         }
@@ -103,7 +102,7 @@ namespace Members.Core
 
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest && x.PublishedUtc > afterDate);
             var companies = await query.ListAsync();
-            companies = companies.GroupBy(x => x.ContentItem.Content.PersonPart.Email.Text).Select(x => x.FirstOrDefault());
+            companies = companies.GroupBy(x => x.As<PersonPart>().Email.Text).Select(x => x.FirstOrDefault());
 
             foreach (ContentItem item  in companies)
             {
@@ -163,10 +162,13 @@ namespace Members.Core
             var contentItem = await _contentManager.NewAsync(cType.ToString());
             if (cType.Equals(ContentType.Company))
             {
-                ContentItem mem = await GetUserMember(true);
-                contentItem.Content.PersonPart.Address = mem.Content.PersonPart.Address;
-                contentItem.Content.PersonPart.County = mem.Content.PersonPart.County;
-                contentItem.Content.PersonPart.City = mem.Content.PersonPart.City;
+                PersonPart mem = (await GetUserMember(true)).As<PersonPart>();
+                contentItem.Alter<PersonPart>(x =>
+                {
+                    x.Address = mem.Address;
+                    x.County = mem.County;
+                    x.City = mem.City;
+                });
             }
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             return (contentItem, model);

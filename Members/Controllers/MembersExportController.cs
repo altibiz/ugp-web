@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Members.Base;
 using Members.Core;
+using Members.Persons;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using YesSql;
 
@@ -44,32 +46,32 @@ namespace Members.Controllers
             foreach (var item in memList)
             {
                 var member = item.As<Member>();
-
+                var person = item.As<PersonPart>();
 
                 var companies = await _memberService.GetMemberCompanies(date.Date, item, true);
 
-                var county = StripCounty(member.ContentItem.Content.PersonPart.County.TagNames[0].ToString());
-                var gender  = StripGender(member.ContentItem.Content.Member.Sex.TagNames[0].ToString());
-                DateTime birthdate = member.ContentItem.Content.Member.DateOfBirth.Value;
+                var county = StripCounty(person.County.GetTagNames().FirstOrDefault()?.ToString());
+                var gender  = StripGender(member.Sex.GetTagNames().FirstOrDefault()?.ToString());
+                DateTime? birthdate = member.DateOfBirth.Value;
                 
                 csvList.Add(new CsvModel
                 {
-                    email = member.ContentItem.Content.PersonPart.Email.Text,
-                    ime = member.ContentItem.Content.PersonPart.Name.Text,
-                    prezime = member.ContentItem.Content.PersonPart.Surname.Text,
+                    email = person.Email.Text,
+                    ime = person.Name.Text,
+                    prezime = person.Surname.Text,
 
                     tvrtka = "",
 
 
-                    datum_rodjenja = birthdate.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")),
+                    datum_rodjenja = birthdate.HasValue?birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")):"",
 
                     djelatnost = "",
                     spol = gender,
                     tip_korisnika = "Fizičke",
-                    gsm = member.ContentItem.Content.PersonPart.Phone.Text,
+                    gsm = person.Phone.Text,
 
                     zupanija = county,
-                    mjesto = member.ContentItem.Content.PersonPart.City.Text
+                    mjesto = person.City.Text
                 });
 
                 foreach (var company in companies)
@@ -97,7 +99,7 @@ namespace Members.Controllers
 
             CsvWriter csvWriter = new CsvWriter(streamWriter, csvConfig);
 
-            csvWriter.WriteRecords<CsvModel>(reportCSVModels);
+            csvWriter.WriteRecords(reportCSVModels);
             csvWriter.Flush();
             byte[] bytInStream = memoryStream.ToArray();
             memoryStream.Close();
@@ -137,29 +139,33 @@ namespace Members.Controllers
                 member = await _memberService.GetCompanyMember(company);
             }
 
-            DateTime birthdate = member.ContentItem.Content.Member.DateOfBirth.Value;
+            var mpart = member.As<Member>();
+            var ppart = member.As<PersonPart>();
+            var cppart=company.As<PersonPart>();
 
-            var gender = StripGender(member.ContentItem.Content.Member.Sex.TagNames[0].ToString());
+            DateTime? birthdate = mpart.DateOfBirth.Value;
 
-            var cCounty = StripCounty(company.ContentItem.Content.PersonPart.County.TagNames[0].ToString());
+            var gender = StripGender(mpart.Sex.GetTagNames().FirstOrDefault());
+
+            var cCounty = StripCounty(ppart.County.GetTagNames().FirstOrDefault());
 
             return new CsvModel
             {
-                email = company.ContentItem.Content.PersonPart.Email.Text,
-                ime = member.ContentItem.Content.PersonPart.Name.Text,
-                prezime = member.ContentItem.Content.PersonPart.Surname.Text,
+                email = cppart.Email.Text,
+                ime = ppart.Name.Text,
+                prezime = ppart.Surname.Text,
 
-                tvrtka = company.ContentItem.Content.PersonPart.Name.Text,
+                tvrtka = cppart.Name.Text,
 
 
-                datum_rodjenja =birthdate.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")),
+                datum_rodjenja = birthdate.HasValue?birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")):"",
 
                 djelatnost = string.Join(", ", company.ContentItem.Content.Company.Activity.TagNames),
                 spol = gender,
                 tip_korisnika = "Pravne",
-                gsm = company.ContentItem.Content.PersonPart.Phone.Text,
+                gsm = cppart.Phone.Text,
                 zupanija = cCounty,
-                mjesto = company.ContentItem.Content.PersonPart.City.Text
+                mjesto = cppart.City.Text
             };
         }
 
