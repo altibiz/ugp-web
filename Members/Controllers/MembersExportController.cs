@@ -22,7 +22,7 @@ namespace Members.Controllers
     {
         private readonly MemberService _memberService;
         private ISession _session;
-        public MembersExportController( MemberService mService,ISession session)
+        public MembersExportController(MemberService mService, ISession session)
         {
             _memberService = mService;
             _session = session;
@@ -31,8 +31,7 @@ namespace Members.Controllers
         {
 
             var info = await _session.Query<ExportInfo>().FirstOrDefaultAsync() ?? new ExportInfo();
-            ViewBag.Date = info.LastSave;
-            return View();
+            return View(info);
         }
 
         public async Task<FileContentResult> DownloadFileAsync(DateTime date)
@@ -48,10 +47,10 @@ namespace Members.Controllers
 
                 var companies = await _memberService.GetMemberCompanies(date.Date, item, true);
 
-                var county = StripCounty(member.ContentItem.Content.PersonPart.County.TagNames[0].ToString());
-                var gender  = StripGender(member.ContentItem.Content.Member.Sex.TagNames[0].ToString());
+                var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
+                var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
                 DateTime? birthdate = member.DateOfBirth.Value;
-                
+
                 csvList.Add(new CsvModel
                 {
                     email = person.Email.Text,
@@ -61,7 +60,7 @@ namespace Members.Controllers
                     tvrtka = "",
 
 
-                    datum_rodjenja = birthdate.HasValue?birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")):"",
+                    datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
                     djelatnost = "",
                     spol = gender,
@@ -103,7 +102,7 @@ namespace Members.Controllers
             memoryStream.Close();
 
             var info = await _session.Query<ExportInfo>().FirstOrDefaultAsync() ?? new ExportInfo();
-            info.LastSave=DateTime.Now;
+            info.LastSave = DateTime.Now;
             _session.Save(info);
             return File(bytInStream, "application/octet-stream", "Reports.csv");
         }
@@ -111,12 +110,12 @@ namespace Members.Controllers
         public string StripCounty(string county)
         {
             string str = county.ToUpper();
-                str = str.Replace("ŽUPANIJA", "");
-                str = str.Replace("Ž", "Z");
-                str = str.Replace("Ć", "C");
-                str = str.Replace("Č", "C");
-                str = str.Replace("Đ", "D");
-                str = str.Replace("Š", "S");
+            str = str.Replace("ŽUPANIJA", "");
+            str = str.Replace("Ž", "Z");
+            str = str.Replace("Ć", "C");
+            str = str.Replace("Č", "C");
+            str = str.Replace("Đ", "D");
+            str = str.Replace("Š", "S");
             str = str.Trim();
             return str;
         }
@@ -132,14 +131,14 @@ namespace Members.Controllers
         public async Task<CsvModel> CompanyToCsvModelAsync(ContentItem company, ContentItem member = null)
         {
 
-            if (member==null)
+            if (member == null)
             {
                 member = await _memberService.GetCompanyMember(company);
             }
 
             var mpart = member.As<Member>();
             var ppart = member.As<PersonPart>();
-            var cppart=company.As<PersonPart>();
+            var cppart = company.As<PersonPart>();
 
             DateTime? birthdate = mpart.DateOfBirth.Value;
 
@@ -156,7 +155,7 @@ namespace Members.Controllers
                 tvrtka = cppart.Name.Text,
 
 
-                datum_rodjenja = birthdate.HasValue?birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")):"",
+                datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
                 djelatnost = string.Join(", ", company.ContentItem.Content.Company.Activity.TagNames),
                 spol = gender,
