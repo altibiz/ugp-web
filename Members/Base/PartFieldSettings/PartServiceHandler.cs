@@ -39,7 +39,7 @@ namespace Members.Persons
 
         public override async Task UpdatedAsync(UpdateContentContext context, TPart instance)
         {
-           await _service.UpdatedAsync<TPart>(context,instance);
+           await _service.UpdatedAsync(context,instance);
             instance.ContentItem.Apply(instance);
         }
     }

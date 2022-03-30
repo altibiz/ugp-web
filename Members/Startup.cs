@@ -59,7 +59,6 @@ namespace Members
             services.AddSingleton<IIndexProvider,PaymentByDayIndexProvider>();
             services.AddContentPart<Payment>();
             services.AddContentPart<Offer>();
-            services.AddScoped<TaxonomyCachedService>();
             services.AddSingleton<IContentHandler, MemberHandler>();
             services.AddSingleton<IContentHandler, UserMenuHandler>();
             services.AddRecipeExecutionStep<FastImport>();

@@ -14,6 +14,7 @@ using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Taxonomies.Indexing;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -52,6 +53,13 @@ namespace Members.Core
             _updateModelAccessor = updateModelAccessor;
             _httpContextAccessor = httpContextAccessor;
         }
+        public async Task<ContentItem>GetCompanyMember(ContentItem company, bool includeDraft = false)
+        {
+            var query = _session.Query<ContentItem,UserPickerFieldIndex>(x=>x.ContentType==nameof(Member) && x.SelectedUserId==company.Owner);
+            if (!includeDraft) query = query.Where(x => x.Published);
+            var member = await query.ListAsync();
+            return member.FirstOrDefault();
+        }
         public async Task<ContentItem> GetUserMember(bool includeDraft = false, ClaimsPrincipal cUSer = null)
         {
             var user = await GetCurrentUser(cUSer);
@@ -60,6 +68,53 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
+        //get's all members published after the date 
+        public async Task<IEnumerable<ContentItem>> GetAllMembers(DateTime afterDate)
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
+            if (afterDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > afterDate);
+
+            var members = await query.ListAsync();
+
+            return members;
+        }
+        //get's all members companies published after the date 
+        public async Task<IEnumerable<ContentItem>> GetMemberCompanies(DateTime afterDate, ContentItem member, bool distinctEmailsfromMember=false)
+        {
+            var companyContentItem = new List<ContentItem>();
+
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId, x => true);
+            companies = companies.Where(x => x.ContentType == nameof(ContentType.Company) );
+            if (afterDate < DateTime.Now.Date)
+                companies =companies.Where(x => x.PublishedUtc > afterDate);
+            if (distinctEmailsfromMember)
+                companies = companies.Where(x => x.As<PersonPart>().Email.Text != member.As<PersonPart>().Email.Text );
+
+            companies = companies.GroupBy(x => x.As<PersonPart>().Email.Text).Select(x=>x.FirstOrDefault());
+
+            return companies.ToList();
+        }
+
+        public async Task<IEnumerable<ContentItem>> GetOnlyNewCompanies(DateTime afterDate)
+        {
+
+            List<ContentItem> newCompanies=new List<ContentItem>();
+
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest && x.PublishedUtc > afterDate);
+            var companies = await query.ListAsync();
+            companies = companies.GroupBy(x => x.As<PersonPart>().Email.Text).Select(x => x.FirstOrDefault());
+
+            foreach (ContentItem item  in companies)
+            {
+                if((await GetCompanyMember(item)).PublishedUtc < afterDate)
+                {
+                    newCompanies.Add(item);
+                }
+            }
+
+            return newCompanies;
+        }
+
         public async Task<List<ContentItem>> GetUserCompanies()
         {
             ContentItem member = await GetUserMember();
@@ -107,10 +162,13 @@ namespace Members.Core
             var contentItem = await _contentManager.NewAsync(cType.ToString());
             if (cType.Equals(ContentType.Company))
             {
-                ContentItem mem = await GetUserMember(true);
-                contentItem.Content.PersonPart.Address = mem.Content.PersonPart.Address;
-                contentItem.Content.PersonPart.County = mem.Content.PersonPart.County;
-                contentItem.Content.PersonPart.City = mem.Content.PersonPart.City;
+                PersonPart mem = (await GetUserMember(true)).As<PersonPart>();
+                contentItem.Alter<PersonPart>(x =>
+                {
+                    x.Address = mem.Address;
+                    x.County = mem.County;
+                    x.City = mem.City;
+                });
             }
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
             return (contentItem, model);

@@ -21,4 +21,17 @@ DROP TABLE WorkflowIndex
 DROP TABLE WorkflowTypeIndex
 DROP TABLE WorkflowTypeStartActivitiesIndex
 DROP TABLE DashboardPartIndex
+DROP TABLE OpenId_OpenIdAppByLogoutUriIndex_OpenId_Document
+DROP TABLE OpenId_OpenIdAppByLogoutUriIndex
+DROP TABLE OpenId_OpenIdAppByRedirectUriIndex_OpenId_Document
+DROP TABLE OpenId_OpenIdAppByRedirectUriIndex
+DROP TABLE OpenId_OpenIdAppByRoleNameIndex_OpenId_Document
+DROP TABLE OpenId_OpenIdAppByRoleNameIndex
+DROP TABLE OpenId_OpenIdApplicationIndex
+DROP TABLE OpenId_OpenIdAuthorizationIndex
+DROP TABLE OpenId_OpenIdScopeByResourceIndex_OpenId_Document
+DROP TABLE OpenId_OpenIdScopeByResourceIndex
+DROP TABLE OpenId_OpenIdScopeIndex
+DROP TABLE OpenId_OpenIdTokenIndex
+DROP TABLE OpenId_Document
 DROP TABLE Document

@@ -98,7 +98,7 @@ namespace Members.Persons
             return null;
         }
 
-        public Task UpdatedAsync<TPart>(UpdateContentContext context, PersonPart instance)
+        public Task UpdatedAsync(UpdateContentContext context, PersonPart instance)
         {
             return Task.CompletedTask;
         }

@@ -1,0 +1,59 @@
+﻿
+    <div class="row">
+      
+        <div class="col">
+            <h2>@T["Member Export"]</h2>
+        </div>
+    </div>
+
+
+    <div class="row">
+      
+        <div class="col">
+            <span>@T["Zadnji izvoz podataka:"]  @ViewBag.Date.ToString("d.M.yyyy")  </span>
+            
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+
+        <div class="col-1">
+                @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddDays(-7).Date }, FormMethod.Post )){ 
+                    <button class="btn btn-secondary">Export novih članova u zadnjih  tjedan dana</button>
+                }
+        </div>
+        <div class="col-1">
+            @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddMonths(-1).Date }, FormMethod.Post)){ 
+                <button class="btn btn-secondary">Export novih članova u zadnjih  mjesec dana </button>
+            }
+        </div>
+        <div class="col-1">
+                @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddYears(-1).Date }, FormMethod.Post)){ 
+                    <button class="btn btn-secondary">Export novih članova u zadnjih godinu dana</button>
+            }
+        </div>
+    </div>
+
+    <div class="pt-4"> 
+
+        <h5 class="mt-3">Upute kod uploada na WebPower</h5>
+        <br />
+
+        <span>Upload  CSV file-a na WebPower (dolje navedeni link)</span>
+        <br />
+        <br />
+
+        <span>Dva <bold class="dt">obavezna</bold> koraka: </span>
+
+        <br />
+        <span> - odabrati Group : Subscribers </span>
+        <br />
+
+        <span> - odabrati Character set - postaviti <bold class="dt">International (utf-8)</bold> </span>
+        <br />
+        <br />
+
+        <a target="_blank" href="https://glas-poduzetnika.webpower.eu/admin/?campaign=1&_page=/admin/dmdelivery/recipient/import/%3FTID%3D18%26DMDcid%3D1" class="elements"><span>Link to <bold>WebPower</bold></span></a>
+    </div>
+

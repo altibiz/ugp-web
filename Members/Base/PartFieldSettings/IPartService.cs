@@ -21,7 +21,7 @@ namespace Members.PartFieldSettings
         Task InitializingAsync(T part);
         Task PublishedAsync(T instance, PublishContentContext context);
         Action<T> GetEditModel(T part, BuildPartEditorContext context);
-        Task UpdatedAsync<TPart>(UpdateContentContext context, T instance);
+        Task UpdatedAsync(UpdateContentContext context, T instance);
     }
 
     public static class PartServiceExtensions
@@ -41,6 +41,7 @@ namespace Members.PartFieldSettings
     {
         private IHttpContextAccessor _httpCa;
 
+        public HttpContext Context => _httpCa.HttpContext;
         public PartService(IHttpContextAccessor httpContextAccessor)
         {
             _httpCa = httpContextAccessor;
@@ -73,7 +74,7 @@ namespace Members.PartFieldSettings
             return Array.Empty<ValidationResult>();
         }
 
-        public virtual Task UpdatedAsync<TPart>(UpdateContentContext context, T instance)
+        public virtual Task UpdatedAsync(UpdateContentContext context, T instance)
         {
             return Task.CompletedTask;
         }
