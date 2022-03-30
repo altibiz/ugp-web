@@ -56,7 +56,7 @@ namespace Members.Controllers
                 ContentItem memberItem = oldLoginItem;
                 if (oldLoginItem?.ContentType == "Company")
                 {
-                    memberItem = await _session.GetListParent(oldLoginItem);
+                    memberItem = await _session.GetListItemParent(oldLoginItem);
                 }
                 if (oldLoginItem == null || memberItem == null) return Ok(model.UserName);
                 var mem = memberItem?.As<Member>().InitFields();
