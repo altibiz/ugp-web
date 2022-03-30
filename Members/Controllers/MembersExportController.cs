@@ -142,9 +142,8 @@ namespace Members.Controllers
 
             DateTime? birthdate = mpart.DateOfBirth.Value;
 
-            var gender = StripGender(mpart.ContentItem.Content.Member.Sex.TagNames[0].ToString());
-
-            var cCounty = StripCounty(cppart.ContentItem.Content.PersonPart.County.TagNames[0].ToString());
+            var county = StripCounty((await ppart.County.GetTerm(HttpContext))?.DisplayText ?? "");
+            var gender = StripGender((await mpart.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
 
             return new CsvModel
             {
@@ -161,7 +160,7 @@ namespace Members.Controllers
                 spol = gender,
                 tip_korisnika = "Pravne",
                 gsm = cppart.Phone.Text,
-                zupanija = cCounty,
+                zupanija = county,
                 mjesto = cppart.City.Text
             };
         }
