@@ -1,4 +1,4 @@
-
+Ôªø
     <div class="row">
       
         <div class="col">
@@ -20,17 +20,17 @@
 
         <div class="col-1">
                 @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddDays(-7).Date }, FormMethod.Post )){ 
-                    <button class="btn btn-secondary">Export novih Ëlanova u zadnjih  tjedan dana</button>
+                    <button class="btn btn-secondary">Export novih ƒçlanova u zadnjih  tjedan dana</button>
                 }
         </div>
         <div class="col-1">
             @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddMonths(-1).Date }, FormMethod.Post)){ 
-                <button class="btn btn-secondary">Export novih Ëlanova u zadnjih  mjesec dana </button>
+                <button class="btn btn-secondary">Export novih ƒçlanova u zadnjih  mjesec dana </button>
             }
         </div>
         <div class="col-1">
                 @using (Html.BeginForm("DownloadFile", "MembersExport", new { date = DateTime.Now.AddYears(-1).Date }, FormMethod.Post)){ 
-                    <button class="btn btn-secondary">Export novih Ëlanova u zadnjih godinu dana</button>
+                    <button class="btn btn-secondary">Export novih ƒçlanova u zadnjih godinu dana</button>
             }
         </div>
     </div>

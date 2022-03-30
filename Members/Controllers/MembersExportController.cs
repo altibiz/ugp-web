@@ -21,11 +21,9 @@ namespace Members.Controllers
     public class MembersExportController : Controller
     {
         private readonly MemberService _memberService;
-        private TaxonomyCachedService _taxService;
         private ISession _session;
-        public MembersExportController(TaxonomyCachedService taxService, MemberService mService,ISession session)
+        public MembersExportController( MemberService mService,ISession session)
         {
-            _taxService = taxService;
             _memberService = mService;
             _session = session;
         }

@@ -41,6 +41,7 @@ namespace Members.PartFieldSettings
     {
         private IHttpContextAccessor _httpCa;
 
+        public HttpContext Context => _httpCa.HttpContext;
         public PartService(IHttpContextAccessor httpContextAccessor)
         {
             _httpCa = httpContextAccessor;
