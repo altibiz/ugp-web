@@ -145,8 +145,17 @@ namespace Members.Controllers
             var activityTerms = await compart.Activity?.GetTerms(HttpContext);
             var activity = string.Empty;
 
-            if(activityTerms.Count>0)
-                activity = string.Join(", ", activityTerms.Select(x => x.DisplayText).Where(s => !string.IsNullOrEmpty(s)));
+            bool first = true;
+            foreach (var item in activityTerms)
+            {
+                if (first)
+                {
+                    activity += item.DisplayText.ToString();
+                    first = false;
+                }
+                else
+                    activity += ", " + item.DisplayText.ToString();
+            }
 
             return new CsvModel
             {
