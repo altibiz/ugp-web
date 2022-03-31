@@ -47,12 +47,12 @@ namespace Members.Controllers
 
                 var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
                 var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
-                DateTime? birthdate = member.DateOfBirth.Value;
+                DateTime? birthdate = member.DateOfBirth?.Value;
                 var memberCsv = new CsvModel
                 {
-                    email = person.Email.Text,
-                    ime = person.Name.Text,
-                    prezime = person.Surname.Text,
+                    email = person.Email?.Text,
+                    ime = person.Name?.Text,
+                    prezime = person.Surname?.Text,
 
                     tvrtka = "",
 
@@ -62,10 +62,10 @@ namespace Members.Controllers
                     djelatnost = "",
                     spol = gender,
                     tip_korisnika = "Fizičke",
-                    gsm = person.Phone.Text,
+                    gsm = person.Phone?.Text,
 
                     zupanija = county,
-                    mjesto = person.City.Text
+                    mjesto = person.City?.Text
                 };
                 csvList[memberCsv.email] = memberCsv;
             }
