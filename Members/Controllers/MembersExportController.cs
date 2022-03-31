@@ -153,7 +153,7 @@ namespace Members.Controllers
 
                 datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                djelatnost = string.Join(", ", (await compart.Activity?.GetTerms(HttpContext)).Select(x=>x.DisplayText)),
+                djelatnost = string.Join(", ", (await compart.Activity?.GetTerms(HttpContext))?.Select(x=>x.DisplayText)),
                 spol = gender,
                 tip_korisnika = "Pravne",
                 gsm = cppart.Phone?.Text,
