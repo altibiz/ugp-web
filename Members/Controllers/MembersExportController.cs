@@ -146,7 +146,7 @@ namespace Members.Controllers
             var activity = string.Empty;
 
             if(activityTerms.Count>0)
-                activity = string.Join(", ", activityTerms.Select(x => x.DisplayText));
+                activity = string.Join(", ", activityTerms.Select(x => x.DisplayText).Where(s => !string.IsNullOrEmpty(s)));
 
             return new CsvModel
             {
