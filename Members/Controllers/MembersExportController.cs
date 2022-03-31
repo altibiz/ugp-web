@@ -137,7 +137,7 @@ namespace Members.Controllers
             var cppart = company.As<PersonPart>();
             var compart=company.As<Company>();
 
-            DateTime? birthdate = mpart.DateOfBirth.Value;
+            DateTime? birthdate = mpart?.DateOfBirth?.Value;
 
             var county = StripCounty((await ppart.County.GetTerm(HttpContext))?.DisplayText ?? "");
             var gender = StripGender((await mpart.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
