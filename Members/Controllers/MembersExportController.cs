@@ -142,9 +142,11 @@ namespace Members.Controllers
             var county = StripCounty((await ppart.County.GetTerm(HttpContext))?.DisplayText ?? "");
             var gender = StripGender((await mpart.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
 
+            var activityTerms = await compart.Activity?.GetTerms(HttpContext);
             var activity = string.Empty;
-            if((await compart.Activity?.GetTerms(HttpContext))?.Count>0)
-                activity = string.Join(", ", (await compart.Activity.GetTerms(HttpContext)).Select(x => x.DisplayText));
+
+            if(activityTerms.Count>0)
+                activity = string.Join(", ", activityTerms.Select(x => x.DisplayText));
 
             return new CsvModel
             {
