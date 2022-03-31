@@ -142,6 +142,10 @@ namespace Members.Controllers
             var county = StripCounty((await ppart.County.GetTerm(HttpContext))?.DisplayText ?? "");
             var gender = StripGender((await mpart.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
 
+            var activity = string.Empty;
+            if((await compart.Activity?.GetTerms(HttpContext))?.Count>0)
+                activity = string.Join(", ", (await compart.Activity.GetTerms(HttpContext)).Select(x => x.DisplayText));
+
             return new CsvModel
             {
                 email = cppart.Email?.Text,
@@ -153,7 +157,7 @@ namespace Members.Controllers
 
                 datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                djelatnost = string.Join(", ", (await compart.Activity?.GetTerms(HttpContext))?.Select(x=>x.DisplayText)),
+                djelatnost = activity,
                 spol = gender,
                 tip_korisnika = "Pravne",
                 gsm = cppart.Phone?.Text,
