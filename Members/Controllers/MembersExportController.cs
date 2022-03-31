@@ -76,7 +76,7 @@ namespace Members.Controllers
             foreach (var item in onlyNewCompanies)
             {
                 var csv = await CompanyToCsvModelAsync(item);
-                if (string.IsNullOrEmpty(csv.email)) continue;
+                if(csv == null || string.IsNullOrEmpty(csv.email)) continue;
                 csvList[csv.email] = csv;
             }
 
@@ -130,6 +130,7 @@ namespace Members.Controllers
             if (member == null)
             {
                 member = await _memberService.GetCompanyMember(company);
+                if (member == null) return null;
             }
 
             var mpart = member.As<Member>();
