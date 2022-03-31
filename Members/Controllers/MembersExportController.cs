@@ -6,7 +6,6 @@ using Members.Persons;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
-using OrchardCore.Taxonomies.Fields;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -38,20 +37,17 @@ namespace Members.Controllers
         {
             var memList = await _memberService.GetAllMembers(date.Date);
 
-            List<CsvModel> csvList = new List<CsvModel>();
+            Dictionary<string,CsvModel> csvList = new();
 
             foreach (var item in memList)
             {
                 var member = item.As<Member>();
                 var person = item.As<PersonPart>();
 
-                var companies = await _memberService.GetMemberCompanies(date.Date, item, true);
-
                 var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
                 var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
                 DateTime? birthdate = member.DateOfBirth.Value;
-
-                csvList.Add(new CsvModel
+                var memberCsv = new CsvModel
                 {
                     email = person.Email.Text,
                     ime = person.Name.Text,
@@ -69,22 +65,19 @@ namespace Members.Controllers
 
                     zupanija = county,
                     mjesto = person.City.Text
-                });
-
-                foreach (var company in companies)
-                {
-                    csvList.Add(await CompanyToCsvModelAsync(company));
-                }
+                };
+                csvList[memberCsv.email] = memberCsv;
             }
 
             var onlyNewCompanies = await _memberService.GetOnlyNewCompanies(date.Date);
 
             foreach (var item in onlyNewCompanies)
             {
-                csvList.Add(await CompanyToCsvModelAsync(item));
+                var csv = await CompanyToCsvModelAsync(item);
+                csvList[csv.email] = csv;
             }
 
-            List<CsvModel> reportCSVModels = csvList;
+            List<CsvModel> reportCSVModels = csvList.Values.ToList();
 
             MemoryStream memoryStream = new MemoryStream();
             StreamWriter streamWriter = new StreamWriter(memoryStream);

@@ -78,19 +78,9 @@ namespace Members.Core
             return members;
         }
         //get's all members companies published after the date 
-        public async Task<IEnumerable<ContentItem>> GetMemberCompanies(DateTime afterDate, ContentItem member, bool distinctEmailsfromMember=false)
+        public async Task<IEnumerable<ContentItem>> GetMemberCompanies(ContentItem member)
         {
-            var companyContentItem = new List<ContentItem>();
-
-            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId, x => true);
-            companies = companies.Where(x => x.ContentType == nameof(ContentType.Company) );
-            if (afterDate < DateTime.Now.Date)
-                companies =companies.Where(x => x.PublishedUtc > afterDate);
-            if (distinctEmailsfromMember)
-                companies = companies.Where(x => x.As<PersonPart>().Email.Text != member.As<PersonPart>().Email.Text );
-
-            companies = companies.GroupBy(x => x.As<PersonPart>().Email.Text).Select(x=>x.FirstOrDefault());
-
+            var companies = await _oHelper.QueryListItemsAsync(member.ContentItemId, x => x.ContentType == nameof(ContentType.Company));
             return companies.ToList();
         }
 
@@ -101,14 +91,11 @@ namespace Members.Core
 
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest && x.PublishedUtc > afterDate);
             var companies = await query.ListAsync();
-            companies = companies.GroupBy(x => x.As<PersonPart>().Email.Text).Select(x => x.FirstOrDefault());
+            companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
 
             foreach (ContentItem item  in companies)
             {
-                if((await GetCompanyMember(item)).PublishedUtc < afterDate)
-                {
                     newCompanies.Add(item);
-                }
             }
 
             return newCompanies;
