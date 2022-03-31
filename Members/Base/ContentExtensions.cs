@@ -32,6 +32,11 @@ namespace Members.Utils
             return contentItem.As<T>();
         }
 
+        public static T AsInit<T>(this ContentItem contentItem) where T : ContentPart
+        {
+            return contentItem.AsInit<T>().InitFields();
+        }
+
         public static T InitFields<T>(this T part) where T : ContentPart
         {
             if (part == null) return part;

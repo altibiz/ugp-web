@@ -3,6 +3,7 @@ using CsvHelper.Configuration;
 using Members.Base;
 using Members.Core;
 using Members.Persons;
+using Members.Utils;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
@@ -41,8 +42,8 @@ namespace Members.Controllers
 
             foreach (var item in memList)
             {
-                var member = item.As<Member>();
-                var person = item.As<PersonPart>();
+                var member = item.AsInit<Member>();
+                var person = item.AsInit<PersonPart>();
 
                 var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
                 var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
@@ -129,9 +130,9 @@ namespace Members.Controllers
                 member = await _memberService.GetCompanyMember(company);
             }
 
-            var mpart = member.As<Member>();
-            var ppart = member.As<PersonPart>();
-            var cppart = company.As<PersonPart>();
+            var mpart = member.AsInit<Member>();
+            var ppart = member.AsInit<PersonPart>();
+            var cppart = company.AsInit<PersonPart>();
 
             DateTime? birthdate = mpart.DateOfBirth.Value;
 
