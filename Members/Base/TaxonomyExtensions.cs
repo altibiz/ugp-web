@@ -12,19 +12,6 @@ namespace Members.Base
 {
     public static class TaxonomyExtensions
     {
-        private class OHelper : IOrchardHelper
-        {
-            public HttpContext HttpContext { get; set; }
-        }
-
-        private static AsyncLocal<Dictionary<(string, string), ContentItem>> _cachedAsync = new AsyncLocal<Dictionary<(string, string), ContentItem>>();
-        private static Dictionary<(string, string), ContentItem> _cached => _cachedAsync.Value ??= new();
-
-        private static async Task<ContentItem> GetTermAsync(this HttpContext context, string taxonomyContentItemId, string termContentItemId)
-        {
-            return await new OHelper { HttpContext = context}.GetTaxonomyTermAsync(taxonomyContentItemId, termContentItemId);
-        }
-
         public static async Task<List<ContentItem>> GetTerms(this TaxonomyField field,HttpContext context)
         {
             var res = new List<ContentItem>();
@@ -51,5 +38,21 @@ namespace Members.Base
         {
             field.TermContentItemIds = new[] { value };
         }
+
+        #region private stuff
+        private class OHelper : IOrchardHelper
+        {
+            public HttpContext HttpContext { get; set; }
+        }
+
+        private static AsyncLocal<Dictionary<(string, string), ContentItem>> _cachedAsync = new AsyncLocal<Dictionary<(string, string), ContentItem>>();
+        private static Dictionary<(string, string), ContentItem> _cached => _cachedAsync.Value ??= new();
+
+        private static async Task<ContentItem> GetTermAsync(this HttpContext context, string taxonomyContentItemId, string termContentItemId)
+        {
+            return await new OHelper { HttpContext = context }.GetTaxonomyTermAsync(taxonomyContentItemId, termContentItemId);
+        }
+
+        #endregion
     }
 }
