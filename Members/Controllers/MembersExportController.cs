@@ -67,6 +67,7 @@ namespace Members.Controllers
                     zupanija = county,
                     mjesto = person.City?.Text
                 };
+                if (string.IsNullOrEmpty(memberCsv.email)) continue;
                 csvList[memberCsv.email] = memberCsv;
             }
 
@@ -75,6 +76,7 @@ namespace Members.Controllers
             foreach (var item in onlyNewCompanies)
             {
                 var csv = await CompanyToCsvModelAsync(item);
+                if (string.IsNullOrEmpty(csv.email)) continue;
                 csvList[csv.email] = csv;
             }
 
