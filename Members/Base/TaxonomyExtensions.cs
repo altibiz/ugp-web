@@ -15,6 +15,7 @@ namespace Members.Base
         public static async Task<List<ContentItem>> GetTerms(this TaxonomyField field,HttpContext context)
         {
             var res = new List<ContentItem>();
+            if (field == null) return res;
             foreach (var trm in field?.TermContentItemIds ?? Array.Empty<string>())
             {
                 if (!_cached.TryGetValue((field.TaxonomyContentItemId, trm), out var contentItem))

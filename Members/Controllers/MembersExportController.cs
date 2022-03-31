@@ -42,8 +42,8 @@ namespace Members.Controllers
 
             foreach (var item in memList)
             {
-                var member = item.AsInit<Member>();
-                var person = item.AsInit<PersonPart>();
+                var member = item.As<Member>();
+                var person = item.As<PersonPart>();
 
                 var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
                 var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
@@ -130,9 +130,10 @@ namespace Members.Controllers
                 member = await _memberService.GetCompanyMember(company);
             }
 
-            var mpart = member.AsInit<Member>();
-            var ppart = member.AsInit<PersonPart>();
-            var cppart = company.AsInit<PersonPart>();
+            var mpart = member.As<Member>();
+            var ppart = member.As<PersonPart>();
+            var cppart = company.As<PersonPart>();
+            var compart=company.As<Company>();
 
             DateTime? birthdate = mpart.DateOfBirth.Value;
 
@@ -141,21 +142,21 @@ namespace Members.Controllers
 
             return new CsvModel
             {
-                email = cppart.Email.Text,
-                ime = ppart.Name.Text,
-                prezime = ppart.Surname.Text,
+                email = cppart.Email?.Text,
+                ime = ppart.Name?.Text,
+                prezime = ppart.Surname?.Text,
 
-                tvrtka = cppart.Name.Text,
+                tvrtka = cppart.Name?.Text,
 
 
                 datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                djelatnost = string.Join(", ", company.ContentItem.Content.Company.Activity.TagNames),
+                djelatnost = string.Join(", ", (await compart.Activity.GetTerms(HttpContext)).Select(x=>x.DisplayText)),
                 spol = gender,
                 tip_korisnika = "Pravne",
-                gsm = cppart.Phone.Text,
+                gsm = cppart.Phone?.Text,
                 zupanija = county,
-                mjesto = cppart.City.Text
+                mjesto = cppart.City?.Text
             };
         }
 
