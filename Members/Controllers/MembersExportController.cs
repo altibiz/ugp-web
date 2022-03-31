@@ -142,24 +142,21 @@ namespace Members.Controllers
             var county = StripCounty((await ppart.County.GetTerm(HttpContext))?.DisplayText ?? "");
             var gender = StripGender((await mpart.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
 
-            return new CsvModel
-            {
-                email = cppart.Email?.Text,
-                ime = ppart.Name?.Text,
-                prezime = ppart.Surname?.Text,
+            CsvModel cs = new CsvModel();
 
-                tvrtka = cppart.Name?.Text,
+            cs.email = cppart.Email?.Text;
+            cs.ime = ppart.Name?.Text;
+            cs.prezime = ppart.Surname?.Text;
+            cs.tvrtka = cppart.Name?.Text;
+            cs.datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "";
+            cs.djelatnost = string.Join(", ", (await compart.Activity?.GetTerms(HttpContext))?.Select(x => x?.DisplayText));
+            cs.spol = gender;
+            cs.tip_korisnika = "Pravne";
+            cs.gsm = cppart.Phone?.Text;
+            cs.zupanija = county;
+            cs.mjesto = cppart.City?.Text;
 
-
-                datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
-
-                djelatnost = string.Join(", ", (await compart.Activity?.GetTerms(HttpContext))?.Select(x=>x?.DisplayText)),
-                spol = gender,
-                tip_korisnika = "Pravne",
-                gsm = cppart.Phone?.Text,
-                zupanija = county,
-                mjesto = cppart.City?.Text
-            };
+            return cs;
         }
     }
 
