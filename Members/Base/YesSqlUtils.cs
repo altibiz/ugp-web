@@ -79,9 +79,9 @@ namespace Members.Base
             await sess.SaveChangesAsync();
         }
 
-        public async static Task RefreshMapIndex(this ISession templateSes, IIndexProvider indexProvider, string contentItemType = "", string collection = "")
+        public async static Task RefreshMapIndex(this ISession templateSession, IIndexProvider indexProvider, string contentItemType = "", string collection = "")
         {
-            var store = await StoreFactory.CreateAndInitializeAsync(templateSes.Store.Configuration);
+            var store = await StoreFactory.CreateAndInitializeAsync(templateSession.Store.Configuration);
             using var sess = (Session)store.CreateSession();
             sess.RegisterIndexes(indexProvider);
             var conn = await sess.CreateConnectionAsync();

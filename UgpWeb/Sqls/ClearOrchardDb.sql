@@ -34,4 +34,6 @@ DROP TABLE OpenId_OpenIdScopeByResourceIndex
 DROP TABLE OpenId_OpenIdScopeIndex
 DROP TABLE OpenId_OpenIdTokenIndex
 DROP TABLE OpenId_Document
+Drop TABLE LocalizedContentItemIndex
+DROP TABLE ProductPartIndex
 DROP TABLE Document
