@@ -2,8 +2,40 @@
 @model Members.Pages.TransparencyModel
 
 @{ Html.RenderPartial("_Header", @T["Transparentnost"].Value); }
-<h2 class="section-heading mt-0">Prihodi</h2>
-<br />
+<h2 class="section-heading mt-0 mb-2">Članstvo</h2>
+<div class="top-features-section">
+	<div class="row">
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.MemberCount.ToString("n0") </h2>
+			<p>članova</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.CompanyCount.ToString("n0") </h2>
+			<p>pravnih osoba</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.PersonCount.ToString("n0") </h2>
+			<p>fizičkih osoba</p>
+		</div>
+	</div>
+</div>
+<div class="top-features-section">
+	<div class="row">
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.Revenue.ToString("n2") </h2>
+			<p>kn ukupno prihod</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.Employees.ToString("n0") </h2>
+			<p>zaposlenika</p>
+		</div>
+		<div class="col-sm-4 col-xs-12 top-features">
+			<h2>@Model.Associates.ToString("n0") </h2>
+			<p>vanjskih suradnika</p>
+		</div>
+	</div>
+</div>
+<h2 class="section-heading mb-2">Prihodi</h2>
 <div class="top-features-section">
 	<div class="row">
 		<div class="col-sm-4 col-xs-12 top-features">
@@ -20,8 +52,7 @@
 		</div>
 	</div>
 </div>
-<h2 class="section-heading">Rashodi</h2>
-<br />
+<h2 class="section-heading mb-2">Rashodi</h2>
 <div class="top-features-section">
 	<div class="row">
 		<div class="col-sm-4 col-xs-12 top-features">
