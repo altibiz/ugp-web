@@ -27,10 +27,10 @@ namespace Members.Pages
 
         public decimal AverageOut { get => PayOuts > 0 ? TotalExpense / PayOuts : 0; }
 
-        public int CompanyCount { get; set; }
+        public decimal CompanyCount { get; set; }
 
-        public int PersonCount { get; set; }
-        public int MemberCount => PersonCount + CompanyCount;
+        public decimal PersonCount { get; set; }
+        public decimal MemberCount => PersonCount + CompanyCount;
 
         public decimal Employees { get; set; }
         public decimal Revenue { get; set; }
@@ -48,15 +48,14 @@ namespace Members.Pages
 
             var conn = await _session.CreateConnectionAsync();
 
-            var sql = "Select count(*) as count FROM ContentItemIndex WHERE Published=1 and contenttype=@c and Latest=1";
-            PersonCount = await conn.ExecuteScalarAsync<int?>(sql, new { c = "Member" })??0;
-            CompanyCount = await conn.ExecuteScalarAsync<int?>(sql, new { c = "Company" })??0;
-
-            var statSql = "SELECT sum(employees) Employees, sum(associates) Associates, sum(Revenue2019) Revenue FROM PersonPartIndex where persontype='Legal' and published=1";
-            dynamic stat = await conn.QuerySingleAsync(statSql, statSql);
-            Employees = stat.Employees??0;
-            Revenue = stat.Revenue??0;
-            Associates = stat.Associates??0;
+            var statSql = "SELECT count(oib) Count,sum(employees) Employees, sum(associates) Associates, sum(Revenue2019) Revenue FROM PersonPartIndex where persontype=@PersonType and published=1";
+            dynamic stat = await conn.QuerySingleAsync(statSql, new { PersonType = "Legal" });
+            Employees = stat.Employees ?? 0;
+            Revenue = stat.Revenue ?? 0;
+            Associates = stat.Associates ?? 0;
+            CompanyCount = stat.Count ?? 0;
+            stat = await conn.QuerySingleAsync(statSql, new { PersonType = "Natural" });
+            PersonCount = stat.PersonCount ?? 0;
         }
     }
 }
