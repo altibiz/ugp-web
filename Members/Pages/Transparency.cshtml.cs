@@ -55,7 +55,7 @@ namespace Members.Pages
             Associates = stat.Associates ?? 0;
             CompanyCount = stat.Count ?? 0;
             stat = await conn.QuerySingleAsync(statSql, new { PersonType = "Natural" });
-            PersonCount = stat.PersonCount ?? 0;
+            PersonCount = stat.Count ?? 0;
         }
     }
 }
