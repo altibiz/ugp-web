@@ -32,9 +32,9 @@ namespace Members.Pages
         public int PersonCount { get; set; }
         public int MemberCount => PersonCount + CompanyCount;
 
-        public int Employees { get; set; }
+        public decimal Employees { get; set; }
         public decimal Revenue { get; set; }
-        public int Associates { get; set; }
+        public decimal Associates { get; set; }
 
         public TransparencyModel(ISession session, MemberService mService)
         {
