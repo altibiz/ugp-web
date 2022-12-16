@@ -65,7 +65,8 @@ namespace Members.Controllers
                     gsm = person.Phone?.Text,
 
                     zupanija = county,
-                    mjesto = person.City?.Text
+                    mjesto = person.City?.Text,
+                    oib = person.Oib?.Text
                 };
                 if (string.IsNullOrEmpty(memberCsv.email)) continue;
                 csvList[memberCsv.email] = memberCsv;
@@ -158,7 +159,7 @@ namespace Members.Controllers
             cs.gsm = cppart.Phone?.Text;
             cs.zupanija = county;
             cs.mjesto = cppart.City?.Text;
-
+            cs.oib = cppart.Oib?.Text;
             return cs;
         }
     }
@@ -182,5 +183,6 @@ namespace Members.Controllers
         public string pretplacen { get; set; }
         public string zupanija { get; set; }
         public string mjesto { get; set; }
+        public string oib { get; set; }
     }
 }
