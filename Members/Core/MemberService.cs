@@ -1,4 +1,6 @@
-﻿using Members.Base;
+﻿using Castle.Core.Internal;
+using GraphQL;
+using Members.Base;
 using Members.Indexes;
 using Members.Persons;
 using Members.Utils;
@@ -12,6 +14,7 @@ using OrchardCore.ContentManagement.Records;
 using OrchardCore.DisplayManagement;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.Taxonomies.Indexing;
+using OrchardCore.Taxonomies.Models;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System;
@@ -67,16 +70,40 @@ namespace Members.Core
             var member = await query.ListAsync();
             return member.FirstOrDefault();
         }
-        //get's all members published after the date 
-        public async Task<IEnumerable<ContentItem>> GetAllMembers(DateTime afterDate)
+
+        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime afterDate, string county=null)
         {
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
             if (afterDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > afterDate);
 
             var members = await query.ListAsync();
 
+            if (!string.IsNullOrEmpty(county))
+                members = members.Where(x => x.As<PersonPart>().County.TermContentItemIds.Any(c => c == county));
+
             return members;
         }
+
+        public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime afterDate, string county=null, string[] activity=null)
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest);
+            if (afterDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > afterDate);
+
+            var companies = await query.ListAsync();
+
+            if (!string.IsNullOrEmpty(county))
+                companies = companies.Where(x => x.As<PersonPart>().County.TermContentItemIds.Any(c => c == county));
+
+            if (!activity.Any(x=>x.IsNullOrEmpty()))
+                companies = companies.Where(x => x.As<Company>().Activity.TermContentItemIds.Any(a => activity.Contains(a)));
+
+
+
+            companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
+
+            return companies;
+        }
+
         //get's all members companies published after the date 
         public async Task<IEnumerable<ContentItem>> GetMemberCompanies(ContentItem member)
         {
@@ -163,6 +190,21 @@ namespace Members.Core
         public async Task<(ContentItem, IShape)> ModelToNew(ContentType memberType)
         {
             return await ModelToNew(memberType.ToString());
+        }
+        //get contentItem oftype taxonomy with terms
+        public async Task<ContentItem> GetTaxonomy(string taxonomyName)
+        {
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Taxonomy" && x.DisplayText == taxonomyName);
+            var taxonomy = await query.ListAsync();
+            return taxonomy.FirstOrDefault();
+        }
+
+        //get taxonomy terms
+        public async Task<IEnumerable<ContentItem>> GetTaxonomyTerms(string taxonomyName)
+        {
+            var taxonomy = await GetTaxonomy(taxonomyName);
+
+            return taxonomy.As<TaxonomyPart>().Terms;
         }
 
         public async Task<(ContentItem, IShape)> ModelToNew(string memberType)
