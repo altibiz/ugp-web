@@ -126,8 +126,13 @@ namespace Members.Payments
 
                 rrn.Model = document.XPathSelectElement("BkToCstmrStmt/Stmt/Ntry").Value;
 
-                stat.Type = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
-                stat.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
+                stat.Type = "";
+                stat.PaymentDescription = "";
+                if (nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf") != null)
+                {
+                    stat.Type = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
+                    stat.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
+                }
                 stat.Amount = decimal.Parse(nTry.XPathSelectElement("NtryDtls/TxDtls/AmtDtls/TxAmt/Amt").Value, CultureInfo.InvariantCulture);
                 stat.Type = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("RCDT") ? "Uplata" : "Isplata";
                 stat.RRN = rrn;
