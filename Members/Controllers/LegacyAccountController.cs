@@ -107,7 +107,7 @@ namespace Members.Controllers
         public static string GetHash(string password, string salt)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(password + salt);
-            SHA256Managed hashstring = new();
+            SHA256 hashstring = SHA256.Create();
             byte[] hash = hashstring.ComputeHash(bytes);
             string hashString = string.Empty;
             foreach (byte x in hash)
