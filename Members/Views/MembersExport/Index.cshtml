@@ -65,6 +65,7 @@
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-6).Date">Export novih članova u zadnjih 6 mjeseci</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddYears(-1).Date">Export novih članova u zadnjih godinu dana</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-18).Date">Export novih članova u zadnjih 18 mjeseci</button>
+            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@{new DateTime(1001, 1, 1);}">Export SVIH članova</button>
         </div>
     }
 
