@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +45,7 @@ namespace Members.Pages
         public async Task OnGetAsync()
         {
 
-            PaymentsByDay = (await _session.QueryIndex<PaymentByDayIndex>().ListAsync()).OrderByDescending(x => x.Date);
+            PaymentsByDay = (await _session.QueryIndex<PaymentByDayIndex>().ListAsync()).Where(x => x.Date > new DateTime(2023, 1, 1)).OrderByDescending(x => x.Date);
 
             var conn = await _session.CreateConnectionAsync();
 
