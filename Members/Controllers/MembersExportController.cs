@@ -67,56 +67,67 @@ namespace Members.Controllers
             var exportCounty = Request.Form["exportCounty"].ToString();
             var exportActivity = Request.Form["exportActivity"];
 
-            IEnumerable<ContentItem> memList = new List<ContentItem>();
-            
-            memList = await _memberService.GetAllMembersForExport(date.Date, exportCounty);
+            Dictionary<string, CsvModel> csvList = new();
 
+            DateTime startDate = date;
+            DateTime endDate = DateTime.Now;
+            DateTime currentStartDate = startDate;
 
-            Dictionary<string,CsvModel> csvList = new();
-
-            foreach (var item in memList)
+            while (currentStartDate <= endDate)
             {
-                var member = item.As<Member>();
-                var person = item.As<PersonPart>();
+                DateTime currentEndDate = currentStartDate.AddMonths(3).AddDays(-1);
 
-                var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
-                var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
-                DateTime? birthdate = member.DateOfBirth?.Value;
-                var memberCsv = new CsvModel
+                IEnumerable<ContentItem> memList = new List<ContentItem>();
+
+                memList = await _memberService.GetAllMembersForExport(currentStartDate, currentEndDate, exportCounty);
+
+                foreach (var item in memList)
                 {
-                    email = person.Email?.Text,
-                    ime = person.Name?.Text,
-                    prezime = person.Surname?.Text,
+                    var member = item.As<Member>();
+                    var person = item.As<PersonPart>();
 
-                    tvrtka = "",
+                    var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
+                    var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
+                    DateTime? birthdate = member.DateOfBirth?.Value;
+                    var memberCsv = new CsvModel
+                    {
+                        email = person.Email?.Text,
+                        ime = person.Name?.Text,
+                        prezime = person.Surname?.Text,
+
+                        tvrtka = "",
 
 
-                    datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
+                        datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                    djelatnost = "",
-                    spol = gender,
-                    tip_korisnika = "Fizičke",
-                    gsm = person.Phone?.Text,
+                        djelatnost = "",
+                        spol = gender,
+                        tip_korisnika = "Fizičke",
+                        gsm = person.Phone?.Text,
 
-                    zupanija = county,
-                    mjesto = person.City?.Text,
-                    oib = person.Oib?.Text
-                };
-                if (string.IsNullOrEmpty(memberCsv.email)) continue;
-                csvList[memberCsv.email] = memberCsv;
+                        zupanija = county,
+                        mjesto = person.City?.Text,
+                        oib = person.Oib?.Text
+                    };
+                    if (string.IsNullOrEmpty(memberCsv.email)) continue;
+                    csvList[memberCsv.email] = memberCsv;
+                }
+
+
+                IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
+
+                onlyNewCompanies = await _memberService.GetAllCompaniesForExport(currentStartDate, currentEndDate, exportCounty, exportActivity);
+
+                foreach (var item in onlyNewCompanies)
+                {
+                    var csv = await CompanyToCsvModelAsync(item);
+                    if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
+                    csvList[csv.email] = csv;
+                }
+
+                currentStartDate = currentEndDate.AddDays(1);
             }
 
-
-            IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
-
-            onlyNewCompanies = await _memberService.GetAllCompaniesForExport(date.Date, exportCounty, exportActivity);
-
-            foreach (var item in onlyNewCompanies)
-            {
-                var csv = await CompanyToCsvModelAsync(item);
-                if(csv == null || string.IsNullOrEmpty(csv.email)) continue;
-                csvList[csv.email] = csv;
-            }
 
             List<CsvModel> reportCSVModels = csvList.Values.ToList();
 
