@@ -30,7 +30,7 @@
         amount = amount2 ||"@amount";
         const data = {
             header: 'HRVHUB30',
-            currency: 'HRK',
+            currency: 'EUR',
             price: amount + '.00' || '',
             name: name || '',
             email: email || '',
@@ -204,14 +204,15 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Doniraj</span>
                                 </div>
-                                <select class="form-select" aria-label="100" id="amountSelector">
-                                    <option value="100" selected>100</option>
-                                    <option value="300">300</option>
-                                    <option value="500">500</option>
-                                    <option value="1000">1000</option>
+                                <select class="form-select" aria-label="15" id="amountSelector">
+                                    <option value="15" selected>15</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="150">150</option>
                                 </select>
                                 <div class="input-group-append">
-                                    <span class="input-group-text">HRK</span>
+                                    <span class="input-group-text">EUR</span>
                                 </div>
                             </div>
                             <div class="list-group list-group-flush fs-6">
