@@ -71,23 +71,25 @@ namespace Members.Core
             return member.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate, DateTime endDate, string county=null)
+        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate,string county=null, int page = 1, int pageSize = 10)
         {
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
-            if (startDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc >= startDate && x.PublishedUtc<endDate);
+            if (startDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc >= startDate);
 
             var members = await query.ListAsync();
 
             if (!string.IsNullOrEmpty(county))
                 members = members.Where(x => x.As<PersonPart>().County.TermContentItemIds.Any(c => c == county));
 
-            return members;
+            var pagedMembers = members.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return pagedMembers;
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, DateTime endDate, string county=null, string[] activity=null)
+        public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, string county=null, string[] activity=null, int page = 1, int pageSize = 10)
         {
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest);
-            if (startDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > startDate && x.PublishedUtc<endDate);
+            if (startDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > startDate);
 
             var companies = await query.ListAsync();
 
@@ -97,9 +99,15 @@ namespace Members.Core
             if (!activity.Any(x=>x.IsNullOrEmpty()))
                 companies = companies.Where(x => x.As<Company>().Activity.TermContentItemIds.Any(a => activity.Contains(a)));
 
-            companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
+          //  companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
 
-            return companies;
+            var pagedCompanies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text)
+                              .Select(x => x.FirstOrDefault())
+                              .Skip((page - 1) * pageSize)
+                              .Take(pageSize)
+                              .ToList();
+
+            return pagedCompanies;
         }
 
         //get's all members companies published after the date 
