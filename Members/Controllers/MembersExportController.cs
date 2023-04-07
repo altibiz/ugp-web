@@ -70,81 +70,62 @@ namespace Members.Controllers
             Dictionary<string, CsvModel> csvList = new();
 
             DateTime startDate = date;
+            DateTime endDate = DateTime.Now;
+            DateTime currentStartDate = startDate;
 
-            if (startDate <= DateTime.Now)
+            while (currentStartDate <= endDate)
             {
+                DateTime currentEndDate = currentStartDate.AddMonths(3).AddDays(-1);
+
                 IEnumerable<ContentItem> memList = new List<ContentItem>();
 
-                int pageNum = 1;
-                int pageSize = 50; //change this as per your requirement
-                bool hasMoreRecords = true;
+                memList = await _memberService.GetAllMembersForExport(currentStartDate, currentEndDate, exportCounty);
 
-                while (hasMoreRecords)
+                foreach (var item in memList)
                 {
-                    memList = await _memberService.GetAllMembersForExport(startDate, exportCounty, pageNum, pageSize);
+                    var member = item.As<Member>();
+                    var person = item.As<PersonPart>();
 
-                    foreach (var item in memList)
+                    var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
+                    var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
+                    DateTime? birthdate = member.DateOfBirth?.Value;
+                    var memberCsv = new CsvModel
                     {
-                        var member = item.As<Member>();
-                        var person = item.As<PersonPart>();
+                        email = person.Email?.Text,
+                        ime = person.Name?.Text,
+                        prezime = person.Surname?.Text,
 
-                        var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
-                        var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
-                        DateTime? birthdate = member.DateOfBirth?.Value;
-                        var memberCsv = new CsvModel
-                        {
-                            email = person.Email?.Text,
-                            ime = person.Name?.Text,
-                            prezime = person.Surname?.Text,
-
-                            tvrtka = "",
+                        tvrtka = "",
 
 
-                            datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
+                        datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                            djelatnost = "",
-                            spol = gender,
-                            tip_korisnika = "Fizičke",
-                            gsm = person.Phone?.Text,
+                        djelatnost = "",
+                        spol = gender,
+                        tip_korisnika = "Fizičke",
+                        gsm = person.Phone?.Text,
 
-                            zupanija = county,
-                            mjesto = person.City?.Text,
-                            oib = person.Oib?.Text
-                        };
-                        if (string.IsNullOrEmpty(memberCsv.email)) continue;
-                        csvList[memberCsv.email] = memberCsv;
-                    }
-                    if (memList.Count() < pageSize)
-                    {
-                        hasMoreRecords = false;
-                    }
-                    else
-                    {
-                        pageNum++;
-                    }
+                        zupanija = county,
+                        mjesto = person.City?.Text,
+                        oib = person.Oib?.Text
+                    };
+                    if (string.IsNullOrEmpty(memberCsv.email)) continue;
+                    csvList[memberCsv.email] = memberCsv;
                 }
+
+
                 IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
-                pageNum = 1;
-                hasMoreRecords = true;
-                while (hasMoreRecords)
-                {
-                    onlyNewCompanies = await _memberService.GetAllCompaniesForExport(startDate, exportCounty, exportActivity, pageNum, pageSize);
 
-                    foreach (var item in onlyNewCompanies)
-                    {
-                        var csv = await CompanyToCsvModelAsync(item);
-                        if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
-                        csvList[csv.email] = csv;
-                    }
-                    if (onlyNewCompanies.Count() < pageSize)
-                    {
-                        hasMoreRecords = false;
-                    }
-                    else
-                    {
-                        pageNum++;
-                    }
+                onlyNewCompanies = await _memberService.GetAllCompaniesForExport(currentStartDate, currentEndDate, exportCounty, exportActivity);
+
+                foreach (var item in onlyNewCompanies)
+                {
+                    var csv = await CompanyToCsvModelAsync(item);
+                    if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
+                    csvList[csv.email] = csv;
                 }
+
+                currentStartDate = currentEndDate.AddDays(1);
             }
 
 
