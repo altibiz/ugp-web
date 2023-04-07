@@ -1,5 +1,10 @@
 ﻿@using Members.Controllers
 @model ExportInfo
+
+@{
+    string allTimeDate = new DateTime(1001, 1, 1).ToString(); // use a format that works for your use case
+}
+
 <div class="col-12">
 
     <div class="row">
@@ -59,13 +64,14 @@
             </div>
         </div>
         <hr />
+
         <div class="col-12 d-flex flex-wrap justify-content-between">
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddDays(-7).Date">Export novih članova u zadnjih  tjedan dana</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-1).Date">Export novih članova u zadnjih  mjesec dana</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-6).Date">Export novih članova u zadnjih 6 mjeseci</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddYears(-1).Date">Export novih članova u zadnjih godinu dana</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-18).Date">Export novih članova u zadnjih 18 mjeseci</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@{new DateTime(1001, 1, 1);}">Export SVIH članova</button>
+            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@allTimeDate">Export SVIH članova</button>
         </div>
     }
 
