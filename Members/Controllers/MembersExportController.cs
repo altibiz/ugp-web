@@ -80,7 +80,8 @@ namespace Members.Controllers
             await WriteMembersToCsv(date, exportCounty, csvWriter, pageSize);
             await WriteCompaniesToCsv(date, exportCounty, exportActivity, csvWriter, pageSize);
 
-            await csvWriter.FlushAsync();
+            await Task.Run(() => csvWriter.Flush());
+
             memoryStream.Position = 0;
 
             var bytInStream = memoryStream.ToArray();
