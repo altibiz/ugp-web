@@ -88,13 +88,10 @@ namespace Members.Core
 
         public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, string county=null, string[] activity=null, int pageIndex = 0, int pageSize = 100)
         {
-            county ??= string.Empty;
-            activity ??= Array.Empty<string>();
-
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest);
 
             if (startDate < DateTime.Now.Date) 
-                query = query.Where(x => x.PublishedUtc > startDate);
+                query = query.Where(x => x.PublishedUtc >= startDate);
 
 
             if (!string.IsNullOrEmpty(county))
@@ -102,7 +99,8 @@ namespace Members.Core
 
             var companies = await query.ListAsync();
 
-            companies = companies.Where(x => activity.All(a => x.As<Company>().Activity.TermContentItemIds.Contains(a)))
+            if (activity!=null && activity.Any(a => !string.IsNullOrEmpty(a)))
+                companies = companies.Where(x => activity.All(a => x.As<Company>().Activity.TermContentItemIds.Contains(a)))
                             .GroupBy(x => x.As<PersonPart>().Email?.Text)
                             .Select(x => x.FirstOrDefault())
                             .ToList();
