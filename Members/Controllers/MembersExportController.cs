@@ -63,110 +63,110 @@ namespace Members.Controllers
         
         public async Task<FileContentResult> DownloadFileAsync(DateTime date)
         {
-            //get exportCounty selected from UI
             var exportCounty = Request.Form["exportCounty"].ToString();
             var exportActivity = Request.Form["exportActivity"];
-
-            Dictionary<string, CsvModel> csvList = new();
-
-            if (date <= DateTime.Now)
-            {
-                var pageIndex = 0;
-                var pageSize = 100; // Adjust the page size as needed
-
-                while (true)
-                {
-                    IEnumerable<ContentItem> memList = new List<ContentItem>();
-
-                    memList = await _memberService.GetAllMembersForExport(date, exportCounty, pageIndex, pageSize);
-
-                    foreach (var item in memList)
-                    {
-                        var member = item.As<Member>();
-                        var person = item.As<PersonPart>();
-
-                        var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
-                        var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
-                        DateTime? birthdate = member.DateOfBirth?.Value;
-                        var memberCsv = new CsvModel
-                        {
-                            email = person.Email?.Text,
-                            ime = person.Name?.Text,
-                            prezime = person.Surname?.Text,
-
-                            tvrtka = "",
-
-
-                            datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
-
-                            djelatnost = "",
-                            spol = gender,
-                            tip_korisnika = "Fizičke",
-                            gsm = person.Phone?.Text,
-
-                            zupanija = county,
-                            mjesto = person.City?.Text,
-                            oib = person.Oib?.Text
-                        };
-                        if (string.IsNullOrEmpty(memberCsv.email)) continue;
-                        csvList[memberCsv.email] = memberCsv;
-                    }
-
-                    if (memList.Count() < pageSize)
-                    {
-                        break;
-                    }
-
-                    pageIndex++;
-                } 
-
-                pageIndex = 0;
-
-                while (true)
-                {
-                    IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
-
-                    onlyNewCompanies = await _memberService.GetAllCompaniesForExport(date, exportCounty, exportActivity);
-
-                    foreach (var item in onlyNewCompanies)
-                    {
-                        var csv = await CompanyToCsvModelAsync(item);
-                        if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
-                        csvList[csv.email] = csv;
-                    }
-                    if (onlyNewCompanies.Count() < pageSize)
-                    {
-                        break;
-                    }
-
-                    pageIndex++;
-                }
-            }
-
-
-            List<CsvModel> reportCSVModels = csvList.Values.ToList();
-
-            MemoryStream memoryStream = new MemoryStream();
-            StreamWriter streamWriter = new StreamWriter(memoryStream);
 
             var csvConfig = new CsvConfiguration(new CultureInfo("hr-HR"))
             {
                 ShouldQuote = args => true
             };
 
-            CsvWriter csvWriter = new CsvWriter(streamWriter, csvConfig);
+            using var memoryStream = new MemoryStream();
+            using var streamWriter = new StreamWriter(memoryStream);
+            using var csvWriter = new CsvWriter(streamWriter, csvConfig);
 
-            csvWriter.WriteRecords(reportCSVModels);
-            csvWriter.Flush();
-            byte[] bytInStream = memoryStream.ToArray();
-            memoryStream.Close();
+            var pageSize = 100; // Adjust the batch size as needed
+
+            await WriteMembersToCsv(date, exportCounty, csvWriter, pageSize);
+            await WriteCompaniesToCsv(date, exportCounty, exportActivity, csvWriter, pageSize);
+
+            await csvWriter.FlushAsync();
+            memoryStream.Position = 0;
+
+            var bytInStream = memoryStream.ToArray();
 
             var info = await _session.Query<ExportInfo>().FirstOrDefaultAsync() ?? new ExportInfo();
             info.LastSave = DateTime.Now;
             _session.Save(info);
+
             return File(bytInStream, "application/octet-stream", "Reports.csv");
         }
 
+
+        private async Task WriteMembersToCsv(DateTime date, string exportCounty, CsvWriter csvWriter, int pageSize)
+        {
+            var pageIndex = 0;
+
+            while (true)
+            {
+                var memList = await _memberService.GetAllMembersForExport(date, exportCounty, pageIndex, pageSize);
+
+                foreach (var item in memList)
+                {
+                    var member = item.As<Member>();
+                    var person = item.As<PersonPart>();
+
+                    var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
+                    var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
+                    DateTime? birthdate = member.DateOfBirth?.Value;
+
+                    var memberCsv = new CsvModel
+                    {
+                        email = person.Email?.Text,
+                        ime = person.Name?.Text,
+                        prezime = person.Surname?.Text,
+                        tvrtka = "",
+                        datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
+                        djelatnost = "",
+                        spol = gender,
+                        tip_korisnika = "Fizičke",
+                        gsm = person.Phone?.Text,
+                        zupanija = county,
+                        mjesto = person.City?.Text,
+                        oib = person.Oib?.Text
+                    };
+
+                    if (!string.IsNullOrEmpty(memberCsv.email))
+                    {
+                        csvWriter.NextRecord();
+                        csvWriter.WriteRecord(memberCsv);
+                    }
+                }
+
+                if (memList.Count() < pageSize)
+                {
+                    break;
+                }
+
+                pageIndex++;
+            }
+        }
+
+        private async Task WriteCompaniesToCsv(DateTime date, string exportCounty, string[] exportActivity, CsvWriter csvWriter, int pageSize)
+        {
+            var pageIndex = 0;
+
+            while (true)
+            {
+                var onlyNewCompanies = await _memberService.GetAllCompaniesForExport(date, exportCounty, exportActivity, pageIndex, pageSize);
+
+                foreach (var item in onlyNewCompanies)
+                {
+                    var csv = await CompanyToCsvModelAsync(item);
+                    if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
+
+                    csvWriter.NextRecord();
+                    csvWriter.WriteRecord(csv);
+                }
+
+                if (onlyNewCompanies.Count() < pageSize)
+                {
+                    break;
+                }
+
+                pageIndex++;
+            }
+        }
         public string StripCounty(string county)
         {
             string str = county.ToUpper();
