@@ -69,63 +69,78 @@ namespace Members.Controllers
 
             Dictionary<string, CsvModel> csvList = new();
 
-            DateTime startDate = date;
-            DateTime endDate = DateTime.Now;
-            DateTime currentStartDate = startDate;
-
-            while (currentStartDate <= endDate)
+            if (date <= DateTime.Now)
             {
-                DateTime currentEndDate = currentStartDate.AddMonths(3).AddDays(-1);
+                var pageIndex = 0;
+                var pageSize = 100; // Adjust the page size as needed
 
-                IEnumerable<ContentItem> memList = new List<ContentItem>();
-
-                memList = await _memberService.GetAllMembersForExport(currentStartDate, currentEndDate, exportCounty);
-
-                foreach (var item in memList)
+                while (true)
                 {
-                    var member = item.As<Member>();
-                    var person = item.As<PersonPart>();
+                    IEnumerable<ContentItem> memList = new List<ContentItem>();
 
-                    var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
-                    var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
-                    DateTime? birthdate = member.DateOfBirth?.Value;
-                    var memberCsv = new CsvModel
+                    memList = await _memberService.GetAllMembersForExport(date, exportCounty, pageIndex, pageSize);
+
+                    foreach (var item in memList)
                     {
-                        email = person.Email?.Text,
-                        ime = person.Name?.Text,
-                        prezime = person.Surname?.Text,
+                        var member = item.As<Member>();
+                        var person = item.As<PersonPart>();
 
-                        tvrtka = "",
+                        var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
+                        var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
+                        DateTime? birthdate = member.DateOfBirth?.Value;
+                        var memberCsv = new CsvModel
+                        {
+                            email = person.Email?.Text,
+                            ime = person.Name?.Text,
+                            prezime = person.Surname?.Text,
 
-
-                        datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
-
-                        djelatnost = "",
-                        spol = gender,
-                        tip_korisnika = "Fizičke",
-                        gsm = person.Phone?.Text,
-
-                        zupanija = county,
-                        mjesto = person.City?.Text,
-                        oib = person.Oib?.Text
-                    };
-                    if (string.IsNullOrEmpty(memberCsv.email)) continue;
-                    csvList[memberCsv.email] = memberCsv;
-                }
+                            tvrtka = "",
 
 
-                IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
+                            datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                onlyNewCompanies = await _memberService.GetAllCompaniesForExport(currentStartDate, currentEndDate, exportCounty, exportActivity);
+                            djelatnost = "",
+                            spol = gender,
+                            tip_korisnika = "Fizičke",
+                            gsm = person.Phone?.Text,
 
-                foreach (var item in onlyNewCompanies)
+                            zupanija = county,
+                            mjesto = person.City?.Text,
+                            oib = person.Oib?.Text
+                        };
+                        if (string.IsNullOrEmpty(memberCsv.email)) continue;
+                        csvList[memberCsv.email] = memberCsv;
+                    }
+
+                    if (memList.Count() < pageSize)
+                    {
+                        break;
+                    }
+
+                    pageIndex++;
+                } 
+
+                pageIndex = 0;
+
+                while (true)
                 {
-                    var csv = await CompanyToCsvModelAsync(item);
-                    if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
-                    csvList[csv.email] = csv;
-                }
+                    IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
 
-                currentStartDate = currentEndDate.AddDays(1);
+                    onlyNewCompanies = await _memberService.GetAllCompaniesForExport(date, exportCounty, exportActivity);
+
+                    foreach (var item in onlyNewCompanies)
+                    {
+                        var csv = await CompanyToCsvModelAsync(item);
+                        if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
+                        csvList[csv.email] = csv;
+                    }
+                    if (onlyNewCompanies.Count() < pageSize)
+                    {
+                        break;
+                    }
+
+                    pageIndex++;
+                }
             }
 
 
