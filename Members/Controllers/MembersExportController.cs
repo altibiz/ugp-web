@@ -112,7 +112,7 @@ namespace Members.Controllers
 
             return File(bytInStream, "application/octet-stream", "Reports.csv");
         }
-        public async Task<IActionResult> TriggerGenerate()
+        public IActionResult TriggerGenerate()
         {
             string allTimeDate = new DateTime(1801, 1, 1).ToString(); // use a format that works for your use case
 
@@ -120,7 +120,7 @@ namespace Members.Controllers
             var exportActivity = Request.Form["exportActivity"];
 
             // Enqueue the MembersExport background task for execution
-            await _backgroundTask.DoWorkAsync(HttpContext.RequestServices, default);
+            _backgroundTask.DoWorkAsync(HttpContext.RequestServices, default);
 
             return RedirectToAction("Index");
         }
