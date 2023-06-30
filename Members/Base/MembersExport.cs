@@ -29,7 +29,7 @@ namespace Members.Base
             _session = session;
         }
 
-        public Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
+        public async Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
 
             // Access the required services using the serviceProvider
@@ -53,6 +53,7 @@ namespace Members.Base
             var fileName = "Members.csv"; // Specify the file name
 
             var exportPath = Path.Combine(Directory.GetCurrentDirectory(), exportFolder);
+
 
             // Create the export folder if it does not exist
             if (!Directory.Exists(exportPath))
@@ -89,10 +90,6 @@ namespace Members.Base
                 File.WriteAllBytes(filePath, bytInStream);
 
             }
-
-
-            return Task.CompletedTask;
         }
-
     }
 }
