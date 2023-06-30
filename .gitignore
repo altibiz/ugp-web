@@ -211,3 +211,4 @@ UgpWeb/wwwroot/*
 /UgpWeb/Localization/fi
 /UgpWeb/Localization/mk
 UgpTheme/package-lock.json
+/UgpWeb/ExportMembers/Members.csv

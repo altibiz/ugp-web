@@ -72,6 +72,8 @@ namespace Members
             services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();
 
+            services.AddScoped<IBackgroundTask, MembersExport>();
+
             if (CurrentEnvironment.IsDevelopment()) 
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();

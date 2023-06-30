@@ -1,7 +1,9 @@
 ﻿using Castle.Core.Internal;
+using CsvHelper;
 using GraphQL;
 using Members.Base;
 using Members.Indexes;
+using Members.Models;
 using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
@@ -19,6 +21,7 @@ using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -312,5 +315,139 @@ namespace Members.Core
 
             return list.ToList();
         }
+
+
+        public async Task WriteMembersToCsv(DateTime date, string exportCounty, CsvWriter csvWriter, int pageSize)
+        {
+            var pageIndex = 0;
+
+            while (true)
+            {
+                var memList = await GetAllMembersForExport(date, exportCounty, pageIndex, pageSize);
+
+                foreach (var item in memList)
+                {
+                    var member = item.As<Member>();
+                    var person = item.As<PersonPart>();
+
+                    var county = StripCounty((await person.County.GetTerm(_httpContextAccessor.HttpContext))?.DisplayText ?? "");
+                    var gender = StripGender((await member.Sex.GetTerm(_httpContextAccessor.HttpContext))?.DisplayText ?? "");
+                    DateTime? birthdate = member.DateOfBirth?.Value;
+
+                    var memberCsv = new CsvModel
+                    {
+                        email = person.Email?.Text,
+                        ime = person.Name?.Text,
+                        prezime = person.Surname?.Text,
+                        tvrtka = "",
+                        datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
+                        djelatnost = "",
+                        spol = gender,
+                        tip_korisnika = "Fizičke",
+                        gsm = person.Phone?.Text,
+                        zupanija = county,
+                        mjesto = person.City?.Text,
+                        oib = person.Oib?.Text
+                    };
+
+                    if (!string.IsNullOrEmpty(memberCsv.email))
+                    {
+                        csvWriter.NextRecord();
+                        csvWriter.WriteRecord(memberCsv);
+                    }
+                }
+
+                if (memList.Count() < pageSize)
+                {
+                    break;
+                }
+
+                pageIndex++;
+            }
+        }
+
+        public async Task WriteCompaniesToCsv(DateTime date, string exportCounty, string[] exportActivity, CsvWriter csvWriter, int pageSize)
+        {
+            var pageIndex = 0;
+
+            while (true)
+            {
+                var onlyNewCompanies = await GetAllCompaniesForExport(date, exportCounty, exportActivity, pageIndex, pageSize);
+
+                foreach (var item in onlyNewCompanies)
+                {
+                    var csv = await CompanyToCsvModelAsync(item);
+                    if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
+
+                    csvWriter.NextRecord();
+                    csvWriter.WriteRecord(csv);
+                }
+
+                if (onlyNewCompanies.Count() < pageSize)
+                {
+                    break;
+                }
+
+                pageIndex++;
+            }
+        }
+        public async Task<CsvModel> CompanyToCsvModelAsync(ContentItem company, ContentItem member = null)
+        {
+
+            if (member == null)
+            {
+                member = await GetCompanyMember(company);
+                if (member == null) return null;
+            }
+
+            var mpart = member.As<Member>();
+            var ppart = member.As<PersonPart>();
+            var cppart = company.As<PersonPart>();
+            var compart = company.As<Company>();
+
+            DateTime? birthdate = mpart?.DateOfBirth?.Value;
+
+            var county = StripCounty((await cppart.County.GetTerm(_httpContextAccessor.HttpContext))?.DisplayText ?? "");
+            var gender = StripGender((await mpart.Sex.GetTerm(_httpContextAccessor.HttpContext))?.DisplayText ?? "");
+
+            var activityTerms = await compart.Activity?.GetTerms(_httpContextAccessor.HttpContext);
+
+            CsvModel cs = new CsvModel();
+
+            cs.email = cppart.Email?.Text;
+            cs.ime = ppart.Name?.Text;
+            cs.prezime = ppart.Surname?.Text;
+            cs.tvrtka = cppart.Name?.Text;
+            cs.datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "";
+            cs.djelatnost = string.Join(", ", activityTerms?.Select(x => x?.DisplayText));
+            cs.spol = gender;
+            cs.tip_korisnika = "Pravne";
+            cs.gsm = cppart.Phone?.Text;
+            cs.zupanija = county;
+            cs.mjesto = cppart.City?.Text;
+            cs.oib = cppart.Oib?.Text;
+            return cs;
+        }
+        public string StripCounty(string county)
+        {
+            string str = county.ToUpper();
+            str = str.Replace("ŽUPANIJA", "");
+            str = str.Replace("Ž", "Z");
+            str = str.Replace("Ć", "C");
+            str = str.Replace("Č", "C");
+            str = str.Replace("Đ", "D");
+            str = str.Replace("Š", "S");
+            str = str.Trim();
+            return str;
+        }
+        public string StripGender(string county)
+        {
+            string str = county.ToUpper();
+            str = str.Replace("MUŠKO", "M");
+            str = str.Replace("ŽENSKO", "F");
+            str = str.Trim();
+            return str;
+        }
+
     }
 }

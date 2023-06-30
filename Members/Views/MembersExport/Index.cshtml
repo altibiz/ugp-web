@@ -1,4 +1,7 @@
-﻿@using Members.Controllers
+﻿@using Members.Controllers;
+@using Members.Models;
+@using System.IO;
+
 @model ExportInfo
 
 @{
@@ -71,10 +74,43 @@
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-6).Date">Export novih članova u zadnjih 6 mjeseci</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddYears(-1).Date">Export novih članova u zadnjih godinu dana</button>
             <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-18).Date">Export novih članova u zadnjih 18 mjeseci</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@allTimeDate">Export SVIH članova</button>
         </div>
     }
 
+
+    @{
+        var filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "ExportMembers", "Members.csv");
+
+        var fileExists = System.IO.File.Exists(filePath);
+        var lastGeneratedDateTime = fileExists ? System.IO.File.GetLastWriteTime(filePath) : DateTime.MinValue;
+    }
+
+    <hr />
+
+    <div class="border m-2 p-0 col-6">
+        <div class ="p-2 m-2">
+            <h5>Generirani file sa SVIM članovima.</h5>
+            <span>
+                Klik na refresh okida se generiranje novog file-a koji se izvršava u pozadini. 
+            </span>
+        </div>
+        <div class="p-2 d-flex align-items-center ">
+
+            @using (Html.BeginForm("TriggerGenerate", "MembersExport", FormMethod.Post))
+            {
+                <button class="btn btn-secondary m-2" type="submit" name="Date" value="@allTimeDate"><i class="fa-solid fa-arrows-rotate"></i></button>
+            }
+            <input class="form-control" type="text" id="dateTimeField" readonly="" value="Zadnje generirano: @lastGeneratedDateTime.ToString("dd.MM.yyyy HH:mm")">
+        </div>
+
+        <div class="p-2 d-flex align-items-center ">
+            @using (Html.BeginForm("DownloadMembersFile", "MembersExport", FormMethod.Post))
+            {
+                <input type="hidden" name="FilePath" value="@filePath" />
+                <button class="btn btn-secondary m-2" type="submit">Download</button>
+            }
+        </div>
+    </div>
     <hr />
 
     <div class="pt-4">
