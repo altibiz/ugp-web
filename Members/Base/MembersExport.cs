@@ -22,13 +22,19 @@ namespace Members.Base
     {
         private readonly MemberService _memberService;
         private readonly ISession _session;
+        private string exportCounty;
+        private string[] exportActivity;
 
         public MembersExport(MemberService memberService, ISession session)
         {
             _memberService = memberService;
             _session = session;
         }
-
+        public void SetExportParameters(string county, string[] activity)
+        {
+            exportCounty = county;
+            exportActivity = activity;
+        }
         public async Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
 
@@ -40,8 +46,8 @@ namespace Members.Base
 
             DateTime date = new DateTime(1801, 1, 1); // use a format that works for your use case
 
-            var exportCounty = ""; // Set the desired value for exportCounty
-            var exportActivity = new string[0]; // Set the desired value for exportActivity
+            exportCounty = exportCounty ?? ""; // Set the desired value for exportCounty
+            exportActivity = exportActivity ?? new string[0]; // Set the desired value for exportActivity
 
             var csvConfig = new CsvConfiguration(new CultureInfo("hr-HR"))
             {

@@ -8,6 +8,19 @@
     string allTimeDate = new DateTime(1801, 1, 1).ToString(); // use a format that works for your use case
 }
 
+<script asp-name="ugptheme-jQuery"></script>
+
+<script>
+    function captureFormValues() {
+        var exportCounty = $("#exportCounty").val();
+        var exportActivity = $("#exportActivity").val();
+        
+        // Set the captured values in the hidden input fields of the second form
+        $("#exportCountyHidden").val(exportCounty);
+        $("#exportActivityHidden").val(exportActivity);
+    }
+</script>
+
 <div class="col-12">
 
     <div class="row">
@@ -96,8 +109,10 @@
         </div>
         <div class="p-2 d-flex align-items-center ">
 
-            @using (Html.BeginForm("TriggerGenerate", "MembersExport", FormMethod.Post))
+            @using (Html.BeginForm("TriggerGenerate", "MembersExport", FormMethod.Post, new { onsubmit = "captureFormValues();" }))
             {
+                <input type="" id="exportCountyHidden" name="ExportCounty" value="" />
+                <input type="" id="exportActivityHidden" name="ExportActivity" value="" />
                 <button class="btn btn-secondary m-2" type="submit" name="Date" value="@allTimeDate"><i class="fa-solid fa-arrows-rotate"></i></button>
             }
             <input class="form-control" type="text" id="dateTimeField" readonly="" value="Zadnje generirano: @lastGeneratedDateTime.ToString("dd.MM.yyyy HH:mm")">

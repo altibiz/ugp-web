@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using UglyToad.PdfPig.AcroForms.Fields;
 using YesSql;
 using OrchardCore.BackgroundTasks;
+using Newtonsoft.Json;
 
 namespace Members.Controllers
 {
@@ -110,14 +111,17 @@ namespace Members.Controllers
             info.LastSave = DateTime.Now;
             _session.Save(info);
 
-            return File(bytInStream, "application/octet-stream", "Reports.csv");
+            return File(bytInStream, "application/octet-stream", "Members.csv");
         }
         public IActionResult TriggerGenerate()
         {
             string allTimeDate = new DateTime(1801, 1, 1).ToString(); // use a format that works for your use case
 
             var exportCounty = Request.Form["exportCounty"].ToString();
-            var exportActivity = Request.Form["exportActivity"];
+            var exportActivity = Request.Form["exportActivity"].First()?.Split(',').Select(value => value.Trim()).ToArray() ?? null;
+
+            var membersExportTask = _backgroundTask as MembersExport;
+            membersExportTask.SetExportParameters(exportCounty, exportActivity);
 
             // Enqueue the MembersExport background task for execution
             _backgroundTask.DoWorkAsync(HttpContext.RequestServices, default);

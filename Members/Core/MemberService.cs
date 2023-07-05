@@ -80,7 +80,9 @@ namespace Members.Core
             if (startDate <= DateTime.Now.Date) query = query.Where(x => x.PublishedUtc >= startDate);
 
             if (!string.IsNullOrEmpty(county))
-                query = query.Where(x => x.As<PersonPart>().County.TermContentItemIds.Contains(county));
+            {
+                //query = query.Where(x => x.As<PersonPart>().County.TermContentItemIds.Contains(county));
+            }
 
             query = (IQuery<ContentItem, ContentItemIndex>)query.Skip(pageIndex * pageSize).Take(pageSize);
 
@@ -96,14 +98,14 @@ namespace Members.Core
             if (startDate < DateTime.Now.Date) 
                 query = query.Where(x => x.PublishedUtc >= startDate);
 
-
             if (!string.IsNullOrEmpty(county))
-                query = query.Where(x => x.As<PersonPart>().County.TermContentItemIds.Contains(county));
-
+            {
+                //query = query.Where(x => x.As<PersonPart>().County.TermContentItemIds.Contains(county));
+            }
             var companies = await query.ListAsync();
 
             if (activity!=null && activity.Any(a => !string.IsNullOrEmpty(a)))
-                companies = companies.Where(x => activity.All(a => x.As<Company>().Activity.TermContentItemIds.Contains(a)))
+                companies = companies.Where(x => activity.Any(a => x.As<Company>().Activity.TermContentItemIds.Contains(a)))
                             .GroupBy(x => x.As<PersonPart>().Email?.Text)
                             .Select(x => x.FirstOrDefault())
                             .ToList();
@@ -428,6 +430,7 @@ namespace Members.Core
             cs.oib = cppart.Oib?.Text;
             return cs;
         }
+
         public string StripCounty(string county)
         {
             string str = county.ToUpper();
@@ -440,6 +443,7 @@ namespace Members.Core
             str = str.Trim();
             return str;
         }
+
         public string StripGender(string county)
         {
             string str = county.ToUpper();
