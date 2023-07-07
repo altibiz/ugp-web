@@ -111,8 +111,8 @@
 
             @using (Html.BeginForm("TriggerGenerate", "MembersExport", FormMethod.Post, new { onsubmit = "captureFormValues();" }))
             {
-                <input type="" id="exportCountyHidden" name="ExportCounty" value="" />
-                <input type="" id="exportActivityHidden" name="ExportActivity" value="" />
+                <input type="hidden" id="exportCountyHidden" name="ExportCounty" value="" />
+                <input type="hidden" id="exportActivityHidden" name="ExportActivity" value="" />
                 <button class="btn btn-secondary m-2" type="submit" name="Date" value="@allTimeDate"><i class="fa-solid fa-arrows-rotate"></i></button>
             }
             <input class="form-control" type="text" id="dateTimeField" readonly="" value="Zadnje generirano: @lastGeneratedDateTime.ToString("dd.MM.yyyy HH:mm")">

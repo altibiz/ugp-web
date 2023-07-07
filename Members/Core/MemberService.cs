@@ -1,5 +1,4 @@
-﻿using Castle.Core.Internal;
-using CsvHelper;
+﻿using CsvHelper;
 using GraphQL;
 using Members.Base;
 using Members.Indexes;
@@ -19,6 +18,7 @@ using OrchardCore.Taxonomies.Indexing;
 using OrchardCore.Taxonomies.Models;
 using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
+using OrchardCore.Workflows.Activities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -26,6 +26,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using YesSql;
+using YesSql.Services;
+
 using ISession = YesSql.ISession;
 
 namespace Members.Core
@@ -77,11 +79,19 @@ namespace Members.Core
         public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate, string county=null, int pageIndex = 0, int pageSize = 100)
         {
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
-            if (startDate <= DateTime.Now.Date) query = query.Where(x => x.PublishedUtc >= startDate);
+
+            if (startDate <= DateTime.Now.Date) 
+                query = query.Where(x => x.PublishedUtc >= startDate);
 
             if (!string.IsNullOrEmpty(county))
             {
-                //query = query.Where(x => x.As<PersonPart>().County.TermContentItemIds.Contains(county));
+                var countyCisQuery = await _session.Query<ContentItem, TaxonomyIndex>()
+                    .Where(x => x.ContentType == nameof(Member) && x.ContentPart == nameof(PersonPart))
+                    .Where(x => x.Published && x.Latest)
+                    .Where(x=>x.TermContentItemId.Contains(county) || x.TermContentItemId == null)
+                    .ListAsync();
+
+                query = query.Where(qi => qi.ContentItemId.IsIn(countyCisQuery.Select(y => y.ContentItemId)));
             }
 
             query = (IQuery<ContentItem, ContentItemIndex>)query.Skip(pageIndex * pageSize).Take(pageSize);
@@ -100,19 +110,39 @@ namespace Members.Core
 
             if (!string.IsNullOrEmpty(county))
             {
-                //query = query.Where(x => x.As<PersonPart>().County.TermContentItemIds.Contains(county));
+                var countyCisQuery = await _session.Query<ContentItem, TaxonomyIndex>()
+                    .Where(x => x.ContentType == nameof(Company) && x.ContentPart == nameof(PersonPart))
+                    .Where(x => x.Published && x.Latest)
+                    .Where(x => x.TermContentItemId.Contains(county) || x.TermContentItemId == null)
+                    .ListAsync();
+
+                query = query.Where(qi => qi.ContentItemId.IsIn(countyCisQuery.Select(y => y.ContentItemId)));
             }
+
+            if (activity != null)
+            {
+                activity = activity.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                if (activity.Length > 0)
+                {
+
+                    var activityCisQuery = await _session.Query<ContentItem, TaxonomyIndex>()
+                        .Where(x => x.ContentType == nameof(Company) && x.ContentPart == nameof(Company) && x.ContentField == nameof(Activity))
+                        .Where(x => x.Published && x.Latest)
+                        .Where($"TermContentItemId IN ({string.Join(",", activity.Select(a => $"'{a}'"))})")
+                        .ListAsync();
+
+                    query = query.Where(qi => qi.ContentItemId.IsIn(activityCisQuery.Select(y => y.ContentItemId)));
+                }
+            }
+
+
+            query = (IQuery<ContentItem, ContentItemIndex>)query.Skip(pageIndex * pageSize).Take(pageSize);
+
             var companies = await query.ListAsync();
 
-            if (activity!=null && activity.Any(a => !string.IsNullOrEmpty(a)))
-                companies = companies.Where(x => activity.Any(a => x.As<Company>().Activity.TermContentItemIds.Contains(a)))
-                            .GroupBy(x => x.As<PersonPart>().Email?.Text)
-                            .Select(x => x.FirstOrDefault())
-                            .ToList();
-
-            var pagedCompanies = companies.Skip(pageIndex * pageSize).Take(pageSize);
-
-            return pagedCompanies;
+       //     _contentManager.GetAsync();
+            return companies;
         }
 
         //get's all members companies published after the date 

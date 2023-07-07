@@ -1,29 +1,19 @@
-﻿using Castle.Core.Internal;
-using CsvHelper;
+﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Dapper;
-using GraphQL;
-using GraphQL.Types;
 using Members.Base;
 using Members.Core;
 using Members.Models;
-using Members.Persons;
-using Members.Utils;
 using Microsoft.AspNetCore.Mvc;
 using OrchardCore.Admin;
-using OrchardCore.ContentManagement;
-using OrchardCore.Users.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using UglyToad.PdfPig.AcroForms.Fields;
 using YesSql;
 using OrchardCore.BackgroundTasks;
-using Newtonsoft.Json;
 
 namespace Members.Controllers
 {
@@ -84,7 +74,7 @@ namespace Members.Controllers
 
         public async Task<FileContentResult> DownloadFileAsync(DateTime date)
         {
-            var exportCounty = Request.Form["exportCounty"].ToString();
+            var exportCounty = Request.Form["exportCounty"];
             var exportActivity = Request.Form["exportActivity"];
 
             var csvConfig = new CsvConfiguration(new CultureInfo("hr-HR"))
@@ -120,10 +110,15 @@ namespace Members.Controllers
             var exportCounty = Request.Form["exportCounty"].ToString();
             var exportActivity = Request.Form["exportActivity"].First()?.Split(',').Select(value => value.Trim()).ToArray() ?? null;
 
-            var membersExportTask = _backgroundTask as MembersExport;
-            membersExportTask.SetExportParameters(exportCounty, exportActivity);
+            var exportFilterData = new ExportFilterData
+            {
+                County = exportCounty,
+                Activity = exportActivity
+            };
 
-            // Enqueue the MembersExport background task for execution
+            var membersExportTask = (MembersExport) _backgroundTask;
+            MembersExport.PendingExports.Enqueue( exportFilterData );
+
             _backgroundTask.DoWorkAsync(HttpContext.RequestServices, default);
 
             return RedirectToAction("Index");
