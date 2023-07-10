@@ -76,14 +76,19 @@ namespace Members.Core
             return member.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate, string county=null, int pageIndex = 0, int pageSize = 100)
+        public async Task<List<ContentItem>> GetAllMembersForExport(DateTime startDate, string county=null, int pageIndex = 0, int pageSize = 100)
         {
-            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
+            List<string> MembersIds = new List<string>();
 
-            if (startDate <= DateTime.Now.Date) 
-                query = query.Where(x => x.PublishedUtc >= startDate);
+            if (string.IsNullOrEmpty(county))
+            {
+                var cidsQuery =await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member))
+                    .Where(x => x.Published && x.Latest)
+                    .Where(x => x.PublishedUtc >= startDate).ListAsync();
 
-            if (!string.IsNullOrEmpty(county))
+                MembersIds = cidsQuery.Select(x => x.ContentItemId).ToList();
+            }
+            else
             {
                 var countyCisQuery = await _session.Query<ContentItem, TaxonomyIndex>()
                     .Where(x => x.ContentType == nameof(Member) && x.ContentPart == nameof(PersonPart))
@@ -91,22 +96,28 @@ namespace Members.Core
                     .Where(x=>x.TermContentItemId.Contains(county) || x.TermContentItemId == null)
                     .ListAsync();
 
-                query = query.Where(qi => qi.ContentItemId.IsIn(countyCisQuery.Select(y => y.ContentItemId)));
+                MembersIds = countyCisQuery.Select(x => x.ContentItemId).ToList();
             }
 
-            query = (IQuery<ContentItem, ContentItemIndex>)query.Skip(pageIndex * pageSize).Take(pageSize);
+            var members = await _contentManager.GetAsync(MembersIds);
 
-            var members = await query.ListAsync();
-
-            return members;
+            return members.Select(x => x).Where(x => x.PublishedUtc >= startDate).Skip(pageIndex * pageSize).Take(pageSize).ToList();
         }
 
         public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, string county=null, string[] activity=null, int pageIndex = 0, int pageSize = 100)
         {
-            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest);
+            List<string> CompaniesIds = new List<string>();
+            List<string> CompaniesCountyIds = new List<string>();
+            List<string> CompaniesActivityIds = new List<string>();
 
-            if (startDate < DateTime.Now.Date) 
+            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest);
                 query = query.Where(x => x.PublishedUtc >= startDate);
+
+            var cidsQuery = await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company))
+                .Where(x => x.Published && x.Latest)
+                .Where(x => x.PublishedUtc >= startDate).ListAsync();
+
+            CompaniesIds = cidsQuery.Select(x => x.ContentItemId).ToList();
 
             if (!string.IsNullOrEmpty(county))
             {
@@ -116,7 +127,8 @@ namespace Members.Core
                     .Where(x => x.TermContentItemId.Contains(county) || x.TermContentItemId == null)
                     .ListAsync();
 
-                query = query.Where(qi => qi.ContentItemId.IsIn(countyCisQuery.Select(y => y.ContentItemId)));
+                CompaniesCountyIds = countyCisQuery.Select(x => x.ContentItemId).ToList();
+                CompaniesIds = CompaniesIds.Intersect(CompaniesCountyIds).ToList();
             }
 
             if (activity != null)
@@ -133,16 +145,15 @@ namespace Members.Core
                         .ListAsync();
 
                     query = query.Where(qi => qi.ContentItemId.IsIn(activityCisQuery.Select(y => y.ContentItemId)));
+
+                    CompaniesActivityIds = activityCisQuery.Select(x => x.ContentItemId).ToList();
+                    CompaniesIds = CompaniesIds.Intersect(CompaniesActivityIds).ToList();
                 }
             }
 
+            var companies = await _contentManager.GetAsync(CompaniesIds);
 
-            query = (IQuery<ContentItem, ContentItemIndex>)query.Skip(pageIndex * pageSize).Take(pageSize);
-
-            var companies = await query.ListAsync();
-
-       //     _contentManager.GetAsync();
-            return companies;
+            return companies.Select(x => x).Where(x => x.PublishedUtc >= startDate).Skip(pageIndex * pageSize).Take(pageSize).ToList();
         }
 
         //get's all members companies published after the date 
