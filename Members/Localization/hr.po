@@ -9,10 +9,10 @@ msgstr ""
 msgctxt "Members.Pages.CreateMember"
 msgid "Registration"
 msgstr "Registracija"
-msgid "Next: Register Legal Entity"
-msgstr "Sljedeće: Upis podataka tvrtke / pravne osobe"
+msgid "Register Legal Entity"
+msgstr "Registracija tvrtke/pravne osobe"
 msgid "Register As A Natural Entity"
-msgstr "Registriraj se samo kao privatna osoba"
+msgstr "Registracija privatne osobe"
 msgid "Please Add User Data"
 msgstr "Upišite svoje osobne podatke"
 msgid "Or"
@@ -127,8 +127,6 @@ msgstr "Samo za članove, klikni ovdje za prijavu"
 
 
 
-
-
 msgctxt "Members.Pages.Portal"
 msgid "User Pages"
 msgstr "Korisničke stranice"
@@ -140,3 +138,97 @@ msgid "Your ID is already in use."
 msgstr "Upisani OIB je već registriran."
 msgid "Surname is required."
 msgstr "Polje Prezime je obvezno."
+
+msgctxt "Members.Pages.Registration"
+msgid "Password"
+msgstr "Lozinka"
+
+msgctxt "Members.Pages.Registration"
+msgid "Confirm password"
+msgstr "Potvrdite lozinku"
+
+msgctxt "Members.Pages.Registration"
+msgid "Account Type"
+msgstr "Vrsta računa"
+
+msgctxt "Members.Pages.Registration"
+msgid "Name"
+msgstr "Ime"
+
+msgctxt "Members.Pages.Registration"
+msgid "Surname"
+msgstr "Prezime"
+
+msgctxt "Members.Pages.Registration"
+msgid "Are you an active member of this association?"
+msgstr "Jeste li aktivan član udruge?"
+
+msgctxt "Members.Pages.Registration"
+msgid "Address"
+msgstr "Adresa"
+
+msgctxt "Members.Pages.Registration"
+msgid "City"
+msgstr "Grad/općina"
+
+msgctxt "Members.Pages.Registration"
+msgid "County"
+msgstr "Županija"
+
+msgctxt "Members.Pages.Registration"
+msgid "Phone number"
+msgstr "Broj telefona"
+
+msgctxt "Members.Pages.Registration"
+msgid "Date of birth"
+msgstr "Datum rođenja"
+
+msgctxt "Members.Pages.Registration"
+msgid "Gender"
+msgstr "Spol"
+
+msgctxt "Members.Pages.Registration"
+msgid "Skills and knowledge"
+msgstr "Znanja i vještine"
+
+msgctxt "Members.Pages.Registration"
+msgid "Company name"
+msgstr "Naziv tvrtke"
+
+msgctxt "Members.Pages.Registration"
+msgid "Company address"
+msgstr "Adresa tvrtke"
+
+msgctxt "Members.Pages.Registration"
+msgid "Authorized person for representation"
+msgstr "Ovlaštena osoba za zastupanje"
+
+msgctxt "Members.Pages.Registration"
+msgid "Your position in the company"
+msgstr "Funkcija"
+
+msgctxt "Members.Pages.Registration"
+msgid "Number of employees"
+msgstr "Broj zaposlenih"
+
+msgctxt "Members.Pages.Registration"
+msgid "Company trade"
+msgstr "Djelatnost"
+
+msgctxt "Members.Pages.Registration"
+msgid "Organisation type"
+msgstr "Vrsta organizacije/Pravni oblik"
+
+msgctxt "Members.Pages.Registration"
+msgid "Turnover in 2019"
+msgstr "Promet u 2019"
+
+msgctxt "Members.Pages.Registration"
+msgid "Number of permanent associates"
+msgstr "Broj stalnih suradnika"
+
+msgctxt "Members.Pages.Registration"
+msgid "Company logo"
+msgstr "Logo tvrtke"
+
+

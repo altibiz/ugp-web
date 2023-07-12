@@ -30,7 +30,7 @@ namespace Members.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             var member = await _mService.GetUserMember(true);
-
+            var zupanije = _mService.GetTaxonomy("zupanija");
             if (member == null)
             {
                 return RedirectToPage("CreateMember");

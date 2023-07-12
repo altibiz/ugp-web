@@ -1,10 +1,8 @@
 ﻿@page
-@model Members.Pages.regModel 
+@model Members.Pages.RegistrationModel 
 
 @using OrchardCore.Mvc.Utilities
-@*ZAKE JE U STAROM FILEU REGISTER.CSHTML NAVEDEN MODEL TYPE OD ORCHARDA: 
-@model OrchardCore.Users.ViewModels.RegisterViewModel + kud da stavim model regModel?
-*@
+
 @{
 }
 @{
@@ -63,7 +61,7 @@
     <div class="form-group">
         <label asp-for="AccType" for="AccType" class="col-sm-2 control-label">@T["Account Type"]</label>
         <div class="col-md-12">
-            <select asp-for="AccType" id ="AccType" class="form-select" id="AccType">
+            <select asp-for="AccType" id ="AccType" class="form-select" id="AccType">                
                 <option value="legal">@T["Register Legal Entity"]</option>
                 <option value="person">@T["Register As A Natural Entity"]</option>
             </select>
@@ -93,11 +91,13 @@
         </div>
         
         <div class="form-group">
-            <label asp-for="IsActive" for="IsActive">@T["Are you an active member?"]</label>
-            <div class="col-sm-2">
+            <label asp-for="IsActive" for="IsActive">@T["Are you an active member of this association?"]</label>
+            <div class="col-sm-12">
                 <select asp-for="IsActive" class="form-select" id="IsActive">
-                    <option value="Active">@T["Yes"]</option>
-                    <option value="Inactive">@T["No"]</option>
+                    @foreach (var item in Model.AktivanČlanTerms)
+                    {
+                        <option value="@item.ContentItemId">@item.DisplayText</option>
+                    }
                 </select>
             </div>
         </div>
@@ -120,9 +120,10 @@
             <label asp-for="CountyP" for="CountyP" class="col-sm-2 control-label">@T["County"]</label>
             <div class="col-md-12">
                 <select asp-for="CountyP" class="form-select " id="CountyP">
-                    <option value="1">@T["County1"]</option>
-                    <option value="2">@T["County2"]</option>
-                    <option value="3">@T["County3"]</option>
+                    @foreach (var item in Model.ZupanijaTerms)
+                    {
+                        <option value="@item.ContentItemId">@item.DisplayText</option>
+                    }
                 </select>
             </div>
         </div>
@@ -144,15 +145,22 @@
 
         <div class="form-group">
             <label asp-for="Gender" for="Gender" class="col-sm-2 control-label">@T["Gender"]</label>
-            <div class="col-sm-2">
+            <div class="col-sm-12">
                 <select asp-for="Gender" class="form-select" id="Gender">
-                    <option value="M">@T["Male"]</option>
-                    <option value="F">@T["Female"]</option>
+                    @foreach (var item in Model.SpolTerms)
+                    {
+                        <option value="@item.ContentItemId">@item.DisplayText</option>
+                    }
                 </select>
             </div>
         </div>
 
-        
+        <div class="form-group">
+            <label asp-for="SkillsKnowledge" for="SkillsKnowledge">@T["Skills and knowledge"]</label>
+            <div class="col-md-12">
+                <textarea class="form-control" id="textAreaExample" rows="3"></textarea>
+            </div>
+        </div>
 
     </div>
 
@@ -182,14 +190,31 @@
             <label asp-for="CountyC" for="CountyC" class="col-sm-2 control-label">@T["County"]</label>
             <div class="col-md-12">
                 <select asp-for="CountyC" class="form-select " id="CountyC">
-                    <option value="1">@T["County1"]</option>
-                    <option value="2">@T["County2"]</option>
-                    <option value="3">@T["County3"]</option>
-
+                    @foreach (var item in Model.ZupanijaTerms)
+                    {
+                        <option value="@item.ContentItemId">@item.DisplayText</option>
+                    }
                 </select>
             </div>
         </div>
-       
+
+        <div class="form-group">
+            <label asp-for="CompanyRepresentative" for="CompanyRepresentative">@T["Authorized person for representation"]</label>
+            <input asp-for="CompanyRepresentative" class="form-control" id="CompanyRepresentative" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="OrgType" for="OrgType">@T["Your position in the company"]</label>
+            <div class="col-md-12">
+                <select asp-for="CountyC" class="form-select " id="CountyC">
+                    @foreach (var item in Model.FunkcijaTerms)
+                    {
+                        <option value="@item.ContentItemId">@item.DisplayText</option>
+                    }
+                </select>
+            </div>
+        </div>
+
         <div class="form-group">
             <label asp-for="EmployeeNum" for="EmployeeNum">@T["Number of employees"]</label>
             <div class="col-md-12">
@@ -198,26 +223,26 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Activity" for="Activity" class="col-sm-2 control-label">@T["Activity"]</label>
+            <label asp-for="Trade" for="Trade" >@T["Company trade"]</label>
             <div class="col-md-12">
-                <select asp-for="Activity" class="form-select " id="Activity">
-                    <option value="1">@T["Activity1"]</option>
-                    <option value="2">@T["Activity2"]</option>
-                    <option value="3">@T["Activity3"]</option>
-
+                <select asp-for="Trade" class="form-select " id="Trade">
+                    @foreach (var item in Model.DjelatnostTerms)
+                    {
+                        <option value="@item.ContentItemId">@item.DisplayText</option>
+                    }
                 </select>
             </div>
         </div>
         
         <div class="form-group">
-            <label asp-for="OrgType" for="OrgType" class="col-sm-2 control-label">@T["Organisation"]</label>
+            <label asp-for="OrgType" for="OrgType">@T["Organisation type"]</label>
             <div class="col-md-12">
-                <select asp-for="OrgType" class="form-select " id="OrgType">
-                    <option value="1">@T["Org1"]</option>
-                    <option value="2">@T["Org2"]</option>
-                    <option value="3">@T["Org3"]</option>
-
-                </select>
+                    <select asp-for="CountyC" class="form-select " id="CountyC">
+                        @foreach (var item in Model.VrstaOrganizacijaTerms)
+                        {
+                            <option value="@item.ContentItemId">@item.DisplayText</option>
+                        }
+                    </select>
             </div>
         </div>    
 
@@ -227,9 +252,21 @@
                 <input asp-for="Turnover" class="form-control" id="Turnover" type="number">
             </div>
         </div>
+
+        <div class="form-group">
+            <label asp-for="AssociatesNum" for="AssociatesNum">@T["Number of permanent associates"]</label>
+            <div class="col-md-12">
+                <input asp-for="AssociatesNum" class="form-control" id="AssociatesNum" type="number">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for = "CompanyLogo">@T["Company logo"]</label>
+                <div class="col-md-12">
+                    <input id="CompanyLogo" type="file" />
+                </div>
+        </div>
     </div>
-
-
 
     <div class="form-group">
         <div class="col-md-offset-3 col-md-9 mt-3">
