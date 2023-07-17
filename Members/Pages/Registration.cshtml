@@ -22,7 +22,7 @@
     <script asp-name="ugptheme-jQuery"></script>
 
     <script>
-        $(document).on('change', '#AccType', function () {
+        $(document).on('change', '#AccountType', function () {
             if ($(this).val() == "legal") {
                 $('.person').hide();
                 $('.company').show();
@@ -36,39 +36,32 @@
 
 </head>
 
-<form> 
-    <div class="form-group">
-        <label asp-for="Email" for="Email">@T["Email"]</label>
-        <div class="col-md-12">
-            <input asp-for="Email" type="email" class="form-control" id="Email" >
-        </div>
-    </div>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div class="form-group">
-        <label asp-for="Passwd" for="Passwd">@T["Password"]</label>
-        <div class="col-md-12">
-            <input asp-for="Passwd" type="password" class="form-control" id="Passwd">
-        </div>
-    </div>
 
-    <div class="form-group">
-        <label asp-for="ConfirmPasswd" class="control-label">@T["Confirm password"]</label>
-        <div class="col-md-12">
-            <input asp-for="ConfirmPasswd" type="password" class="form-control" id="Passwd">
+       <div class="form-group">
+            <label asp-for="Email" for="Email">@T["Email"]</label>
+            <div class="col-md-12">
+                <input asp-for="Email" class="form-control" id="Email" >
+            </div>
         </div>
-    </div>
-  
-    <div class="form-group">
-        <label asp-for="AccType" for="AccType" class="col-sm-2 control-label">@T["Account Type"]</label>
-        <div class="col-md-12">
-            <select asp-for="AccType" id ="AccType" class="form-select" id="AccType">                
-                <option value="legal">@T["Register Legal Entity"]</option>
-                <option value="person">@T["Register As A Natural Entity"]</option>
-            </select>
-        </div>
-    </div>
 
-    <div class="person">
+        <div class="form-group">
+            <label asp-for="Password" for="Password">@T["Password"]</label>
+            <div class="col-md-12">
+                <input asp-for="Password" type="password" class="form-control" id="Password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword" class="control-label">@T["Confirm password"]</label>
+            <div class="col-md-12">
+            <input asp-for="ConfirmPassword" type="password" class="form-control" id="ConfirmPassword">
+            </div>
+        </div>
+
+    
         <div class="form-group">
             <label asp-for="OIB" for="OIB">@T["OIB"]</label>
             <div class="col-md-12">
@@ -77,9 +70,9 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="NameP" for="NameP">@T["Name"]</label>
+            <label asp-for="Name" for="Name">@T["Name"]</label>
             <div class="col-md-12">
-                <input asp-for="NameP" class="form-control" id="NameP">
+                <input asp-for="Name" class="form-control" id="Name">
             </div>
         </div>
 
@@ -89,12 +82,12 @@
                 <input asp-for="Surname" class="form-control" id="Surname">
             </div>
         </div>
-        
+
         <div class="form-group">
             <label asp-for="IsActive" for="IsActive">@T["Are you an active member of this association?"]</label>
             <div class="col-sm-12">
                 <select asp-for="IsActive" class="form-select" id="IsActive">
-                    @foreach (var item in Model.AktivanČlanTerms)
+                    @foreach (var item in Model.ActiveMemberTerms)
                     {
                         <option value="@item.ContentItemId">@item.DisplayText</option>
                     }
@@ -103,24 +96,24 @@
         </div>
 
         <div class="form-group">
-             <label asp-for="AddressP" for="AddressP">@T["Address"]</label>
-             <div class="col-md-12">
-                   <input asp-for="AddressP" class="form-control" id="AddressP">
-             </div>
-         </div>
-
-         <div class="form-group">
-            <label asp-for="CityP" for="CityP">@T["City"]</label>
+            <label asp-for="Address" for="Address">@T["Address"]</label>
             <div class="col-md-12">
-                <input asp-for="CityP" class="form-control" id="CityP">
+                <input asp-for="Address" class="form-control" id="Address">
             </div>
         </div>
 
         <div class="form-group">
-            <label asp-for="CountyP" for="CountyP" class="col-sm-2 control-label">@T["County"]</label>
+            <label asp-for="City" for="City">@T["City"]</label>
             <div class="col-md-12">
-                <select asp-for="CountyP" class="form-select " id="CountyP">
-                    @foreach (var item in Model.ZupanijaTerms)
+                <input asp-for="City" class="form-control" id="City">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="County" for="County" class="col-sm-2 control-label">@T["County"]</label>
+            <div class="col-md-12">
+                <select asp-for="County" class="form-select " id="County">
+                    @foreach (var item in Model.CountyTerms)
                     {
                         <option value="@item.ContentItemId">@item.DisplayText</option>
                     }
@@ -129,13 +122,31 @@
         </div>
 
         <div class="form-group">
-             <label asp-for="Phone" for="Phone">@T["Phone number"]</label>
-             <div class="col-md-12">
-                    <input asp-for="Phone" type="tel" class="form-control" id="Phone">
-             </div>
+            <label asp-for="Phone" for="Phone">@T["Phone number"]</label>
+            <div class="col-md-12">
+                <input asp-for="Phone" type="tel" class="form-control" id="Phone">
+            </div>
+        </div>
+         
+        <div class="form-group">
+            <label asp-for="SkillsKnowledge" for="SkillsKnowledge">@T["Skills and knowledge"]</label>
+            <div class="col-md-12">
+                <textarea class="form-control" id="textAreaExample" rows="3"></textarea>
+            </div>
         </div>
 
+  
+    <div class="form-group">
+        <label asp-for="AccountType" for="AccountType" class="col-sm-2 control-label">@T["Account Type"]</label>
+        <div class="col-md-12">
+            <select asp-for="AccountType" id="AccountType" class="form-select" id="AccountType">
+                <option value="legal">@T["Register Legal Entity"]</option>
+                <option value="person">@T["Register As A Natural Entity"]</option>
+            </select>
+        </div>
+    </div>
 
+    <div class="person">
         <div class="form-group">
             <label asp-for="DateBirth" for="DateBirth">@T["Date of birth"]</label>
             <div class="col-md-12">
@@ -147,56 +158,16 @@
             <label asp-for="Gender" for="Gender" class="col-sm-2 control-label">@T["Gender"]</label>
             <div class="col-sm-12">
                 <select asp-for="Gender" class="form-select" id="Gender">
-                    @foreach (var item in Model.SpolTerms)
+                    @foreach (var item in Model.GenderTerms)
                     {
                         <option value="@item.ContentItemId">@item.DisplayText</option>
                     }
                 </select>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="SkillsKnowledge" for="SkillsKnowledge">@T["Skills and knowledge"]</label>
-            <div class="col-md-12">
-                <textarea class="form-control" id="textAreaExample" rows="3"></textarea>
-            </div>
-        </div>
-
+        </div> 
     </div>
 
      <div class="company">
-        <div class="form-group">
-            <label asp-for="NameC" for="NameC">@T["Company name"]</label>
-            <div class="col-md-12">
-                <input asp-for="NameC" class="form-control" id="NameC">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="AddressC" for="AddressC">@T["Company address"]</label>
-            <div class="col-md-12">
-                  <input asp-for="AddressC" class="form-control" id="AddressC">
-            </div>
-        </div>
-        
-        <div class="form-group">
-             <label asp-for="CityC" for="CityC">@T["City"]</label>
-             <div class="col-md-12">
-                    <input asp-for="CityC" class="form-control" id="CityC">
-             </div>
-        </div>
-        
-        <div class="form-group">
-            <label asp-for="CountyC" for="CountyC" class="col-sm-2 control-label">@T["County"]</label>
-            <div class="col-md-12">
-                <select asp-for="CountyC" class="form-select " id="CountyC">
-                    @foreach (var item in Model.ZupanijaTerms)
-                    {
-                        <option value="@item.ContentItemId">@item.DisplayText</option>
-                    }
-                </select>
-            </div>
-        </div>
 
         <div class="form-group">
             <label asp-for="CompanyRepresentative" for="CompanyRepresentative">@T["Authorized person for representation"]</label>
@@ -204,10 +175,10 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="OrgType" for="OrgType">@T["Your position in the company"]</label>
+            <label asp-for="Function" for="Function">@T["Your function in the company"]</label>
             <div class="col-md-12">
-                <select asp-for="CountyC" class="form-select " id="CountyC">
-                    @foreach (var item in Model.FunkcijaTerms)
+                <select asp-for="Function" class="form-select " id="Function">
+                    @foreach (var item in Model.FunctionTerms)
                     {
                         <option value="@item.ContentItemId">@item.DisplayText</option>
                     }
@@ -216,9 +187,9 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="EmployeeNum" for="EmployeeNum">@T["Number of employees"]</label>
+            <label asp-for="EmployeeNumber" for="EmployeeNumber">@T["Number of employees"]</label>
             <div class="col-md-12">
-                <input asp-for="EmployeeNum" class="form-control" id="EmployeeNum" type="number">
+                <input asp-for="EmployeeNumber" class="form-control" id="EmployeeNumber" type="number">
             </div>
         </div>
 
@@ -226,7 +197,7 @@
             <label asp-for="Trade" for="Trade" >@T["Company trade"]</label>
             <div class="col-md-12">
                 <select asp-for="Trade" class="form-select " id="Trade">
-                    @foreach (var item in Model.DjelatnostTerms)
+                    @foreach (var item in Model.TradeTerms)
                     {
                         <option value="@item.ContentItemId">@item.DisplayText</option>
                     }
@@ -235,10 +206,10 @@
         </div>
         
         <div class="form-group">
-            <label asp-for="OrgType" for="OrgType">@T["Organisation type"]</label>
+            <label asp-for="OrganisationType" for="OrganisationType">@T["Organisation type"]</label>
             <div class="col-md-12">
-                    <select asp-for="CountyC" class="form-select " id="CountyC">
-                        @foreach (var item in Model.VrstaOrganizacijaTerms)
+                <select asp-for="OrganisationType" class="form-select " id="OrganisationType">
+                    @foreach (var item in Model.OrganisationTypeTerms)
                         {
                             <option value="@item.ContentItemId">@item.DisplayText</option>
                         }
@@ -254,9 +225,9 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="AssociatesNum" for="AssociatesNum">@T["Number of permanent associates"]</label>
+            <label asp-for="AssociatesNumber" for="AssociatesNumber">@T["Number of permanent associates"]</label>
             <div class="col-md-12">
-                <input asp-for="AssociatesNum" class="form-control" id="AssociatesNum" type="number">
+                <input asp-for="AssociatesNumber" class="form-control" id="AssociatesNumber" type="number">
             </div>
         </div>
 

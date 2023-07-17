@@ -204,7 +204,7 @@ msgid "Authorized person for representation"
 msgstr "Ovlaštena osoba za zastupanje"
 
 msgctxt "Members.Pages.Registration"
-msgid "Your position in the company"
+msgid "Your function in the company"
 msgstr "Funkcija"
 
 msgctxt "Members.Pages.Registration"
