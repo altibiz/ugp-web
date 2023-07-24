@@ -57,48 +57,44 @@ namespace Members.Core
             str = str.Trim();
             return str;
         }
-        public IQuery<ContentItem> GetAllMembersForExportQuery(DateTime startDate, string county = null, string[] activity = null)
+        public IQuery<ContentItem> GetAllMembersForExportQuery(ExportModel model)
         {
-            if (!activity.Any(x => x.IsNullOrEmpty()))
+            if (!model.ExportActivity.Any(x => x.IsNullOrEmpty()))
                 return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
 
-            IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest).OrderBy(x=>x.ContentItemId);
-            if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= startDate);
+            IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest).OrderBy(x => x.ContentItemId);
+            if (model.Date < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= model.Date);
 
-            if (!string.IsNullOrEmpty(county))
-                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
+            if (!string.IsNullOrEmpty(model.ExportCounty))
+                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), model.ExportCounty);
 
             return query;
         }
 
-        public IQuery<ContentItem> GetAllCompaniesForExportQuery(DateTime startDate, string county = null, string[] activity = null)
+        public IQuery<ContentItem> GetAllCompaniesForExportQuery(ExportModel model)
         {
             IQuery<ContentItem> query = _session.Query<ContentItem>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest).OrderBy(x => x.ContentItemId);
-            if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>().Where(x => x.PublishedUtc > startDate);
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest);
+            if (model.Date < DateTime.Now.Date) query = query.With<ContentItemIndex>().Where(x => x.PublishedUtc > model.Date);
 
-            if (!string.IsNullOrEmpty(county))
-                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
+            if (!string.IsNullOrEmpty(model.ExportCounty))
+                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), model.ExportCounty);
 
-            if (!activity.Any(x => x.IsNullOrEmpty()))
-                query = query.GetByTerm(nameof(Company), nameof(Company.Activity), activity);
+            if (!model.ExportActivity.Any(x => x.IsNullOrEmpty()))
+                query = query.GetByTerm(nameof(Company), nameof(Company.Activity), model.ExportActivity);
 
             return query;
         }
 
         public async Task<Stream> GetExportFile(ExportModel model)
         {
-
-            var memQuery = GetAllMembersForExportQuery(model.Date, model.ExportCounty, model.ExportActivity);
-            var companyQuery = GetAllCompaniesForExportQuery(model.Date, model.ExportCounty, model.ExportActivity);
-
             Dictionary<string, CsvModel> csvList = new();
-            var count = await memQuery.CountAsync();
+            var count = await GetAllMembersForExportQuery(model).CountAsync();
             var take = 500;
             Dictionary<string, (Member, PersonPart)> members = new();
             for (var skip = 0; skip < count; skip += take)
             {
-                var list = await memQuery.Take(take).Skip(skip).ListAsync();
+                var list = await GetAllMembersForExportQuery(model).Take(take).Skip(skip).ListAsync();
                 foreach (var itm in list)
                 {
                     members[itm.ContentItemId] = (itm.As<Member>(), itm.As<PersonPart>());
@@ -137,11 +133,10 @@ namespace Members.Core
                 csvList[memberCsv.email] = memberCsv;
             }
 
-
-            count = await companyQuery.CountAsync();
+            count = await GetAllCompaniesForExportQuery(model).CountAsync();
             for (var skip = 0; skip < count; skip += take)
             {
-                var list = await companyQuery.Take(take).Skip(skip).ListAsync();
+                var list = await GetAllCompaniesForExportQuery(model).Take(take).Skip(skip).ListAsync();
                 foreach (var item in list)
                 {
                     var parentTuple = item.GetParentItemId() != null && members.TryGetValue(item.GetParentItemId(), out var member) ? member : new();
@@ -266,7 +261,7 @@ namespace Members.Core
                     var _emailService = serviceProvider.GetRequiredService<ISmtpService>();
                     var msg = new MailMessage
                     {
-                        From = "bruno@altinet.hr",
+                        From = toImport.Item2,
                         To = toImport.Item2,
                         Subject = "Your file export",
                     };

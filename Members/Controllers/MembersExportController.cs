@@ -61,10 +61,8 @@ namespace Members.Controllers
 
         public async Task<ActionResult> DownloadFileAsync(ExportModel model)
         {
-            var memQuery = _exportService.GetAllMembersForExportQuery(model.Date, model.ExportCounty, model.ExportActivity);
-            var count = await memQuery.CountAsync();
-            var companyQuery = _exportService.GetAllCompaniesForExportQuery(model.Date, model.ExportCounty, model.ExportActivity);
-            var countCompany = await companyQuery.CountAsync();
+            var count = await _exportService.GetAllMembersForExportQuery(model).CountAsync();
+            var countCompany = await _exportService.GetAllCompaniesForExportQuery(model).CountAsync();
             if (countCompany + count < 1000)
             {
                 var stream = await _exportService.GetExportFile(model);
