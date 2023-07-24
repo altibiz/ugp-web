@@ -4,10 +4,13 @@ using Dapper;
 using GraphQL;
 using Members.Base;
 using Members.Core;
+using Members.Pages;
 using Members.Persons;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Localization;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
+using OrchardCore.DisplayManagement.Notify;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,11 +26,16 @@ namespace Members.Controllers
     {
         private readonly MemberService _memberService;
         private ISession _session;
+        private INotifier _notifier;
 
-        public MembersExportController(MemberService mService, ISession session)
+        public IHtmlLocalizer<MembersExportController> H { get; }
+
+        public MembersExportController(MemberService mService, ISession session, INotifier notifier, IHtmlLocalizer<MembersExportController> htmlLocalizer)
         {
             _memberService = mService;
             _session = session;
+            _notifier = notifier;
+            H = htmlLocalizer;
         }
         public async Task<ActionResult> Index()
         {
@@ -56,22 +64,32 @@ namespace Members.Controllers
             return ciList.ToList();
         }
 
-        public async Task<FileContentResult> DownloadFileAsync(DateTime date)
+        public async Task<ActionResult> DownloadFileAsync(DateTime date)
         {
             //get exportCounty selected from UI
             var exportCounty = Request.Form["exportCounty"].ToString();
             var exportActivity = Request.Form["exportActivity"];
-
-            Dictionary<string, CsvModel> csvList = new();
-
             DateTime startDate = date;
             DateTime endDate = DateTime.Now;
             DateTime currentStartDate = startDate;
 
-            IEnumerable<ContentItem> memList = new List<ContentItem>();
+            var memQuery = _memberService.GetAllMembersForExportQuery(currentStartDate, endDate, exportCounty);
+            var count = await memQuery.CountAsync();
+            var companyQuery = _memberService.GetAllCompaniesForExportQuery(currentStartDate, endDate, exportCounty, exportActivity);
+            var countCompany = await companyQuery.CountAsync();
+            if (countCompany + count < 1000)
+            {
+                var bytes = await GetExportFile(memQuery, companyQuery);
+                return File(bytes, "application/octet-stream", "Reports.csv");
+            }
+            await _notifier.WarningAsync(H["File too big to export"]);
+            return RedirectToAction("Index");
+        }
 
-            memList = await _memberService.GetAllMembersForExport(currentStartDate, endDate, exportCounty);
-
+        private async Task<byte[]> GetExportFile(IQuery<ContentItem> memQuery, IQuery<ContentItem> companyQuery)
+        {
+            Dictionary<string, CsvModel> csvList = new();
+            var memList = await memQuery.ListAsync();
             foreach (var item in memList)
             {
                 var member = item.As<Member>();
@@ -107,7 +125,7 @@ namespace Members.Controllers
 
             IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
 
-            onlyNewCompanies = await _memberService.GetAllCompaniesForExport(currentStartDate, endDate, exportCounty, exportActivity);
+            onlyNewCompanies = await companyQuery.ListAsync();
 
             foreach (var item in onlyNewCompanies)
             {
@@ -137,7 +155,7 @@ namespace Members.Controllers
             var info = await _session.Query<ExportInfo>().FirstOrDefaultAsync() ?? new ExportInfo();
             info.LastSave = DateTime.Now;
             _session.Save(info);
-            return File(bytInStream, "application/octet-stream", "Reports.csv");
+            return bytInStream;
         }
 
         public string StripCounty(string county)

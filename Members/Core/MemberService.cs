@@ -71,7 +71,7 @@ namespace Members.Core
             return member.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate, DateTime endDate, string county = null)
+        public IQuery<ContentItem> GetAllMembersForExportQuery(DateTime startDate, DateTime endDate, string county = null)
         {
             IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest);
             if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= startDate && x.PublishedUtc < endDate);
@@ -79,10 +79,10 @@ namespace Members.Core
             if (!string.IsNullOrEmpty(county))
                 query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
 
-            return await query.ListAsync();
+            return query;
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, DateTime endDate, string county = null, string[] activity = null)
+        public IQuery<ContentItem> GetAllCompaniesForExportQuery(DateTime startDate, DateTime endDate, string county = null, string[] activity = null)
         {
             IQuery<ContentItem> query = _session.Query<ContentItem>();
             query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest);
@@ -94,7 +94,7 @@ namespace Members.Core
             if (!activity.Any(x => x.IsNullOrEmpty()))
                 query = query.GetByTerm(nameof(Company), nameof(Company.Activity), activity);
 
-            return await query.ListAsync();
+            return query;
         }
 
         //get's all members companies published after the date 
