@@ -18,7 +18,12 @@ namespace Members.Base
 
         public async static Task<ContentItem> GetListItemParent(this ISession session, ContentItem childItem)
         {
-            return await session.GetItemById(childItem.As<ContainedPart>()?.ListContentItemId);
+            return await session.GetItemById(childItem.GetParentItemId());
+        }
+
+        public static string GetParentItemId(this ContentItem childItem)
+        {
+            return childItem.As<ContainedPart>()?.ListContentItemId;
         }
 
         public async static Task<ContentItem> FirstOrDefaultAsync<TIndex>(this ISession session, IContentManager manager, Expression<Func<TIndex, bool>> query) where TIndex : class, IIndex

@@ -1,6 +1,9 @@
 ﻿using Castle.Core.Internal;
+using CsvHelper.Configuration;
+using CsvHelper;
 using GraphQL;
 using Members.Base;
+using Members.Controllers;
 using Members.Indexes;
 using Members.Persons;
 using Members.Utils;
@@ -19,6 +22,8 @@ using OrchardCore.Users.Models;
 using OrchardCore.Users.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -69,35 +74,6 @@ namespace Members.Core
             if (!includeDraft) query = query.Where(x => x.Published);
             var member = await query.ListAsync();
             return member.FirstOrDefault();
-        }
-
-        public IQuery<ContentItem> GetAllMembersForExportQuery(DateTime startDate, DateTime endDate, string county = null, string[] activity = null)
-        {
-            if (!activity.Any(x => x.IsNullOrEmpty()))
-                return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
-
-            IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest);
-            if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= startDate && x.PublishedUtc < endDate);
-
-            if (!string.IsNullOrEmpty(county))
-                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
-
-            return query;
-        }
-
-        public IQuery<ContentItem> GetAllCompaniesForExportQuery(DateTime startDate, DateTime endDate, string county = null, string[] activity = null)
-        {
-            IQuery<ContentItem> query = _session.Query<ContentItem>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest);
-            if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>().Where(x => x.PublishedUtc > startDate && x.PublishedUtc < endDate);
-
-            if (!string.IsNullOrEmpty(county))
-                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
-
-            if (!activity.Any(x => x.IsNullOrEmpty()))
-                query = query.GetByTerm(nameof(Company), nameof(Company.Activity), activity);
-
-            return query;
         }
 
         //get's all members companies published after the date 
@@ -156,7 +132,7 @@ namespace Members.Core
 
         }
 
-        private async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
+        public async Task<User> GetCurrentUser(ClaimsPrincipal user = null)
         {
             return await _userService.GetAuthenticatedUserAsync(user ?? _httpContextAccessor.HttpContext.User) as User;
         }

@@ -56,7 +56,7 @@ namespace Members
             services.AddScoped<IScopedIndexProvider, PersonPartIndexProvider>();
             services.AddSingleton<IIndexProvider, PaymentIndexProvider>();
             services.AddSingleton<IIndexProvider, OfferIndexProvider>();
-            services.AddSingleton<IIndexProvider,PaymentByDayIndexProvider>();
+            services.AddSingleton<IIndexProvider, PaymentByDayIndexProvider>();
             services.AddContentPart<Payment>();
             services.AddContentPart<Offer>();
             services.AddSingleton<IContentHandler, MemberHandler>();
@@ -64,27 +64,29 @@ namespace Members
             services.AddRecipeExecutionStep<FastImport>();
             services.AddScoped<Importer>();
             services.AddTransient<IContentsAdminListFilterProvider, PersonPartAdminListFilterProvider>();
-            services.AddTransient<IContentsAdminListFilterProvider,PaymentAdminListFilterProvider>();
+            services.AddTransient<IContentsAdminListFilterProvider, PaymentAdminListFilterProvider>();
             services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, PersonOptionsDisplayDriver>();
             services.UsePartService<Pledge, PledgeService>();
             services.UsePartService<Payment, PaymentPartService>();
 
             services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();
+            services.AddScoped<MemberExportService>();
+            services.AddSingleton<IBackgroundTask, MemberExportBackgroundTask>();
 
-            if (CurrentEnvironment.IsDevelopment()) 
+            if (CurrentEnvironment.IsDevelopment())
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
                 services.AddScoped<IContentTypeDefinitionDisplayDriver, CodeGenerationDisplayDriver>();
             }
 
             services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
-                .ForEditor<PartTextFieldDriver>(d=>true);
+                .ForEditor<PartTextFieldDriver>(d => true);
             services.AddContentField<NumericField>().ForEditor<NumericFieldDisplayDriver>(d => false)
     .ForEditor<PartNumericFieldDriver>(d => true);
 
             services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
-                .ForEditor<TaxonomyFieldDisplayDriver>(d=>!string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))
+                .ForEditor<TaxonomyFieldDisplayDriver>(d => !string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))
                 .ForEditor<PartTaxonomyFieldTagsDriver>(d =>
                 {
                     return string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) || string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase);
