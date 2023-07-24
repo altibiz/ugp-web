@@ -73,7 +73,7 @@ namespace Members.Controllers
             DateTime endDate = DateTime.Now;
             DateTime currentStartDate = startDate;
 
-            var memQuery = _memberService.GetAllMembersForExportQuery(currentStartDate, endDate, exportCounty);
+            var memQuery = _memberService.GetAllMembersForExportQuery(currentStartDate, endDate, exportCounty, exportActivity);
             var count = await memQuery.CountAsync();
             var companyQuery = _memberService.GetAllCompaniesForExportQuery(currentStartDate, endDate, exportCounty, exportActivity);
             var countCompany = await companyQuery.CountAsync();

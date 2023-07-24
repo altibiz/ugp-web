@@ -71,8 +71,11 @@ namespace Members.Core
             return member.FirstOrDefault();
         }
 
-        public IQuery<ContentItem> GetAllMembersForExportQuery(DateTime startDate, DateTime endDate, string county = null)
+        public IQuery<ContentItem> GetAllMembersForExportQuery(DateTime startDate, DateTime endDate, string county = null, string[] activity = null)
         {
+            if (!activity.Any(x => x.IsNullOrEmpty()))
+                return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
+
             IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest);
             if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= startDate && x.PublishedUtc < endDate);
 
