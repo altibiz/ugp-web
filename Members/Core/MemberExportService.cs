@@ -62,7 +62,7 @@ namespace Members.Core
             if (!activity.Any(x => x.IsNullOrEmpty()))
                 return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
 
-            IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest);
+            IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest).OrderBy(x=>x.ContentItemId);
             if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= startDate);
 
             if (!string.IsNullOrEmpty(county))
@@ -74,7 +74,7 @@ namespace Members.Core
         public IQuery<ContentItem> GetAllCompaniesForExportQuery(DateTime startDate, string county = null, string[] activity = null)
         {
             IQuery<ContentItem> query = _session.Query<ContentItem>();
-            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest);
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest).OrderBy(x => x.ContentItemId);
             if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>().Where(x => x.PublishedUtc > startDate);
 
             if (!string.IsNullOrEmpty(county))
