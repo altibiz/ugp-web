@@ -82,7 +82,7 @@ namespace Members.Controllers
                 var bytes = await GetExportFile(memQuery, companyQuery);
                 return File(bytes, "application/octet-stream", "Reports.csv");
             }
-            await _notifier.WarningAsync(H["File too big to export"]);
+            await _notifier.WarningAsync(H["File too big to export: " + (count + countCompany)]);
             return RedirectToAction("Index");
         }
 
