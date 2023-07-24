@@ -17,6 +17,7 @@ using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using UglyToad.PdfPig.AcroForms.Fields;
 using YesSql;
@@ -36,7 +37,7 @@ namespace Members.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            
+
             var info = await _session.Query<ExportInfo>().FirstOrDefaultAsync() ?? new ExportInfo();
             info.CountyList = await GetCountiesAsync();
             info.ActivityList = await GetActivitiesAsync();
@@ -46,9 +47,9 @@ namespace Members.Controllers
         private async Task<List<Term>> GetCountiesAsync()
         {
             var allTerms = await _memberService.GetTaxonomyTerms("Županija");
-            var ciList =  allTerms.Select(x => new Term { Name= x.DisplayText ,termId=x.ContentItemId });
+            var ciList = allTerms.Select(x => new Term { Name = x.DisplayText, termId = x.ContentItemId });
             ciList = ciList.Prepend(new Term { Name = "Sve županije", termId = null });
-            
+
             return ciList.ToList();
         }
 
@@ -60,7 +61,7 @@ namespace Members.Controllers
 
             return ciList.ToList();
         }
-        
+
         public async Task<FileContentResult> DownloadFileAsync(DateTime date)
         {
             //get exportCounty selected from UI
@@ -73,59 +74,52 @@ namespace Members.Controllers
             DateTime endDate = DateTime.Now;
             DateTime currentStartDate = startDate;
 
-            while (currentStartDate <= endDate)
+            IEnumerable<ContentItem> memList = new List<ContentItem>();
+
+            memList = await _memberService.GetAllMembersForExport(currentStartDate, endDate, exportCounty);
+
+            foreach (var item in memList)
             {
-                DateTime currentEndDate = currentStartDate.AddMonths(3).AddDays(-1);
+                var member = item.As<Member>();
+                var person = item.As<PersonPart>();
 
-                IEnumerable<ContentItem> memList = new List<ContentItem>();
-
-                memList = await _memberService.GetAllMembersForExport(currentStartDate, currentEndDate, exportCounty);
-
-                foreach (var item in memList)
+                var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
+                var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
+                DateTime? birthdate = member.DateOfBirth?.Value;
+                var memberCsv = new CsvModel
                 {
-                    var member = item.As<Member>();
-                    var person = item.As<PersonPart>();
+                    email = person.Email?.Text,
+                    ime = person.Name?.Text,
+                    prezime = person.Surname?.Text,
 
-                    var county = StripCounty((await person.County.GetTerm(HttpContext))?.DisplayText ?? "");
-                    var gender = StripGender((await member.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
-                    DateTime? birthdate = member.DateOfBirth?.Value;
-                    var memberCsv = new CsvModel
-                    {
-                        email = person.Email?.Text,
-                        ime = person.Name?.Text,
-                        prezime = person.Surname?.Text,
-
-                        tvrtka = "",
+                    tvrtka = "",
 
 
-                        datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
+                    datum_rodjenja = birthdate.HasValue ? birthdate.Value.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "",
 
-                        djelatnost = "",
-                        spol = gender,
-                        tip_korisnika = "Fizičke",
-                        gsm = person.Phone?.Text,
+                    djelatnost = "",
+                    spol = gender,
+                    tip_korisnika = "Fizičke",
+                    gsm = person.Phone?.Text,
 
-                        zupanija = county,
-                        mjesto = person.City?.Text,
-                        oib = person.Oib?.Text
-                    };
-                    if (string.IsNullOrEmpty(memberCsv.email)) continue;
-                    csvList[memberCsv.email] = memberCsv;
-                }
+                    zupanija = county,
+                    mjesto = person.City?.Text,
+                    oib = person.Oib?.Text
+                };
+                if (string.IsNullOrEmpty(memberCsv.email)) continue;
+                csvList[memberCsv.email] = memberCsv;
+            }
 
 
-                IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
+            IEnumerable<ContentItem> onlyNewCompanies = new List<ContentItem>();
 
-                onlyNewCompanies = await _memberService.GetAllCompaniesForExport(currentStartDate, currentEndDate, exportCounty, exportActivity);
+            onlyNewCompanies = await _memberService.GetAllCompaniesForExport(currentStartDate, endDate, exportCounty, exportActivity);
 
-                foreach (var item in onlyNewCompanies)
-                {
-                    var csv = await CompanyToCsvModelAsync(item);
-                    if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
-                    csvList[csv.email] = csv;
-                }
-
-                currentStartDate = currentEndDate.AddDays(1);
+            foreach (var item in onlyNewCompanies)
+            {
+                var csv = await CompanyToCsvModelAsync(item);
+                if (csv == null || string.IsNullOrEmpty(csv.email)) continue;
+                csvList[csv.email] = csv;
             }
 
 
@@ -154,6 +148,7 @@ namespace Members.Controllers
 
         public string StripCounty(string county)
         {
+            if (string.IsNullOrEmpty(county)) return "";
             string str = county.ToUpper();
             str = str.Replace("ŽUPANIJA", "");
             str = str.Replace("Ž", "Z");
@@ -166,6 +161,7 @@ namespace Members.Controllers
         }
         public string StripGender(string county)
         {
+            if (string.IsNullOrEmpty(county)) return "";
             string str = county.ToUpper();
             str = str.Replace("MUŠKO", "M");
             str = str.Replace("ŽENSKO", "F");
@@ -179,39 +175,38 @@ namespace Members.Controllers
             if (member == null)
             {
                 member = await _memberService.GetCompanyMember(company);
-                if (member == null) return null;
             }
 
-            var mpart = member.As<Member>();
-            var ppart = member.As<PersonPart>();
-            var cppart = company.As<PersonPart>();
-            var compart=company.As<Company>();
+            var mpart = member?.As<Member>();
+            var ppart = member?.As<PersonPart>();
+            var cperpart = company.As<PersonPart>();
+            var compart = company.As<Company>();
 
             DateTime? birthdate = mpart?.DateOfBirth?.Value;
 
-            var county = StripCounty((await cppart.County.GetTerm(HttpContext))?.DisplayText ?? "");
-            var gender = StripGender((await mpart.Sex.GetTerm(HttpContext))?.DisplayText ?? "");
+            var county = StripCounty((await cperpart?.County.GetTerm(HttpContext))?.DisplayText);
+            var gender = StripGender(mpart != null ? (await mpart?.Sex.GetTerm(HttpContext))?.DisplayText : null);
 
             var activityTerms = await compart.Activity?.GetTerms(HttpContext);
 
             CsvModel cs = new CsvModel();
 
-            cs.email = cppart.Email?.Text;
-            cs.ime = ppart.Name?.Text;
-            cs.prezime = ppart.Surname?.Text;
-            cs.tvrtka = cppart.Name?.Text;
+            cs.email = cperpart.Email?.Text;
+            cs.ime = ppart?.Name?.Text ?? cperpart?.Name?.Text;
+            cs.prezime = ppart?.Surname?.Text ?? cperpart?.Surname?.Text; ;
+            cs.tvrtka = cperpart.Name?.Text;
             cs.datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "";
             cs.djelatnost = string.Join(", ", activityTerms?.Select(x => x?.DisplayText));
             cs.spol = gender;
             cs.tip_korisnika = "Pravne";
-            cs.gsm = cppart.Phone?.Text;
+            cs.gsm = cperpart.Phone?.Text;
             cs.zupanija = county;
-            cs.mjesto = cppart.City?.Text;
-            cs.oib = cppart.Oib?.Text;
+            cs.mjesto = cperpart.City?.Text;
+            cs.oib = cperpart.Oib?.Text;
             return cs;
         }
     }
-    
+
     public class ExportInfo
     {
         public DateTime? LastSave { get; set; }
@@ -224,11 +219,11 @@ namespace Members.Controllers
         public string Name { get; set; }
         public string termId { get; set; }
     }
-    
+
     public class CsvModel
     {
         public string email { get; set; }
-        public string ime { get; set;  }
+        public string ime { get; set; }
         public string prezime { get; set; }
         public string tvrtka { get; set; }
         public string datum_rodjenja { get; set; }

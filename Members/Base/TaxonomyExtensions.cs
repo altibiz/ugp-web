@@ -2,17 +2,20 @@
 using OrchardCore;
 using OrchardCore.ContentManagement;
 using OrchardCore.Taxonomies.Fields;
+using OrchardCore.Taxonomies.Indexing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using YesSql;
+using YesSql.Services;
 
 namespace Members.Base
 {
     public static class TaxonomyExtensions
     {
-        public static async Task<List<ContentItem>> GetTerms(this TaxonomyField field,HttpContext context)
+        public static async Task<List<ContentItem>> GetTerms(this TaxonomyField field, HttpContext context)
         {
             var res = new List<ContentItem>();
             if (field == null) return res;
@@ -25,7 +28,17 @@ namespace Members.Base
             return res;
         }
 
-        public static async Task<ContentItem> GetTerm(this TaxonomyField field,HttpContext context)
+        public static IQuery<T> GetByTerm<T>(this IQuery<T> query, string contentPart, string contentField, string termContentId) where T : class
+        {
+            return query.With<TaxonomyIndex>(x => x.ContentPart == contentPart && x.ContentField == contentField && x.TermContentItemId == termContentId);
+        }
+
+        public static IQuery<T> GetByTerm<T>(this IQuery<T> query, string contentPart, string contentField, string[] termContentIds) where T : class
+        {
+            return query.With<TaxonomyIndex>(x => x.ContentPart == contentPart && x.ContentField == contentField && x.TermContentItemId.IsIn(termContentIds));
+        }
+
+        public static async Task<ContentItem> GetTerm(this TaxonomyField field, HttpContext context)
         {
             return (await field.GetTerms(context)).FirstOrDefault(); ;
         }

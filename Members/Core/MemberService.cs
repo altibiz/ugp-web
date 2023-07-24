@@ -57,7 +57,7 @@ namespace Members.Core
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<ContentItem>GetCompanyMember(ContentItem company)
+        public async Task<ContentItem> GetCompanyMember(ContentItem company)
         {
             return await _session.GetListItemParent(company);
         }
@@ -71,35 +71,30 @@ namespace Members.Core
             return member.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate, DateTime endDate, string county=null)
+        public async Task<IEnumerable<ContentItem>> GetAllMembersForExport(DateTime startDate, DateTime endDate, string county = null)
         {
-            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member)).Where(x => x.Published && x.Latest);
-            if (startDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc >= startDate && x.PublishedUtc<endDate);
-
-            var members = await query.ListAsync();
+            IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest);
+            if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>(x => x.PublishedUtc >= startDate && x.PublishedUtc < endDate);
 
             if (!string.IsNullOrEmpty(county))
-                members = members.Where(x => x.As<PersonPart>().County.TermContentItemIds.Any(c => c == county));
+                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
 
-            return members;
+            return await query.ListAsync();
         }
 
-        public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, DateTime endDate, string county=null, string[] activity=null)
+        public async Task<IEnumerable<ContentItem>> GetAllCompaniesForExport(DateTime startDate, DateTime endDate, string county = null, string[] activity = null)
         {
-            var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest);
-            if (startDate < DateTime.Now.Date) query = query.Where(x => x.PublishedUtc > startDate && x.PublishedUtc<endDate);
-
-            var companies = await query.ListAsync();
+            IQuery<ContentItem> query = _session.Query<ContentItem>();
+            query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest);
+            if (startDate < DateTime.Now.Date) query = query.With<ContentItemIndex>().Where(x => x.PublishedUtc > startDate && x.PublishedUtc < endDate);
 
             if (!string.IsNullOrEmpty(county))
-                companies = companies.Where(x => x.As<PersonPart>().County.TermContentItemIds.Any(c => c == county));
+                query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), county);
 
-            if (!activity.Any(x=>x.IsNullOrEmpty()))
-                companies = companies.Where(x => x.As<Company>().Activity.TermContentItemIds.Any(a => activity.Contains(a)));
+            if (!activity.Any(x => x.IsNullOrEmpty()))
+                query = query.GetByTerm(nameof(Company), nameof(Company.Activity), activity);
 
-            companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
-
-            return companies;
+            return await query.ListAsync();
         }
 
         //get's all members companies published after the date 
@@ -112,15 +107,15 @@ namespace Members.Core
         public async Task<IEnumerable<ContentItem>> GetOnlyNewCompanies(DateTime afterDate)
         {
 
-            List<ContentItem> newCompanies=new List<ContentItem>();
+            List<ContentItem> newCompanies = new List<ContentItem>();
 
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest && x.PublishedUtc > afterDate);
             var companies = await query.ListAsync();
             companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
 
-            foreach (ContentItem item  in companies)
+            foreach (ContentItem item in companies)
             {
-                    newCompanies.Add(item);
+                newCompanies.Add(item);
             }
 
             return newCompanies;
