@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using Members.Utils;
 using Members.Base;
+using System.Threading.Tasks;
 
 namespace Members.Payments
 {
@@ -58,9 +59,9 @@ namespace Members.Payments
 
     public static class PaymentIndexExtensions
     {
-        public static void CreatePaymentIndex(this ISchemaBuilder SchemaBuilder)
+        public static async Task CreatePaymentIndex(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.CreateMapIndexTable<PaymentIndex>(table => table
+            await SchemaBuilder.CreateMapIndexTableAsync<PaymentIndex>(table => table
                 .Column<DateTime>(nameof(PaymentIndex.Date))
                 .Column<decimal?>(nameof(PaymentIndex.Amount))
                 .Column<string>(nameof(PaymentIndex.ContentItemId), c => c.WithLength(50))
@@ -70,18 +71,18 @@ namespace Members.Payments
             );
         }
 
-        public static void AddPayoutField(this ISchemaBuilder SchemaBuilder)
+        public static async Task AddPayoutField(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.AlterIndexTable<PaymentIndex>(table =>
+            await SchemaBuilder.AlterIndexTableAsync<PaymentIndex>(table =>
             {
                 table.AddColumn<bool>("IsPayout");
             }
             );
         }
 
-        public static void AddPaymentPublished(this ISchemaBuilder SchemaBuilder)
+        public static async Task AddPaymentPublished(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.AlterIndexTable<PaymentIndex>(table =>
+            await SchemaBuilder.AlterIndexTableAsync<PaymentIndex>(table =>
             {
                 table.AddColumn<bool>("Published");
             }
@@ -89,9 +90,9 @@ namespace Members.Payments
             SchemaBuilder.ExecuteSql("UPDATE PaymentIndex SET Published=(SELECT Published FROM ContentItemIndex WHERE PaymentIndex.DocumentId=ContentItemIndex.DocumentId)");
         }
 
-        public static void AddTransactionRef(this ISchemaBuilder SchemaBuilder)
+        public static async Task AddTransactionRef(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.AlterIndexTable<PaymentIndex>(table =>
+            await SchemaBuilder.AlterIndexTableAsync<PaymentIndex>(table =>
             {
                 table.AddColumn<string>("TransactionRef", c => c.WithLength(50));
             });

@@ -83,7 +83,7 @@ namespace Members.Base
                     }
                     var context = new ImportContentContext(importingItem);
                     await Handlers.InvokeAsync((handler, context) => handler.ImportingAsync(context), context, _logger);
-                    _session.Save(importingItem);
+                    await _session.SaveAsync(importingItem);
 
                 }
                 await _session.SaveChangesAsync();

@@ -163,7 +163,7 @@ namespace Members.Core
             csvWriter.Flush();
             var info = await _session.Query<ExportInfo>().FirstOrDefaultAsync() ?? new ExportInfo();
             info.LastSave = DateTime.Now;
-            _session.Save(info);
+            await _session.SaveAsync(info);
             memoryStream.Seek(0, SeekOrigin.Begin);
             return memoryStream;
         }

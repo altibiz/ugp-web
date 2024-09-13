@@ -4,6 +4,7 @@ using YesSql.Sql;
 using System.Linq;
 using Members.Core;
 using Members.Utils;
+using System.Threading.Tasks;
 
 namespace Members.Indexes
 {
@@ -41,9 +42,9 @@ namespace Members.Indexes
     }
     public static class OfferIndexExtensions
     {
-        public static void CreateOfferIndex(this ISchemaBuilder SchemaBuilder)
+        public static async Task CreateOfferIndex(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.CreateMapIndexTable<OfferIndex>(table => table
+            await SchemaBuilder.CreateMapIndexTableAsync<OfferIndex>(table => table
                 .Column<string>(nameof(OfferIndex.ContentItemId), c => c.WithLength(50))
                 .Column<string>(nameof(OfferIndex.CompanyContentItemId), c => c.WithLength(50))
                 .Column<string>(nameof(OfferIndex.Title), c => c.WithLength(225))

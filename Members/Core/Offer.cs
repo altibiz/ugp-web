@@ -9,6 +9,7 @@ using OrchardCore.Media.Settings;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Title.Models;
+using System.Threading.Tasks;
 
 namespace Members.Core
 {
@@ -37,10 +38,10 @@ namespace Members.Core
 
     public static class OfferMigration
     {
-        public static void MigrateOffer(this IContentDefinitionManager _contentDefinitionManager)
+        public static async Task MigrateOffer(this IContentDefinitionManager _contentDefinitionManager)
         {
             #region OfferType
-            _contentDefinitionManager.AlterTypeDefinition("Offer", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Offer", type => type
                 .DisplayedAs("Ponuda")
                 .Creatable()
                 .Listable()
@@ -65,7 +66,7 @@ namespace Members.Core
             );
             #endregion
             #region OfferPart
-            _contentDefinitionManager.AlterPartDefinition("Offer", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Offer", part => part
                  .WithField("Category", field => field
                     .OfType("TaxonomyField")
                     .WithDisplayName("Kategorija")

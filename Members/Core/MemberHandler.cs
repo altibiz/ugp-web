@@ -20,7 +20,7 @@ namespace Members.Core
         {
             _spr = serviceProvider;
         }
-        public override Task ImportingAsync(ImportContentContext context)
+        public async override Task ImportingAsync(ImportContentContext context)
         {
             if (context.ContentItem.ContentType == "Member")
             {
@@ -30,7 +30,7 @@ namespace Members.Core
                 using (var scope = _spr.CreateScope())
                 {
                     var cdm = scope.ServiceProvider.GetRequiredService<IContentDefinitionManager>();
-                    var type = cdm.GetTypeDefinition(context.ContentItem.ContentType);
+                    var type = await cdm.GetTypeDefinitionAsync(context.ContentItem.ContentType);
                     var routeDef = type.Parts.FirstOrDefault(x => x.Name == "AutoroutePart");
                     if (routeDef != null && context.ContentItem.ContentType == "Offer")
                     {
@@ -41,7 +41,6 @@ namespace Members.Core
 
                     }
                 }
-            return Task.CompletedTask;
         }
 
         public static void FixMemberDate(ContentItem cItem)

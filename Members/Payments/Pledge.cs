@@ -8,6 +8,7 @@ using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Taxonomies.Fields;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Title.Models;
+using System.Threading.Tasks;
 
 namespace Members.Payments
 {
@@ -48,9 +49,9 @@ namespace Members.Payments
 
     public static class PledgeMigrations
     {
-        public static void CreatePledge(this IContentDefinitionManager _contentDefinitionManager)
+        public static async Task CreatePledge(this IContentDefinitionManager _contentDefinitionManager)
         {
-            _contentDefinitionManager.AlterTypeDefinition("Pledge", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Pledge", type => type
                 .DisplayedAs("Uplatnica")
                 .Listable()
                 .Securable()
@@ -68,7 +69,7 @@ namespace Members.Payments
                     })
                 )
             );
-            _contentDefinitionManager.AlterPartDefinition(nameof(Pledge), part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(Pledge), part => part
                 .WithField("Amount", field => field
                     .OfType("NumericField")
                     .WithDisplayName("Iznos")
@@ -142,7 +143,7 @@ namespace Members.Payments
                 )
            );
 
-            _contentDefinitionManager.AlterTypeDefinition("PledgeVariant", type => type
+           await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeVariant", type => type
                 .DisplayedAs("Vrijednost uplate")
                 .Creatable()
                 .WithPart(nameof(PledgeVariant), part => part
@@ -157,7 +158,7 @@ namespace Members.Payments
                  )
             );
 
-            _contentDefinitionManager.AlterPartDefinition(nameof(PledgeVariant), part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(PledgeVariant), part => part
             .WithField("Price", field => field
                 .OfType("NumericField")
                 .WithDisplayName("Cijena")
@@ -169,7 +170,7 @@ namespace Members.Payments
                 })
             ));
 
-            _contentDefinitionManager.AlterTypeDefinition("PledgeForm", type => type.Stereotype("Widget"));
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeForm", type => type.Stereotype("Widget"));
 
         }
     }

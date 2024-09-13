@@ -4,6 +4,7 @@ using YesSql.Sql;
 using System;
 using System.Linq;
 using Members.Utils;
+using System.Threading.Tasks;
 
 namespace Members.Payments
 {
@@ -58,9 +59,9 @@ namespace Members.Payments
 
     public static class PaymentByDayIndexExtensions
     {
-        public static void CreatePaymentByDayIndex(this ISchemaBuilder SchemaBuilder)
+        public static async Task CreatePaymentByDayIndex(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.CreateReduceIndexTable<PaymentByDayIndex>(table => table
+            await SchemaBuilder.CreateReduceIndexTableAsync<PaymentByDayIndex>(table => table
                 .Column<DateTime>(nameof(PaymentByDayIndex.Date))
                 .Column<decimal>(nameof(PaymentByDayIndex.PayIn))
                 .Column<int>(nameof(PaymentByDayIndex.CountIn))

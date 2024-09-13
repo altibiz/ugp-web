@@ -2,14 +2,15 @@
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Media.Settings;
+using System.Threading.Tasks;
 
 namespace Members.Base
 {
     public static class ImageBannerType
     {
-        public static void DefineImageBanner(this IContentDefinitionManager _contentDefinitionManager)
+        public static async Task DefineImageBanner(this IContentDefinitionManager _contentDefinitionManager)
         {
-            _contentDefinitionManager.AlterTypeDefinition("Image", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Image", type => type
                 .DisplayedAs("Image")
                 .Draftable()
                 .Versionable()
@@ -19,7 +20,7 @@ namespace Members.Base
                     .WithPosition("0")
                 )
             );
-            _contentDefinitionManager.AlterPartDefinition("Image", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Image", part => part
                 .WithField("Media", field => field
                     .OfType("MediaField")
                     .WithDisplayName("Image")

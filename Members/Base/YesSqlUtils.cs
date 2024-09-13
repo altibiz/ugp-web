@@ -71,7 +71,7 @@ namespace Members.Base
             int i = 1;
             foreach (var itm in items)
             {
-                sess.Save(itm);
+                await sess.SaveAsync(itm);
                 if (i % 100 == 0)
                     await sess.SaveChangesAsync();
                 i++;
@@ -92,7 +92,7 @@ namespace Members.Base
             var items = sess.Get<ContentItem>(docs.ToList(), collection);
             foreach (var itm in items)
             {
-                sess.Save(itm);
+                await sess.SaveAsync(itm);
             }
             await sess.SaveChangesAsync();
         }

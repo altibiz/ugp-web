@@ -8,6 +8,7 @@ using Members.Utils;
 using OrchardCore.Data;
 using Members.Core;
 using Members.Base;
+using System.Threading.Tasks;
 
 namespace Members.Persons
 {
@@ -42,7 +43,7 @@ namespace Members.Persons
                     if (pp == null) return null;
                     // Lazy initialization because of ISession cyclic dependency
                     contentDefinitionManager ??= _serviceProvider.GetRequiredService<IContentDefinitionManager>();
-                    var typeDef = contentDefinitionManager.GetSettings<PersonPartSettings>(pp);
+                    var typeDef = Task.Run(async () => await contentDefinitionManager.GetSettings<PersonPartSettings>(pp)).Result;
                     var res = new PersonPartIndex
                     {
                         ContentItemId = contentItem.ContentItemId,
@@ -68,9 +69,9 @@ namespace Members.Persons
 
     public static class PersonPartIndexExtensions
     {
-        public static void MigratePersonPartIndex(this ISchemaBuilder SchemaBuilder)
+        public static async Task MigratePersonPartIndex(this ISchemaBuilder SchemaBuilder)
         {
-            SchemaBuilder.CreateMapIndexTable<PersonPartIndex>(table => table
+            await SchemaBuilder.CreateMapIndexTableAsync<PersonPartIndex>(table => table
                 .Column<string>("Oib", col => col.WithLength(50))
                 .Column<string>("ContentItemId", c => c.WithLength(50))
                 .Column<string>("LegalName", c => c.WithLength(255))
@@ -81,7 +82,7 @@ namespace Members.Persons
                 .Column<bool>("Published")
                );
 
-            SchemaBuilder.AlterIndexTable<PersonPartIndex>(table => table
+            await SchemaBuilder.AlterIndexTableAsync<PersonPartIndex>(table => table
                 .CreateIndex("IDX_PersonPartIndex_DocumentId",
                     "DocumentId",
                     "Oib",
@@ -89,9 +90,9 @@ namespace Members.Persons
             );
         }
 
-        public static void AddPublished(this ISchemaBuilder schemaBuilder)
+        public static async Task AddPublished(this ISchemaBuilder schemaBuilder)
         {
-            schemaBuilder.AlterIndexTable<PersonPartIndex>(table => table
+            await schemaBuilder.AlterIndexTableAsync<PersonPartIndex>(table => table
             .AddColumn<bool>("Published"));
             schemaBuilder.ExecuteSql("UPDATE ppi SET ppi.Published=cii.Published FROM PersonPartIndex ppi INNER JOIN " +
 "ContentItemIndex cii ON ppi.DocumentId=cii.DocumentId");

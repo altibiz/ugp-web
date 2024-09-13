@@ -3,6 +3,7 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Title.Models;
+using System.Threading.Tasks;
 
 namespace Members.Payments
 {
@@ -14,9 +15,9 @@ namespace Members.Payments
 
     public static class BankStatementMigrations
     {
-        public static void CreateBankStatement(this IContentDefinitionManager _contentDefinitionManager)
+        public static async Task CreateBankStatement(this IContentDefinitionManager _contentDefinitionManager)
         {
-            _contentDefinitionManager.AlterTypeDefinition("BankStatement", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("BankStatement", type => type
                 .DisplayedAs("Izvod")
                 .Listable()
                 .Securable()
@@ -33,7 +34,7 @@ namespace Members.Payments
                     })
                 )
             );
-            _contentDefinitionManager.AlterPartDefinition(nameof(BankStatPart), part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(BankStatPart), part => part
                 .WithField("Date", field => field
                     .OfType("DateField")
                     .WithDisplayName("Datum")

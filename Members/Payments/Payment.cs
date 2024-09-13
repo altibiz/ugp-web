@@ -5,6 +5,7 @@ using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Title.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace Members.Payments
 {
@@ -31,9 +32,9 @@ namespace Members.Payments
 
     public static class PaymentMigration
     {
-        public static void MigratePayment(this IContentDefinitionManager _contentDefinitionManager)
+        public static async Task MigratePayment(this IContentDefinitionManager _contentDefinitionManager)
         {
-            _contentDefinitionManager.AlterTypeDefinition("Payment", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Payment", type => type
                 .DisplayedAs("Plaćanje")
                 .Creatable()
                 .Listable()
@@ -52,7 +53,7 @@ namespace Members.Payments
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition("Payment", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Payment", part => part
                 .WithField("IsPayout", field => field
                     .OfType("BooleanField")
                     .WithDisplayName("Isplata")

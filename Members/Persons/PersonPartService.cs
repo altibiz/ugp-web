@@ -43,7 +43,7 @@ namespace Members.Persons
             {
                 yield break;
             }
-            var personPartSettings = _cdm.GetSettings<PersonPartSettings>(part);
+            var personPartSettings = await _cdm.GetSettings<PersonPartSettings>(part);
             if (!string.IsNullOrWhiteSpace(part.Oib?.Text))
             {
                 var oib = part.Oib.Text;
@@ -66,7 +66,7 @@ namespace Members.Persons
 
         private async Task<bool> IsPersonUniqueAsync(PersonPart part, string oib)
         {
-            var typeDef = _cdm.GetSettings<PersonPartSettings>(part);
+            var typeDef = await _cdm.GetSettings<PersonPartSettings>(part);
             var personType = typeDef.Type?.ToString();
             return (await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib && o.ContentItemId != part.ContentItem.ContentItemId && o.PersonType == personType).CountAsync()) == 0;
         }

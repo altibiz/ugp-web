@@ -1,16 +1,16 @@
 ﻿using OrchardCore.ContentFields.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
-using OrchardCore.Indexing;
 using OrchardCore.Taxonomies.Settings;
+using System.Threading.Tasks;
 
 namespace Members.Persons
 {
     public static class PersonPartMigrations
     {
-        public static void AlterPersonPart(this IContentDefinitionManager contentDefinitionManager)
+        public static async Task AlterPersonPart(this IContentDefinitionManager contentDefinitionManager)
         {
-            contentDefinitionManager.AlterPartDefinition("PersonPart", part =>
+            await contentDefinitionManager.AlterPartDefinitionAsync("PersonPart", part =>
             part
                 .WithField("Name", field => field
                     .OfType("TextField")

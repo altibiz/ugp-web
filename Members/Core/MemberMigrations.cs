@@ -6,15 +6,16 @@ using OrchardCore.Lists.Models;
 using OrchardCore.Media.Settings;
 using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Title.Models;
+using System.Threading.Tasks;
 
 namespace Members.Core
 {
     public static class MemberMigrations
     {
-        public static void ExecuteMemberMigrations(this IContentDefinitionManager _contentDefinitionManager)
+        public static async Task ExecuteMemberMigrations(this IContentDefinitionManager _contentDefinitionManager)
         {
             #region Member Content Type
-            _contentDefinitionManager.AlterTypeDefinition("Member", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Member", type => type
                 .DisplayedAs("Član")
                 .Creatable()
                 .Listable()
@@ -53,7 +54,7 @@ namespace Members.Core
             #endregion
 
             #region Member Content Part
-            _contentDefinitionManager.AlterPartDefinition("Member", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Member", part => part
 
                .WithField("DateOfBirth", field => field
                     .OfType("DateField")
@@ -91,7 +92,7 @@ namespace Members.Core
             #endregion
 
             #region CompanyType
-            _contentDefinitionManager.AlterTypeDefinition("Company", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Company", type => type
                  .DisplayedAs("Tvrtka")
                  .Creatable()
                  .Listable()
@@ -121,7 +122,7 @@ namespace Members.Core
             #endregion
 
             #region CompanyPart
-            _contentDefinitionManager.AlterPartDefinition("PersonPart", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("PersonPart", part => part
                 .WithField("Name", field => field
                     .OfType("TextField")
                     .WithDisplayName("Ime")
@@ -188,7 +189,7 @@ namespace Members.Core
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition("Company", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Company", part => part
                 .WithField("AuthorizedRep", field => field
                     .OfType("TextField")
                     .WithDisplayName("Ovlaštena osoba za zastupanje")

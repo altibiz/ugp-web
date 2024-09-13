@@ -6,15 +6,16 @@ using OrchardCore.Lists.Models;
 using OrchardCore.Taxonomies.Fields;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Members.Utils
 {
     public static class ContentExtensions
     {
-        public static TSetting GetSettings<TSetting>(this IContentDefinitionManager _cdm, ContentPart part)
+        public static async Task<TSetting> GetSettings<TSetting>(this IContentDefinitionManager _cdm, ContentPart part)
     where TSetting : new()
         {
-            var contentTypeDefinition = _cdm.GetTypeDefinition(part.ContentItem.ContentType);
+            var contentTypeDefinition = await _cdm.GetTypeDefinitionAsync(part.ContentItem.ContentType);
             var contentTypePartDefinition = contentTypeDefinition.Parts.FirstOrDefault(x => string.Equals(x.PartDefinition.Name, part.GetType().Name));
             return contentTypePartDefinition.GetSettings<TSetting>();
         }

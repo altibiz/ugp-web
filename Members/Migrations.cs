@@ -7,8 +7,6 @@ using Members.Core;
 using Members.Payments;
 using Members.Indexes;
 using Members.Base;
-using YesSql;
-using Members.Utils;
 
 namespace Members
 {
@@ -28,95 +26,95 @@ namespace Members
             await _recipeMigrator.ExecuteAsync("init.recipe.json", this);
 
             #region PersonPart
-            _contentDefinitionManager.AlterPersonPart();
-            SchemaBuilder.MigratePersonPartIndex();
+            await _contentDefinitionManager.AlterPersonPart();
+            await SchemaBuilder.MigratePersonPartIndex();
             #endregion
 
-            _contentDefinitionManager.ExecuteMemberMigrations();
-            _contentDefinitionManager.MigratePayment();
-            SchemaBuilder.CreatePaymentIndex();
-            _contentDefinitionManager.MigrateOffer();
-            SchemaBuilder.CreateOfferIndex();
-            _contentDefinitionManager.CreateBankStatement();
+            await _contentDefinitionManager.ExecuteMemberMigrations();
+            await _contentDefinitionManager.MigratePayment();
+            await SchemaBuilder.CreatePaymentIndex();
+            await _contentDefinitionManager.MigrateOffer();
+            await SchemaBuilder.CreateOfferIndex();
+            await _contentDefinitionManager.CreateBankStatement();
             await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
-            _contentDefinitionManager.CreatePledge();
-            _contentDefinitionManager.DefineImageBanner();
-            SchemaBuilder.AddPayoutField();
-            SchemaBuilder.AddPaymentPublished();
-            _contentDefinitionManager.AdminPage();
-            SchemaBuilder.AddTransactionRef();
-            SchemaBuilder.CreatePaymentByDayIndex();
+            await _contentDefinitionManager.CreatePledge();
+            await _contentDefinitionManager.DefineImageBanner();
+            await SchemaBuilder.AddPayoutField();
+            await SchemaBuilder.AddPaymentPublished();
+            await _contentDefinitionManager.AdminPage();
+            await SchemaBuilder.AddTransactionRef();
+            await SchemaBuilder.CreatePaymentByDayIndex();
             return 12;
         }
 
-        public int UpdateFrom1()
+        public async Task<int> UpdateFrom1()
         {
-            _contentDefinitionManager.AlterPartDefinition("Offer", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Offer", part => part
                 .RemoveField("LongDescription")//remove to add
                 .RemoveField("NestoTamo")//remove to add
                 );
-            _contentDefinitionManager.MigrateOffer();
+            await _contentDefinitionManager.MigrateOffer();
             return 2;
         }
 
-        public int UpdateFrom2()
+        public async Task<int> UpdateFrom2()
         {
-            SchemaBuilder.AddPublished();
+            await SchemaBuilder.AddPublished();
             return 3;
         }
 
         public async Task<int> UpdateFrom3()
         {
             await _recipeMigrator.ExecuteAsync("pledge.recipe.json", this);
-            _contentDefinitionManager.CreatePledge();
+            await _contentDefinitionManager.CreatePledge();
             return 4;
         }
 
-        public int UpdateFrom4()
+        public async Task<int> UpdateFrom4()
         {
-            _contentDefinitionManager.DefineImageBanner();
+            await _contentDefinitionManager.DefineImageBanner();
             return 5;
         }
 
-        public int UpdateFrom5()
+        public async Task<int> UpdateFrom5()
         {
-            _contentDefinitionManager.MigratePayment();
+            await _contentDefinitionManager.MigratePayment();
             return 6;
         }
 
-        public int UpdateFrom6()
+        public async Task<int> UpdateFrom6()
         {
-            SchemaBuilder.AddPayoutField();
+            await SchemaBuilder.AddPayoutField();
             return 7;
         }
 
-        public int UpdateFrom7()
+        public async Task<int> UpdateFrom7()
         {
-            _contentDefinitionManager.MigratePayment();
+            await _contentDefinitionManager.MigratePayment();
             return 8;
         }
 
-        public int UpdateFrom8()
+        public async Task<int> UpdateFrom8()
         {
-            SchemaBuilder.AddPaymentPublished();
+            await SchemaBuilder.AddPaymentPublished();
             return 9;
         }
 
-        public int UpdateFrom9()
+        public async Task<int> UpdateFrom9()
         {
-            _contentDefinitionManager.AdminPage();
+            await _contentDefinitionManager.AdminPage();
             return 10;
         }
 
-        public int UpdateFrom10()
+        public async Task<int> UpdateFrom10()
         {
-            SchemaBuilder.AddTransactionRef();
+            await SchemaBuilder.AddTransactionRef();
             return 11;
         }
 
-        public int UpdateFrom11()
+        public async Task<int> UpdateFrom11()
         {
-            SchemaBuilder.CreatePaymentByDayIndex();
+            await SchemaBuilder.CreatePaymentByDayIndex();
             return 12;
         }
     }

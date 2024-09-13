@@ -1,14 +1,15 @@
 ﻿using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.Title.Models;
+using System.Threading.Tasks;
 
 namespace Members
 {
     public static class ContentDefinitions
     {
-        public static void AdminPage(this IContentDefinitionManager contentDefinitionManager)
+        public async static Task AdminPage(this IContentDefinitionManager contentDefinitionManager)
         {
-            contentDefinitionManager.AlterTypeDefinition("AdminPage", type => type
+            await contentDefinitionManager.AlterTypeDefinitionAsync("AdminPage", type => type
                 .DisplayedAs("Admin Page")
                 .Creatable()
                 .Listable()

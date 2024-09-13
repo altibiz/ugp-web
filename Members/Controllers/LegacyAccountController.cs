@@ -98,7 +98,7 @@ namespace Members.Controllers
 
                 mem.User.UserIds = new[] { (newuser as User).UserId };
                 memberItem.Apply(mem);
-                _session.Save(memberItem);
+                await _session.SaveAsync(memberItem);
                 return Ok(email ?? newusrname);
             }
             return Ok(model.UserName);
