@@ -211,3 +211,5 @@ UgpWeb/wwwroot/*
 /UgpWeb/Localization/fi
 /UgpWeb/Localization/mk
 UgpTheme/package-lock.json
+/UgpWeb/Localization/zh-Hans
+/UgpWeb/Localization/zh-Hant

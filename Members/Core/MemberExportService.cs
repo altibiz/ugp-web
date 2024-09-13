@@ -59,7 +59,7 @@ namespace Members.Core
         }
         public IQuery<ContentItem> GetAllMembersForExportQuery(ExportModel model)
         {
-            if (!model.ExportActivity.Any(x => x.IsNullOrEmpty()))
+            if (!model.ExportActivity.Any(string.IsNullOrEmpty))
                 return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
 
             IQuery<ContentItem> query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Member) && x.Published && x.Latest).OrderBy(x => x.ContentItemId);
@@ -80,7 +80,7 @@ namespace Members.Core
             if (!string.IsNullOrEmpty(model.ExportCounty))
                 query = query.GetByTerm(nameof(PersonPart), nameof(PersonPart.County), model.ExportCounty);
 
-            if (!model.ExportActivity.Any(x => x.IsNullOrEmpty()))
+            if (!model.ExportActivity.Any(string.IsNullOrEmpty))
                 query = query.GetByTerm(nameof(Company), nameof(Company.Activity), model.ExportActivity);
 
             return query;

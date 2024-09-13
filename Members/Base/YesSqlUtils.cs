@@ -22,22 +22,22 @@ namespace Members.Base
             var documentTable = configuration.TableNameConvention.GetDocumentTable(collection);
 
             var bridgeTableName = indexTable + "_" + documentTable;
-            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + bridgeTableName)}");
-            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable)}");
+            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + bridgeTableName, null)}");
+            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable, null)}");
         }
 
         public static void ClearMapIndexTable(this DbConnection connection, Type indexType, IConfiguration configuration, string collection = "")
         {
             var indexTable = configuration.TableNameConvention.GetIndexTable(indexType, collection);
-            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable)}");
+            connection.Execute($"DELETE FROM {configuration.SqlDialect.QuoteForTableName(configuration.TablePrefix + indexTable, null)}");
         }
 
         public async static Task<IEnumerable<Document>> GetContentItems(this DbConnection conn, string contentItemType, IConfiguration configuration, string collection = "")
         {
             var sqlBuilder = new SqlBuilder(configuration.TablePrefix, configuration.SqlDialect);
             sqlBuilder.Select();
-            sqlBuilder.Selector("dd","*");
-            sqlBuilder.Table(configuration.TableNameConvention.GetDocumentTable(collection), "dd");
+            sqlBuilder.Selector("dd", "*","dbo");
+            sqlBuilder.Table(configuration.TableNameConvention.GetDocumentTable(collection), "dd","dbo");
             sqlBuilder.WhereAnd(" dd.Type='OrchardCore.ContentManagement.ContentItem, OrchardCore.ContentManagement.Abstractions' ");
             if (!string.IsNullOrEmpty(contentItemType))
             {
@@ -54,7 +54,7 @@ namespace Members.Base
             return descs.First();
         }
 
-        public async static Task RefreshReduceIndex(this ISession templateSess, IIndexProvider indexProvider, string contentItemType = "", string collection = "",ILogger logger=null)
+        public async static Task RefreshReduceIndex(this ISession templateSess, IIndexProvider indexProvider, string contentItemType = "", string collection = "", ILogger logger = null)
         {
             templateSess.Store.Configuration.Logger = logger;
             var store = await StoreFactory.CreateAndInitializeAsync(templateSess.Store.Configuration);

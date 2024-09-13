@@ -12,7 +12,7 @@ namespace Members.Base
     public class DriverService
     {
         private static IEnumerable<Type> _implementingTypes;
-        private static IEnumerable<Type> implementingTypes = _implementingTypes ??= AppDomain.CurrentDomain.GetAssemblies()
+        private static IEnumerable<Type> implementingTypes = _implementingTypes ??= AppDomain.CurrentDomain.GetAssemblies().Where(x => !x.FullName.Contains("Microsoft"))
                     .SelectMany(x => x.GetTypes())
                     .Where(t => typeof(IFieldEditorSettings).IsAssignableFrom(t) && t.IsClass).ToList();
 

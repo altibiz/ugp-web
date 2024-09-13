@@ -1,3 +1,13 @@
+@using OrchardCore.Admin.Models
+@using OrchardCore.DisplayManagement.ModelBinding
+@inject IDisplayManager<Navbar> DisplayManager
+@inject IUpdateModelAccessor UpdateModelAccessor
+@{
+    var adminSettings = Site.As<AdminSettings>();
+    // Navbar is pre-rendered to allow resource injection.
+    var navbar = await DisplayAsync(await DisplayManager.BuildDisplayAsync(UpdateModelAccessor.ModelUpdater));
+ }
+
 <!DOCTYPE html>
 <html lang="@Orchard.CultureName()">
 <head>
@@ -35,7 +45,7 @@
                 <partial name="MainMenu" />
 
                 <partial name="LoginMenu" />
-                <shape type="ContentCulturePicker" />
+                @navbar
             </div>
             <div class="btn-group d-none d-lg-flex">
                 <a href="/doniraj" class="btn btn-success btn-sm">@T["Donate"]</a>

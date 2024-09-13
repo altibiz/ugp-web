@@ -10,7 +10,6 @@ namespace Etch.OrchardCore.Search.Indexing
         {
             var options = context.Settings.ToOptions()
                 | DocumentIndexOptions.Store
-                | DocumentIndexOptions.Analyze
                 ;
 
             context.DocumentIndex.Set("EventbriteField.StartDate", field.StartDate, options);

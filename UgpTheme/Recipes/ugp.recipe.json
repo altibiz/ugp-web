@@ -61,7 +61,7 @@
         "OrchardCore.Flows",
         "OrchardCore.Indexing",
         "OrchardCore.Layers",
-        "OrchardCore.Lucene",
+        "OrchardCore.Search.Lucene",
         "OrchardCore.Lists",
         "OrchardCore.Markdown",
         "[js: configuration('Media_Module')]",

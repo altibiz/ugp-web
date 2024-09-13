@@ -5,9 +5,9 @@ using OrchardCore.ContentManagement.Metadata.Settings;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.Data.Migration;
 using OrchardCore.Flows.Models;
-using OrchardCore.Indexing;
 using OrchardCore.Media.Settings;
 using OrchardCore.Recipes.Services;
+using OrchardCore.Search.Lucene.Model;
 using OrchardCore.Taxonomies.Settings;
 using System.Threading.Tasks;
 using YesSql;
@@ -27,9 +27,9 @@ namespace OrchardCore.Themes.UgpTheme
             _migrator = migrator;
         }
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("GPiece", cfg => cfg
+            await _contentDefinitionManager.AlterPartDefinitionAsync("GPiece", cfg => cfg
                 .WithDescription("Contains the fields for the current type")
                 .WithField("Caption",
                     fieldBuilder => fieldBuilder
@@ -55,10 +55,10 @@ namespace OrchardCore.Themes.UgpTheme
                         .WithDisplayName("Image Alt Text"))
             );
 
-            _contentDefinitionManager.AlterTypeDefinition("GPiece", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("GPiece", type => type
                 .WithPart("GPiece"));
 
-            _contentDefinitionManager.AlterPartDefinition("Gallery", cfg => cfg
+            await _contentDefinitionManager.AlterPartDefinitionAsync("Gallery", cfg => cfg
                 .WithDescription("Contains the fields for the current type")
                 .WithField("DisplayType",
                     fieldBuilder => fieldBuilder
@@ -66,7 +66,7 @@ namespace OrchardCore.Themes.UgpTheme
                         .WithDisplayName("Display Type"))
             );
 
-            _contentDefinitionManager.AlterTypeDefinition("Gallery", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Gallery", type => type
                 .WithPart("TitlePart")
                 .WithPart("Gallery")
                 .WithPart("GPieces", "BagPart", cfg => cfg
@@ -93,7 +93,7 @@ namespace OrchardCore.Themes.UgpTheme
         public static bool firstPass = true;//for some reason this script is executed twice on recipe execution
         public async Task<int> UpdateFrom2()
         {
-            _contentDefinitionManager.AlterTypeDefinition("BlogPost", type => type.RemovePart("MarkdownBodyPart")
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("BlogPost", type => type.RemovePart("MarkdownBodyPart")
                 .DisplayedAs("Blog Post")
                 .Draftable()
                 .Versionable()
@@ -119,9 +119,9 @@ namespace OrchardCore.Themes.UgpTheme
             );
 
 
-            _contentDefinitionManager.AlterPartDefinition("BlogPost", part => part.RemoveField("Category").RemoveField("Tags"));
+            await _contentDefinitionManager.AlterPartDefinitionAsync("BlogPost", part => part.RemoveField("Category").RemoveField("Tags"));
 
-            _contentDefinitionManager.AlterPartDefinition("BlogPost", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("BlogPost", part => part
                 .WithField("Subtitle", field => field
                     .OfType("TextField")
                     .WithDisplayName("Subtitle")
@@ -131,11 +131,10 @@ namespace OrchardCore.Themes.UgpTheme
                     .OfType("MediaField")
                     .WithDisplayName("Banner Image")
                     .WithPosition("1")
-                    .WithSettings(new ContentIndexSettings
+                    .WithSettings(new LuceneContentIndexSettings
                     {
                         Included = false,
                         Stored = false,
-                        Analyzed = false
                     })
                     .WithSettings(new MediaFieldSettings
                     {
@@ -180,9 +179,9 @@ namespace OrchardCore.Themes.UgpTheme
             return 4;
         }
 
-        public int UpdateFrom4()
+        public async Task<int> UpdateFrom4()
         {
-            _contentDefinitionManager.AlterPartDefinition("GPiece", cfg => cfg
+            await _contentDefinitionManager.AlterPartDefinitionAsync("GPiece", cfg => cfg
                .WithField("Link",
                    fieldBuilder => fieldBuilder
                        .OfType("TextField")
