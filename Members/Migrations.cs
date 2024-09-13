@@ -117,5 +117,11 @@ namespace Members
             await SchemaBuilder.CreatePaymentByDayIndex();
             return 12;
         }
+
+        public int UpdateFrom12()
+        {
+            SchemaBuilder.ExecuteSql(@"UPDATE Document SET Content=REPLACE(Content,'OrchardCore.Lucene','OrchardCore.Search.Lucene') where Content Like '%OrchardCore.Lucene%'");
+            return 13;
+        }
     }
 }
