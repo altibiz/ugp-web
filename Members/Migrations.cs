@@ -44,7 +44,7 @@ namespace Members
             await _contentDefinitionManager.AdminPage();
             await SchemaBuilder.AddTransactionRef();
             await SchemaBuilder.CreatePaymentByDayIndex();
-            return 12;
+            return 13;
         }
 
         public async Task<int> UpdateFrom1()
@@ -120,7 +120,6 @@ namespace Members
 
         public int UpdateFrom12()
         {
-            SchemaBuilder.ExecuteSql(@"UPDATE Document SET Content=REPLACE(Content,'OrchardCore.Lucene','OrchardCore.Search.Lucene') where Content Like '%OrchardCore.Lucene%'");
             return 13;
         }
     }
