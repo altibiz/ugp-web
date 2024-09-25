@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddOutputCache(c => c.AddBasePolicy(o => o.Cache().Expire(TimeSpan.FromMinutes(1))));
+//builder.Services.AddOutputCache(c => c.AddBasePolicy(o => o.Cache().Expire(TimeSpan.FromMinutes(1))));
 builder.Services.AddOrchardCms()
 #if DEBUG
                 .AddSetupFeatures("OrchardCore.AutoSetup")
@@ -21,7 +21,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 var app = builder.Build();
-app.UseOutputCache();
+//app.UseOutputCache();
 app.UseOrchardCore();
 
 app.Run();
