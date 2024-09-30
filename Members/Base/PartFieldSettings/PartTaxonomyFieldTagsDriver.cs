@@ -1,13 +1,11 @@
 ﻿using Members.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
+using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Taxonomies.Drivers;
 using OrchardCore.Taxonomies.Fields;
@@ -16,24 +14,32 @@ using OrchardCore.Taxonomies.Settings;
 using OrchardCore.Taxonomies.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Members.PartFieldSettings
 {
-    public class PartTaxonomyFieldTagsDriver : TaxonomyFieldTagsDisplayDriver
+    public class PartTaxonomyFieldTagsDriver : ContentFieldDisplayDriver<TaxonomyField>
     {
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        JsonSerializerOptions options = new()
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         };
 
         private IHttpContextAccessor _httpCA;
         private IContentManager _contentManager;
+        private TaxonomyFieldTagsDisplayDriver _txnDriver;
 
-        public PartTaxonomyFieldTagsDriver(IContentManager cm, IStringLocalizer<TaxonomyFieldTagsDisplayDriver> localizer, IHttpContextAccessor httpContextAccessor) : base(cm, localizer)
+        public PartTaxonomyFieldTagsDriver(IContentManager cm, IStringLocalizer<TaxonomyFieldTagsDisplayDriver> localizer, IHttpContextAccessor httpContextAccessor)
         {
             _httpCA = httpContextAccessor;
             _contentManager = cm;
+            _txnDriver = new TaxonomyFieldTagsDisplayDriver(cm, localizer);
+        }
+
+        public override IDisplayResult Display(TaxonomyField field, BuildFieldDisplayContext fieldDisplayContext)
+        {
+            return _txnDriver.Display(field, fieldDisplayContext);
         }
 
         public override IDisplayResult Edit(TaxonomyField field, BuildFieldEditorContext context)
@@ -57,7 +63,7 @@ namespace Members.PartFieldSettings
                         IsLeaf = te.IsLeaf
                     });
 
-                    model.TagTermEntries = JsonConvert.SerializeObject(tagTermEntries, SerializerSettings);
+                    model.TagTermEntries = JsonSerializer.Serialize(tagTermEntries, options);
                 }
 
                 model.Field = field;
@@ -67,12 +73,12 @@ namespace Members.PartFieldSettings
 
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, UpdateFieldEditorContext context)
         {
             var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
             if (fieldDef == null) return null;
             if (fieldDef.Editor() == "Disabled") return Edit(field, context);
-            return await base.UpdateAsync(field, updater, context);
+            return await _txnDriver.UpdateAsync(field, context);
         }
     }
 }

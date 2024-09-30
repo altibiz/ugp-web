@@ -14,12 +14,12 @@ namespace Members
             S = localizer;
         }
 
-        public Task BuildNavigationAsync(string name, NavigationBuilder builder)
+        public ValueTask BuildNavigationAsync(string name, NavigationBuilder builder)
         {
             // We want to add our menus to the "admin" menu only.
             if (!string.Equals(name, "admin", StringComparison.OrdinalIgnoreCase))
             {
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
             }
 
             // Adding our menu items to the builder.
@@ -32,7 +32,7 @@ namespace Members
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Company" }))
                    .Add(S["Ponude"], "8", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Offer" }))
-                 , new[] { "icon-class-fas", "icon-class-fa-users" })
+                 , ["icon-class-fas", "icon-class-fa-users"])
                 .Add(S["Financije"], "0", rootView => rootView
                     .Add(S["Uplate"], "7", childTwo => childTwo
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Payment", q = "payout:false" }))
@@ -42,14 +42,14 @@ namespace Members
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
                     .Add(S["Uplatnice"], "10", childTwo => childTwo
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Pledge" }))
-                 , new[] { "icon-class-fas", "icon-class-fa-coins" })
+                 , ["icon-class-fas", "icon-class-fa-coins"])
                 .Add(S["Configuration"], "0", rootView => rootView
                 .Add(S["Import/Export"], S["Import/Export"].PrefixPosition(), rootView => rootView
                 .Add(S["Members Export"], "1", childTwo => childTwo
                     .Action("Index", "MembersExport", new { area = "Members"})))
-                , new[] { "icon-class-fas", "icon-class-fa-coins" });
+                , ["icon-class-fas", "icon-class-fa-coins"]);
 
-            return Task.CompletedTask;
+            return ValueTask.CompletedTask;
         }
     }
 }

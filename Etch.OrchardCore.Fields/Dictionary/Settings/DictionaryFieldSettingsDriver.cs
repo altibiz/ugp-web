@@ -1,12 +1,14 @@
 ﻿using Etch.OrchardCore.Fields.Dictionary.Fields;
 using Etch.OrchardCore.Fields.Dictionary.Models;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
+using OrchardCore.DisplayManagement.Handlers;
 using OrchardCore.DisplayManagement.Views;
 using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Dictionary.Settings
@@ -32,11 +34,15 @@ namespace Etch.OrchardCore.Fields.Dictionary.Settings
 
         #region Edit
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition model, BuildEditorContext context)
         {
             return Initialize<DictionaryFieldSettings>("DictionaryFieldSettings_Edit", viewModel =>
                 {
-                    model.PopulateSettings(viewModel);
+                    var settings = model.GetSettings<DictionaryFieldSettings>();
+                    viewModel.DefaultData = settings.DefaultData;
+                    viewModel.MinEntries = settings.MinEntries;
+                    viewModel.MaxEntries = settings.MaxEntries;
+                    viewModel.Hint = settings.Hint;
                 })
                 .Location("Content");
         }
@@ -51,7 +57,7 @@ namespace Etch.OrchardCore.Fields.Dictionary.Settings
                 // with incorrect casing
                 try
                 {
-                    settings.DefaultData = JsonConvert.SerializeObject(JsonConvert.DeserializeObject<IList<DictionaryItem>>(settings.DefaultData));
+                    settings.DefaultData = JsonSerializer.Serialize(JsonSerializer.Deserialize<IList<DictionaryItem>>(settings.DefaultData));
                 }
                 catch (Exception e)
                 {
@@ -61,7 +67,7 @@ namespace Etch.OrchardCore.Fields.Dictionary.Settings
                 context.Builder.WithSettings(settings);
             }
 
-            return Edit(model);
+            return Edit(model, context);
         }
 
         #endregion Edit

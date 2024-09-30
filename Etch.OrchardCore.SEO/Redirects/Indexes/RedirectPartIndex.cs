@@ -62,7 +62,7 @@ namespace Etch.OrchardCore.SEO.Redirects.Indexes
                 _contentDefinitionManager ??= _serviceProvider.GetRequiredService<IContentDefinitionManager>();
 
                 // Search for this part.
-                var contentTypeDefinition = _contentDefinitionManager.GetTypeDefinition(context.ContentItem.ContentType);
+                var contentTypeDefinition = await _contentDefinitionManager.GetTypeDefinitionAsync(context.ContentItem.ContentType);
                 if (!contentTypeDefinition.Parts.Any(ctpd => ctpd.Name == nameof(RedirectPart)))
                 {
                     context.ContentItem.Remove<RedirectPart>();

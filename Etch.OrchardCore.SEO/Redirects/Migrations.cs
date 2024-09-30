@@ -22,12 +22,12 @@ namespace Etch.OrchardCore.SEO.Redirects
             _session = session;
         }
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("RedirectPart", part => part
+            await _contentDefinitionManager.AlterPartDefinitionAsync("RedirectPart", part => part
                 .WithDescription("Properties for redirects."));
 
-            _contentDefinitionManager.AlterTypeDefinition("Redirect", type => type
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("Redirect", type => type
                 .WithPart("TitlePart")
                 .WithPart("RedirectPart")
                 .Creatable()
@@ -38,13 +38,13 @@ namespace Etch.OrchardCore.SEO.Redirects
 
         public int UpdateFrom1()
         {
-            SchemaBuilder.CreateMapIndexTable<RedirectPartIndex>(table => table
+            SchemaBuilder.CreateMapIndexTableAsync<RedirectPartIndex>(table => table
                 .Column<string>("ContentItemId", c => c.WithLength(26))
                 .Column<string>("Url", col => col.WithLength(UrlValidation.MaxPathLength))
                 .Column<bool>("Published")
             );
 
-            SchemaBuilder.AlterTable(nameof(RedirectPartIndex), table => table
+            SchemaBuilder.AlterTableAsync(nameof(RedirectPartIndex), table => table
                 .CreateIndex("IDX_RedirectPartIndex_ContentItemId", "ContentItemId")
             );
 
@@ -53,13 +53,13 @@ namespace Etch.OrchardCore.SEO.Redirects
 
         public async Task<int> UpdateFrom2Async()
         {
-            SchemaBuilder.AlterIndexTable<RedirectPartIndex>(table => table.AddColumn<bool>("Latest"));
+            await SchemaBuilder.AlterIndexTableAsync<RedirectPartIndex>(table => table.AddColumn<bool>("Latest"));
 
             var contentItems = await _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == "Redirect").ListAsync();
 
             foreach (var contentItem in contentItems)
             {
-                _session.Save(contentItem);
+                await _session.SaveAsync(contentItem);
             }
 
 

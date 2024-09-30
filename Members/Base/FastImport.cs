@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
 using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
@@ -11,6 +10,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using YesSql;
@@ -21,7 +21,7 @@ namespace Members.Base
     {
         public class ContentStepModel
         {
-            public JArray Data { get; set; }
+            public JsonArray Data { get; set; }
         }
 
         public Task ExecuteAsync(RecipeExecutionContext context)

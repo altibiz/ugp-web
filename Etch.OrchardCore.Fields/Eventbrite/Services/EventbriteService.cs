@@ -1,6 +1,6 @@
 ﻿using Etch.OrchardCore.Fields.Eventbrite.Models.Dto;
-using Newtonsoft.Json;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Eventbrite.Services
@@ -45,7 +45,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<EventbriteEventDto>(await response.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<EventbriteEventDto>(await response.Content.ReadAsStringAsync());
             }
 
             return null;
@@ -68,7 +68,7 @@ namespace Etch.OrchardCore.Fields.Eventbrite.Services
 
             if (response.IsSuccessStatusCode)
             {
-                return JsonConvert.DeserializeObject<EventbriteVenueDto>(await response.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<EventbriteVenueDto>(await response.Content.ReadAsStringAsync());
             }
 
             return null;

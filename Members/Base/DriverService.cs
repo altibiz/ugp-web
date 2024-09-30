@@ -1,11 +1,12 @@
-﻿using Members.PartFieldSettings;
-using Newtonsoft.Json.Linq;
+﻿using Json.More;
+using Members.PartFieldSettings;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentManagement.Metadata.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 
 namespace Members.Base
 {
@@ -24,7 +25,7 @@ namespace Members.Base
             var oldDef = context.PartFieldDefinition;
             foreach (var typ in ImplementingTypes)
             {
-                context.TypePartDefinition.Settings.TryGetValue(typ.Name, out JToken val);
+                context.TypePartDefinition.Settings.TryGetPropertyValue(typ.Name, out JsonNode val);
                 if (val == null) continue;
                 partSettings = val.ToObject(typ) as IFieldEditorSettings;
             }

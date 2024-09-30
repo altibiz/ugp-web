@@ -2,6 +2,7 @@
 using Etch.OrchardCore.Fields.MultiSelect.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Data.Migration;
+using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.MultiSelect
 {
@@ -24,9 +25,9 @@ namespace Etch.OrchardCore.Fields.MultiSelect
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.MigrateFieldSettings<MultiSelectField, MultiSelectFieldSettings>();
+            await _contentDefinitionManager.MigrateFieldSettingsAsync<MultiSelectField, MultiSelectFieldSettings>();
 
             return 1;
         }

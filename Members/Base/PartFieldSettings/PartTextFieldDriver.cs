@@ -5,26 +5,34 @@ using OrchardCore.Admin;
 using OrchardCore.ContentFields.Drivers;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentFields.ViewModels;
+using OrchardCore.ContentManagement.Display.ContentDisplay;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Metadata.Models;
-using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using System.Threading.Tasks;
 
 namespace Members.PartFieldSettings
 {
-    public class PartTextFieldDriver : TextFieldDisplayDriver
+    public class PartTextFieldDriver : ContentFieldDisplayDriver<TextField>
     {
         private IHttpContextAccessor _httpCA;
+        private TextFieldDisplayDriver _driver;
 
-        public PartTextFieldDriver(IStringLocalizer<TextFieldDisplayDriver> localizer,IHttpContextAccessor httpContextAccessor) : base(localizer) {
+        public PartTextFieldDriver(IStringLocalizer<TextFieldDisplayDriver> localizer, IHttpContextAccessor httpContextAccessor)
+        {
             _httpCA = httpContextAccessor;
+            _driver = new TextFieldDisplayDriver(localizer);
+        }
+
+        public override IDisplayResult Display(TextField field, BuildFieldDisplayContext context)
+        {
+            return _driver.Display(field, context);
         }
 
         public override IDisplayResult Edit(TextField field, BuildFieldEditorContext context)
         {
             var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef==null) return null;
+            if (fieldDef == null) return null;
             return Initialize<EditTextFieldViewModel>(GetEditorShapeType(fieldDef), model =>
             {
                 model.Text = field.Text;
@@ -34,12 +42,12 @@ namespace Members.PartFieldSettings
             });
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(TextField field, IUpdateModel updater, UpdateFieldEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(TextField field, UpdateFieldEditorContext context)
         {
             var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
             if (fieldDef == null) return null;
             if (fieldDef.Editor() == "Disabled") return Edit(field, context);
-            return await base.UpdateAsync(field, updater, context);
+            return await _driver.UpdateAsync(field, context);
         }
     }
 }

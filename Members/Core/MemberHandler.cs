@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using OrchardCore.ContentManagement;
+﻿using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
 using System;
 using System.Globalization;
@@ -9,6 +8,7 @@ using OrchardCore.Autoroute.Models;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement.Metadata;
+using System.Text.Json;
 
 namespace Members.Core
 {
@@ -36,7 +36,7 @@ namespace Members.Core
                     {
                         var part = context.ContentItem.As<AutoroutePart>()
                             ?? new AutoroutePart();
-                        part.Path = part.Path ??"offers-"+ context.ContentItem.ContentItemId;
+                        part.Path = part.Path ?? "offers-" + context.ContentItem.ContentItemId;
                         context.ContentItem.Apply(part);
 
                     }
@@ -45,17 +45,17 @@ namespace Members.Core
 
         public static void FixMemberDate(ContentItem cItem)
         {
-            if (cItem.Content.Member?.DateOfBirth?.Value is not JValue oldVal) return;
-            if (oldVal?.Value is string strVal && DateTime.TryParseExact(Regex.Replace(strVal, "[A-Za-z]", "").Replace("..", "."),
-                new[] { "d.M.yyyy", "d.M.yyyy.", "d.M.y.", "d.M.y", "d-M-yyyy", "d-M-yy", "d-M-yyyy.", "ddMMyy", "ddMMyyyy", "yyyy-M-d", "yyyy/M/d", "d/M/yyyy", "d/M/yyyy.", "d/M/yy", "d,M,yyyy,", "d,M,yyyy", "d M yyyy", "d.M yyyy", "d.M yyyy.", "ddMM.yyyy", "yyyy" },
+            if (cItem.Content.Member?.DateOfBirth?.Value is not JsonElement oldVal) return;
+            if (oldVal.ValueKind == JsonValueKind.String && DateTime.TryParseExact(Regex.Replace(oldVal.GetString(), "[A-Za-z]", "").Replace("..", "."),
+                ["d.M.yyyy", "d.M.yyyy.", "d.M.y.", "d.M.y", "d-M-yyyy", "d-M-yy", "d-M-yyyy.", "ddMMyy", "ddMMyyyy", "yyyy-M-d", "yyyy/M/d", "d/M/yyyy", "d/M/yyyy.", "d/M/yy", "d,M,yyyy,", "d,M,yyyy", "d M yyyy", "d.M yyyy", "d.M yyyy.", "ddMM.yyyy", "yyyy"],
                 CultureInfo.InvariantCulture, DateTimeStyles.AllowLeadingWhite | DateTimeStyles.AllowTrailingWhite | DateTimeStyles.AllowInnerWhite,
                 out DateTime dejt))
             {
                 cItem.Content.Member.DateOfBirth.Value = dejt.ToString("s");
             }
-            else if (!string.IsNullOrEmpty(oldVal?.Value?.ToString()))
+            else if (!string.IsNullOrEmpty(oldVal.ToString()))
             {
-                cItem.Content.Member.DateOfBirthImport = oldVal?.Value;
+                cItem.Content.Member.DateOfBirthImport = oldVal.ToString();
                 cItem.Content.Member.DateOfBirth.Value = null;
             }
         }

@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Etch.OrchardCore.Fields.ResponsiveMedia.Models
 {
     public class ResponsiveMediaItem
     {
-        [JsonProperty("mediaText")]
+        [JsonPropertyName("mediaText")]
         public string MediaText { get; set; }
 
-        [JsonProperty("sources")]
+        [JsonPropertyName("sources")]
         public IList<ResponsiveMediaSource> Sources { get; set; }
 
         /// <summary>

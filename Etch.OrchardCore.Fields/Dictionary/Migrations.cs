@@ -2,6 +2,7 @@
 using Etch.OrchardCore.Fields.Dictionary.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Data.Migration;
+using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Dictionary
 {
@@ -24,9 +25,9 @@ namespace Etch.OrchardCore.Fields.Dictionary
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.MigrateFieldSettings<DictionaryField, DictionaryFieldSettings>();
+            await _contentDefinitionManager.MigrateFieldSettingsAsync<DictionaryField, DictionaryFieldSettings>();
 
             return 1;
         }

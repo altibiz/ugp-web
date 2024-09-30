@@ -4,9 +4,10 @@ using OrchardCore.ContentManagement.Metadata.Models;
 using OrchardCore.ContentTypes.Editors;
 using OrchardCore.DisplayManagement.Views;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Etch.OrchardCore.Fields.ResponsiveMedia.Utils;
 using OrchardCore.Media;
+using System.Text.Json;
+using OrchardCore.DisplayManagement.Handlers;
 
 namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
 {
@@ -29,9 +30,17 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
 
         #endregion
 
-        public override IDisplayResult Edit(ContentPartFieldDefinition model)
+        public override IDisplayResult Edit(ContentPartFieldDefinition model,BuildEditorContext context)
         {
-            return Initialize<ResponsiveMediaFieldSettings>("ResponsiveMediaFieldSettings_Edit", viewModel => model.PopulateSettings(viewModel))
+            return Initialize<ResponsiveMediaFieldSettings>("ResponsiveMediaFieldSettings_Edit", viewModel => {
+                var settings = model.GetSettings<ResponsiveMediaFieldSettings>();
+                viewModel.AllowMediaText = settings.AllowMediaText;
+                viewModel.Multiple = settings.Multiple;
+                viewModel.Required = settings.Required;
+                viewModel.Hint = settings.Hint;
+                viewModel.FallbackData = settings.FallbackData;
+                viewModel.Breakpoints = settings.Breakpoints;
+            })
                 .Location("Content");
         }
 
@@ -47,7 +56,7 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
                 Hint = viewModel.Hint,
                 Multiple = viewModel.Multiple,
                 Required = viewModel.Required,
-                FallbackData = JsonConvert.SerializeObject(ResponsiveMediaUtils.ParseMedia(_mediaFileStore, viewModel.FallbackData))
+                FallbackData = JsonSerializer.Serialize(ResponsiveMediaUtils.ParseMedia(_mediaFileStore, viewModel.FallbackData))
             };
 
             try
@@ -61,7 +70,7 @@ namespace Etch.OrchardCore.Fields.ResponsiveMedia.Settings
 
             context.Builder.WithSettings(settings);
 
-            return Edit(model);
+            return Edit(model, context);
         }
     }
 }

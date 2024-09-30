@@ -258,7 +258,7 @@ namespace Members.Core
                 var file = await service.GetExportFile(toImport.Item1);
                 if (file != null)
                 {
-                    var _emailService = serviceProvider.GetRequiredService<ISmtpService>();
+                    var _emailService = serviceProvider.GetRequiredService<IEmailService>();
                     var msg = new MailMessage
                     {
                         From = toImport.Item2,

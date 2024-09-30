@@ -4,6 +4,7 @@ using Etch.OrchardCore.SEO.Redirects.Validation;
 using Etch.OrchardCore.SEO.Redirects.ViewModels;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
+using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.DisplayManagement.ModelBinding;
 using OrchardCore.DisplayManagement.Views;
 using OrchardCore.Mvc.ModelBinding;
@@ -33,7 +34,7 @@ namespace Etch.OrchardCore.SEO.Redirects.Drivers
 
         #region Overrides
 
-        public override IDisplayResult Edit(RedirectPart part)
+        public override IDisplayResult Edit(RedirectPart part,BuildPartEditorContext context)
         {
             return Initialize<RedirectPartEditViewModel>("RedirectPart_Edit", model =>
             {
@@ -44,20 +45,20 @@ namespace Etch.OrchardCore.SEO.Redirects.Drivers
             });
         }
 
-        public async override Task<IDisplayResult> UpdateAsync(RedirectPart part, IUpdateModel updater)
+        public async override Task<IDisplayResult> UpdateAsync(RedirectPart part, UpdatePartEditorContext context)
         {
             var viewModel = new RedirectPartEditViewModel();
 
-            if (await updater.TryUpdateModelAsync(viewModel, Prefix))
+            if (await context.Updater.TryUpdateModelAsync(viewModel, Prefix))
             {
                 part.FromUrl = viewModel.FromUrl?.Trim();
                 part.ToUrl = viewModel.ToUrl?.Trim();
                 part.IsPermanent = viewModel.IsPermanent;
             }
 
-            ValidateUrls(part, updater);
+            ValidateUrls(part, context.Updater);
 
-            return Edit(part);
+            return Edit(part,context);
         }
 
         #endregion

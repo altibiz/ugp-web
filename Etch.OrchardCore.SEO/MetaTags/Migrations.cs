@@ -23,15 +23,15 @@ namespace Etch.OrchardCore.SEO.MetaTags
             _migrateMetaTagsPartService = migrateMetaTagsPartService;
         }
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .Attachable()
                 .WithDescription("Provides meta tags for your content item."));
 
             AddMetaTagFields();
 
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.CustomFieldName, field => field
                     .OfType(typeof(DictionaryField).Name)
                     .WithDisplayName(Constants.CustomFieldName)
@@ -43,7 +43,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.NoIndexFieldName, field => field
                     .OfType(typeof(BooleanField).Name)
                     .WithDisplayName(Constants.NoIndexFieldDisplayName)
@@ -59,9 +59,9 @@ namespace Etch.OrchardCore.SEO.MetaTags
             return 5;
         }
 
-        public int UpdateFrom1()
+        public async Task<int> UpdateFrom1()
         {
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.CustomFieldName, field => field
                     .OfType(typeof(DictionaryField).Name)
                     .WithDisplayName(Constants.CustomFieldName)
@@ -88,9 +88,9 @@ namespace Etch.OrchardCore.SEO.MetaTags
             return 4;
         }
 
-        public int UpdateFrom4()
+        public async Task<int> UpdateFrom4()
         {
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.NoIndexFieldName, field => field
                     .OfType(typeof(BooleanField).Name)
                     .WithDisplayName(Constants.NoIndexFieldDisplayName)
@@ -106,9 +106,9 @@ namespace Etch.OrchardCore.SEO.MetaTags
             return 5;
         }
 
-        public int UpdateFrom5()
+        public async Task<int> UpdateFrom5()
         {
-            _contentDefinitionManager.AlterPartDefinition(Constants.Defaults.ContentType, builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync(Constants.Defaults.ContentType, builder => builder
                 .WithField(Constants.Defaults.Title, field => field
                     .OfType(typeof(TextField).Name)
                     .WithDisplayName(Constants.Defaults.Title)
@@ -120,7 +120,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition(Constants.Defaults.ContentType, builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync(Constants.Defaults.ContentType, builder => builder
                 .WithField(Constants.Defaults.Description, field => field
                     .OfType(typeof(TextField).Name)
                     .WithDisplayName(Constants.Defaults.Description)
@@ -133,7 +133,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition(Constants.Defaults.ContentType, builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync(Constants.Defaults.ContentType, builder => builder
                 .WithField(Constants.Defaults.Image, field => field
                     .OfType(typeof(MediaField).Name)
                     .WithDisplayName(Constants.Defaults.Image)
@@ -146,7 +146,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition(Constants.Defaults.ContentType, builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync(Constants.Defaults.ContentType, builder => builder
                 .WithField(Constants.Defaults.Custom, field => field
                     .OfType(typeof(DictionaryField).Name)
                     .WithDisplayName(Constants.Defaults.Custom)
@@ -158,7 +158,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterTypeDefinition(Constants.Defaults.ContentType, builder => builder
+            await _contentDefinitionManager.AlterTypeDefinitionAsync(Constants.Defaults.ContentType, builder => builder
                 .Stereotype("CustomSettings")
                 .DisplayedAs("Default Meta Tags")
                 .WithPart(Constants.Defaults.ContentType));
@@ -166,9 +166,9 @@ namespace Etch.OrchardCore.SEO.MetaTags
             return 6;
         }
 
-        private void AddMetaTagFields()
+        private async void AddMetaTagFields()
         {
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.TitleFieldName, field => field
                     .OfType(typeof(TextField).Name)
                     .WithDisplayName(Constants.TitleFieldDisplayName)
@@ -180,7 +180,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.DescriptionFieldName, field => field
                     .OfType(typeof(TextField).Name)
                     .WithDisplayName(Constants.DescriptionFieldDisplayName)
@@ -193,7 +193,7 @@ namespace Etch.OrchardCore.SEO.MetaTags
                 )
             );
 
-            _contentDefinitionManager.AlterPartDefinition("MetaTagsPart", builder => builder
+            await _contentDefinitionManager.AlterPartDefinitionAsync("MetaTagsPart", builder => builder
                 .WithField(Constants.ImageFieldName, field => field
                     .OfType(typeof(MediaField).Name)
                     .WithDisplayName(Constants.ImageFieldDisplayName)

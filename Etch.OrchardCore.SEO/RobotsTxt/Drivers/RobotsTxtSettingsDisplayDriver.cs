@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.SEO.RobotsTxt.Drivers
 {
-    public class RobotsTxtSettingsDisplayDriver :  SectionDisplayDriver<ISite, RobotsTxtSettings>
+    public class RobotsTxtSettingsDisplayDriver : SectionDisplayDriver<ISite, RobotsTxtSettings>
     {
         #region Constants
 
@@ -37,7 +37,7 @@ namespace Etch.OrchardCore.SEO.RobotsTxt.Drivers
 
         #region Overrides
 
-        public override async Task<IDisplayResult> EditAsync(RobotsTxtSettings section, BuildEditorContext context)
+        public override async Task<IDisplayResult> EditAsync(ISite model, RobotsTxtSettings section, BuildEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -54,7 +54,7 @@ namespace Etch.OrchardCore.SEO.RobotsTxt.Drivers
             }).Location("Content:3").OnGroup(GroupId);
         }
 
-        public override async Task<IDisplayResult> UpdateAsync(RobotsTxtSettings section, BuildEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(ISite model, RobotsTxtSettings section, UpdateEditorContext context)
         {
             var user = _httpContextAccessor.HttpContext?.User;
 
@@ -65,16 +65,16 @@ namespace Etch.OrchardCore.SEO.RobotsTxt.Drivers
 
             if (context.GroupId == GroupId)
             {
-                var model = new RobosTxtSettingsViewModel();
+                var smodel = new RobosTxtSettingsViewModel();
 
-                await context.Updater.TryUpdateModelAsync(model, Prefix);
+                await context.Updater.TryUpdateModelAsync(smodel, Prefix);
 
-                section.CustomContent = model.CustomContent;
-                section.Mode = model.Mode;
-                section.NoIndex = model.NoIndex;
+                section.CustomContent = smodel.CustomContent;
+                section.Mode = smodel.Mode;
+                section.NoIndex = smodel.NoIndex;
             }
 
-            return await EditAsync(section, context);
+            return await EditAsync(model, section, context);
         }
 
         #endregion

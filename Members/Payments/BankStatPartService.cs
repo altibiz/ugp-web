@@ -4,7 +4,6 @@ using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using Newtonsoft.Json;
 using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
@@ -14,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
@@ -86,7 +86,7 @@ namespace Members.Payments
         {
             try
             {
-                var res = JsonConvert.DeserializeObject<BsJson>(xmlOrJson);
+                var res = JsonSerializer.Deserialize<BsJson>(xmlOrJson);
                 res.Date = res.Data.FirstOrDefault()?.Date;
                 return res;
             }

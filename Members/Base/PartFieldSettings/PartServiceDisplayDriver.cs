@@ -27,17 +27,17 @@ namespace Members.Persons
             var initer = _service.GetEditModel(part, context);
             if (initer != null)
                 return Initialize(GetEditorShapeType(context), initer);
-            return base.Edit(part);
+            return base.Edit(part, context);
         }
 
 
-        public override async Task<IDisplayResult> UpdateAsync(TPart model, IUpdateModel updater, UpdatePartEditorContext context)
+        public override async Task<IDisplayResult> UpdateAsync(TPart model, UpdatePartEditorContext context)
         {
-            await updater.TryUpdateModelAsync(model, Prefix);
+            await context.Updater.TryUpdateModelAsync(model, Prefix);
 
             await foreach (var item in _service.ValidateAsync(model))
             {
-                updater.ModelState.BindValidationResult(Prefix, item);
+                context.Updater.ModelState.BindValidationResult(Prefix, item);
             }
 
             return Edit(model, context);

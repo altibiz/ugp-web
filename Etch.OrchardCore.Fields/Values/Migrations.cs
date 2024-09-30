@@ -2,6 +2,7 @@
 using Etch.OrchardCore.Fields.Values.Settings;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Data.Migration;
+using System.Threading.Tasks;
 
 namespace Etch.OrchardCore.Fields.Values
 {
@@ -24,9 +25,9 @@ namespace Etch.OrchardCore.Fields.Values
 
         #region Migrations
 
-        public int Create()
+        public async Task<int> Create()
         {
-            _contentDefinitionManager.MigrateFieldSettings<ValuesField, ValuesFieldSettings>();
+            await _contentDefinitionManager.MigrateFieldSettingsAsync<ValuesField, ValuesFieldSettings>();
 
             return 1;
         }
