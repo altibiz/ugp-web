@@ -43,7 +43,7 @@
     {
         <div class="col-md-6 @(disableLocalLogin ? "offset-md-3" : string.Empty)">
             <section>
-                <h1 class="fs-4">@T["Other logins"]</h1>
+                <h1 class="fs-4">@T["Other ways to log in"]</h1>
                 <hr />
                 <form asp-route-area="OrchardCore.Users" asp-controller="ExternalAuthentications" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal no-multisubmit">
                     @foreach (var provider in loginProviders)
