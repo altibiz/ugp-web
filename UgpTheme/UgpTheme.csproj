@@ -29,6 +29,7 @@
     <PackageReference Include="OrchardCore.Taxonomies" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Theme.Targets" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Menu" Version="2.0.2" />
+    <PackageReference Include="OrchardCore.Themes" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Users" Version="2.0.2" />
   </ItemGroup>
 
