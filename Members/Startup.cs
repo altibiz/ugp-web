@@ -80,17 +80,17 @@ namespace Members
                 services.AddScoped<IContentTypeDefinitionDisplayDriver, CodeGenerationDisplayDriver>();
             }
 
-            services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
-                .ForEditor<PartTextFieldDriver>(d => true);
-            services.AddContentField<NumericField>().ForEditor<NumericFieldDisplayDriver>(d => false)
-    .ForEditor<PartNumericFieldDriver>(d => true);
+    //        services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
+    //            .ForEditor<PartTextFieldDriver>(d => true);
+    //        services.AddContentField<NumericField>().ForEditor<NumericFieldDisplayDriver>(d => false)
+    //.ForEditor<PartNumericFieldDriver>(d => true);
 
-            services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
-                .ForEditor<TaxonomyFieldDisplayDriver>(d => !string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))
-                .ForEditor<PartTaxonomyFieldTagsDriver>(d =>
-                {
-                    return string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) || string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase);
-                });
+    //        services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
+    //            .ForEditor<TaxonomyFieldDisplayDriver>(d => !string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))
+    //            .ForEditor<PartTaxonomyFieldTagsDriver>(d =>
+    //            {
+    //                return string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) || string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase);
+    //            });
 
 
         }
