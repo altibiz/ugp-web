@@ -11,8 +11,9 @@
 @await RenderSectionAsync("Messages", required: false)
 
 <div asp-validation-summary="All" class="text-danger"></div>
-
+<form>
 @await DisplayAsync(Model.Shape)
+</form>
 
 
 <div class="my-companies mt-5">

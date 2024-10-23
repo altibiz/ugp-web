@@ -42,43 +42,43 @@ namespace Members.PartFieldSettings
             return _txnDriver.Display(field, fieldDisplayContext);
         }
 
-        public override IDisplayResult Edit(TaxonomyField field, BuildFieldEditorContext context)
-        {
-            var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef == null) return null;
-            return Initialize<EditTagTaxonomyFieldViewModel>(GetEditorShapeType(fieldDef), async model =>
-            {
-                var settings = fieldDef.GetSettings<TaxonomyFieldSettings>();
-                model.Taxonomy = await _contentManager.GetAsync(settings.TaxonomyContentItemId, VersionOptions.Latest);
+        //public override IDisplayResult Edit(TaxonomyField field, BuildFieldEditorContext context)
+        //{
+        //    var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
+        //    if (fieldDef == null) return null;
+        //    return Initialize<EditTagTaxonomyFieldViewModel>(GetEditorShapeType(fieldDef), async model =>
+        //    {
+        //        var settings = fieldDef.GetSettings<TaxonomyFieldSettings>();
+        //        model.Taxonomy = await _contentManager.GetAsync(settings.TaxonomyContentItemId, VersionOptions.Latest);
 
-                if (model.Taxonomy != null)
-                {
-                    var termEntries = new List<TermEntry>();
-                    TaxonomyFieldDriverHelper.PopulateTermEntries(termEntries, field, model.Taxonomy.As<TaxonomyPart>().Terms, 0);
-                    var tagTermEntries = termEntries.Select(te => new TagTermEntry
-                    {
-                        ContentItemId = te.ContentItemId,
-                        Selected = te.Selected,
-                        DisplayText = te.Term.DisplayText,
-                        IsLeaf = te.IsLeaf
-                    });
+        //        if (model.Taxonomy != null)
+        //        {
+        //            var termEntries = new List<TermEntry>();
+        //            TaxonomyFieldDriverHelper.PopulateTermEntries(termEntries, field, model.Taxonomy.As<TaxonomyPart>().Terms, 0);
+        //            var tagTermEntries = termEntries.Select(te => new TagTermEntry
+        //            {
+        //                ContentItemId = te.ContentItemId,
+        //                Selected = te.Selected,
+        //                DisplayText = te.Term.DisplayText,
+        //                IsLeaf = te.IsLeaf
+        //            });
 
-                    model.TagTermEntries = JsonSerializer.Serialize(tagTermEntries, options);
-                }
+        //            model.TagTermEntries = JsonSerializer.Serialize(tagTermEntries, options);
+        //        }
 
-                model.Field = field;
-                model.Part = context.ContentPart;
-                model.PartFieldDefinition = fieldDef;
-            });
+        //        model.Field = field;
+        //        model.Part = context.ContentPart;
+        //        model.PartFieldDefinition = fieldDef;
+        //    });
 
-        }
+        //}
 
-        public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, UpdateFieldEditorContext context)
-        {
-            var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef == null) return null;
-            if (fieldDef.Editor() == "Disabled") return Edit(field, context);
-            return await _txnDriver.UpdateAsync(field, context);
-        }
+        //public override async Task<IDisplayResult> UpdateAsync(TaxonomyField field, UpdateFieldEditorContext context)
+        //{
+        //    var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
+        //    if (fieldDef == null) return null;
+        //    if (fieldDef.Editor() == "Disabled") return Edit(field, context);
+        //    return await _txnDriver.UpdateAsync(field, context);
+        //}
     }
 }

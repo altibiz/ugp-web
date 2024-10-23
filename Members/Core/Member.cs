@@ -19,15 +19,9 @@ namespace Members.Core
 
     public class MemberSettings : IFieldEditorSettings
     {
-        public DisplayModeResult GetFieldDisplayMode(string propertyName, string defaultMode, BuildFieldEditorContext context, bool isAdminTheme)
+        public FieldSettingsExt GetFieldSettings(string propertyName, string labelName, bool isNew, bool isAdminTheme)
         {
-            if (!isAdminTheme && propertyName == nameof(Member.AdminNotes)) return false;
-            return defaultMode;
-        }
-
-        public string GetFieldLabel(string propertyName, string defaultVale, bool isAdminTheme)
-        {
-            return defaultVale;
+            return new(!isNew, !isAdminTheme && propertyName == nameof(Member.AdminNotes), labelName);
         }
     }
 

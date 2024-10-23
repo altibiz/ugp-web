@@ -28,17 +28,13 @@ namespace Members.Payments
 
     public class PledgeSettings : IFieldEditorSettings
     {
-        public DisplayModeResult GetFieldDisplayMode(string propertyName, string defaultMode, BuildFieldEditorContext context, bool isAdminTheme)
+        public FieldSettingsExt GetFieldSettings(string propertyName, string label, bool isNew, bool isAdminTheme)
         {
-            if (isAdminTheme) return defaultMode;
-            if (propertyName == nameof(Pledge.Person) || propertyName == nameof(Pledge.ReferenceNr)
-                || propertyName == nameof(Pledge.Amount) || propertyName==nameof(Pledge.Note)) return false;
-            return defaultMode;
-        }
-
-        public string GetFieldLabel(string propertyName, string defaultVale, bool isAdminTheme)
-        {
-            return defaultVale;
+            if (isAdminTheme) return default;
+            return new(false,
+                propertyName == nameof(Pledge.Person) || propertyName == nameof(Pledge.ReferenceNr)
+                || propertyName == nameof(Pledge.Amount) || propertyName == nameof(Pledge.Note),
+                label);
         }
     }
 
@@ -143,20 +139,20 @@ namespace Members.Payments
                 )
            );
 
-           await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeVariant", type => type
-                .DisplayedAs("Vrijednost uplate")
-                .Creatable()
-                .WithPart(nameof(PledgeVariant), part => part
-                    .WithPosition("0")
-                )
-                .WithPart("TitlePart", part => part
-                .WithPosition("1")
-                    .WithSettings(new TitlePartSettings
-                    {
-                        Options = TitlePartOptions.EditableRequired,
-                    })
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeVariant", type => type
+                 .DisplayedAs("Vrijednost uplate")
+                 .Creatable()
+                 .WithPart(nameof(PledgeVariant), part => part
+                     .WithPosition("0")
                  )
-            );
+                 .WithPart("TitlePart", part => part
+                 .WithPosition("1")
+                     .WithSettings(new TitlePartSettings
+                     {
+                         Options = TitlePartOptions.EditableRequired,
+                     })
+                  )
+             );
 
             await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(PledgeVariant), part => part
             .WithField("Price", field => field

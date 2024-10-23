@@ -13,11 +13,13 @@
     <PackageReference Include="CsvHelper" Version="33.0.1" />
     <PackageReference Include="OrchardCore.Admin" Version="2.0.2" />
     <PackageReference Include="OrchardCore.AdminDashboard" Version="2.0.2" />
+    <PackageReference Include="OrchardCore.Alias" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Autoroute" Version="2.0.2" />
     <PackageReference Include="OrchardCore.ContentManagement" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Contents" Version="2.0.2" />
     <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="2.0.2" />
     <PackageReference Include="OrchardCore.DisplayManagement" Version="2.0.2" />
+    <PackageReference Include="OrchardCore.Media" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Menu" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Module.Targets" Version="2.0.2" />
     <PackageReference Include="OrchardCore.Navigation.Core" Version="2.0.2" />
@@ -28,10 +30,6 @@
     <PackageReference Include="OrchardCore.ContentFields" Version="2.0.2" />
 		<PackageReference Include="OrchardCore.Lists" Version="2.0.2" />
 		<PackageReference Include="OrchardCore.Email" Version="2.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\UgpTheme\UgpTheme.csproj" />
   </ItemGroup>
 
   <ItemGroup>

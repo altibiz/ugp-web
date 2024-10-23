@@ -24,30 +24,29 @@ namespace Members.PartFieldSettings
             _driver = new TextFieldDisplayDriver(localizer);
         }
 
-        public override IDisplayResult Display(TextField field, BuildFieldDisplayContext context)
-        {
-            return _driver.Display(field, context);
-        }
+        //public override IDisplayResult Display(TextField field, BuildFieldDisplayContext context)
+        //{
+        //    return _driver.Display(field, context);
+        //}
 
-        public override IDisplayResult Edit(TextField field, BuildFieldEditorContext context)
-        {
-            var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef == null) return null;
-            return Initialize<EditTextFieldViewModel>(GetEditorShapeType(fieldDef), model =>
-            {
-                model.Text = field.Text;
-                model.Field = field;
-                model.Part = context.ContentPart;
-                model.PartFieldDefinition = fieldDef;
-            });
-        }
+        //public override IDisplayResult Edit(TextField field, BuildFieldEditorContext context)
+        //{
 
-        public override async Task<IDisplayResult> UpdateAsync(TextField field, UpdateFieldEditorContext context)
-        {
-            var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef == null) return null;
-            if (fieldDef.Editor() == "Disabled") return Edit(field, context);
-            return await _driver.UpdateAsync(field, context);
-        }
+        //    return Initialize<EditTextFieldViewModel>(GetEditorShapeType(fieldDef), model =>
+        //    {
+        //        model.Text = field.Text;
+        //        model.Field = field;
+        //        model.Part = context.ContentPart;
+        //        model.PartFieldDefinition = fieldDef;
+        //    });
+        //}
+
+        //public override async Task<IDisplayResult> UpdateAsync(TextField field, UpdateFieldEditorContext context)
+        //{
+        //    var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
+        //    if (fieldDef == null) return null;
+        //    if (fieldDef.Editor() == "Disabled") return Edit(field, context);
+        //    return await _driver.UpdateAsync(field, context);
+        //}
     }
 }

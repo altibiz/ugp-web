@@ -36,4 +36,8 @@
   <ItemGroup>
     <None Include="wwwroot\js\media.js" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Members\Members.csproj" />
+  </ItemGroup>
 </Project>

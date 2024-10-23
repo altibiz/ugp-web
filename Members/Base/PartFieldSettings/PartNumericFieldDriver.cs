@@ -28,32 +28,32 @@ namespace Members.PartFieldSettings
             _driver = new NumericFieldDisplayDriver(localizer);
         }
 
-        public override IDisplayResult Display(NumericField field, BuildFieldDisplayContext context)
-        {
-            return _driver.Display(field, context);
-        }
+        //public override IDisplayResult Display(NumericField field, BuildFieldDisplayContext context)
+        //{
+        //    return _driver.Display(field, context);
+        //}
 
-        public override IDisplayResult Edit(NumericField field, BuildFieldEditorContext context)
-        {
-            var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef == null) return null;
-            return Initialize<EditNumericFieldViewModel>(GetEditorShapeType(fieldDef), model =>
-            {
-                var settings = context.PartFieldDefinition.GetSettings<NumericFieldSettings>();
-                model.Value = context.IsNew ? settings.DefaultValue : Convert.ToString(field.Value, CultureInfo.CurrentUICulture);
+        //public override IDisplayResult Edit(NumericField field, BuildFieldEditorContext context)
+        //{
+        //    var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
+        //    if (fieldDef == null) return null;
+        //    return Initialize<EditNumericFieldViewModel>(GetEditorShapeType(fieldDef), model =>
+        //    {
+        //        var settings = context.PartFieldDefinition.GetSettings<NumericFieldSettings>();
+        //        model.Value = context.IsNew ? settings.DefaultValue : Convert.ToString(field.Value, CultureInfo.CurrentUICulture);
 
-                model.Field = field;
-                model.Part = context.ContentPart;
-                model.PartFieldDefinition = fieldDef;
-            });
-        }
+        //        model.Field = field;
+        //        model.Part = context.ContentPart;
+        //        model.PartFieldDefinition = fieldDef;
+        //    });
+        //}
 
-        public override async Task<IDisplayResult> UpdateAsync(NumericField field, UpdateFieldEditorContext context)
-        {
-            var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
-            if (fieldDef == null) return null;
-            if (fieldDef.Editor() == "Disabled") return Edit(field, context);
-            return await _driver.UpdateAsync(field, context);
-        }
+        //public override async Task<IDisplayResult> UpdateAsync(NumericField field, UpdateFieldEditorContext context)
+        //{
+        //    var fieldDef = DriverService.GetFieldDef(context, AdminAttribute.IsApplied(_httpCA.HttpContext));
+        //    if (fieldDef == null) return null;
+        //    if (fieldDef.Editor() == "Disabled") return Edit(field, context);
+        //    return await _driver.UpdateAsync(field, context);
+        //}
     }
 }

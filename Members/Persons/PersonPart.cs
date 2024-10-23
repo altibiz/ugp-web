@@ -48,21 +48,16 @@ namespace Members.Persons
     {
         public PersonType? Type { get; set; }
 
-        public DisplayModeResult GetFieldDisplayMode(string propertyName, string displayMode, BuildFieldEditorContext context, bool isAdminTheme)
+        public FieldSettingsExt GetFieldSettings(string propertyName, string label, bool isNew, bool isAdminTheme)
         {
-            if (isAdminTheme) return displayMode;
-            if (propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal) return false;
-
-            return context.IsNew ? displayMode : "Disabled";
-        }
-
-        public string GetFieldLabel(string propertyName, string displayName, bool isAdminTheme)
-        {
-            return propertyName switch
-            {
-                nameof(PersonPart.Name) => Type == PersonType.Legal ? "Naziv" : displayName,
-                _ => displayName
-            };
+            if (isAdminTheme) return default;
+            return new(!isNew,
+                propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal,
+                propertyName switch
+                {
+                    nameof(PersonPart.Name) => Type == PersonType.Legal ? "Naziv" : label,
+                    _ => label
+                });
         }
     }
 }

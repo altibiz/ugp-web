@@ -2,42 +2,23 @@
 
 namespace Members.PartFieldSettings
 {
-    public struct DisplayModeResult
+    public struct FieldSettingsExt
     {
-        public string DisplayMode { get; }
-        public bool IsVisible { get; }
+        public bool Disabled { get; set; }
+        public bool Hidden { get; set; }
+        public string Label { get; set; }
 
-        public DisplayModeResult(string displayMode, bool isVisible=true)
+        public FieldSettingsExt(bool disabled, bool hidden, string name)
         {
-            DisplayMode = displayMode;
-            IsVisible = isVisible;
-        }
-
-        public static implicit operator DisplayModeResult(bool visible)
-        {
-            return new DisplayModeResult(null,visible);
-        }
-
-        public static implicit operator DisplayModeResult(string displayMode)
-        {
-            return new DisplayModeResult(displayMode);
-        }
-
-        public static implicit operator bool(DisplayModeResult dm)
-        {
-            return dm.IsVisible;
-        }
-
-        public static implicit operator string(DisplayModeResult dm)
-        {
-            return dm.DisplayMode;
+            Disabled = disabled;
+            Hidden = hidden;
+            Label = name;
         }
 
     }
 
     public interface IFieldEditorSettings
     {
-        string GetFieldLabel(string propertyName, string defaultVale, bool isAdminTheme);
 
         /// <summary>
         /// Get how field is displayed
@@ -46,6 +27,6 @@ namespace Members.PartFieldSettings
         /// <param name="displayMode"></param>
         /// <param name="context"></param>
         /// <returns>default, Disabled for disabled or null for hidden</returns>
-        DisplayModeResult GetFieldDisplayMode(string propertyName, string defaultMode, BuildFieldEditorContext context, bool isAdminTheme);
+        FieldSettingsExt GetFieldSettings(string propertyName, string label, bool isNew, bool isAdminTheme);
     }
 }

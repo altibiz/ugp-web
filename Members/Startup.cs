@@ -73,26 +73,13 @@ namespace Members
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();
             services.AddScoped<MemberExportService>();
             services.AddSingleton<IBackgroundTask, MemberExportBackgroundTask>();
+            services.AddScoped<IContentDisplayHandler, ContentDisplayHandlerExt>();
 
             if (CurrentEnvironment.IsDevelopment())
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
                 services.AddScoped<IContentTypeDefinitionDisplayDriver, CodeGenerationDisplayDriver>();
             }
-
-    //        services.AddContentField<TextField>().ForEditor<TextFieldDisplayDriver>(d => false)
-    //            .ForEditor<PartTextFieldDriver>(d => true);
-    //        services.AddContentField<NumericField>().ForEditor<NumericFieldDisplayDriver>(d => false)
-    //.ForEditor<PartNumericFieldDriver>(d => true);
-
-    //        services.AddContentField<TaxonomyField>().ForEditor<TaxonomyFieldTagsDisplayDriver>(d => false)
-    //            .ForEditor<TaxonomyFieldDisplayDriver>(d => !string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) && !string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase))
-    //            .ForEditor<PartTaxonomyFieldTagsDriver>(d =>
-    //            {
-    //                return string.Equals(d, "Tags", StringComparison.OrdinalIgnoreCase) || string.Equals(d, "Disabled", StringComparison.OrdinalIgnoreCase);
-    //            });
-
-
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
