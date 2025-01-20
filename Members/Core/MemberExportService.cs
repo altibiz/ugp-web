@@ -19,6 +19,7 @@ using System.Threading;
 using OrchardCore.Email;
 using Castle.Core.Internal;
 using OrchardCore.ContentManagement.Records;
+using Castle.Core.Logging;
 
 namespace Members.Core
 {
@@ -27,12 +28,14 @@ namespace Members.Core
         private readonly MemberService _memberService;
         readonly IHttpContextAccessor httpContextAccessor;
         private readonly ISession _session;
+        private readonly ILogger _logger;
 
-        public MemberExportService(MemberService memberService, IHttpContextAccessor httpContextAccessor, ISession session)
+        public MemberExportService(MemberService memberService, IHttpContextAccessor httpContextAccessor, ISession session, ILogger logger)
         {
             _memberService = memberService;
             this.httpContextAccessor = httpContextAccessor;
             _session = session;
+            _logger = logger;
         }
 
         public string StripCounty(string county)
@@ -170,41 +173,48 @@ namespace Members.Core
 
         public async Task<CsvModel> CompanyToCsvModelAsync(ContentItem company, (Member, PersonPart) parentMember)
         {
-
-            if (parentMember.Item1 == null)
+            try
             {
-                var member = await _memberService.GetCompanyMember(company);
-                parentMember.Item1 = member?.As<Member>();
-                parentMember.Item2 = member?.As<PersonPart>();
+                if (parentMember.Item1 == null)
+                {
+                    var member = await _memberService.GetCompanyMember(company);
+                    parentMember.Item1 = member?.As<Member>();
+                    parentMember.Item2 = member?.As<PersonPart>();
+                }
+
+                var mpart = parentMember.Item1;
+                var ppart = parentMember.Item2;
+                var cperpart = company.As<PersonPart>();
+                var compart = company.As<Company>();
+
+                DateTime? birthdate = mpart?.DateOfBirth?.Value;
+
+                var county = StripCounty((await cperpart?.County.GetTerm(httpContextAccessor.HttpContext))?.DisplayText);
+                var gender = StripGender(mpart != null ? (await mpart?.Sex.GetTerm(httpContextAccessor.HttpContext))?.DisplayText : null);
+
+                var activityTerms = await compart.Activity?.GetTerms(httpContextAccessor.HttpContext);
+
+                CsvModel cs = new CsvModel();
+
+                cs.email = cperpart.Email?.Text;
+                cs.ime = ppart?.Name?.Text ?? cperpart?.Name?.Text;
+                cs.prezime = ppart?.Surname?.Text ?? cperpart?.Surname?.Text; ;
+                cs.tvrtka = cperpart.Name?.Text;
+                cs.datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "";
+                cs.djelatnost = string.Join(", ", activityTerms?.Select(x => x?.DisplayText));
+                cs.spol = gender;
+                cs.tip_korisnika = "Pravne";
+                cs.gsm = cperpart.Phone?.Text;
+                cs.zupanija = county;
+                cs.mjesto = cperpart.City?.Text;
+                cs.oib = cperpart.Oib?.Text;
+                return cs;
             }
-
-            var mpart = parentMember.Item1;
-            var ppart = parentMember.Item2;
-            var cperpart = company.As<PersonPart>();
-            var compart = company.As<Company>();
-
-            DateTime? birthdate = mpart?.DateOfBirth?.Value;
-
-            var county = StripCounty((await cperpart?.County.GetTerm(httpContextAccessor.HttpContext))?.DisplayText);
-            var gender = StripGender(mpart != null ? (await mpart?.Sex.GetTerm(httpContextAccessor.HttpContext))?.DisplayText : null);
-
-            var activityTerms = await compart.Activity?.GetTerms(httpContextAccessor.HttpContext);
-
-            CsvModel cs = new CsvModel();
-
-            cs.email = cperpart.Email?.Text;
-            cs.ime = ppart?.Name?.Text ?? cperpart?.Name?.Text;
-            cs.prezime = ppart?.Surname?.Text ?? cperpart?.Surname?.Text; ;
-            cs.tvrtka = cperpart.Name?.Text;
-            cs.datum_rodjenja = birthdate.HasValue ? birthdate.Value.Date.ToString("yyyy-MM-dd", new CultureInfo("hr-HR")) : "";
-            cs.djelatnost = string.Join(", ", activityTerms?.Select(x => x?.DisplayText));
-            cs.spol = gender;
-            cs.tip_korisnika = "Pravne";
-            cs.gsm = cperpart.Phone?.Text;
-            cs.zupanija = county;
-            cs.mjesto = cperpart.City?.Text;
-            cs.oib = cperpart.Oib?.Text;
-            return cs;
+            catch (Exception ex)
+            {
+                _logger.Error($"Error while converting company to csv model id: {company?.ContentItemId}, {company?.DisplayText}", ex);
+                return null;
+            }
         }
     }
 
