@@ -211,7 +211,7 @@ namespace Members.Core
             }
             catch (Exception ex)
             {
-                _logger.Error($"Error while converting company to csv model id: {company?.ContentItemId}, {company?.DisplayText}", ex);
+                _logger.LogError($"Error while converting company to csv model id: {company?.ContentItemId}, {company?.DisplayText}", ex);
                 return null;
             }
         }
