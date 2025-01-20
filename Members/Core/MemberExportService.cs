@@ -17,9 +17,8 @@ using OrchardCore.BackgroundTasks;
 using System.Collections.Concurrent;
 using System.Threading;
 using OrchardCore.Email;
-using Castle.Core.Internal;
 using OrchardCore.ContentManagement.Records;
-using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Members.Core
 {
@@ -30,7 +29,7 @@ namespace Members.Core
         private readonly ISession _session;
         private readonly ILogger _logger;
 
-        public MemberExportService(MemberService memberService, IHttpContextAccessor httpContextAccessor, ISession session, ILogger logger)
+        public MemberExportService(MemberService memberService, IHttpContextAccessor httpContextAccessor, ISession session, ILogger<MemberExportService> logger)
         {
             _memberService = memberService;
             this.httpContextAccessor = httpContextAccessor;
