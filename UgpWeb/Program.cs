@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOrchardCms()
+    .ConfigureServices(tenantServices =>
+        tenantServices.ConfigureHtmlSanitizer((sanitizer) =>
+        {
+            sanitizer.AllowedTags.Add("iframe");
+        })
+    )
 #if DEBUG
                 .AddSetupFeatures("OrchardCore.AutoSetup")
 #else
