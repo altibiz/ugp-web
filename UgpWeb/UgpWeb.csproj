@@ -8,9 +8,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="OrchardCore.Application.Cms.Targets" Version="2.0.2" />
-		<PackageReference Include="OrchardCore.Application.Targets" Version="2.0.2" />
-		<PackageReference Include="OrchardCore.Shells.Azure" Version="2.0.2" />
+		<PackageReference Include="OrchardCore.Application.Cms.Targets" Version="2.1.7" />
+		<PackageReference Include="OrchardCore.Application.Targets" Version="2.1.7" />
+		<PackageReference Include="OrchardCore.Shells.Azure" Version="2.1.7" />
 	</ItemGroup>
 
 	<ItemGroup>

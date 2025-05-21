@@ -16,15 +16,15 @@
 
   <ItemGroup>
     <PackageReference Include="FluentExcel" Version="2.2.0" />
-    <PackageReference Include="OrchardCore.Admin" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.Autoroute" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.ContentManagement" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.ContentManagement.Display" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.Data.Abstractions" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.Media" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.Module.Targets" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.Navigation.Core" Version="2.0.2" />
-    <PackageReference Include="OrchardCore.ResourceManagement" Version="2.0.2" />
+    <PackageReference Include="OrchardCore.Admin" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.Autoroute" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.ContentManagement.Display" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.Data.Abstractions" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.Media" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.Module.Targets" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.Navigation.Core" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.ResourceManagement" Version="2.1.7" />
   </ItemGroup>
 
   <ItemGroup>

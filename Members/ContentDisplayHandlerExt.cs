@@ -33,6 +33,12 @@ namespace Members
             return Task.CompletedTask;
         }
 
+        public Task UpdateEditorAsync(ContentItem contentItem, UpdateEditorContext context)
+        {
+            HandleEditorShape(contentItem, context, context.Shape as Shape);
+            return Task.CompletedTask;
+        }
+
         private void HandleEditorShape(ContentItem contentItem, BuildEditorContext context, IShape theShape)
         {
             foreach (var item in theShape.Items.Where(x=>x is EditTextFieldViewModel or EditTagTaxonomyFieldViewModel or EditTaxonomyFieldViewModel or EditDateFieldViewModel))
@@ -45,9 +51,5 @@ namespace Members
             }
         }
 
-        public Task UpdateEditorAsync(ContentItem contentItem, UpdateEditorContext context)
-        {
-            return Task.CompletedTask;
-        }
     }
 }
