@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Members.Base;
 using Members.Core;
 using Members.Persons;
 using Members.Utils;
@@ -98,11 +95,6 @@ namespace Members.Pages
                     PersonList.Add(item);
                 }
             }
-        }
-
-        public IActionResult OnPostGenerateQrFromForm()
-        {
-            return Page();
         }
     }
 

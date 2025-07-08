@@ -1365,7 +1365,7 @@
                 "Author": "admin",
                 "RawHtml": {
                   "Content": {
-                    "Html": "<div class=\"top-features-section\">\n<div class=\"row\">\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>200.000+ </h2>\n                    <p>Podržavatelja - poduzetnika, obrtnika i zaposlenika u privatnom sektoru</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>17.000+ </h2>\n                    <p>Članova udruge</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>33+ mlrd </h2>\n                    <p>kn prihoda članova i podržavatelja</p>\n                </div>\n            </div>\n</div>"
+                    "Html": "<div class=\"top-features-section\">\n<div class=\"row\">\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>200.000+ </h2>\n                    <p>Podržavatelja - poduzetnika, obrtnika i zaposlenika u privatnom sektoru</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>17.000+ </h2>\n                    <p>Članova udruge</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>33+ mlrd </h2>\n                    <p>€ prihoda članova i podržavatelja</p>\n                </div>\n            </div>\n</div>"
                   }
                 },
                 "FlowMetadata": {
@@ -1806,7 +1806,7 @@
                 "Author": "admin",
                 "RawHtml": {
                   "Content": {
-                    "Html": "<div class=\"top-features-section\">\n<div class=\"row\">\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>200.000+ </h2>\n                    <p>Podržavatelja - poduzetnika, obrtnika i zaposlenika u privatnom sektoru</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>18.000+ </h2>\n                    <p>Članova udruge</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>33+ mlrd </h2>\n                    <p>kn prihoda članova i podržavatelja</p>\n                </div>\n            </div>\n</div>"
+                    "Html": "<div class=\"top-features-section\">\n<div class=\"row\">\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>200.000+ </h2>\n                    <p>Podržavatelja - poduzetnika, obrtnika i zaposlenika u privatnom sektoru</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>18.000+ </h2>\n                    <p>Članova udruge</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>33+ mlrd </h2>\n                    <p>€ prihoda članova i podržavatelja</p>\n                </div>\n            </div>\n</div>"
                   }
                 },
                 "FlowMetadata": {

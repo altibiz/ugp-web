@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Localization;
 using OrchardCore.Admin;
 using OrchardCore.DisplayManagement.Notify;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,7 +69,7 @@ namespace Members.Controllers
             }
             var user = await _memberService.GetCurrentUser();
             await _notifier.WarningAsync(H["File too big to export there are " + (count + countCompany) + " items in the list. It will be sent to: " + user.Email]);
-            MemberExportBackgroundTask.PendingImports.Enqueue((model, user.Email));
+            MemberExportBackgroundTask.PendingExports.Enqueue((model, user.Email));
             return RedirectToAction("Index");
         }
     }

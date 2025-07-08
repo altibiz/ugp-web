@@ -13,6 +13,10 @@ namespace Members.Base
         public static async Task<IHtmlContent> EditorAsync(this IOrchardDisplayHelper orchardDisplayHelper, ContentItem content, string groupId = "", IUpdateModel updater = null)
         {
             var displayManager = orchardDisplayHelper.HttpContext.RequestServices.GetRequiredService<IContentItemDisplayManager>();
+            if (updater == null)
+            {
+                updater = orchardDisplayHelper.HttpContext.RequestServices.GetRequiredService<IUpdateModelAccessor>().ModelUpdater;
+            }
             var shape = await displayManager.BuildEditorAsync(content, updater,true,groupId);
             return await orchardDisplayHelper.DisplayHelper.ShapeExecuteAsync(shape);
         }

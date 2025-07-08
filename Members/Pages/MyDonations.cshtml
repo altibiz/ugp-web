@@ -27,12 +27,12 @@
 				{
 					total += item.Amount.Value.GetValueOrDefault();
 					<div class="list-group-item d-flex justify-content-between align-items-center">
-						<span>@item.Date.Value?.ToString("d") - @item.Amount.Value.GetValueOrDefault().ToString("n2") kn - @item.Description?.Text</span>
+						<span>@item.Date.Value?.ToString("d") - @item.Amount.Value.GetValueOrDefault().ToString("n2") € - @item.Description?.Text</span>
 						<a asp-page="./Print" asp-page-handler="Download" asp-route-fileName="Potvrda-@(item.ContentItem.ContentItemId)" asp-route-contentId="@item.ContentItem.ContentItemId" class="badge badge-primary bg-secondary badge-pill">Potvrda</a>
 					</div>
 				}
 				<div class="list-group-item d-flex justify-content-between">
-					<span class="fw-bold">Ukupno: @total.ToString("n2") kn</span>
+					<span class="fw-bold">Ukupno: @total.ToString("n2") €</span>
 				</div>
 			</div>
 		}

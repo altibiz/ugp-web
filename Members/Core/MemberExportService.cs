@@ -258,10 +258,10 @@ namespace Members.Core
     [BackgroundTask(Schedule = "*/1 * * * *", Description = "Fast import background task.")]
     public class MemberExportBackgroundTask : IBackgroundTask
     {
-        public static readonly ConcurrentQueue<(ExportModel, string)> PendingImports = new();
+        public static readonly ConcurrentQueue<(ExportModel, string)> PendingExports = new();
         public async Task DoWorkAsync(IServiceProvider serviceProvider, CancellationToken cancellationToken)
         {
-            if (PendingImports.TryDequeue(out var toImport))
+            if (PendingExports.TryDequeue(out var toImport))
             {
                 var service = serviceProvider.GetRequiredService<MemberExportService>();
                 var file = await service.GetExportFile(toImport.Item1);

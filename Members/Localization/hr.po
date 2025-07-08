@@ -84,6 +84,10 @@ msgctxt "Members.Pages.Donate"
 msgid "Donate"
 msgstr "Doniraj"
 
+msgctxt "Members.Payments.PledgeService"
+msgid "ID must have numbers"
+msgstr "OIB mora sadržavati brojeve"
+
 msgctxt "Members.Pages.MyDonations"
 msgid "My Donations"
 msgstr "Moje Donacije"
