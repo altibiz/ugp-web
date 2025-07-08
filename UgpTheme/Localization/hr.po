@@ -193,7 +193,7 @@ msgctxt "UgpTheme.Views.Shared.Login"
 msgid "Log in"
 msgstr "Prijava"
 
-msgctxt "UgpTheme.Views.Layout"
+msgctxt "UgpTheme.Views.Shared.TopActionButtons"
 msgid "Sign In"
 msgstr "Učlani se"
 msgid "Donate"

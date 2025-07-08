@@ -5,7 +5,7 @@
 @{
     // Navbar is pre-rendered to allow resource injection.
     var navbar = await DisplayAsync(await NavbarDisplay.BuildDisplayAsync(UpdateModelAccessor.ModelUpdater));
- }
+}
 
 <!DOCTYPE html>
 <html lang="@Orchard.CultureName()">
@@ -34,20 +34,17 @@
                 <img src="~/UgpTheme/assets/img/header-logo.png" alt="glaspoduzetnika logo" class="logo-img">
             </a>
             <div class="btn-group d-lg-none">
-                <a href="/doniraj" class="btn btn-success btn-sm">@T["Donate"]</a>
-                <a href="/uclani-se" class="btn btn-danger btn-sm">@T["Sign In"]</a>
+                <partial name="TopActionButtons" />
             </div>
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar" data-bs-parent="#mainNav" aria-expanded="false" aria-controls="navbar" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <partial name="MainMenu" />
-                <partial name="LoginMenu" />
                 @navbar
             </div>
             <div class="btn-group d-none d-lg-flex">
-                <a href="/doniraj" class="btn btn-success btn-sm">@T["Donate"]</a>
-                <a href="/uclani-se" class="btn btn-danger btn-sm">@T["Sign In"]</a>
+                <partial name="TopActionButtons" />
             </div>
 
         </div>
@@ -83,7 +80,8 @@
             <div class="container">
                 @await RenderSectionAsync("Footer", required: false)
             </div>
-        </footer>}
+        </footer>
+    }
     <resources type="FootScript" />
 </body>
 </html>

@@ -1,0 +1,13 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@if (!User.Identity.IsAuthenticated)
+{
+    <a href="/doniraj" class="btn btn-success btn-sm">@T["Donate"]</a>
+    <a href="/uclani-se" class="btn btn-danger btn-sm">@T["Sign In"]</a>
+}
+else
+{
+    <a href="/members/donate" class="btn btn-success btn-sm">@T["Donate"]</a>
+    <a href="/members/portal" class="btn btn-danger btn-sm">@T["Portal"]</a>
+}
