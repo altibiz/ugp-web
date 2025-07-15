@@ -41,7 +41,7 @@ namespace Members
 
         private void HandleEditorShape(ContentItem contentItem, BuildEditorContext context, IShape theShape)
         {
-            foreach (var item in theShape.Items.Where(x=>x is EditTextFieldViewModel or EditTagTaxonomyFieldViewModel or EditTaxonomyFieldViewModel or EditDateFieldViewModel))
+            foreach (var item in theShape.Items.Where(x=>x is EditTextFieldViewModel or EditTagTaxonomyFieldViewModel or EditTaxonomyFieldViewModel or EditDateFieldViewModel or EditNumericFieldViewModel))
             {
                 (item as IShape).SetFieldSettingsExt(context.IsNew, AdminAttribute.IsApplied(_httpCA.HttpContext));
             }
