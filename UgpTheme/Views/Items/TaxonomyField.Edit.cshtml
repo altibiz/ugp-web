@@ -1,4 +1,4 @@
-﻿@model OrchardCore.Taxonomies.ViewModels.EditTaxonomyFieldViewModel
+﻿@model UgpTheme.Drivers.EditTxnFieldViewModel
 @using Members.PartFieldSettings
 @using OrchardCore.Taxonomies.Settings;
 @using OrchardCore.ContentManagement.Metadata.Models
@@ -39,7 +39,7 @@
             WriteLiteral("</div>");
             closingDivs--;
         }
-
+        <input asp-for="@Model.TaxonomyContentItemId" type="hidden" />
         @if (!settings.Unique)
         {
             <div class="custom-control custom-checkbox">

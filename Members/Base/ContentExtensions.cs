@@ -1,5 +1,4 @@
-﻿using Members.Base;
-using OrchardCore.ContentFields.Fields;
+﻿using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Lists.Models;
@@ -39,21 +38,21 @@ namespace Members.Utils
             foreach (var prop in part.GetType().GetProperties())
             {
                 if (prop.PropertyType == typeof(TextField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new TextField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<TextField>(prop.Name));
                 if (prop.PropertyType == typeof(NumericField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new NumericField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<NumericField>(prop.Name));
                 if (prop.PropertyType == typeof(DateField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new DateField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<DateField>(prop.Name));
                 if (prop.PropertyType == typeof(DateField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new DateField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<DateField>(prop.Name));
                 if (prop.PropertyType == typeof(TaxonomyField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new TaxonomyField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<TaxonomyField>(prop.Name));
                 if (prop.PropertyType == typeof(ContentPickerField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new ContentPickerField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<ContentPickerField>(prop.Name));
                 if (prop.PropertyType == typeof(UserPickerField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new UserPickerField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<UserPickerField>(prop.Name));
                 if (prop.PropertyType == typeof(BooleanField) && prop.GetValue(part) == null)
-                    prop.SetValue(part, new BooleanField { ContentItem = part.ContentItem });
+                    prop.SetValue(part, part.GetOrCreate<BooleanField>(prop.Name));
             }
             return part;
         }

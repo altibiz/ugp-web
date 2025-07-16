@@ -1,4 +1,4 @@
-﻿@model OrchardCore.Taxonomies.ViewModels.EditTagTaxonomyFieldViewModel
+﻿@model UgpTheme.Drivers.EditTagTxnFieldViewModel
 @using Members.PartFieldSettings
 @using OrchardCore.Taxonomies.Settings
 @using OrchardCore.ContentManagement.Metadata.Models
@@ -35,8 +35,9 @@
 }
 else
 {
+    <input asp-for="@Model.TaxonomyContentItemId" type="hidden" />
     <div class="form-floating">
-        <div id="@vueElementId" class="form-tags tags" data-taxonomy-content-item-id="@Model.Taxonomy.ContentItemId" data-open="@open.ToString().ToLower()" data-leaves-only="@taxonomySettings.LeavesOnly.ToString().ToLower()" data-create-tag-error-message="@T[" Error creating tag"]" data-all-tag-terms="@Model.TagTermEntries" data-create-tag-url="@createTagUrl">
+        <div id="@vueElementId" class="form-tags tags" data-taxonomy-content-item-id="@Model.TaxonomyContentItemId" data-open="@open.ToString().ToLower()" data-leaves-only="@taxonomySettings.LeavesOnly.ToString().ToLower()" data-create-tag-error-message="@T[" Error creating tag"]" data-all-tag-terms="@Model.TagTermEntries" data-create-tag-url="@createTagUrl">
             <input asp-is-disabled="settingsExt.Disabled" asp-for="TermContentItemIds" type="hidden" v-model="selectedTagTermsIds" />
             <vue-multiselect v-model="selectedTagTerms"
                              placeholder="@T[" Type to search"]"

@@ -68,6 +68,7 @@ namespace Members
             services.AddScoped<IDisplayDriver<ContentOptionsViewModel>, PersonOptionsDisplayDriver>();
             services.UsePartService<Pledge, PledgeService>();
             services.UsePartService<Payment, PaymentPartService>();
+            services.AddContentPart<PledgeForm>();
 
             services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();

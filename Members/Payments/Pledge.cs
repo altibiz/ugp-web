@@ -26,6 +26,11 @@ namespace Members.Payments
         public TextField Note { get; set; }
     }
 
+    public class PledgeForm : ContentPart
+    {
+        public ContentPickerField PledgeVariant { get; set; }
+    }
+
     public class PledgeSettings : IFieldEditorSettings
     {
         public FieldSettingsExt GetFieldSettings(string propertyName, string label, bool isNew, bool isAdminTheme)
@@ -134,7 +139,7 @@ namespace Members.Payments
                     .WithDisplayName("Član")
                     .WithSettings(new ContentPickerFieldSettings
                     {
-                        DisplayedContentTypes = new[] { "Member", "Company" },
+                        DisplayedContentTypes = ["Member", "Company"],
                     })
                 )
            );
@@ -169,5 +174,26 @@ namespace Members.Payments
             await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeForm", type => type.Stereotype("Widget"));
 
         }
+
+        public async static Task UpdatePledgeForm(this IContentDefinitionManager _contentDefinitionManager)
+        {
+            await _contentDefinitionManager.AlterPartDefinitionAsync("PledgeForm", part => part
+            .WithField("PledgeVariant", field => field
+                .OfType("ContentPickerField")
+                .WithDisplayName("Vrsta uplata")
+                .WithSettings(new ContentPickerFieldSettings
+                {
+                    Required = false,
+                    Multiple = false,
+                    DisplayAllContentTypes = false,
+                    DisplayedContentTypes =
+                    [
+                        "Taxonomy",
+                    ],
+                    TitlePattern = "{ { Model.ContentItem | display_text } }",
+                })));
+        }
+
+
     }
 }

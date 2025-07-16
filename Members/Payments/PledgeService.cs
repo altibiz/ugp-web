@@ -44,7 +44,7 @@ namespace Members.Payments
             {
                 model.ReferenceNr.Text = "11-" + model.Oib.Text;
                 var variant = await model.Variant.GetTerm(Context);
-                model.Amount.Value = variant.As<PledgeVariant>().Price.Value;
+                model.Amount.Value = variant.As<PledgeVariant>()?.Price.Value;
                 model.Note.Text = variant.DisplayText;
                 var member = await _memberService.GetByOib(model.Oib.Text);
                 if (member != null)
