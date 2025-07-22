@@ -2,18 +2,20 @@
 @using Members.Payments
 
 @{
-	ContentItem contentItem = Model.ContentItem;
+    ContentItem contentItem = Model.ContentItem;
 
-	var pledge = contentItem.As<Pledge>();
-	var name = pledge.PayerName.Text;
-	var amount = pledge.Amount.Value;
-	var note = pledge.Note?.Text;
-	var refNumber = pledge.ReferenceNr.Text;
-	var cModel = "HR00";
-	var address = "Ulica Republike Austrije 33";
+    var pledge = contentItem.As<Pledge>();
+    var name = pledge.PayerName.Text;
+    var amount = pledge.Amount.Value;
+    var note = pledge.Note?.Text;
+    var refNumber = pledge.ReferenceNr.Text;
+    var cModel = "HR00";
+    var address = "Ulica Republike Austrije 33";
 }
 
-@{ Html.RenderPartial("_Header", T["Payment info"].Value); }
+@{
+    Html.RenderPartial("_Header", T["Payment info"].Value);
+}
 
 <script asp-name="ugptheme-jQuery"></script>
 <script asp-name="ugptheme-libbcmath"></script>
@@ -21,62 +23,65 @@
 <script asp-name="ugptheme-pdf417"></script>
 
 <script type="text/javascript">
-	var name = "@name";
-	var amount = "@(((int)(amount*100)).ToString("D15"))";
-	var note = "@note";
+    var name = "@name";
+    var amount = "@(((int)(amount * 100)).ToString("D15"))";
+    var note = "@note";
 
-	function drawBarcode(amount2) {
-		amount = amount2 || amount;
-		const data = {
-			header: 'HRVHUB30',
-			currency: 'EUR',
-			price: amount || '',
-			name: name || '',
-			address: '',
-			cityAndPostalCode: '',
-			recepient: 'UDRUGA GLAS PODUZETNIKA',
-			recepientAddress: '@address',
-			recepientCityAndPostalCode: '10000 Zagreb',
-			IBAN: 'HR2324020061100970954',
-			callNumber: '@cModel',
-			RefNumber: "@refNumber",
-			code: 'COST',
-			description: note || 'sec'
-		}
-		const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
+    function drawBarcode(amount2) {
+        amount = amount2 || amount;
+        const data = {
+            header: 'HRVHUB30',
+            currency: 'EUR',
+            price: amount || '',
+            name: name || '',
+            address: '',
+            cityAndPostalCode: '',
+            recepient: 'UDRUGA GLAS PODUZETNIKA',
+            recepientAddress: '@address',
+            recepientCityAndPostalCode: '10000 Zagreb',
+            IBAN: 'HR2324020061100970954',
+            callNumber: '@cModel',
+            RefNumber: "@refNumber",
+            code: 'COST',
+            description: note || 'sec'
+        }
+        const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
-		var canvas = document.getElementById("barcode")
-		if (canvas) {
-			PDF417.draw(code.substr(1), canvas)
-			var amountHelper = document.getElementById('amountHelper');
-			if (amountHelper) {
-				amountHelper.value = amount;
-			}
-		}
-	}
+        var canvas = document.getElementById("barcode")
+        if (canvas) {
+            PDF417.draw(code.substr(1), canvas)
+            var amountHelper = document.getElementById('amountHelper');
+            if (amountHelper) {
+                amountHelper.value = amount;
+            }
+        }
+    }
 
 
-	$(function () {
-		drawBarcode();
-	});
+    $(function () {
+        drawBarcode();
+    });
 </script>
 
 <div class="row">
-	<div class="container">
-		<h4>Podaci za uplatu</h4>
-		<p class="lead fs-6">
-			<span>IBAN: HR2324020061100970954</span><br />
-			<span>UDRUGA GLAS PODUZETNIKA</span><br />
-			<span>@address</span><br />
-			<span>Iznos: @amount €</span><br />
-			<span>model „@(cModel)“ i poziv na broj „@(refNumber)“.</span><br />
-			<span>Opis plaćanja: @note </span>
-		</p>
-		<p class="lead fs-6 my-1 ">
-			Možete skenirati 2D barkod iz Vašeg mobilnog bankarstva
-		</p>
-		<div>
-			<canvas id="barcode" style="min-width:50%"></canvas>
-		</div>
-	</div>
+    <div class="container">
+        <h4>Podaci za uplatu</h4>
+        <p class="lead fs-6">
+            <span>IBAN: HR2324020061100970954</span><br />
+            <span>UDRUGA GLAS PODUZETNIKA</span><br />
+            <span>@address</span><br />
+            <span>Iznos: @amount €</span><br />
+            <span>model „@(cModel)“ i poziv na broj „@(refNumber)“.</span><br />
+            <span>Opis plaćanja: @note </span>
+        </p>
+        <p class="lead fs-6 my-1 ">
+            Možete skenirati 2D barkod iz Vašeg mobilnog bankarstva
+        </p>
+        <div>
+            <canvas id="barcode" style="min-width:50%"></canvas>
+        </div>
+        <p class="lead fs-6 my-1 ">
+            Potrebno je 2-3 radna dana da bi uplata bila evidentirana u sustavu.
+        </p>
+    </div>
 </div>

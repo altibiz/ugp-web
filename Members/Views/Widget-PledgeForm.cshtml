@@ -44,7 +44,7 @@
 }
 <form style="width:100%" method="post" action="@Url.Page("/CreateNew",new { contentType = "Pledge", area = "Members" })">
     @await DisplayAsync(await Orchard.EditorAsync("Pledge", onContentInit: setTaxonomy))
-    <button type="submit" class="btn publish btn-success">Generiraj kod</button>
+    <button type="submit" class="btn publish btn-success">Prikaži podatke za uplatu</button>
     @Html.AntiForgeryToken()
 </form>
 <script type="text/javascript" at="Foot">

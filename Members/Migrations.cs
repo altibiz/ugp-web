@@ -134,5 +134,11 @@ namespace Members
             await _contentDefinitionManager.UpdatePledgeVariant();
             return 15;
         }
+
+        public async Task<int> UpdateFrom15()
+        {
+            await SchemaBuilder.AddMembershipExpiry();
+            return 16;
+        }
     }
 }
