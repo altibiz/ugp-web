@@ -64,7 +64,8 @@ namespace Members.Persons
         {
             if (isAdminTheme) return default;
             return new(!isNew,
-                propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal,
+                propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal
+                || propertyName == nameof(PersonPart.MembershipExpiry),
                 propertyName switch
                 {
                     nameof(PersonPart.Name) => Type == PersonType.Legal ? "Naziv" : label,
