@@ -98,6 +98,11 @@ namespace Members.Persons
                     .WithEditor("TextArea")
                     .WithPosition("9")
                     )
+                .WithField("MembershipExpiry", field => field
+                    .OfType("DateField")
+                    .WithDisplayName("Istječe članstvo")
+                    .WithPosition("10")
+                )
 
             );
         }
