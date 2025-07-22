@@ -2,22 +2,72 @@
 @using Members.Payments
 @using Members.Utils
 @using OrchardCore.ContentManagement
+@inject Members.Core.MemberService _memberService
 
 @{
     var context = (ContentItem)Model.ContentItem;
     var formData = context.As<PledgeForm>();
+    var initPledgePersonCid = Context.Request.Query["initPledgePersonCid"];
     Action<ContentItem> setTaxonomy = (item) =>
     {
-        var pledge = item.Alter<Pledge>(pledge =>
+        var pledge = item.Alter<Pledge>(async pledge =>
         {
             pledge.InitFields();
             pledge.Variant.TaxonomyContentItemId = formData?.PledgeVariant.GetId() ?? string.Empty;
         });
     };
-}
 
+    var personList = new List<ContentItem>();
+
+    ContentItem ci = await _memberService.GetUserMember();
+    if (ci != null)
+    {
+        personList.Add(ci);
+
+        var companies = await _memberService.GetUserCompanies();
+        foreach (ContentItem item in companies)
+        {
+            personList.Add(item);
+        }
+    }
+}
+@if (personList != null)
+{
+    <form method="get" id="personSelector" onsubmit="submitAndFocus(event)">
+        <select class="form-select" name="initPledgePersonCid" onchange="document.getElementById('personSelector').requestSubmit();">
+            @foreach (var item in personList)
+            {
+                <option selected=@(initPledgePersonCid == item.ContentItemId) value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+            }
+        </select>
+    </form>
+}
 <form style="width:100%" method="post" action="@Url.Page("/CreateNew",new { contentType = "Pledge", area = "Members" })">
     @await DisplayAsync(await Orchard.EditorAsync("Pledge", onContentInit: setTaxonomy))
     <button type="submit" class="btn publish btn-success">Generiraj kod</button>
     @Html.AntiForgeryToken()
 </form>
+<script type="text/javascript" at="Foot">
+     function submitAndFocus(e) {
+        e.preventDefault();
+        const form = e.target;
+        const url = new URL(window.location.href);
+
+        // Get current query parameters
+        const currentParams = new URLSearchParams(url.search);
+
+        // Get new form data
+        const formParams = new URLSearchParams(new FormData(form));
+
+        // Merge form data into current query parameters
+        for (const [key, value] of formParams.entries()) {
+            currentParams.set(key, value);
+        }
+
+        // Set your anchor name here
+        const anchor = 'personSelector';
+
+        // Redirect with merged query and anchor
+        window.location.href = url.pathname + '?' + currentParams.toString() + '#' + anchor;
+    }
+</script>

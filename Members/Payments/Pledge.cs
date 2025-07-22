@@ -46,6 +46,8 @@ namespace Members.Payments
     public class PledgeVariant : ContentPart
     {
         public NumericField Price { get; set; }
+
+        public TextField ReferenceNrPrefix { get; set; }
     }
 
     public static class PledgeMigrations
@@ -159,7 +161,15 @@ namespace Members.Payments
                   )
              );
 
-            await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(PledgeVariant), part => part
+            await _contentDefinitionManager.UpdatePledgeVariant();
+
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeForm", type => type.Stereotype("Widget"));
+
+        }
+
+        public async static Task UpdatePledgeVariant(this IContentDefinitionManager cdm)
+        {
+            await cdm.AlterPartDefinitionAsync(nameof(PledgeVariant), part => part
             .WithField("Price", field => field
                 .OfType("NumericField")
                 .WithDisplayName("Cijena")
@@ -169,10 +179,17 @@ namespace Members.Payments
                     Required = true,
                     Scale = 2
                 })
-            ));
-
-            await _contentDefinitionManager.AlterTypeDefinitionAsync("PledgeForm", type => type.Stereotype("Widget"));
-
+            )
+            .WithField("ReferenceNrPrefix", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Prefix poziv na broja")
+                    .WithPosition("2")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Hint = "Prefix koji će se koristiti za poziv na broj uplatnice. Za obicne clanove 12-, za punopravne clanove 13-",
+                    })
+                )
+            );
         }
 
         public async static Task UpdatePledgeForm(this IContentDefinitionManager _contentDefinitionManager)

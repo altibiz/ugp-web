@@ -187,6 +187,11 @@ namespace Members.Core
                         Required = true,
                     })
                 )
+                .WithField("MembershipExpiry", field => field
+                    .OfType("DateField")
+                    .WithDisplayName("Istječe članstvo")
+                    .WithPosition("9")
+                )
             );
 
             await _contentDefinitionManager.AlterPartDefinitionAsync("Company", part => part
@@ -201,7 +206,7 @@ namespace Members.Core
                 )
                 .WithField("Revenue2019", field => field
                     .OfType("NumericField")
-                    .WithDisplayName("Promet u 2019")
+                    .WithDisplayName("Promet prošle godine")
                     .WithPosition("2")
                 )
                 .WithField("EmployeeNumber", field => field

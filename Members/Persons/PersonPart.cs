@@ -3,6 +3,7 @@ using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.Taxonomies.Fields;
+using System;
 
 namespace Members.Persons
 {
@@ -42,6 +43,17 @@ namespace Members.Persons
 
         public string OldSalt { get; set; }
         public string OldHash { get; set; }
+
+        public DateField MembershipExpiry { get; set; }
+
+        public bool IsMember
+        {
+            get
+            {
+                if (MembershipExpiry == null || !MembershipExpiry.Value.HasValue) return false;
+                return MembershipExpiry.Value.GetValueOrDefault() > DateTime.Today;
+            }
+        }
     }
 
     public class PersonPartSettings : IFieldEditorSettings

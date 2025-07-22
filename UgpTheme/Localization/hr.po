@@ -194,10 +194,12 @@ msgid "Log in"
 msgstr "Prijava"
 
 msgctxt "UgpTheme.Views.Shared.TopActionButtons"
-msgid "Sign In"
+msgid "Sign up"
 msgstr "Učlani se"
 msgid "Donate"
 msgstr "Doniraj"
+msgid "Log in"
+msgstr "Prijava"
 
 #. <h4>@T["Register"]</h4>
 #: OrchardCore.Users\Views\Account\Login.cshtml:73

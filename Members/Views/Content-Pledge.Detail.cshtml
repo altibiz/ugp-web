@@ -1,17 +1,19 @@
 ﻿@using OrchardCore.ContentManagement
 @using Members.Payments
 
-@{ ContentItem contentItem = Model.ContentItem;
+@{
+	ContentItem contentItem = Model.ContentItem;
 
-		var pledge = contentItem.As<Pledge>();
-		var name = pledge.PayerName.Text;
-		var amount = pledge.Amount.Value;
-		var note = pledge.Note?.Text;
-		var refNumber = pledge.ReferenceNr.Text;
-		var cModel = "HR00";
+	var pledge = contentItem.As<Pledge>();
+	var name = pledge.PayerName.Text;
+	var amount = pledge.Amount.Value;
+	var note = pledge.Note?.Text;
+	var refNumber = pledge.ReferenceNr.Text;
+	var cModel = "HR00";
+	var address = "Ulica Republike Austrije 33";
 }
 
-@{ Html.RenderPartial("_Header", T["Donate"].Value); }
+@{ Html.RenderPartial("_Header", T["Payment info"].Value); }
 
 <script asp-name="ugptheme-jQuery"></script>
 <script asp-name="ugptheme-libbcmath"></script>
@@ -33,7 +35,7 @@
 			address: '',
 			cityAndPostalCode: '',
 			recepient: 'UDRUGA GLAS PODUZETNIKA',
-			recepientAddress: 'Ulica Republike Austrije 33',
+			recepientAddress: '@address',
 			recepientCityAndPostalCode: '10000 Zagreb',
 			IBAN: 'HR2324020061100970954',
 			callNumber: '@cModel',
@@ -65,7 +67,7 @@
 		<p class="lead fs-6">
 			<span>IBAN: HR2324020061100970954</span><br />
 			<span>UDRUGA GLAS PODUZETNIKA</span><br />
-			<span>Ulica Republike Austrije 33, Zagreb</span><br />
+			<span>@address</span><br />
 			<span>Iznos: @amount €</span><br />
 			<span>model „@(cModel)“ i poziv na broj „@(refNumber)“.</span><br />
 			<span>Opis plaćanja: @note </span>

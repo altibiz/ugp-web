@@ -1,6 +1,7 @@
 ﻿using Members.Base;
 using Members.Core;
 using Members.PartFieldSettings;
+using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
@@ -20,10 +21,30 @@ namespace Members.Payments
 
         public IStringLocalizer<PledgeService> S { get; }
 
+        private IHttpContextAccessor _htp;
+
         public PledgeService(IHttpContextAccessor htp, MemberService memberService, IStringLocalizer<PledgeService> s) : base(htp)
         {
             _memberService = memberService;
             S = s;
+            _htp=htp;
+        }
+
+        public override async Task InitializingAsync(Pledge part)
+        {
+            if (IsAdmin) return;
+            var cid = Context.Request.Query["initPledgePersonCid"];
+            var current = string.IsNullOrEmpty(cid) ? await _memberService.GetUserMember() :
+                await _memberService.GetContentItemById(cid);
+            part.InitFields();
+            if (current != null)
+            {
+                var person = current.As<PersonPart>();
+                part.Person.SetId(current.ContentItemId);
+                part.Oib.Text = person.Oib.Text;
+                part.PayerName.Text = person.LegalName;
+                part.Email.Text = person.Email.Text;
+            }
         }
 
         public override IEnumerable<ValidationResult> Validate(Pledge part)
@@ -40,12 +61,14 @@ namespace Members.Payments
         public override async Task UpdatedAsync(UpdateContentContext context, Pledge model)
         {
             model.InitFields();
+            var httpContext = _htp.HttpContext;
             if (!IsAdmin)
             {
-                model.ReferenceNr.Text = "11-" + model.Oib.Text;
                 var variant = await model.Variant.GetTerm(Context);
-                model.Amount.Value = variant.As<PledgeVariant>()?.Price.Value;
-                model.Note.Text = variant.DisplayText;
+                var variantPart = variant?.As<PledgeVariant>().InitFields();
+                model.ReferenceNr.Text = (variantPart?.ReferenceNrPrefix?.Text ?? "") + model.Oib.Text;
+                model.Amount.Value = variantPart?.Price.Value;
+                model.Note.Text = variant?.DisplayText;
                 var member = await _memberService.GetByOib(model.Oib.Text);
                 if (member != null)
                     model.Person.SetId(member.ContentItemId);

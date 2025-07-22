@@ -128,5 +128,11 @@ namespace Members
             await _contentDefinitionManager.UpdatePledgeForm();
             return 14;
         }
+
+        public async Task<int> UpdateFrom14()
+        {
+            await _contentDefinitionManager.UpdatePledgeVariant();
+            return 15;
+        }
     }
 }

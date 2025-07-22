@@ -22,6 +22,7 @@ namespace Members.Persons
         public decimal? Employees { get; set; }
         public decimal? Associates { get; set; }
         public bool Published { get; set; }
+        public DateTime? MembershipExpiry { get; set; }
     }
 
     public class PersonPartIndexProvider : IndexProvider<ContentItem>, IScopedIndexProvider
@@ -51,6 +52,7 @@ namespace Members.Persons
                         LegalName = pp.LegalName,
                         PersonType = typeDef.Type?.ToString(),
                         Published = contentItem.Published,
+                        MembershipExpiry = pp.MembershipExpiry.Value,
                     };
 
                     var company = contentItem.AsReal<Company>();
@@ -96,6 +98,12 @@ namespace Members.Persons
             .AddColumn<bool>("Published"));
             schemaBuilder.ExecuteSql("UPDATE ppi SET ppi.Published=cii.Published FROM PersonPartIndex ppi INNER JOIN " +
 "ContentItemIndex cii ON ppi.DocumentId=cii.DocumentId");
+        }
+
+        public static async Task AddMembershipExpiry(this ISchemaBuilder schemaBuilder)
+        {
+            await schemaBuilder.AlterIndexTableAsync<PersonPartIndex>(table => table
+            .AddColumn<bool>("MembershipExpiry"));
         }
     }
 }

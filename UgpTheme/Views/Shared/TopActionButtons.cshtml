@@ -3,11 +3,11 @@
 *@
 @if (!User.Identity.IsAuthenticated)
 {
-    <a href="/doniraj" class="btn btn-success btn-sm">@T["Donate"]</a>
-    <a href="/uclani-se" class="btn btn-danger btn-sm">@T["Sign In"]</a>
+    <a href="/Login" class="btn btn-success btn-sm">@T["Log in"]</a>
+    <a href="/uclani-se" class="btn btn-danger btn-sm">@T["Sign up"]</a>
 }
 else
 {
-    <a href="/members/donate" class="btn btn-success btn-sm">@T["Donate"]</a>
-    <a href="/members/portal" class="btn btn-danger btn-sm">@T["Portal"]</a>
+    <a href="/members/portal" class="btn btn-success btn-sm">@T["Portal"]</a>
+    <a href="/members/donate" class="btn btn-danger btn-sm">@T["Donate"]</a>
 }
