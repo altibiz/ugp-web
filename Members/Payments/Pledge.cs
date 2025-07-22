@@ -207,7 +207,7 @@ namespace Members.Payments
                     [
                         "Taxonomy",
                     ],
-                    TitlePattern = "{ { Model.ContentItem | display_text } }",
+                    TitlePattern = "{{ Model.ContentItem | display_text }}",
                 })));
         }
 

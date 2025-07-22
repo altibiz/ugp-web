@@ -146,5 +146,11 @@ namespace Members
             await _contentDefinitionManager.AlterPersonPart();
             return 17;
         }
+
+        public async Task<int> UpdateFrom17()
+        {
+            await _contentDefinitionManager.UpdatePledgeForm();
+            return 18;
+        }
     }
 }
