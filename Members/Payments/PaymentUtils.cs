@@ -1,4 +1,5 @@
 ﻿using Members.Core;
+using Members.Utils;
 using OrchardCore.ContentManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,10 +22,10 @@ namespace Members.Payments
             var member = await _memService.GetUserMember();
             var companies = await _memService.GetUserCompanies();
             foreach (var payment in await GetPersonPayments(member.ContentItemId))
-                yield return payment.As<Payment>();
+                yield return payment.AsInit<Payment>();
             foreach (var comp in companies)
                 foreach (var payment in await GetPersonPayments(comp.ContentItemId))
-                    yield return payment.As<Payment>();
+                    yield return payment.AsInit<Payment>();
         }
 
         internal async Task<IEnumerable<ContentItem>> GetPersonPayments(string contentItemId)

@@ -34,12 +34,11 @@ namespace Members.Payments
         {
             if (IsAdmin) return;
             var cid = Context.Request.Query["initPledgePersonCid"];
-            var current = string.IsNullOrEmpty(cid) ? await _memberService.GetUserMember() :
+            var current = string.IsNullOrEmpty(cid) ? await _memberService.GetUserMember(true) :
                 await _memberService.GetContentItemById(cid);
-            part.InitFields();
             if (current != null)
             {
-                var person = current.As<PersonPart>();
+                var person = current.AsInit<PersonPart>();
                 part.Person.SetId(current.ContentItemId);
                 part.Oib.Text = person.Oib.Text;
                 part.PayerName.Text = person.LegalName;
@@ -60,12 +59,11 @@ namespace Members.Payments
         }
         public override async Task UpdatedAsync(UpdateContentContext context, Pledge model)
         {
-            model.InitFields();
             var httpContext = _htp.HttpContext;
             if (!IsAdmin)
             {
                 var variant = await model.Variant.GetTerm(Context);
-                var variantPart = variant?.As<PledgeVariant>().InitFields();
+                var variantPart = variant?.AsInit<PledgeVariant>();
                 model.ReferenceNr.Text = (variantPart?.ReferenceNrPrefix?.Text ?? "") + model.Oib.Text;
                 model.Amount.Value = variantPart?.Price.Value;
                 model.Note.Text = variant?.DisplayText;

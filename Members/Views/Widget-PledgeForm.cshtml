@@ -19,19 +19,19 @@
 
     var personList = new List<ContentItem>();
 
-    ContentItem ci = await _memberService.GetUserMember();
+    ContentItem ci = await _memberService.GetUserMember(true);
     if (ci != null)
     {
         personList.Add(ci);
 
-        var companies = await _memberService.GetUserCompanies();
+        var companies = await _memberService.GetMemberCompanies(ci);
         foreach (ContentItem item in companies)
         {
             personList.Add(item);
         }
     }
 }
-@if (personList != null)
+@if (personList != null && personList.Count>1)
 {
     <form method="get" id="personSelector" onsubmit="submitAndFocus(event)">
         <select class="form-select" name="initPledgePersonCid" onchange="document.getElementById('personSelector').requestSubmit();">

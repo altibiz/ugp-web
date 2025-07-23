@@ -3,6 +3,7 @@ using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Metadata;
 using OrchardCore.Lists.Models;
 using OrchardCore.Taxonomies.Fields;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,14 +23,39 @@ namespace Members.Utils
         public static void AddToList(this ContentItem parent, ContentItem child)
         {
             child.Weld<ContainedPart>();
-            child.Alter<ContainedPart>(x => x.ListContentItemId = parent.ContentItemId);
+            child.AlterInit<ContainedPart>(x => x.ListContentItemId = parent.ContentItemId);
         }
 
         //Returns content part only if the item is not deleted (not latest or published)
         public static T AsReal<T>(this ContentItem contentItem) where T : ContentPart
         {
             if (!contentItem.Latest && !contentItem.Published) return null;
-            return contentItem.As<T>();
+            return contentItem.AsInit<T>();
+        }
+
+        public static T AsInit<T>(this ContentItem contentItem) where T : ContentPart
+        {
+            return contentItem.As<T>().InitFields();
+        }
+
+        public static ContentItem AlterInit<TPart>(this ContentItem contentItem, Action<TPart> action) where TPart : ContentPart, new()
+        {
+            var part = contentItem.GetOrCreate<TPart>();
+            part.InitFields();
+            action(part);
+            contentItem.Apply(part);
+            return contentItem;
+        }
+
+        public static async Task<ContentItem> AlterInitAsync<TPart>(this ContentItem contentElement, Func<TPart, Task> action) where TPart : ContentPart, new()
+        {
+            var element = contentElement.GetOrCreate<TPart>();
+            element.InitFields();
+            await action(element);
+
+            contentElement.Apply(element);
+
+            return contentElement;
         }
 
         public static T InitFields<T>(this T part) where T : ContentPart
@@ -69,7 +95,7 @@ namespace Members.Utils
 
         public static IEnumerable<T> AsParts<T>(this IEnumerable<ContentItem> items) where T : ContentPart
         {
-            return items.Select(x => x.As<T>());
+            return items.Select(x => x.AsInit<T>());
         }
     }
 }

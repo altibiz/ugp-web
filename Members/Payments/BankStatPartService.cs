@@ -78,7 +78,7 @@ namespace Members.Payments
 
         public override Task InitializingAsync(BankStatPart part)
         {
-            part.Date = new DateField() { Value = DateTime.Now };
+            part.Date.Value = DateTime.Now;
             return Task.CompletedTask;
         }
 
@@ -138,7 +138,7 @@ namespace Members.Payments
                 stat.RRN = rrn;
                 stat.Partner = cPartner;
                 stat.Partner.Address = cAddress;
-                stat.Number= nTry.XPathSelectElement("AcctSvcrRef").Value;
+                stat.Number = nTry.XPathSelectElement("AcctSvcrRef").Value;
                 statement.Data.Add(stat);
             }
 
@@ -183,9 +183,9 @@ namespace Members.Payments
             foreach (var pymnt in json.Data)
             {
                 var ciPayment = await _session.FirstOrDefaultAsync<PaymentIndex>(_contentManager, x => x.TransactionRef == pymnt.Number);
-                if(ciPayment==null)
+                if (ciPayment == null)
                     ciPayment = await _contentManager.NewAsync("Payment");
-                var payPart = ciPayment.As<Payment>().InitFields();
+                var payPart = ciPayment.AsInit<Payment>();
                 payPart.Amount.Value = pymnt.Amount;
                 payPart.Address.Text = pymnt.Partner.Address.Street;
                 payPart.PayerName.Text = pymnt.Partner.Name;

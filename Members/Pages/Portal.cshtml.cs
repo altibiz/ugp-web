@@ -17,7 +17,7 @@ using OrchardCore.Admin;
 using Microsoft.AspNetCore.Http;
 using Members.Utils;
 using Members.Payments;
-using Members.Base;
+using Members.Persons;
 
 namespace Members.Pages
 {
@@ -27,12 +27,17 @@ namespace Members.Pages
         private readonly MemberService _mService;
         private readonly INotifier _notifier;
         private readonly IHtmlLocalizer<PortalModel> H;
+        private readonly IContentManager _cm;
+        private readonly IContentHandleManager _chm;
         public ContentItem Member;
-        public PortalModel(MemberService mService, INotifier notifier, IHtmlLocalizer<PortalModel> localizer)
+        public ContentItem PaymentForm;
+        public PortalModel(MemberService mService, INotifier notifier, IHtmlLocalizer<PortalModel> localizer, IContentManager contentManager,IContentHandleManager chm)
         {
             _mService = mService;
             _notifier = notifier;
             H = localizer;
+            _cm = contentManager;
+            _chm= chm;
         }
         public async Task<IActionResult> OnGetAsync()
         {
@@ -41,9 +46,16 @@ namespace Members.Pages
             {
                 return RedirectToPage("CreateMember");
             }
-            if (!Member.Published)
+            if (!Member.AsInit<PersonPart>().IsMember)
             {
                 await _notifier.InformationAsync(H["Molimo pričekajte da naši administratori potvrde prijavu"]);
+                PaymentForm = await _cm.NewAsync(nameof(PledgeForm));
+                await PaymentForm.AlterInitAsync<PledgeForm>(async (pf) =>
+                {
+                    var cid = await _chm.GetContentItemIdAsync("alias:clanarina");
+                    if (string.IsNullOrEmpty(cid)) await _notifier.ErrorAsync(H["Missing 'clanarina' alias"]);
+                    pf.PledgeVariant.ContentItemIds= [cid];
+                });
             }
             return Page();
         }
@@ -100,12 +112,12 @@ namespace Members.ContentHandlers
             if (context.ContentItem.ContentType == "Menu" && !
                 AdminAttribute.IsApplied(_httpCA.HttpContext))
             {
-                var alias = context.ContentItem.As<AliasPart>();
+                var alias = context.ContentItem.AsInit<AliasPart>();
                 if (alias != null)
                 {
                     if (alias.Alias == "user-landing-page-menu")
                     {
-                        var menulist = context.ContentItem.As<MenuItemsListPart>();
+                        var menulist = context.ContentItem.AsInit<MenuItemsListPart>();
                         menulist.MenuItems = GetMenuCi().Concat(menulist.MenuItems).ToList();
                     }
                 }

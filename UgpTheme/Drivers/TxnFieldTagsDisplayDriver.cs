@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using Members.Utils;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
@@ -55,7 +56,7 @@ public sealed class TxnFieldTagsDisplayDriver : ContentFieldDisplayDriver<Taxono
             {
                 var termEntries = new List<TermEntry>();
 
-                var terms = model.Taxonomy.As<TaxonomyPart>().Terms;
+                var terms = model.Taxonomy.AsInit<TaxonomyPart>().Terms;
 
                 // Maintain the listed order in the field, then concatenate the remaining content items.
                 var sortedTerms = terms

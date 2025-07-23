@@ -85,7 +85,7 @@ namespace Members.Core
 
             var query = _session.Query<ContentItem, ContentItemIndex>(x => x.ContentType == nameof(Company)).Where(x => x.Published && x.Latest && x.PublishedUtc > afterDate);
             var companies = await query.ListAsync();
-            companies = companies.GroupBy(x => x.As<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
+            companies = companies.GroupBy(x => x.AsInit<PersonPart>().Email?.Text).Select(x => x.FirstOrDefault());
 
             foreach (ContentItem item in companies)
             {
@@ -95,7 +95,7 @@ namespace Members.Core
             return newCompanies;
         }
 
-        public async Task<List<ContentItem>> GetUserCompanies()
+        public async Task<List<ContentItem>> GetUserCompanies(bool includeDraft=true)
         {
             ContentItem member = await GetUserMember();
             var companyContentItem = new List<ContentItem>();
@@ -142,12 +142,13 @@ namespace Members.Core
             var contentItem = await _contentManager.NewAsync(cType.ToString());
             if (cType.Equals(ContentType.Company))
             {
-                PersonPart mem = (await GetUserMember(true)).As<PersonPart>();
-                contentItem.Alter<PersonPart>(x =>
+                PersonPart mem = (await GetUserMember(true)).AsInit<PersonPart>();
+                contentItem.AlterInit<PersonPart>(x =>
                 {
-                    x.Address = mem.Address;
-                    x.County = mem.County;
-                    x.City = mem.City;
+                    x.Address.Text = mem.Address.Text;
+                    x.County.TermContentItemIds = [.. mem.County.TermContentItemIds];
+                    x.County.TaxonomyContentItemId = x.County.TaxonomyContentItemId;
+                    x.City.Text = mem.City.Text;
                 });
             }
             var model = await _contentItemDisplayManager.BuildEditorAsync(contentItem, _updateModelAccessor.ModelUpdater, true);
@@ -171,7 +172,7 @@ namespace Members.Core
         {
             var taxonomy = await GetTaxonomy(taxonomyName);
 
-            return taxonomy.As<TaxonomyPart>().Terms;
+            return taxonomy.AsInit<TaxonomyPart>().Terms;
         }
 
         public async Task<(ContentItem, IShape)> ModelToNew(string memberType)
@@ -222,7 +223,7 @@ namespace Members.Core
             var user = await GetCurrentUser();
             // Set the current user as the owner to check for ownership permissions on creation
             memberItem.Owner = user.UserName;
-            memberItem.Alter<Member>(member =>
+            memberItem.AlterInit<Member>(member =>
             {
                 member.User.UserIds = new[] { user.UserId };
             });
@@ -241,9 +242,9 @@ namespace Members.Core
             if (parentContentItem == null) return new ContentValidateResult { Succeeded = false };
 
             // DORADITI !!!!
-            offerItem.Alter<Offer>(offer =>
+            offerItem.AlterInit<Offer>(offer =>
             {
-                offer.Company.ContentItemIds = new[] { parentContentItem.ContentItemId };
+                offer.Company.ContentItemIds = [parentContentItem.ContentItemId];
             });
 
             return await _contentManager.UpdateValidateAndCreateAsync(offerItem, VersionOptions.Draft);

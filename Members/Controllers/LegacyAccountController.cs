@@ -60,9 +60,9 @@ namespace Members.Controllers
                 }
                 if (oldLoginItem == null || memberItem == null) 
                     return ValidationProblem("Ukoliko se prvi put logirate na novi portal, upišite svoj OIB ili OIB tvrtke u polje korisničko ime.");
-                var mem = memberItem?.As<Member>().InitFields();
-                var memPerson = memberItem.As<PersonPart>();
-                var oldPerson = oldLoginItem.As<PersonPart>();
+                var mem = memberItem?.AsInit<Member>();
+                var memPerson = memberItem.AsInit<PersonPart>();
+                var oldPerson = oldLoginItem.AsInit<PersonPart>();
 
                 if (mem.User?.UserIds?.Length > 0)
                 {

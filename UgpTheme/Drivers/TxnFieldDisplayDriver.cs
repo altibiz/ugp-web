@@ -1,4 +1,4 @@
-using Members.Base;
+using Members.Utils;
 using Microsoft.Extensions.Localization;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.ContentDisplay;
@@ -53,7 +53,7 @@ public sealed class TxnFieldDisplayDriver : ContentFieldDisplayDriver<TaxonomyFi
             {
                 var termEntries = new List<TermEntry>();
 
-                var terms = model.Taxonomy.As<TaxonomyPart>().Terms;
+                var terms = model.Taxonomy.AsInit<TaxonomyPart>().Terms;
 
                 // Maintain the listed order in the field, then concatenate the remaining content items.
                 var sortedTerms = terms

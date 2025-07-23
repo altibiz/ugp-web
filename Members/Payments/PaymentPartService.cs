@@ -16,7 +16,6 @@ namespace Members.Payments
 
         public override Task UpdatedAsync(UpdateContentContext context, Payment instance)
         {
-            instance.InitFields();
             if (instance.IsPayout.Value ^ instance.Amount.Value < 0)
                 instance.Amount.Value = - instance.Amount.Value;
             return Task.CompletedTask;

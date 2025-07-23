@@ -1,4 +1,5 @@
-﻿@using OrchardCore.ContentManagement
+﻿@using Members.Utils
+@using OrchardCore.ContentManagement
 @using OrchardCore.Menu.Models
 @{
     ContentItem contentItem = Model.ContentItem;
@@ -6,7 +7,7 @@
 
     var iconTxt = contentItem.Content.LinkMenuItem.Icon.Text;
 
-    var linkMenuItemPart = contentItem.As<LinkMenuItemPart>();
+    var linkMenuItemPart = contentItem.AsInit<LinkMenuItemPart>();
 
     TagBuilder tag = Tag(Model, "a");
 

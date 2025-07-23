@@ -46,7 +46,7 @@ namespace Members.Pages
             ContentItem ci = await _memberService.GetUserMember(true);
             if (ci != null)
             {
-                var pp = ci.As<PersonPart>().InitFields();
+                var pp = ci.AsInit<PersonPart>();
                 await SetPersonList();
                 IsGuest = false;
                 LegalName = pp.LegalName;

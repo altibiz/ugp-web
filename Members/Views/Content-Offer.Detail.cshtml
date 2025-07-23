@@ -6,7 +6,7 @@
 
 @{
 	ContentItem contentItem = Model.ContentItem;
-	var offer = contentItem.As<Offer>();
+	var offer = contentItem.AsInit<Offer>();
 	var companyItem = await Orchard.GetContentItemByIdAsync(offer.Company?.GetId());
 	Html.RenderPartial("_Header", offer.ContentItem.DisplayText);
 
@@ -49,7 +49,7 @@
 
 				@if (companyItem != null)
 				{
-					var company = companyItem.As<Company>();
+					var company = companyItem.AsInit<Company>();
 
 					if (company.Logo?.Paths.FirstOrDefault() != null)
 					{

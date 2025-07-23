@@ -1,4 +1,4 @@
-﻿using Members.Core;
+﻿using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using OrchardCore.Admin;
 using OrchardCore.ContentManagement;
@@ -33,7 +33,7 @@ namespace Members.Base
         {
             if (!AdminAttribute.IsApplied(_httpCA.HttpContext)) return null;
 
-            var part = model.As<ContainedPart>();
+            var part = model.AsInit<ContainedPart>();
             if (part == null) return null;
 
             MemberContentItem = await _contentManager.GetAsync(part.ListContentItemId);

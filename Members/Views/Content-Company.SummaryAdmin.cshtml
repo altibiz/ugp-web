@@ -1,3 +1,4 @@
+@using Members.Utils
 @using OrchardCore.Contents
 @using OrchardCore.ContentManagement
 @using Microsoft.AspNetCore.Authorization
@@ -5,7 +6,7 @@
 @inject IAuthorizationService AuthorizationService
 @{
 	ContentItem contentItem = Model.ContentItem;
-	var member = contentItem.As<Members.Persons.PersonPart>();
+	var member = contentItem.AsInit<Members.Persons.PersonPart>();
 }
 
 <div class="row">

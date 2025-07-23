@@ -1,10 +1,11 @@
-﻿@using OrchardCore.ContentManagement
+﻿@using Members.Utils
+@using OrchardCore.ContentManagement
 @using Members.Payments
 
 @{
     ContentItem contentItem = Model.ContentItem;
 
-    var pledge = contentItem.As<Pledge>();
+    var pledge = contentItem.AsInit<Pledge>();
     var name = pledge.PayerName.Text;
     var amount = pledge.Amount.Value;
     var note = pledge.Note?.Text;

@@ -1,13 +1,14 @@
 ﻿using Members.PartFieldSettings;
+using Members.Utils;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
 using System.Threading.Tasks;
 
 namespace Members.Persons
 {
-    public class PartServiceHandler<TPart,TService>:ContentPartHandler<TPart>
-        where TPart:ContentPart,new()
-        where TService:IPartService<TPart>
+    public class PartServiceHandler<TPart, TService> : ContentPartHandler<TPart>
+        where TPart : ContentPart, new()
+        where TService : IPartService<TPart>
     {
         private readonly TService _service;
 
@@ -20,6 +21,7 @@ namespace Members.Persons
         public override async Task ValidatingAsync(ValidateContentContext context, TPart part)
         {
 
+            part.InitFields();
             await foreach (var item in _service.ValidateAsync(part))
             {
                 context.Fail(item);
@@ -28,18 +30,21 @@ namespace Members.Persons
 
         public override async Task InitializingAsync(InitializingContentContext context, TPart instance)
         {
+            instance.InitFields();
             await _service.InitializingAsync(instance);
             context.ContentItem.Apply(instance);
         }
 
         public override async Task PublishedAsync(PublishContentContext context, TPart instance)
         {
+            instance.InitFields();
             await _service.PublishedAsync(instance, context);
         }
 
         public override async Task UpdatedAsync(UpdateContentContext context, TPart instance)
         {
-           await _service.UpdatedAsync(context,instance);
+            instance.InitFields();
+            await _service.UpdatedAsync(context, instance);
             instance.ContentItem.Apply(instance);
         }
     }

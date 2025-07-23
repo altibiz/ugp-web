@@ -56,7 +56,7 @@ namespace Members.Pages
                 
                 ContentItem company = await _memberService.GetContentItemById(cid);
                 if (company == null) return;
-                var companyPart = company.As<Company>();
+                var companyPart = company.AsInit<Company>();
                 LogoUrl log = new();
                 log.CompanyID = cid;
                 log.Url = companyPart.Logo?.Paths?.FirstOrDefault();

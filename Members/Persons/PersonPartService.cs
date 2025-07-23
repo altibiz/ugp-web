@@ -85,7 +85,7 @@ namespace Members.Persons
         {
             var user = await GetCurrentUser();
             if (user == null) return;
-            part.Email = new TextField { Text = user.Email };
+            part.Email.Text = user.Email;
         }
 
         public Task PublishedAsync(PersonPart instance, PublishContentContext context)

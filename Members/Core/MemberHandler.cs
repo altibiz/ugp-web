@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement.Metadata;
 using System.Text.Json;
+using Members.Utils;
 
 namespace Members.Core
 {
@@ -34,7 +35,7 @@ namespace Members.Core
                     var routeDef = type.Parts.FirstOrDefault(x => x.Name == "AutoroutePart");
                     if (routeDef != null && context.ContentItem.ContentType == "Offer")
                     {
-                        var part = context.ContentItem.As<AutoroutePart>()
+                        var part = context.ContentItem.AsInit<AutoroutePart>()
                             ?? new AutoroutePart();
                         part.Path = part.Path ?? "offers-" + context.ContentItem.ContentItemId;
                         context.ContentItem.Apply(part);

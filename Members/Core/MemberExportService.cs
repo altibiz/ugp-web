@@ -19,6 +19,7 @@ using System.Threading;
 using OrchardCore.Email;
 using OrchardCore.ContentManagement.Records;
 using Microsoft.Extensions.Logging;
+using Members.Utils;
 
 namespace Members.Core
 {
@@ -99,7 +100,7 @@ namespace Members.Core
                 var list = await GetAllMembersForExportQuery(model).Take(take).Skip(skip).ListAsync();
                 foreach (var itm in list)
                 {
-                    members[itm.ContentItemId] = (itm.As<Member>(), itm.As<PersonPart>());
+                    members[itm.ContentItemId] = (itm.AsInit<Member>(), itm.AsInit<PersonPart>());
                 }
             }
 
@@ -177,14 +178,14 @@ namespace Members.Core
                 if (parentMember.Item1 == null)
                 {
                     var member = await _memberService.GetCompanyMember(company);
-                    parentMember.Item1 = member?.As<Member>();
-                    parentMember.Item2 = member?.As<PersonPart>();
+                    parentMember.Item1 = member?.AsInit<Member>();
+                    parentMember.Item2 = member?.AsInit<PersonPart>();
                 }
 
                 var mpart = parentMember.Item1;
                 var ppart = parentMember.Item2;
-                var cperpart = company.As<PersonPart>();
-                var compart = company.As<Company>();
+                var cperpart = company.AsInit<PersonPart>();
+                var compart = company.AsInit<Company>();
 
                 DateTime? birthdate = mpart?.DateOfBirth?.Value;
 
