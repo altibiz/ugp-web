@@ -152,5 +152,11 @@ namespace Members
             await _contentDefinitionManager.UpdatePledgeForm();
             return 18;
         }
+
+        public async Task<int> UpdateFrom18Async()
+        {
+            await SchemaBuilder.AlterMembershipExpiry();
+            return 19;
+        }
     }
 }

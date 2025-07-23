@@ -105,5 +105,13 @@ namespace Members.Persons
             await schemaBuilder.AlterIndexTableAsync<PersonPartIndex>(table => table
             .AddColumn<bool>("MembershipExpiry"));
         }
+
+        public static async Task AlterMembershipExpiry(this ISchemaBuilder schemaBuilder)
+        {
+            await schemaBuilder.AlterIndexTableAsync<PersonPartIndex>(table => table
+                .DropColumn("MembershipExpiry"));
+            await schemaBuilder.AlterIndexTableAsync<PersonPartIndex>(table => table
+                .AddColumn<DateTime>("MembershipExpiry"));
+        }
     }
 }
