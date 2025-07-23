@@ -24,9 +24,9 @@
 <script asp-name="ugptheme-pdf417"></script>
 
 <script type="text/javascript">
-    var name = "@name";
+    var name = "@Html.Raw(name)";
     var amount = "@(((int)(amount * 100)).ToString("D15"))";
-    var note = "@note";
+    var note = "@Html.Raw(note)";
 
     function drawBarcode(amount2) {
         amount = amount2 || amount;
