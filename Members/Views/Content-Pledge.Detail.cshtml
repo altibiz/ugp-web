@@ -11,7 +11,7 @@
     var note = pledge.Note?.Text;
     var refNumber = pledge.ReferenceNr.Text;
     var cModel = "HR00";
-    var address = "Ulica Republike Austrije 33";
+    var address = "Vlaška 63";
 }
 
 @{
@@ -38,7 +38,7 @@
             address: '',
             cityAndPostalCode: '',
             recepient: 'UDRUGA GLAS PODUZETNIKA',
-            recepientAddress: '@address',
+            recepientAddress: '@Html.Raw(address)',
             recepientCityAndPostalCode: '10000 Zagreb',
             IBAN: 'HR2324020061100970954',
             callNumber: '@cModel',
@@ -70,7 +70,7 @@
         <p class="lead fs-6">
             <span>IBAN: HR2324020061100970954</span><br />
             <span>UDRUGA GLAS PODUZETNIKA</span><br />
-            <span>@address</span><br />
+            <span>@address</span>, Zagreb<br />
             <span>Iznos: @amount €</span><br />
             <span>model „@(cModel)“ i poziv na broj „@(refNumber)“.</span><br />
             <span>Opis plaćanja: @note </span>
