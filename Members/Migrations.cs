@@ -100,19 +100,19 @@ namespace Members
             return 9;
         }
 
-        public async Task<int> UpdateFrom9()
+        public async Task<int> UpdateFrom9Async()
         {
             await _contentDefinitionManager.AdminPage();
             return 10;
         }
 
-        public async Task<int> UpdateFrom10()
+        public async Task<int> UpdateFrom10Async()
         {
             await SchemaBuilder.AddTransactionRef();
             return 11;
         }
 
-        public async Task<int> UpdateFrom11()
+        public async Task<int> UpdateFrom11Async()
         {
             await SchemaBuilder.CreatePaymentByDayIndex();
             return 12;
@@ -123,31 +123,31 @@ namespace Members
             return 13;
         }
 
-        public async Task<int> UpdateFrom13()
+        public async Task<int> UpdateFrom13Async()
         {
             await _contentDefinitionManager.UpdatePledgeForm();
             return 14;
         }
 
-        public async Task<int> UpdateFrom14()
+        public async Task<int> UpdateFrom14Async()
         {
             await _contentDefinitionManager.UpdatePledgeVariant();
             return 15;
         }
 
-        public async Task<int> UpdateFrom15()
+        public async Task<int> UpdateFrom15Async()
         {
             await SchemaBuilder.AddMembershipExpiry();
             return 16;
         }
 
-        public async Task<int> UpdateFrom16()
+        public async Task<int> UpdateFrom16Async()
         {
             await _contentDefinitionManager.AlterPersonPart();
             return 17;
         }
 
-        public async Task<int> UpdateFrom17()
+        public async Task<int> UpdateFrom17Async()
         {
             await _contentDefinitionManager.UpdatePledgeForm();
             return 18;
