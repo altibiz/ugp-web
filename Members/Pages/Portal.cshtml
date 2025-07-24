@@ -65,6 +65,7 @@
 @if (Model.PaymentForm != null)
 {
         <h5 class="mt-5">@T["Podaci za uplatu godišnje članarine"]</h5>
+    <p>Molimo ispunite sljedeću formu kako bi dobili podatke za uplatu UGPartner članarine. <a href="~/ugpartner" target="_blank" class="text-decoration-underline">Kliknite ovdje za više informacija o članstvu.</a></p>
     <div>
         @await Orchard.DisplayAsync(Model.PaymentForm)
     </div>
