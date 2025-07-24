@@ -46,9 +46,12 @@ namespace Members.Pages
             {
                 return RedirectToPage("CreateMember");
             }
-            if (!Member.AsInit<PersonPart>().IsMember)
+            if (!Member.Published)
             {
                 await _notifier.InformationAsync(H["Molimo pričekajte da naši administratori potvrde prijavu"]);
+            }
+            if (!Member.AsInit<PersonPart>().IsMember)
+            {
                 PaymentForm = await _cm.NewAsync(nameof(PledgeForm));
                 await PaymentForm.AlterInitAsync<PledgeForm>(async (pf) =>
                 {

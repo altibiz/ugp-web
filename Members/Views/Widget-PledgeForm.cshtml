@@ -34,12 +34,15 @@
 @if (personList != null && personList.Count>1)
 {
     <form method="get" id="personSelector" onsubmit="submitAndFocus(event)">
-        <select class="form-select" name="initPledgePersonCid" onchange="document.getElementById('personSelector').requestSubmit();">
-            @foreach (var item in personList)
-            {
-                <option selected=@(initPledgePersonCid == item.ContentItemId) value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
-            }
-        </select>
+        <div class="field-wrapper mb-3">
+            <label class="form-label input-required">Član</label>
+            <select class="form-select" id="initPledgePersonCid" name="initPledgePersonCid" onchange="document.getElementById('personSelector').requestSubmit();">
+                @foreach (var item in personList)
+                {
+                    <option selected=@(initPledgePersonCid == item.ContentItemId) value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+                }
+            </select>
+        </div>
     </form>
 }
 <form style="width:100%" method="post" action="@Url.Page("/CreateNew",new { contentType = "Pledge", area = "Members" })">
