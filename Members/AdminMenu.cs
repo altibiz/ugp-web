@@ -30,6 +30,8 @@ namespace Members
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Member" }))
                    .Add(S["Pravne osobe"], "6", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Company" }))
+                   .Add(S["UGPartner"], "6", childTwo => childTwo
+                       .Action("List", "Admin", new { area = "OrchardCore.Contents", q="ismember:true" }))
                    .Add(S["Ponude"], "8", childTwo => childTwo
                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Offer" }))
                  , ["icon-class-fas", "icon-class-fa-users"])

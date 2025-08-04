@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Records;
 using OrchardCore.Contents.Services;
+using System;
 using System.Threading.Tasks;
 using YesSql;
 using YesSql.Filters.Query;
@@ -23,6 +24,19 @@ namespace Members.Persons
                             query.With<PersonPartIndex>(i => i.Oib == val);
                         }
 
+                        return query;
+                    })
+                )
+                .WithNamedTerm("ismember", builder => builder
+                    .OneCondition((val, query) =>
+                    {
+                        if (!string.IsNullOrEmpty(val))
+                        {
+                            if (val == "true")
+                                query.With<PersonPartIndex>(i => i.MembershipExpiry!=null && i.MembershipExpiry >=DateTime.Today);
+                            else if (val == "false")
+                                query.With<PersonPartIndex>(i => i.MembershipExpiry == null || i.MembershipExpiry < DateTime.Today);
+                        }
                         return query;
                     })
                 )
