@@ -4,7 +4,6 @@ using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using OrchardCore.ContentFields.Fields;
 using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Handlers;
@@ -118,23 +117,24 @@ namespace Members.Payments
                 rrn.Model = nTry.XPathSelectElement("NtryDtls/TxDtls/Refs/EndToEndId").Value;
                 rrn.Number = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref").Value;
 
+                var party = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr")
+                            ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr");
+                cPartner.Name =
+                       party.XPathSelectElement("Nm")?.Value
+                    ?? party.XPathSelectElement("Pty/Nm")?.Value;
+                cAddress.Street =
+                       party.XPathSelectElement("PstlAdr/AdrLine")?.Value
+                    ?? party.XPathSelectElement("Pty/PstlAdr/AdrLine")?.Value;
 
-                cPartner.Name = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr/Nm")?.Value
-                    ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr/Nm")?.Value;
-                cAddress.Street = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr/PstlAdr/AdrLine")?.Value
-                    ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr/PstlAdr/AdrLine")?.Value;
+                cAddress.City =
+                       party.XPathSelectElement("PstlAdr/TownNm")?.Value
+                    ?? party.XPathSelectElement("Pty/PstlAdr/TownNm")?.Value;
 
-                rrn.Model = document.XPathSelectElement("BkToCstmrStmt/Stmt/Ntry").Value;
-
-                stat.Type = "";
-                stat.PaymentDescription = "";
-                if (nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf") != null)
-                {
-                    stat.Type = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
-                    stat.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value;
-                }
+                stat.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value ?? "";
                 stat.Amount = decimal.Parse(nTry.XPathSelectElement("NtryDtls/TxDtls/AmtDtls/TxAmt/Amt").Value, CultureInfo.InvariantCulture);
-                stat.Type = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("RCDT") ? "Uplata" : "Isplata";
+                stat.Type = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("RCDT") ? "Uplata" :
+                            nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("ICDT") ? "Isplata" :
+                            throw new NotSupportedException("Payment not supported");
                 stat.RRN = rrn;
                 stat.Partner = cPartner;
                 stat.Partner.Address = cAddress;
@@ -202,7 +202,7 @@ namespace Members.Payments
                     var person = (await _pService.GetByOibAsync(pymnt.RRN.Number?[^11..])).FirstOrDefault();
                     if (person != null)
                     {
-                        payPart.Person.ContentItemIds = new[] { person.ContentItemId };
+                        payPart.Person.ContentItemIds = [person.ContentItemId];
                         version = VersionOptions.Published;
                     }
                 }

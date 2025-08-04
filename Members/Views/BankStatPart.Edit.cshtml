@@ -5,7 +5,7 @@
 
 <div class="form-group" asp-validation-class-for="StatementJson">
 	<label asp-for="StatementJson">@T["Bank statement"] </label><br/>
-	<input class="btn btn-secondary" type="file" id="file-upload-button"/>
+	<input class="btn btn-secondary" type="file" id="file-upload-button" accept=".xml,application/xml,.json,application/json" />
 	<textarea required asp-for="StatementJson" class="form-control content-preview-text"></textarea>
 	<span class="hint">@T["Text of bank statement"]</span>
 </div>

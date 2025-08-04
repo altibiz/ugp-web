@@ -12,19 +12,20 @@ namespace Members.Test
             var bs = BankStatPartService.ParseStmt(Constants.xmlbnkstatmnt);
             Assert.IsNotNull(bs.Date);
 
-            Assert.AreEqual("Dont tell me", bs.Data[0].Partner.Name);
-            Assert.AreEqual("Uplata", bs.Data[0].Type);
+            Assert.AreEqual("DUMMY CREDITOR", bs.Data[0].Partner.Name);
+            Assert.AreEqual("Isplata", bs.Data[0].Type);
+            Assert.AreEqual("XX00", bs.Data[0].RRN.Model);
 
-            Assert.AreEqual("Drugi", bs.Data[1].Partner.Name);
-            Assert.AreEqual("Isplata", bs.Data[1].Type);
-            Assert.AreEqual("2021-75752768-9734965634", bs.Data[0].Number);
+            Assert.AreEqual("DUMMY COMPANY", bs.Data[1].Partner.Name);
+            Assert.AreEqual("Uplata", bs.Data[1].Type);
+            Assert.AreEqual("00000000000000000001", bs.Data[0].Number);
 
             bs = BankStatPartService.ParseStmt(Constants.jsonbnkstatement);
             Assert.IsNotNull(bs.Date);
 
             Assert.AreEqual("Something someone", bs.Data[0].Partner.Name);
             Assert.AreEqual("Uplata", bs.Data[0].Type);
-            Assert.AreEqual("2020-19206899-8688860902", bs.Data[0].Number);
+            Assert.AreEqual("2020-00000000-0000000000", bs.Data[0].Number);
         }
     }
 }
