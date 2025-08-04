@@ -149,7 +149,7 @@ namespace Members.ContentHandlers
             new MenuItem
             {
 
-                Name= "Moje donacije",
+                Name= "Moje uplate",
                 Url= "/Members/mydonations",
                 Text= "fas fa-file-contract"
             },
