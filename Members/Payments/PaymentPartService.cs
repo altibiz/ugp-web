@@ -35,7 +35,8 @@ namespace Members.Payments
                 && instance.Amount.Value.GetValueOrDefault() >= Constants.MembershipMinAmount
                 && instance.IsPayout.Value == false
                 && (StringUtils.ContainsAny(instance.Description.Text, ["ćlanar", "clanar", "members", "članar"])
-                || (instance.ReferenceNr.Text?.StartsWith(Constants.RereferenceMembershipPrefix) ?? false)
+                || (instance.ReferenceNr.Text?.StartsWith(Constants.ReferenceMembershipPrefix) ?? false)
+                || (instance.ReferenceNr.Text?.StartsWith("HR00"+Constants.ReferenceMembershipPrefix) ?? false)
                 ))
             {
                 memberOrCompany.AlterInit<PersonPart>(p =>

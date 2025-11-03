@@ -186,7 +186,7 @@ namespace Members.Payments
                     .WithPosition("2")
                     .WithSettings(new TextFieldSettings
                     {
-                        Hint = "Prefix koji će se koristiti za poziv na broj uplatnice. Za clanarine " + Constants.RereferenceMembershipPrefix,
+                        Hint = "Prefix koji će se koristiti za poziv na broj uplatnice. Za clanarine " + Constants.ReferenceMembershipPrefix,
                     })
                 )
             );
