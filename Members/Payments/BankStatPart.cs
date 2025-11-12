@@ -10,6 +10,8 @@ namespace Members.Payments
     public class BankStatPart : ContentPart
     {
         public string StatementJson { get; set; }
+
+        public string SequenceId { get; set; }
         public DateField Date { get; set; }
         public TextField StatementId { get; set; }
     }
@@ -44,6 +46,16 @@ namespace Members.Payments
 
         public static async Task MigrateBankStatement(this IContentDefinitionManager _contentDefinitionManager)
         {
+            await _contentDefinitionManager.AlterTypeDefinitionAsync("BankStatement", type => type
+                    .WithPart("TitlePart", part => part
+                        .WithPosition("1")
+                        .WithSettings(new TitlePartSettings
+                        {
+                            Options = TitlePartOptions.GeneratedDisabled,
+                            Pattern = "{{ContentItem.Content.BankStatPart.SequenceId}} {{ ContentItem.Content.BankStatPart.Date.Value | date: \"%D\" }}",
+                        })
+                    )
+                );
             await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(BankStatPart), part => part
                 .WithField("StatementId", field => field
                     .OfType("TextField")
@@ -52,7 +64,8 @@ namespace Members.Payments
                 .WithField("Date", field => field
                     .OfType("DateField")
                     .WithDisplayName("Datum")
-                    .WithPosition("1")));
+                    .WithPosition("1"))
+                );
         }
     }
 }

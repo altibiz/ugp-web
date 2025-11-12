@@ -12,6 +12,7 @@ namespace Members.Test
             var bs = BankStatPartService.ParseStmt(Constants.xmlbnkstatmnt);
             Assert.IsNotNull(bs.Date);
             Assert.AreEqual("CAMT053/0000000000/000/2025/00/001", bs.StatementId);
+            Assert.AreEqual("00", bs.LglSeqNbr);
             Assert.AreEqual("DUMMY CREDITOR", bs.Data[0].Partner.Name);
             Assert.AreEqual("Isplata", bs.Data[0].Type);
             Assert.AreEqual("XX00", bs.Data[0].RRN.Model);

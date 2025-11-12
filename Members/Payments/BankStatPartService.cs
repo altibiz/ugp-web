@@ -53,6 +53,7 @@ namespace Members.Payments
         public List<Stat> Data { get; set; }
         public DateTime? Date { get; set; }
         public string StatementId { get; set; }
+        public string LglSeqNbr { get; set; }
     }
     public class BankStatPartService : PartService<BankStatPart>
     {
@@ -109,6 +110,9 @@ namespace Members.Payments
 
             var stmtIdElem = document.XPathSelectElement("/BkToCstmrStmt/Stmt/Id");
             statement.StatementId = stmtIdElem != null ? stmtIdElem.Value : null;
+
+            var lglSeqNbrElem = document.XPathSelectElement("/BkToCstmrStmt/Stmt/LglSeqNb");
+            statement.LglSeqNbr = lglSeqNbrElem != null ? lglSeqNbrElem.Value : null;
             foreach (XElement nTry in document.XPathSelectElements("/BkToCstmrStmt/Stmt/Ntry"))
             {
 
@@ -178,6 +182,7 @@ namespace Members.Payments
             var json = ParseStmt(instance.StatementJson);
             instance.Date.Value = json.Date;
             instance.StatementId.Text = json.StatementId;
+            instance.SequenceId = json.LglSeqNbr;
             return Task.CompletedTask;
         }
 
