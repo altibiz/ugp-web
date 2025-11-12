@@ -164,5 +164,11 @@ namespace Members
             await _contentDefinitionManager.MigrateBankStatement();
             return 20;
         }
+
+        public async Task<int> UpdateFrom20Async()
+        {
+            await _contentDefinitionManager.MigrateBankStatement();
+            return 21;
+        }
     }
 }
