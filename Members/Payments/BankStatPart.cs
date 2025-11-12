@@ -11,6 +11,7 @@ namespace Members.Payments
     {
         public string StatementJson { get; set; }
         public DateField Date { get; set; }
+        public TextField StatementId { get; set; }
     }
 
     public static class BankStatementMigrations
@@ -38,7 +39,20 @@ namespace Members.Payments
                 .WithField("Date", field => field
                     .OfType("DateField")
                     .WithDisplayName("Datum")
-                    .WithPosition("0"))) ;
+                    .WithPosition("0")));
+        }
+
+        public static async Task MigrateBankStatement(this IContentDefinitionManager _contentDefinitionManager)
+        {
+            await _contentDefinitionManager.AlterPartDefinitionAsync(nameof(BankStatPart), part => part
+                .WithField("StatementId", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("ID Izvoda")
+                    .WithPosition("0"))
+                .WithField("Date", field => field
+                    .OfType("DateField")
+                    .WithDisplayName("Datum")
+                    .WithPosition("1")));
         }
     }
 }

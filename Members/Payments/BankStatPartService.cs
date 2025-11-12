@@ -52,6 +52,7 @@ namespace Members.Payments
 
         public List<Stat> Data { get; set; }
         public DateTime? Date { get; set; }
+        public string StatementId { get; set; }
     }
     public class BankStatPartService : PartService<BankStatPart>
     {
@@ -105,6 +106,9 @@ namespace Members.Payments
             statement.Data = new List<BsJson.Stat>();
             var strDate = document.XPathSelectElement("/BkToCstmrStmt/Stmt/FrToDt/FrDtTm")?.Value;
             statement.Date = strDate != null ? DateTime.Parse(strDate) : null;
+
+            var stmtIdElem = document.XPathSelectElement("/BkToCstmrStmt/Stmt/Id");
+            statement.StatementId = stmtIdElem != null ? stmtIdElem.Value : null;
             foreach (XElement nTry in document.XPathSelectElements("/BkToCstmrStmt/Stmt/Ntry"))
             {
 
@@ -173,6 +177,7 @@ namespace Members.Payments
         {
             var json = ParseStmt(instance.StatementJson);
             instance.Date.Value = json.Date;
+            instance.StatementId.Text = json.StatementId;
             return Task.CompletedTask;
         }
 
