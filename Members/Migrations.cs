@@ -158,5 +158,11 @@ namespace Members
             await SchemaBuilder.AlterMembershipExpiry();
             return 19;
         }
+
+        public async Task<int> UpdateFrom19Async()
+        {
+            await _contentDefinitionManager.MigrateBankStatement();
+            return 20;
+        }
     }
 }
