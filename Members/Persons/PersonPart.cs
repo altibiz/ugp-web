@@ -63,7 +63,7 @@ namespace Members.Persons
         public FieldSettingsExt GetFieldSettings(string propertyName, string label, bool isNew, bool isAdminTheme)
         {
             if (isAdminTheme) return default;
-            return new(!isNew,
+            return new(false,
                 propertyName == nameof(PersonPart.Surname) && Type == PersonType.Legal
                 || propertyName == nameof(PersonPart.MembershipExpiry),
                 propertyName switch
