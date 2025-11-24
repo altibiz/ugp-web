@@ -5,7 +5,7 @@
 {% assign keyboard = Model.ContentItem.Content.Carousel.Keyboard.Value %}
 {% assign pause = Model.ContentItem.Content.Carousel.Pause.Value %}
 
-<div id="{{ id }}" class="carousel slide" data-bs-interval="{{ interval }}"{% if ride %} data-bs-ride="carousel"{% endif %}{% if wrap == false %} data-wrap="false"{% endif %}{% if pause == false %} data-pause="false"{% endif %}{% if keyboard == false %} data-keyboard="false"{% endif %}>
+<div id="{{ id }}" class="carousel slide" data-bs-interval="{{ interval | round }}"{% if ride %} data-bs-ride="carousel"{% endif %}{% if wrap == false %} data-wrap="false"{% endif %}{% if pause == false %} data-pause="false"{% endif %}{% if keyboard == false %} data-keyboard="false"{% endif %}>
     {% if Model.ContentItem.Content.Carousel.IncludeIndicators.Value %}
         <ol class="carousel-indicators">
             {% assign slideTo = 0 %}
