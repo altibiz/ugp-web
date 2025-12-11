@@ -33,8 +33,8 @@ namespace Members.Payments
                     var personPart = memberOrCompany.AsInit<PersonPart>();
                     if (personPart != null)
                     {
-                        instance.PayerOib.Text = personPart.Oib.Text;
-                        instance.PayerEmail.Text = personPart.Email.Text;
+                        instance.PayerOib.Text ??= personPart.Oib.Text;
+                        instance.PayerEmail.Text ??= personPart.Email.Text;
                     }
                 }
             }
