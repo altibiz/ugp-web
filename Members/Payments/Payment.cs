@@ -15,6 +15,7 @@ namespace Members.Payments
         public TextField PayerName { get; set; }
         public TextField Address { get; set; }
         public TextField PayerOib { get; set; }
+        public TextField PayerEmail { get; set; }
         public TextField ReferenceNr { get; set; }
         public DateField Date { get; set; }
         public ContentPickerField Person { get; set; }
@@ -92,25 +93,31 @@ namespace Members.Payments
                     .WithDisplayName("OIB")
                     .WithPosition("4")
                 )
+                .WithField("PayerEmail", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Email")
+                    .WithEditor("Email")
+                    .WithPosition("5")
+                )
                 .WithField("ReferenceNr", field => field
                     .OfType("TextField")
                     .WithDisplayName("Poziv na broj")
-                    .WithPosition("5")
+                    .WithPosition("6")
                 )
                 .WithField("Description", field => field
                     .OfType("TextField")
                     .WithDisplayName("Opis plaćanja")
-                    .WithPosition("6")
+                    .WithPosition("7")
                 )
                 .WithField("Date", field => field
                     .OfType("DateField")
                     .WithDisplayName("Datum plaćanja")
-                    .WithPosition("7")
+                    .WithPosition("8")
                 )
                 .WithField("Person", field => field
                     .OfType("ContentPickerField")
                     .WithDisplayName("Član")
-                    .WithPosition("8")
+                    .WithPosition("9")
                     .WithSettings(new ContentPickerFieldSettings
                     {
                         DisplayedContentTypes = new[] { "Member", "Company" },

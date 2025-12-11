@@ -34,6 +34,7 @@ namespace Members.Payments
                     if (personPart != null)
                     {
                         instance.PayerOib.Text = personPart.Oib.Text;
+                        instance.PayerEmail.Text = personPart.Email.Text;
                     }
                 }
             }

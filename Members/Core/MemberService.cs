@@ -110,11 +110,6 @@ namespace Members.Core
             return await _session.GetItemById(contentItemId);
         }
 
-        public async Task<ContentItem> GetByOib(string oib)
-        {
-            return await _session.Query<ContentItem>().With<PersonPartIndex>(x => x.Oib == oib).FirstOrDefaultAsync();
-        }
-
         public async Task<ContentItem> GetCompanyOffers(string companyContentItemId, bool includeDraft = false)
         {
             var company = await GetContentItemById(companyContentItemId);

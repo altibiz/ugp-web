@@ -211,7 +211,7 @@ namespace Members.Payments
                 {
                     var oib= pymnt.RRN.Number[^11..];
                     payPart.PayerOib.Text = oib;
-                    var person = (await _pService.GetByOibAsync(oib)).FirstOrDefault();
+                    var person = await _session.GetByOib(oib);
                     if (person != null)
                     {
                         payPart.Person.ContentItemIds = [person.ContentItemId];

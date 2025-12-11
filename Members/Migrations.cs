@@ -174,7 +174,13 @@ namespace Members
         public async Task<int> UpdateFrom21Async()
         {
             await _contentDefinitionManager.MigratePayment();
-            return 22;
+            return 23; //skip 22 as it's the same thing
+        }
+
+        public async Task<int> UpdateFrom22Async()
+        {
+            await _contentDefinitionManager.MigratePayment();
+            return 23;
         }
     }
 }

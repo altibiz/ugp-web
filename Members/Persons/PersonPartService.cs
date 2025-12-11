@@ -2,7 +2,7 @@
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using OrchardCore.ContentFields.Fields;
+using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Display.Models;
 using OrchardCore.ContentManagement.Handlers;
 using OrchardCore.ContentManagement.Metadata;
@@ -71,11 +71,6 @@ namespace Members.Persons
             return (await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib && o.ContentItemId != part.ContentItem.ContentItemId && o.PersonType == personType).CountAsync()) == 0;
         }
 
-        public async Task<IEnumerable<PersonPartIndex>> GetByOibAsync(string oib)
-        {
-            return await session.QueryIndex<PersonPartIndex>(o => o.Oib == oib).ListAsync();
-        }
-
         private async Task<User> GetCurrentUser()
         {
             return await _userService.GetAuthenticatedUserAsync(_httpContextAccessor.HttpContext?.User) as User;
@@ -101,6 +96,14 @@ namespace Members.Persons
         public Task UpdatedAsync(UpdateContentContext context, PersonPart instance)
         {
             return Task.CompletedTask;
+        }
+    }
+
+    public static class PersonPartExtensions
+    {
+        public static async Task<ContentItem> GetByOib(this ISession session, string oib)
+        {
+            return await session.Query<ContentItem>().With<PersonPartIndex>(x => x.Oib == oib).FirstOrDefaultAsync();
         }
     }
 }

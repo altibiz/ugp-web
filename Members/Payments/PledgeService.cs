@@ -5,7 +5,6 @@ using Members.Persons;
 using Members.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using OrchardCore.ContentManagement;
 using OrchardCore.ContentManagement.Handlers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,7 +26,7 @@ namespace Members.Payments
         {
             _memberService = memberService;
             S = s;
-            _htp=htp;
+            _htp = htp;
         }
 
         public override async Task InitializingAsync(Pledge part)
@@ -67,7 +66,7 @@ namespace Members.Payments
                 model.ReferenceNr.Text = (variantPart?.ReferenceNrPrefix?.Text ?? "") + model.Oib.Text;
                 model.Amount.Value = variantPart?.Price.Value;
                 model.Note.Text = variant?.DisplayText;
-                var member = await _memberService.GetByOib(model.Oib.Text);
+                var member = await _memberService._session.GetByOib(model.Oib.Text);
                 if (member != null)
                     model.Person.SetId(member.ContentItemId);
             }
