@@ -15,28 +15,39 @@ namespace Members.Payments
         private MemberService _memberService;
         private IContentManager _contentManager;
 
-        public PaymentPartService(IHttpContextAccessor httpAccessorService, MemberService service,IContentManager contentManager) : base(httpAccessorService)
+        public PaymentPartService(IHttpContextAccessor httpAccessorService, MemberService service, IContentManager contentManager) : base(httpAccessorService)
         {
             _memberService = service;
-            _contentManager= contentManager;
+            _contentManager = contentManager;
         }
 
-        public override Task UpdatedAsync(UpdateContentContext context, Payment instance)
+        public override async Task UpdatedAsync(UpdateContentContext context, Payment instance)
         {
             if (instance.IsPayout.Value ^ instance.Amount.Value < 0)
                 instance.Amount.Value = -instance.Amount.Value;
-            return Task.CompletedTask;
+            if (instance.Person.GetId() != null)
+            {
+                var memberOrCompany = await _memberService.GetContentItemById(instance.Person.GetId());
+                if (memberOrCompany != null)
+                {
+                    var personPart = memberOrCompany.AsInit<PersonPart>();
+                    if (personPart != null)
+                    {
+                        instance.PayerOib.Text = personPart.Oib.Text;
+                    }
+                }
+            }
         }
 
         public async override Task PublishedAsync(Payment instance, PublishContentContext context)
         {
             var memberOrCompany = await _memberService.GetContentItemById(instance.Person.GetId());
-            if (memberOrCompany != null 
+            if (memberOrCompany != null
                 && instance.Amount.Value.GetValueOrDefault() >= Constants.MembershipMinAmount
                 && instance.IsPayout.Value == false
                 && (StringUtils.ContainsAny(instance.Description.Text, ["ćlanar", "clanar", "members", "članar"])
                 || (instance.ReferenceNr.Text?.StartsWith(Constants.ReferenceMembershipPrefix) ?? false)
-                || (instance.ReferenceNr.Text?.StartsWith("HR00"+Constants.ReferenceMembershipPrefix) ?? false)
+                || (instance.ReferenceNr.Text?.StartsWith("HR00" + Constants.ReferenceMembershipPrefix) ?? false)
                 ))
             {
                 memberOrCompany.AlterInit<PersonPart>(p =>

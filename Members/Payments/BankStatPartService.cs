@@ -209,7 +209,9 @@ namespace Members.Payments
                 var version = payPart.IsPayout.Value ? VersionOptions.Published : VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
                 {
-                    var person = (await _pService.GetByOibAsync(pymnt.RRN.Number?[^11..])).FirstOrDefault();
+                    var oib= pymnt.RRN.Number[^11..];
+                    payPart.PayerOib.Text = oib;
+                    var person = (await _pService.GetByOibAsync(oib)).FirstOrDefault();
                     if (person != null)
                     {
                         payPart.Person.ContentItemIds = [person.ContentItemId];

@@ -14,10 +14,10 @@ namespace Members.Payments
         public NumericField Amount { get; set; }
         public TextField PayerName { get; set; }
         public TextField Address { get; set; }
+        public TextField PayerOib { get; set; }
         public TextField ReferenceNr { get; set; }
         public DateField Date { get; set; }
         public ContentPickerField Person { get; set; }
-
         public TextField Description { get; set; }
         public string BankContentItemId { get; set; }
 
@@ -26,7 +26,7 @@ namespace Members.Payments
         [Obsolete("Use TransactionRef, this is for initial imports and legacy projections")]
         public TextField PaymentRef { get; set; }
 
-        public BooleanField IsPayout {get;set;}
+        public BooleanField IsPayout { get; set; }
     }
 
 
@@ -70,7 +70,7 @@ namespace Members.Payments
                     .WithSettings(new NumericFieldSettings
                     {
                         Required = true,
-                        Scale=2
+                        Scale = 2
                     })
                 )
                 .WithField("PayerName", field => field
@@ -87,25 +87,30 @@ namespace Members.Payments
                     .WithDisplayName("Mjesto")
                     .WithPosition("3")
                 )
+                .WithField("PayerOib", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("OIB")
+                    .WithPosition("4")
+                )
                 .WithField("ReferenceNr", field => field
                     .OfType("TextField")
                     .WithDisplayName("Poziv na broj")
-                    .WithPosition("3")
+                    .WithPosition("5")
                 )
                 .WithField("Description", field => field
                     .OfType("TextField")
                     .WithDisplayName("Opis plaćanja")
-                    .WithPosition("4")
+                    .WithPosition("6")
                 )
                 .WithField("Date", field => field
                     .OfType("DateField")
                     .WithDisplayName("Datum plaćanja")
-                    .WithPosition("5")
+                    .WithPosition("7")
                 )
                 .WithField("Person", field => field
                     .OfType("ContentPickerField")
                     .WithDisplayName("Član")
-                    .WithPosition("6")
+                    .WithPosition("8")
                     .WithSettings(new ContentPickerFieldSettings
                     {
                         DisplayedContentTypes = new[] { "Member", "Company" },
