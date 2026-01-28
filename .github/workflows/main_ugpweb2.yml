@@ -36,7 +36,7 @@ jobs:
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ugpweb
+        app-name: ugpweb2
         slot-name: Production
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EA6F8B636BC74769854071D0D0D48607 }}
         package: ${{env.DOTNET_ROOT}}/myapp
