@@ -27,5 +27,4 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 var app = builder.Build();
 app.UseOrchardCore();
-
 app.Run();
