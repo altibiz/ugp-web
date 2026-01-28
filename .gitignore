@@ -186,6 +186,7 @@ node_modules/*
 
 UgpWeb/wwwroot/*
 !UgpWeb/wwwroot/.htaccess
+!UgpWeb/wwwroot/.placeholder
 /**/node_modules/
 /UgpTheme/Assets/dist
 /ModuleName.OrchardCore/wwwroot

@@ -21,9 +21,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Localization\**" >
+		<Content Include="Localization\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\.placeholder">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 </Project>
