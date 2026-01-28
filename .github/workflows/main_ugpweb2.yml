@@ -23,10 +23,6 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
@@ -42,13 +38,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: .net-app
       
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_FC8BCB0B79044CA1B451BA3A23AD7D29 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_36975F06CABA4BD5B5074577D71984B3 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_ADE700C6F0374C77ACAEDA471BD2D3E6 }}
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -56,4 +62,4 @@ jobs:
           app-name: 'ugpweb2'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_EA6F8B636BC74769854071D0D0D48607 }}
+          
