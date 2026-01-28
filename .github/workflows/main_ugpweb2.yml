@@ -23,6 +23,11 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
