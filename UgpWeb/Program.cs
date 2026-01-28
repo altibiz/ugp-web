@@ -24,7 +24,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 3;
     options.Password.RequiredLength = 6;
 });
-
 var app = builder.Build();
 app.UseOrchardCore();
 app.Run();
