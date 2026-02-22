@@ -14,13 +14,12 @@
     "adminUrlPrefix": "[js: configuration('OrchardCore_Admin:AdminUrlPrefix', 'Admin')]",
     "blogContentItemId": "[js:uuid()]",
     "menuContentItemId": "[js:uuid()]",
-    "tagsContentItemId": "[js:uuid()]",
-    "tagContentItemId": "[js:uuid()]",
-    "earthTagContentItemId": "[js:uuid()]",
-    "explorationTagContentItemId": "[js:uuid()]",
-    "spaceTagContentItemId": "[js:uuid()]",
-    "categoriesContentItemId": "[js:uuid()]",
-    "categoryTravelContentItemId": "[js:uuid()]"
+    "tagsContentItemId": "45j76cwwz4f4v4hx5zqxfpzvwq",
+    "earthTagContentItemId": "4ecpaxvw282q6wb9e3seerghdw",
+    "explorationTagContentItemId": "4aj94x0kx9s5kzz9m25006az47",
+    "spaceTagContentItemId": "44kv4z05xzb6jv7qg3h7sbdpmx",
+    "categoriesContentItemId": "4dgj6ce33vdsbxqz8hw4c4c24d",
+    "categoryTravelContentItemId": "4rdx19ywganqtwbtf2x1qdwxcd"
     // "now": "[js: new Date().toISOString()]"
   },
 
@@ -42,6 +41,8 @@
         "OrchardCore.Themes",
         "OrchardCore.Users",
         "OrchardCore.Localization",
+        "OrchardCore.ContentLocalization.ContentCulturePicker",
+        "OrchardCore.BackgroundTasks",
 
         // Content Management
         "OrchardCore.Alias",
@@ -1321,7 +1322,7 @@
             "Layer": "Always",
             "Zone": "Footer",
             "RenderTitle": false,
-            "Position": 10
+            "Position": "10"
           },
           "RawHtml": {
             "Content": {
@@ -2175,7 +2176,7 @@
                   "Id": null,
                   "Href": null,
                   "Url": null,
-                  "Position": 0,
+                  "Position": "0",
                   "LinkToFirstChild": true,
                   "LocalNav": false,
                   "Culture": null,
@@ -2193,7 +2194,7 @@
                   "Id": null,
                   "Href": null,
                   "Url": null,
-                  "Position": 1,
+                  "Position": "1",
                   "Priority": 50,
                   "LinkToFirstChild": true,
                   "LocalNav": false,

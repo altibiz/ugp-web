@@ -1,14 +1,6 @@
 {
   "steps": [
     {
-      "name": "feature",
-      "enable": [
-        // SaaS
-        "OrchardCore.Localization",
-        "OrchardCore.ContentLocalization.ContentCulturePicker"
-      ]
-    },
-    {
       "name": "ContentDefinition",
       "ContentTypes": [
         {
