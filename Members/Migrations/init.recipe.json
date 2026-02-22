@@ -10,13 +10,6 @@
 	"tags": [],
 	"steps": [
 				{
-					"name": "feature",
-					"enable": [
-						"OrchardCore.ContentFields.Indexing.SQL.UserPicker",
-						"OrchardCore.BackgroundTasks"
-					]
-				},
-				{
 					"name": "content",
 					"data": [
 						{
