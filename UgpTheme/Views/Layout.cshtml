@@ -83,5 +83,59 @@
         </footer>
     }
     <resources type="FootScript" />
+
+    <script src="https://unpkg.com/deep-chat@2.4.2/dist/deepChat.bundle.js"></script>
+    <style>
+        #ugp-chat-btn { position: fixed; bottom: 24px; right: 24px; z-index: 9999; width: 56px; height: 56px; border-radius: 50%; background: #0085ca; color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
+        #ugp-chat-btn:hover { transform: scale(1.1); background: #006fa8; }
+        #ugp-chat-btn svg { width: 28px; height: 28px; fill: #fff; }
+        #ugp-chat-panel { position: fixed; bottom: 90px; right: 24px; z-index: 9999; width: 380px; height: 520px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); overflow: hidden; display: none; background: #fff; }
+        #ugp-chat-panel.open { display: block; }
+        #ugp-chat-panel deep-chat { width: 100%; height: 100%; border: none; }
+        @@media (max-width: 480px) { #ugp-chat-panel { width: calc(100vw - 24px); right: 12px; bottom: 84px; height: 70vh; } }
+    </style>
+    <button id="ugp-chat-btn" aria-label="Open chat">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/></svg>
+    </button>
+    <div id="ugp-chat-panel"></div>
+    <script>
+        (function () {
+            var btn = document.getElementById('ugp-chat-btn');
+            var panel = document.getElementById('ugp-chat-panel');
+            var chatCreated = false;
+
+            btn.addEventListener('click', function () {
+                panel.classList.toggle('open');
+                if (!chatCreated) {
+                    chatCreated = true;
+                    var chat = document.createElement('deep-chat');
+                    chat.setAttribute('stream', 'true');
+                    chat.connect = { url: '/api/chat', method: 'POST', stream: true };
+                    chat.requestBodyLimits = { maxMessages: 20 };
+                    chat.introMessage = { text: 'Bok! Mogu odgovoriti na pitanja o Glasu Poduzetnika. \u0160to \u017eelite znati?' };
+                    chat.textInput = { placeholder: { text: 'Pitajte o UGP-u...' } };
+                    chat.messageStyles = {
+                        default: {
+                            shared: {
+                                bubble: { borderRadius: '12px', fontSize: '14px', padding: '10px 14px' }
+                            },
+                            ai: {
+                                bubble: { backgroundColor: '#e8f4fb', color: '#1a1a1a' }
+                            },
+                            user: {
+                                bubble: { backgroundColor: '#0085ca', color: '#ffffff' }
+                            }
+                        }
+                    };
+                    chat.avatars = {
+                        ai: { styles: { avatar: { container: { display: 'none' } } } },
+                        user: { styles: { avatar: { container: { display: 'none' } } } }
+                    };
+                    panel.appendChild(chat);
+                }
+            });
+        })();
+    </script>
+
 </body>
 </html>
