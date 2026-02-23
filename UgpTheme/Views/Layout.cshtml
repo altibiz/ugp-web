@@ -84,14 +84,14 @@
     }
     <resources type="FootScript" />
 
-    <script src="https://unpkg.com/deep-chat@2.4.2/dist/deepChat.bundle.js"></script>
+    <script type="module" src="https://unpkg.com/deep-chat@2.4.2/dist/deepChat.bundle.js"></script>
     <style>
         #ugp-chat-btn { position: fixed; bottom: 24px; right: 24px; z-index: 9999; width: 56px; height: 56px; border-radius: 50%; background: #0085ca; color: #fff; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.25); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, background 0.2s; }
         #ugp-chat-btn:hover { transform: scale(1.1); background: #006fa8; }
         #ugp-chat-btn svg { width: 28px; height: 28px; fill: #fff; }
         #ugp-chat-panel { position: fixed; bottom: 90px; right: 24px; z-index: 9999; width: 380px; height: 520px; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); overflow: hidden; display: none; background: #fff; }
         #ugp-chat-panel.open { display: block; }
-        #ugp-chat-panel deep-chat { width: 100%; height: 100%; border: none; }
+        #ugp-chat-panel deep-chat { display: block !important; width: 100% !important; height: 100% !important; border: none !important; border-radius: 12px !important; }
         @@media (max-width: 480px) { #ugp-chat-panel { width: calc(100vw - 24px); right: 12px; bottom: 84px; height: 70vh; } }
     </style>
     <button id="ugp-chat-btn" aria-label="Open chat">

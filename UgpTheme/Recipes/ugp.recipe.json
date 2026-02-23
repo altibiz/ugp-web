@@ -81,6 +81,7 @@
         "Carousel.OrchardCore",
         "OrchardCore.Workflows",
         "Members",
+        "ChatBot",
 
         // Themes
         "UgpTheme",

@@ -25,8 +25,9 @@ public class ChatBotOptions
     public const string Section = "ChatBot";
 
     public string OpenAiApiKey { get; set; } = "";
-    public string OpenAiModel { get; set; } = "gpt-4o-mini";
-    public string EmbeddingModel { get; set; } = "text-embedding-3-small";
+    public string OpenAiBaseUrl { get; set; } = "";
+    public string OpenAiModel { get; set; } = "openai/gpt-4o-mini";
+    public string EmbeddingModel { get; set; } = "openai/text-embedding-3-small";
     public string QdrantHost { get; set; } = "localhost";
     public int QdrantPort { get; set; } = 6334;
     public string CollectionName { get; set; } = "ugp_content";

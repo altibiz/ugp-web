@@ -28,7 +28,17 @@ public class Startup : OrchardCore.Modules.StartupBase
 
         if (!string.IsNullOrEmpty(options.OpenAiApiKey))
         {
-            var openAiClient = new OpenAIClient(options.OpenAiApiKey);
+            OpenAIClientOptions? clientOptions = null;
+            if (!string.IsNullOrEmpty(options.OpenAiBaseUrl))
+            {
+                clientOptions = new OpenAIClientOptions
+                {
+                    Endpoint = new Uri(options.OpenAiBaseUrl)
+                };
+            }
+
+            var credential = new System.ClientModel.ApiKeyCredential(options.OpenAiApiKey);
+            var openAiClient = new OpenAIClient(credential, clientOptions);
             services.AddSingleton(openAiClient.GetChatClient(options.OpenAiModel));
             services.AddSingleton(openAiClient.GetEmbeddingClient(options.EmbeddingModel));
         }
