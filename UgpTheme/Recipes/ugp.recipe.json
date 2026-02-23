@@ -106,7 +106,7 @@
       },
       "LocalizationSettings": {
         "DefaultCulture": "hr",
-        "SupportedCultures": [ "hr", "en" ]
+        "SupportedCultures": [ "hr", "en", "de" ]
       }
     },
     {
@@ -1066,6 +1066,24 @@
                   "Url": "~/novosti"
                 },
                 "LinkMenuItem": {}
+              },
+              {
+                "ContentItemId": "4en9mi2aboutus0000000000",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "About Us",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": null,
+                "LinkMenuItemPart": {
+                  "Name": "About Us",
+                  "Url": "~/en/about-us"
+                },
+                "LinkMenuItem": {}
               }
             ]
           },
@@ -1075,6 +1093,88 @@
           "LocalizationPart": {
             "LocalizationSet": "4hnkvydw4bt1yv5d46r8bwqfc4",
             "Culture": "en"
+          }
+        },
+        {
+          "ContentItemId": "4de9menu1german2lang3setup",
+          "ContentItemVersionId": "4de9menuv1german2lang3ver",
+          "ContentType": "Menu",
+          "DisplayText": "Main Menu",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-02-22T12:00:00.0000000Z",
+          "PublishedUtc": "2026-02-22T12:00:00.0000000Z",
+          "CreatedUtc": "2026-02-22T12:00:00.0000000Z",
+          "Owner": "4ws2zjebw5pw5rp9xnk3h6q5mp",
+          "Author": "admin",
+          "MenuPart": {},
+          "TitlePart": {
+            "Title": "Main Menu"
+          },
+          "MenuItemsListPart": {
+            "MenuItems": [
+              {
+                "ContentItemId": "4de9mi1startseite00000000",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Startseite",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": null,
+                "LinkMenuItemPart": {
+                  "Name": "Startseite",
+                  "Url": "~/de/home"
+                },
+                "LinkMenuItem": {}
+              },
+              {
+                "ContentItemId": "4de9mi2ueberuns000000000",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Über uns",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": null,
+                "LinkMenuItemPart": {
+                  "Name": "Über uns",
+                  "Url": "~/de/ueber-uns"
+                },
+                "LinkMenuItem": {}
+              },
+              {
+                "ContentItemId": "4de9mi3neuigkeiten00000",
+                "ContentItemVersionId": null,
+                "ContentType": "LinkMenuItem",
+                "DisplayText": "Neuigkeiten",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": null,
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": null,
+                "LinkMenuItemPart": {
+                  "Name": "Neuigkeiten",
+                  "Url": "~/novosti"
+                },
+                "LinkMenuItem": {}
+              }
+            ]
+          },
+          "AliasPart": {
+            "Alias": "main-menu-de"
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4hnkvydw4bt1yv5d46r8bwqfc4",
+            "Culture": "de"
           }
         },
         {
@@ -1282,7 +1382,7 @@
           }
         },
         {
-          "ContentItemId": "[js: uuid()]",
+          "ContentItemId": "4hr9article1onama2about3",
           "ContentType": "Article",
           "DisplayText": "O nama",
           "Latest": true,
@@ -1308,6 +1408,76 @@
                 "about-bg.jpg"
               ]
             }
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4aboutpage1locset2shared3xz",
+            "Culture": "hr"
+          }
+        },
+        {
+          "ContentItemId": "4de9article1ueberuns2about",
+          "ContentType": "Article",
+          "DisplayText": "\u00dcber uns",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUserId')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "AutoroutePart": {
+            "Path": "de/ueber-uns",
+            "SetHomepage": false
+          },
+          "HtmlBodyPart": {
+            "Html": "<p>Glas Poduzetnika (Stimme der Unternehmer) ist ein Verein von Kleinst-, Klein- und Mittelunternehmern, Handwerkern, Selbstst\u00e4ndigen und allen Besch\u00e4ftigten im Privatsektor, dessen Ziel es ist, durch konkrete Vorschl\u00e4ge f\u00fcr notwendige und dringende wirtschaftliche Ma\u00dfnahmen und Reformen an die Regierung der Republik Kroatien und staatliche Institutionen, die wirtschaftliche Erholung der gesamten Gesellschaft zu beschleunigen und gesunde Grundlagen f\u00fcr ein Kroatien 2.0 aufzubauen.</p> <p>Glas Poduzetnika wurde als informelle Initiative einer Gruppe von B\u00fcrgern gegr\u00fcndet, die sich in der zweiten H\u00e4lfte des M\u00e4rz 2020 spontan zusammenfand. Die Initiative wurde von einer Gruppe von Unternehmern gestartet, die der Meinung waren, dass es im \u00f6ffentlichen Raum nicht genug Stimmen aus dem Privatsektor gab. Au\u00dferdem waren sie der Ansicht, dass die Situation sehr ernst war und die m\u00f6glichen Folgen der Krise der Wirtschaft schaden und negative Auswirkungen auf Selbstst\u00e4ndige, Kleinst-, Klein- und Mittelunternehmer haben k\u00f6nnten, die 70% der Arbeitnehmer im Privatsektor besch\u00e4ftigen.</p> <p>Die Kommunikation begann \u00fcber eine Facebook-Gruppe und -Seite, wo sich innerhalb von 14 Tagen \u00fcber 45.000 Mitglieder versammelten.</p> <p>Die Initiative wird, formell und informell, von einer gro\u00dfen Anzahl von Wirtschaftsverb\u00e4nden unterst\u00fctzt (Nationaler Gastgewerbeverband, HURA, Lipa, CISEX, MBA Croatia, Vereinigung der Veranstalter und Eventorganisatoren, Women in Adria, CRO.AI).</p> <p>Glas Poduzetnika ist derzeit der gr\u00f6\u00dfte und mitgliederst\u00e4rkste Unternehmerverband in Kroatien.</p> <p>Am Freitag, den 3. April 2020, wurde die Initiative zum Verein Glas Poduzetnika.</p> <p>&nbsp;</p> <p><strong>Verein Glas Poduzetnika</strong></p> <p>info@glaspoduzetnika.hr</p> <p><strong>Mitgliederunterst\u00fctzung</strong></p> <p>podrska.clanovima@glaspoduzetnika.hr</p>"
+          },
+          "TitlePart": {
+            "Title": "\u00dcber uns"
+          },
+          "Article": {
+            "Subtitle": {
+              "Text": "Verein Glas Poduzetnika"
+            },
+            "Image": {
+              "Paths": [
+                "about-bg.jpg"
+              ]
+            }
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4aboutpage1locset2shared3xz",
+            "Culture": "de"
+          }
+        },
+        {
+          "ContentItemId": "4en9article1aboutus2page3",
+          "ContentType": "Article",
+          "DisplayText": "About Us",
+          "Latest": true,
+          "Published": true,
+          "Owner": "[js: parameters('AdminUserId')]",
+          "Author": "[js: parameters('AdminUsername')]",
+          "AutoroutePart": {
+            "Path": "en/about-us",
+            "SetHomepage": false
+          },
+          "HtmlBodyPart": {
+            "Html": "<p>Glas Poduzetnika (Voice of Entrepreneurs) is an association of micro, small and medium-sized entrepreneurs, craftspeople, self-employed individuals and all employees in the private sector, whose goal is to accelerate the economic recovery of the entire society and build healthy foundations for Croatia 2.0 through concrete proposals for necessary and urgent economic measures and reforms addressed to the Government of the Republic of Croatia and state institutions.</p> <p>Glas Poduzetnika was launched as an informal initiative by a group of citizens who spontaneously came together in the second half of March 2020. The initiative was started by a group of entrepreneurs who believed there were not enough voices from the private sector in the public space. They also believed the situation was very serious and that the potential consequences of the crisis could harm the economy and have a detrimental impact on self-employed, micro, small and medium-sized entrepreneurs who employ 70% of workers in the private sector.</p> <p>Communication began through a Facebook group and page, where over 45,000 members gathered within 14 days.</p> <p>The initiative is supported, formally and informally, by a large number of business associations (National Association of Restaurateurs, HURA, Lipa, CISEX, MBA Croatia, Association of Event Organizers and Producers, Women in Adria, CRO.AI).</p> <p>Glas Poduzetnika is currently the largest and most numerous entrepreneurs' association in Croatia.</p> <p>On Friday, 3 April 2020, the Initiative became the Glas Poduzetnika association.</p> <p>&nbsp;</p> <p><strong>Glas Poduzetnika Association</strong></p> <p>info@glaspoduzetnika.hr</p> <p><strong>Member Support</strong></p> <p>podrska.clanovima@glaspoduzetnika.hr</p>"
+          },
+          "TitlePart": {
+            "Title": "About Us"
+          },
+          "Article": {
+            "Subtitle": {
+              "Text": "Glas Poduzetnika Association"
+            },
+            "Image": {
+              "Paths": [
+                "about-bg.jpg"
+              ]
+            }
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4aboutpage1locset2shared3xz",
+            "Culture": "en"
           }
         },
         {
@@ -2051,6 +2221,105 @@
           "LocalizationPart": {
             "LocalizationSet": "4tnwqtfjtz6x1z2475x5btxdde",
             "Culture": "en"
+          }
+        }
+        ,
+        {
+          "ContentItemId": "4de9page1german2homepage3",
+          "ContentItemVersionId": "4de9pagev1german2homever3",
+          "ContentType": "Page",
+          "DisplayText": "Stimme der Unternehmer",
+          "Latest": true,
+          "Published": true,
+          "ModifiedUtc": "2026-02-22T12:00:00.0000000Z",
+          "PublishedUtc": "2026-02-22T12:00:00.0000000Z",
+          "CreatedUtc": "2026-02-22T12:00:00.0000000Z",
+          "Owner": "4ws2zjebw5pw5rp9xnk3h6q5mp",
+          "Author": "admin",
+          "Page": {},
+          "AutoroutePart": {
+            "Path": "de/home",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "FlowPart": {
+            "Widgets": [
+              {
+                "ContentItemId": "4de9rawhtml1stats00de000",
+                "ContentItemVersionId": null,
+                "ContentType": "RawHtml",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-02-22T12:00:00.0000000Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<div class=\"top-features-section\">\n<div class=\"row\">\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>200.000+ </h2>\n                    <p>Unterst\u00fctzer - Unternehmer, Handwerker und Besch\u00e4ftigte im Privatsektor</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>18.000+ </h2>\n                    <p>Vereinsmitglieder</p>\n                </div>\n                <div class=\"col-sm-4 col-xs-12 top-features\">\n                    <h2>33+ Mrd </h2>\n                    <p>\u20ac Einnahmen der Mitglieder und Unterst\u00fctzer</p>\n                </div>\n            </div>\n</div>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4de9blockquote1de0000000",
+                "ContentItemVersionId": null,
+                "ContentType": "Blockquote",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-02-22T12:00:00.0000000Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "Blockquote": {
+                  "Quote": {
+                    "Text": "Glas Poduzetnika ist ein Verband von #Kleinst-, #Klein- und #mittleren Unternehmern, Handwerkern, Selbstst\u00e4ndigen, allen Besch\u00e4ftigten im Privatsektor und allen anderen, die die Ziele und die Arbeit des Vereins unterst\u00fctzen. Ziel ist es, durch konkrete Vorschl\u00e4ge f\u00fcr notwendige und dringende wirtschaftliche #Ma\u00dfnahmen und #Reformen an die Regierung und staatliche Institutionen die wirtschaftliche Erholung der gesamten Gesellschaft zu beschleunigen und gesunde Grundlagen f\u00fcr Kroatien 2.0 aufzubauen."
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4de9paragraph1de00000000",
+                "ContentItemVersionId": null,
+                "ContentType": "Paragraph",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-02-22T12:00:00.0000000Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "admin",
+                "Paragraph": {
+                  "Content": {
+                    "Html": "<p><span style=\"color: rgba(51, 51, 51, 1); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 14px\">In diesem Moment ist es wichtig, die aktuelle Krise abzumildern und Arbeitspl\u00e4tze zu erhalten. Diese Situation sollte aber auch genutzt werden, um den \u00f6ffentlichen Sektor zu verkleinern und den Staatsapparat zu optimieren, mit dem Ziel der langfristigen Nachhaltigkeit der gesamten Wirtschaft.</span><br style=\"color: rgba(51, 51, 51, 1); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 14px\"><span style=\"color: rgba(51, 51, 51, 1); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 14px\">Glas Poduzetnika hat keine politischen Ambitionen und wird sich niemals mit einer politischen Option verbinden oder von ihr beeinflusst werden.</span><br></p>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": 3,
+                  "Size": 100
+                }
+              }
+            ]
+          },
+          "TitlePart": {
+            "Title": "Stimme der Unternehmer"
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4tnwqtfjtz6x1z2475x5btxdde",
+            "Culture": "de"
           }
         }
       ]
