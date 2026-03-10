@@ -51,6 +51,7 @@ namespace Members.Payments
         }
 
         public List<Stat> Data { get; set; }
+        public DateTime? EndDate { get; set; }
         public DateTime? Date { get; set; }
         public string StatementId { get; set; }
         public string LglSeqNbr { get; set; }
@@ -61,14 +62,12 @@ namespace Members.Payments
         public IStringLocalizer<BankStatPartService> S { get; }
 
         private readonly IContentManager _contentManager;
-        private readonly PersonPartService _pService;
         private readonly YesSql.ISession _session;
 
         public BankStatPartService(IStringLocalizer<BankStatPartService> S, IContentManager contentManager, PersonPartService personService, IHttpContextAccessor htp, YesSql.ISession session) : base(htp)
         {
             this.S = S;
             _contentManager = contentManager;
-            _pService = personService;
             _session = session;
         }
 
@@ -80,6 +79,7 @@ namespace Members.Payments
         public override Task InitializingAsync(BankStatPart part)
         {
             part.Date.Value = DateTime.Now;
+            part.EndDate.Value = DateTime.Now;
             return Task.CompletedTask;
         }
 
@@ -102,54 +102,59 @@ namespace Members.Payments
             xmlOrJson = Regex.Replace(xmlOrJson, "<Document.*?>", "<Document>"); //get rid of namespaces
                                                                                  //new test
             XElement document = XElement.Parse(xmlOrJson);
-
-            BsJson statement = new();
-            statement.Data = new List<BsJson.Stat>();
-            var strDate = document.XPathSelectElement("/BkToCstmrStmt/Stmt/FrToDt/FrDtTm")?.Value;
-            statement.Date = strDate != null ? DateTime.Parse(strDate) : null;
-
-            var stmtIdElem = document.XPathSelectElement("/BkToCstmrStmt/Stmt/Id");
-            statement.StatementId = stmtIdElem != null ? stmtIdElem.Value : null;
-
-            var lglSeqNbrElem = document.XPathSelectElement("/BkToCstmrStmt/Stmt/LglSeqNb");
-            statement.LglSeqNbr = lglSeqNbrElem != null ? lglSeqNbrElem.Value : null;
-            foreach (XElement nTry in document.XPathSelectElements("/BkToCstmrStmt/Stmt/Ntry"))
+            BsJson statement = new()
             {
+                Data = []
+            };
+            foreach (var stmt in document.XPathSelectElements("/BkToCstmrStmt/Stmt"))
+            {
+                var strDate = stmt.XPathSelectElement("FrToDt/FrDtTm")?.Value;
+                statement.Date = statement.Date??(strDate != null ? DateTime.Parse(strDate) : null);
+                statement.EndDate = strDate != null ? DateTime.Parse(strDate) : null; //last date in statement is end date;
+
+                var stmtIdElem = stmt.XPathSelectElement("Id");
+                statement.StatementId = stmtIdElem != null ? stmtIdElem.Value : null;
+
+                var lglSeqNbrElem = stmt.XPathSelectElement("LglSeqNb");
+                statement.LglSeqNbr = lglSeqNbrElem != null ? lglSeqNbrElem.Value : null;
+                foreach (XElement nTry in stmt.XPathSelectElements("Ntry"))
+                {
 
 
-                BsJson.Stat stat = new();
-                BsJson.Stat.Rrn rrn = new();
-                BsJson.Stat.CPartner cPartner = new();
-                BsJson.Stat.CPartner.CAddress cAddress = new();
+                    BsJson.Stat statEntry = new();
+                    BsJson.Stat.Rrn rrn = new();
+                    BsJson.Stat.CPartner cPartner = new();
+                    BsJson.Stat.CPartner.CAddress cAddress = new();
 
-                rrn.Model = nTry.XPathSelectElement("NtryDtls/TxDtls/Refs/EndToEndId").Value;
-                rrn.Number = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref").Value;
+                    rrn.Model = nTry.XPathSelectElement("NtryDtls/TxDtls/Refs/EndToEndId").Value;
+                    rrn.Number = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref").Value;
 
-                var party = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr")
-                            ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr");
-                cPartner.Name =
-                       party.XPathSelectElement("Nm")?.Value
-                    ?? party.XPathSelectElement("Pty/Nm")?.Value;
-                cAddress.Street =
-                       party.XPathSelectElement("PstlAdr/AdrLine")?.Value
-                    ?? party.XPathSelectElement("Pty/PstlAdr/AdrLine")?.Value;
+                    var party = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr")
+                                ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr");
+                    cPartner.Name =
+                           party.XPathSelectElement("Nm")?.Value
+                        ?? party.XPathSelectElement("Pty/Nm")?.Value;
+                    cAddress.Street =
+                           party.XPathSelectElement("PstlAdr/AdrLine")?.Value
+                        ?? party.XPathSelectElement("Pty/PstlAdr/AdrLine")?.Value;
 
-                cAddress.City =
-                       party.XPathSelectElement("PstlAdr/TownNm")?.Value
-                    ?? party.XPathSelectElement("Pty/PstlAdr/TownNm")?.Value;
+                    cAddress.City =
+                           party.XPathSelectElement("PstlAdr/TownNm")?.Value
+                        ?? party.XPathSelectElement("Pty/PstlAdr/TownNm")?.Value;
 
-                stat.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value ?? "";
-                stat.Amount = decimal.Parse(nTry.XPathSelectElement("NtryDtls/TxDtls/AmtDtls/TxAmt/Amt").Value, CultureInfo.InvariantCulture);
-                stat.Type = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("RCDT") ? "Uplata" :
-                            nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("ICDT") ? "Isplata" :
-                            throw new NotSupportedException("Payment not supported");
-                stat.RRN = rrn;
-                stat.Partner = cPartner;
-                stat.Partner.Address = cAddress;
-                stat.Number = nTry.XPathSelectElement("AcctSvcrRef").Value;
-                statement.Data.Add(stat);
+                    statEntry.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value ?? "";
+                    statEntry.Amount = decimal.Parse(nTry.XPathSelectElement("NtryDtls/TxDtls/AmtDtls/TxAmt/Amt").Value, CultureInfo.InvariantCulture);
+                    statEntry.Type = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("RCDT") ? "Uplata" :
+                                nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("ICDT") ? "Isplata" :
+                                throw new NotSupportedException("Payment not supported");
+                    statEntry.RRN = rrn;
+                    statEntry.Partner = cPartner;
+                    statEntry.Partner.Address = cAddress;
+                    statEntry.Number = nTry.XPathSelectElement("AcctSvcrRef").Value;
+                    statEntry.Date = statement.EndDate;//
+                    statement.Data.Add(statEntry);
+                }
             }
-
             return statement;
         }
         public override IEnumerable<ValidationResult> Validate(BankStatPart part)
@@ -181,6 +186,7 @@ namespace Members.Payments
         {
             var json = ParseStmt(instance.StatementJson);
             instance.Date.Value = json.Date;
+            instance.EndDate.Value = json.EndDate;
             instance.StatementId.Text = json.StatementId;
             instance.SequenceId = json.LglSeqNbr;
             return Task.CompletedTask;
@@ -203,13 +209,13 @@ namespace Members.Payments
                 payPart.BankContentItemId = part.ContentItem.ContentItemId;
                 payPart.Description.Text = pymnt.PaymentDescription;
                 payPart.IsPayout.Value = pymnt.Type != "Uplata";
-                payPart.Date.Value = part.Date.Value;
+                payPart.Date.Value = pymnt.Date.Value;
                 payPart.TransactionRef = pymnt.Number;
                 if (payPart.IsPayout.Value && payPart.Amount.Value > 0) payPart.Amount.Value = -payPart.Amount.Value; //payouts are negative values
                 var version = payPart.IsPayout.Value ? VersionOptions.Published : VersionOptions.Draft;
                 if (pymnt.RRN.Number?.Length >= 11)
                 {
-                    var oib= pymnt.RRN.Number[^11..];
+                    var oib = pymnt.RRN.Number[^11..];
                     payPart.PayerOib.Text = oib;
                     var person = await _session.GetByOib(oib);
                     if (person != null)

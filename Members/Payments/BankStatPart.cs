@@ -14,6 +14,8 @@ namespace Members.Payments
         public string SequenceId { get; set; }
         public DateField Date { get; set; }
         public TextField StatementId { get; set; }
+
+        public DateField EndDate { get; set; }
     }
 
     public static class BankStatementMigrations
@@ -65,6 +67,10 @@ namespace Members.Payments
                     .OfType("DateField")
                     .WithDisplayName("Datum")
                     .WithPosition("1"))
+                .WithField("EndDate", field => field
+                    .OfType("DateField")
+                    .WithDisplayName("Datum završetka")
+                    .WithPosition("2"))
                 );
         }
     }
