@@ -1,8 +1,10 @@
 {% if Culture.Name == "en" %}
     {% shape "menu", alias: "alias:main-menu-en", cache_id: "main-menu-en", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu-en" %}
+{% elsif Culture.Name == "de" %}
+    {% shape "menu", alias: "alias:main-menu-de", cache_id: "main-menu-de", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu-de" %}
 {% else %}
     {% shape "menu", alias: "alias:main-menu", cache_id: "main-menu", cache_fixed_duration: "00:05:00", cache_tag: "alias:main-menu" %}
-{% endif %} 
+{% endif %}
 
 
 

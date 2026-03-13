@@ -18,6 +18,7 @@
 		<ProjectReference Include="..\Etch.OrchardCore.SEO\Etch.OrchardCore.SEO.csproj" />
 		<ProjectReference Include="..\Members\Members.csproj" />
 		<ProjectReference Include="..\UgpTheme\UgpTheme.csproj" />
+		<ProjectReference Include="..\ChatBot\ChatBot.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
