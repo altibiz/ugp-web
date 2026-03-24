@@ -58,34 +58,22 @@
               }
           }
       }
-      //Set selected
-
-      function setSelectedValue(selectObj, valueToSet) {
-          for (var i = 0; i < selectObj.options.length; i++) {
-              if (selectObj.options[i].text == valueToSet) {
-                  selectObj.options[i].selected = true;
-                  return;
-              }
-          }
-
-      }
       window.onload = function () {
           var amountSelector = document.getElementById('amountSelector');
           if (amountSelector) {
-              amountSelector.value =event.target.value;
-              amountSelector.addEventListener('change', (event) => {
+              // Set initial value
+              amountSelector.value = amount;
+
+              // Update barcode on input change
+              amountSelector.addEventListener('input', (event) => {
                   var amountHelper = document.getElementById('amountHelper');
                   if (amountHelper) {
                       amountHelper.value = event.target.value;
                   }
-                  drawBarcode(event.target.value);
+                  if (event.target.value) {
+                      drawBarcode(event.target.value);
+                  }
               });
-
-              var amountSelector = document.getElementById('amountSelector');
-              if (amountSelector) {
-                  setSelectedValue(amountSelector, amount);
-              }
-
           }
       }
 
@@ -151,13 +139,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Doniraj</span>
                             </div>
-                            <select class="form-select" aria-label="15" id="amountSelector">
-                                <option value="15" selected>15</option>
-                                <option value="30">30</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="150">150</option>
-                            </select>
+                            <input type="number" class="form-control" id="amountSelector" min="1" step="1" placeholder="Unesite iznos" aria-label="Amount" />
                             <div class="input-group-append">
                                 <span class="input-group-text">EUR</span>
                             </div>
