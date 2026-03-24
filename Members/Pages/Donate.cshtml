@@ -28,13 +28,17 @@
       var note = "@note";
       var isGuest = "@isGuest";
 
-      function drawBarcode(amount2) {
-          amount = amount2 ||"@amount";
+      function drawBarcode(customAmount, customName, customOib) {
+          // Get current values from inputs or use parameters/defaults
+          var currentAmount = customAmount || document.getElementById('amountSelector')?.value || amount;
+          var currentName = customName || document.getElementById('nameInput')?.value || name;
+          var currentOib = customOib || document.getElementById('oibInput')?.value || oib;
+
           const data = {
               header: 'HRVHUB30',
               currency: 'EUR',
-              price: amount + '.00' || '',
-              name: name || '',
+              price: currentAmount + '.00' || '',
+              name: currentName || '',
               email: email || '',
               cityAndPostalCode: '',
               recepient: 'GLAS PODUZETNIKA',
@@ -42,7 +46,7 @@
               recepientCityAndPostalCode: '10000 Zagreb',
               IBAN: 'HR2324020061100970954',
               callNumber: 'HR99',
-              OIB: oib || '',
+              OIB: currentOib || '',
               code: 'COST',
               description: note || 'Donacija'
           }
@@ -50,29 +54,56 @@
 
           var canvas = document.getElementById("barcode")
           if (canvas) {
-
               PDF417.draw(code.substr(1), canvas)
               var amountHelper = document.getElementById('amountHelper');
               if (amountHelper) {
-                  amountHelper.value = amount;
+                  amountHelper.value = currentAmount;
               }
           }
       }
+
+      function downloadBarcode() {
+          var canvas = document.getElementById("barcode");
+          if (canvas) {
+              // Create a link element
+              var link = document.createElement('a');
+              link.download = 'glas-poduzetnika-barkod.png';
+              link.href = canvas.toDataURL('image/png');
+              link.click();
+          }
+      }
+
       window.onload = function () {
+          // Amount input handler
           var amountSelector = document.getElementById('amountSelector');
           if (amountSelector) {
-              // Set initial value
               amountSelector.value = amount;
-
-              // Update barcode on input change
               amountSelector.addEventListener('input', (event) => {
                   var amountHelper = document.getElementById('amountHelper');
                   if (amountHelper) {
                       amountHelper.value = event.target.value;
                   }
                   if (event.target.value) {
-                      drawBarcode(event.target.value);
+                      drawBarcode();
                   }
+              });
+          }
+
+          // Name input handler
+          var nameInput = document.getElementById('nameInput');
+          if (nameInput) {
+              nameInput.value = name;
+              nameInput.addEventListener('input', () => {
+                  drawBarcode();
+              });
+          }
+
+          // OIB input handler
+          var oibInput = document.getElementById('oibInput');
+          if (oibInput) {
+              oibInput.value = oib;
+              oibInput.addEventListener('input', () => {
+                  drawBarcode();
               });
           }
       }
@@ -117,11 +148,11 @@
                 </h2>
                 <div id="flush-collapseTwo" class="accordion-collapse show" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Osoba/Tvrtka</span>
-                            </div>
-                            <form method="post" id="personSelector">
+                        <form method="post" id="personSelector">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Osoba/Tvrtka</span>
+                                </div>
                                 <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
                                     @if (Model.PersonList != null)
                                     {
@@ -131,23 +162,45 @@
                                         }
                                     }
                                 </select>
-                                <input type="text" asp-for="Amount" id="amountHelper" style="display: none;" />
-                            </form>
-                        </div>
+                            </div>
 
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Doniraj</span>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Ime/Naziv</span>
+                                </div>
+                                <input type="text" class="form-control" id="nameInput" placeholder="Unesite ime ili naziv tvrtke" aria-label="Name" />
                             </div>
-                            <input type="number" class="form-control" id="amountSelector" min="1" step="1" placeholder="Unesite iznos" aria-label="Amount" />
-                            <div class="input-group-append">
-                                <span class="input-group-text">EUR</span>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">OIB</span>
+                                </div>
+                                <input type="text" class="form-control" id="oibInput" placeholder="Unesite OIB" maxlength="11" pattern="[0-9]{11}" aria-label="OIB" />
                             </div>
-                        </div>
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Doniraj</span>
+                                </div>
+                                <input type="number" class="form-control" id="amountSelector" min="1" step="1" placeholder="Unesite iznos" aria-label="Amount" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">EUR</span>
+                                </div>
+                            </div>
+                            <input type="text" asp-for="Amount" id="amountHelper" style="display: none;" />
+                        </form>
+
                         <div class="list-group list-group-flush fs-6">
                             <canvas id="barcode"></canvas>
 
                         </div>
+
+                        <div class="text-center my-3">
+                            <button type="button" class="btn btn-primary" onclick="downloadBarcode()">
+                                <i class="bi bi-download"></i> Preuzmi barkod
+                            </button>
+                        </div>
+
                         <p class="lead fs-6 my-1 ">
                             Skenirajte 2D barkod iz Vašeg mobilnog bankarstva i<br />
                             obavezno pod „poziv na broj primatelja“ unesite<br />
