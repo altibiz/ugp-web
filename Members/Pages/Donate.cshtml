@@ -28,6 +28,17 @@
       var note = "@note";
       var isGuest = "@isGuest";
 
+      // Decode HTML entities (e.g., &#x17E; to ž)
+      function decodeHtmlEntities(text) {
+          var textArea = document.createElement('textarea');
+          textArea.innerHTML = text;
+          return textArea.value;
+      }
+
+      // Decode server-side encoded values
+      name = decodeHtmlEntities(name);
+      oib = decodeHtmlEntities(oib);
+
       function drawBarcode(customAmount, customName, customOib) {
           // Get current values from inputs or use parameters/defaults
           var currentAmount = customAmount || document.getElementById('amountSelector')?.value || amount;
