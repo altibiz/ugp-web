@@ -31,6 +31,7 @@ using OrchardCore.Contents.ViewModels;
 using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement.Handlers;
 using Members.ContentHandlers;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Members
 {
@@ -76,6 +77,11 @@ namespace Members
             services.AddSingleton<IBackgroundTask, MemberExportBackgroundTask>();
             services.AddScoped<IContentDisplayHandler, ContentDisplayHandlerExt>();
 
+            services.Configure<RazorPagesOptions>(options =>
+            {
+                options.Conventions.AddAreaPageRoute("Members", "/Donate", "uplata");
+            });
+
             if (CurrentEnvironment.IsDevelopment())
             {
                 services.AddScoped<IShapeDisplayEvents, ShapeTracingShapeEvents>();
@@ -85,12 +91,6 @@ namespace Members
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
-            //routes.MapAreaControllerRoute(
-            //    name: "Home",
-            //    areaName: "Members",
-            //    pattern: "Home/Index",
-            //    defaults: new { controller = "Home", action = "Index" }
-            //);
         }
     }
 }

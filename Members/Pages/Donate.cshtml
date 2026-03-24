@@ -12,7 +12,7 @@
 }
 
 @{
-    Html.RenderPartial("_Header", T["Donate"].Value);
+    Html.RenderPartial("_Header", T["Podaci za uplatu"].Value);
 }
 
 <script asp-name="ugptheme-jQuery"></script>
@@ -113,15 +113,6 @@
               });
           }
 
-          // Name input handler
-          var nameInput = document.getElementById('nameInput');
-          if (nameInput) {
-              nameInput.value = name;
-              nameInput.addEventListener('input', () => {
-                  drawBarcode();
-              });
-          }
-
           // OIB input handler
           var oibInput = document.getElementById('oibInput');
           if (oibInput) {
@@ -140,25 +131,13 @@
 
 <div class="row">
     <div class="container">
-        <h3 class="pt-4">Doniraj Glas Poduzetnika</h3>
-
-        <p class="lead fs-6">
-            Dragi članovi udruge Glas poduzetnika,
-            <br />
-            simpatizeri, podržavatelji i oni koji će nam se tek pridružiti, kao što smo najavili, udruga se neće financirati iz članarina. Želja nam je pokazati hrvatskoj javnosti da postoje bolji poslovni modeli od prisilnog plaćanja članarina raznim sustavima koji svoj posao ne rade kako bi trebali.
-            <br />
-            <br />
-
-            Rad udruge Glas poduzetnika financirat ćemo DONACIJAMA.<br />
-
-            <br />
             <span>IBAN: HR2324020061100970954</span><br />
             <span>GLAS PODUZETNIKA</span><br />
             <span>Ulica Republike Austrije 33, Zagreb</span><br />
             <span>model „HR00“ i poziv na broj „00000-OIB UPLATITELJA“.</span><br />
             <br />
 
-            Ili skenirajte barkod za uplatu:
+            Ili priredite i skenirajte barkod za uplatu:
 
 
         </p>
@@ -173,27 +152,20 @@
                 <div id="flush-collapseTwo" class="accordion-collapse show" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
                         <form method="post" id="personSelector">
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Osoba/Tvrtka</span>
-                                </div>
-                                <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
-                                    @if (Model.PersonList != null)
-                                    {
+                            @if (Model.PersonList != null && Model.PersonList.Count > 0)
+                            {
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Osoba/Tvrtka</span>
+                                    </div>
+                                    <select class="form-select" asp-for="PersonId" onchange="this.form.submit();">
                                         @foreach (var item in Model.PersonList)
                                         {
                                             <option value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
                                         }
-                                    }
-                                </select>
-                            </div>
-
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Ime/Naziv donatora</span>
+                                    </select>
                                 </div>
-                                <input type="text" class="form-control" id="nameInput" placeholder="Unesite ime ili naziv tvrtke" aria-label="Name" />
-                            </div>
+                            }
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -224,31 +196,9 @@
                                 <i class="bi bi-download"></i> Preuzmi barkod
                             </button>
                         </div>
-
-                        <p class="lead fs-6 my-1 ">
-                            Skenirajte 2D barkod iz Vašeg mobilnog bankarstva i<br />
-                            obavezno pod „poziv na broj primatelja“ unesite<br />
-                            model „HR99“ i poziv na broj „00000-OIB UPLATITELJA“.
-                        </p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <p class="lead fs-6">
-            Kad se kao član imate kome obratiti u problemu, kad znate tko vas zastupa i kad smo dostupni za vas na raznim mrežama i platformama, kad osjetite da se borimo za svakoga od vas, znamo da ćete sukladno svojim mogućnostima pomoći radu udruge kroz donaciju. Svatko koliko može. Na taj način članarina neće biti potrebna da bi se financirao rad udruge. Oni koji nisu u mogućnosti uplatiti donaciju, ne brinite. Naš cilj je da svaki poduzetnik, obrtnik, samostalni djelatnik, iznajmljivač, udruga, ured, ordinacija, OPG-ovac, paušalac, i svi njihovi zaposlenici postanu stabilni u svom poslovanju, da brinu o svojim radnicima, da plaćaju redovno poreze – ali pravedne poreze. Da se nitko ne boji inspekcija ako radi pošteno.
-            <br />
-
-            <br />
-            Ako ste zadovoljni kako vas zastupamo, svatko za sebe sukladno svojim mogućnostima može uplatiti dobrovoljnu donaciju i pozvati svoje prijatelje i partnere da naprave isto. Pokažimo zajedno da nama poduzetnicima ne trebaju prisilne članarine, da mi znamo prepoznati kvalitetne borce i da sami znamo gdje naš novac najviše zastupa naše interese.
-            <br />
-
-            <br />
-            Donacijama ćemo financirati profesionalizaciju rada Udruge i aktivnosti koje nas vode prema postizanju naših ciljeva.
-            <br />
-            <br />
-            Mi se obvezujemo se na potpunu transparentnost u prikazivanju troškova i optimizirano trošenje pristiglih donacija isključivo u svrhu postizanja ciljeva koje ćemo transparentno komunicirati.
-        </p>
-
     </div>
 </div>
