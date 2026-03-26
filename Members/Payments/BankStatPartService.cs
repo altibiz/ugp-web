@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Net;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -95,7 +96,10 @@ namespace Members.Payments
             {
 
             }
-            //if it continues, try xml;
+            //if it continues, try xml or html;
+
+            if (xmlOrJson.Contains("<html", StringComparison.OrdinalIgnoreCase))
+                return ParseHtmlStmt(xmlOrJson);
 
             XmlDocument doc = new();
             doc.LoadXml(xmlOrJson);
@@ -157,6 +161,111 @@ namespace Members.Payments
             }
             return statement;
         }
+        private static BsJson ParseHtmlStmt(string html)
+        {
+            var statement = new BsJson { Data = [] };
+
+            // Extract date from "Za razdoblje" section
+            var dateMatch = Regex.Match(html, @"Za razdoblje.*?(\d{2}\.\d{2}\.\d{4})\.", RegexOptions.Singleline);
+            if (dateMatch.Success)
+            {
+                var date = DateTime.ParseExact(dateMatch.Groups[1].Value, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+                statement.Date = date;
+                statement.EndDate = date;
+            }
+
+            // Extract statement number (Broj izvoda) from header section — value is in the last <span>
+            var stmtIdMatch = Regex.Match(html, @"Broj izvoda:\s*</span>.*?<span[^>]*>(\d+)</span>", RegexOptions.Singleline);
+            if (stmtIdMatch.Success)
+            {
+                statement.StatementId = stmtIdMatch.Groups[1].Value;
+                statement.LglSeqNbr = stmtIdMatch.Groups[1].Value;
+            }
+
+            // Extract transaction rows (class="trItems")
+            var rowMatches = Regex.Matches(html, @"<tr\s+class=""trItems""[^>]*>(.*?)</tr>", RegexOptions.Singleline);
+            foreach (Match rowMatch in rowMatches)
+            {
+                var tdMatches = Regex.Matches(rowMatch.Groups[1].Value, @"<td[^>]*>(.*?)</td>", RegexOptions.Singleline);
+                if (tdMatches.Count < 6) continue;
+
+                var entry = new BsJson.Stat();
+                var rrn = new BsJson.Stat.Rrn();
+                var partner = new BsJson.Stat.CPartner();
+                var address = new BsJson.Stat.CPartner.CAddress();
+
+                // TD 0: dates (valute / obrade)
+                var dateText = StripHtml(tdMatches[0].Groups[1].Value);
+                var entryDateMatch = Regex.Match(dateText, @"(\d{2}\.\d{2}\.\d{4})");
+                if (entryDateMatch.Success)
+                    entry.Date = DateTime.ParseExact(entryDateMatch.Groups[1].Value, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+                // TD 1: partner name + IBAN
+                var partnerLines = StripHtml(tdMatches[1].Groups[1].Value)
+                    .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                partner.Name = partnerLines.Length > 0 ? partnerLines[0] : "";
+                address.Street = "";
+                address.City = "";
+
+                // TD 2: ordinal + description
+                var descText = StripHtml(tdMatches[2].Groups[1].Value).Trim();
+                var descMatch = Regex.Match(descText, @"^\d+\s*-\s*(.*)$", RegexOptions.Singleline);
+                entry.PaymentDescription = descMatch.Success ? descMatch.Groups[1].Value.Trim() : descText;
+
+                // TD 3: references (model / reference number / payment reference)
+                var refHtml = Regex.Replace(tdMatches[3].Groups[1].Value, @"<br\s*/?>", "\n");
+                var refLines = StripHtml(refHtml)
+                    .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                rrn.Model = refLines.Length > 0 ? refLines[0] : "";
+                if (refLines.Length > 1)
+                {
+                    var refLine = refLines[1];
+                    // Format "HR00 12-77685993589" — strip the model prefix to get the number
+                    var refParts = Regex.Match(refLine, @"^[A-Z]{2}\d{2}\s+(.+)$");
+                    rrn.Number = refParts.Success ? refParts.Groups[1].Value : refLine;
+                }
+                else
+                    rrn.Number = "";
+                entry.Number = refLines.Length > 2 ? refLines[2] : "";
+
+                // TD 4: Isplata (payout), TD 5: Uplata (payment in)
+                var isplataText = StripHtml(tdMatches[4].Groups[1].Value).Trim();
+                var uplataText = StripHtml(tdMatches[5].Groups[1].Value).Trim();
+
+                if (!string.IsNullOrEmpty(uplataText) && uplataText != "\u00a0")
+                {
+                    entry.Type = "Uplata";
+                    entry.Amount = ParseCroatianDecimal(uplataText);
+                }
+                else if (!string.IsNullOrEmpty(isplataText) && isplataText != "\u00a0")
+                {
+                    entry.Type = "Isplata";
+                    entry.Amount = ParseCroatianDecimal(isplataText);
+                }
+
+                entry.RRN = rrn;
+                partner.Address = address;
+                entry.Partner = partner;
+                statement.Data.Add(entry);
+            }
+
+            return statement;
+        }
+
+        private static string StripHtml(string html)
+        {
+            var text = Regex.Replace(html, @"<br\s*/?>", "\n");
+            text = Regex.Replace(text, @"<[^>]+>", "");
+            return WebUtility.HtmlDecode(text);
+        }
+
+        private static decimal ParseCroatianDecimal(string value)
+        {
+            // Croatian format: 1.234,56 (dot = thousands separator, comma = decimal)
+            value = value.Replace(".", "").Replace(",", ".");
+            return decimal.Parse(value, CultureInfo.InvariantCulture);
+        }
+
         public override IEnumerable<ValidationResult> Validate(BankStatPart part)
         {
             if (string.IsNullOrEmpty(part.StatementJson))

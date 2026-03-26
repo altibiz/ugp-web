@@ -1134,5 +1134,322 @@
   </BkToCstmrStmt>
 </Document>";
 
+        public const string htmlBankStatements = @"
+
+<html xmlns:fo=""http://www.w3.org/1999/XSL/Format"" xmlns:xs=""http://www.w3.org/2001/XMLSchema"" xmlns:fn=""http://www.w3.org/2005/xpath-functions"">
+  <head>
+    <META http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">
+    <style type=""text/css"">
+          @media screen
+          {
+          body{ font-family : Verdana, serif; }
+          div#THeadUp{ border-bottom: 1px solid white; border-top: 1px solid white; }
+          div#THeadDown{ border-bottom: 1px solid white; }
+
+          div#TItems{ border-bottom: 1px solid white; }
+          div#TFootUp{ border-bottom: 1px solid white; }
+          div#PageBreak{ padding-bottom: 30px; }
+
+          .tbHeadUp{border-bottom: 1px solid white; border-top: 1px solid white;}
+          .tbHeadDown{border-bottom: 1px solid white;}
+          .trItems td{border-bottom: 1px solid white;}
+          .trFootUp td{border-bottom: 1px solid white;}
+          }
+
+          @media print
+          {
+          body{ font-family : ""Arial"", Times, serif; }
+
+          div#THeadUp{ border-bottom: 1px solid #000000; border-top: 1px solid #000000; }
+          div#THeadDown{ border-bottom: 1px solid #000000; }
+          div#TItems{ border-bottom: 1px solid #000000; }
+          div#TFootUp{ border-bottom: 1px solid #000000; }
+          div#PageBreak{ page-break-after: always; }
+
+          .tbHeadUp{border-bottom: 1px solid #000000; border-top: 1px solid #000000;}
+          .tbHeadDown{border-bottom: 1px solid #000000;}
+          .trItems td{border-bottom: 1px solid #000000;}
+          .trFootUp td{border-bottom: 1px solid #000000;}
+          }
+
+          div#Header{ font-size: 10pt; font-family:Arial}
+          div#Generalno{font-size: 10pt}
+
+          div#Generalno span{ display:inline-block; }
+
+          div#Naslov p{ color : #000000; background : #ffffff; font-size : 14pt;}
+
+          div#THeadUp
+          {
+          vertical-align: middle;
+          color : #000000;
+          background : #ffffff;
+          font-size : 8pt;
+          font-weight:normal;
+          background-color:#CCE5F7;
+          display:inline-block;
+          }
+
+          div#THeadUp span{display:inline-block;}
+
+          div#THeadDown
+          {
+          color : #000000;
+          background : #ffffff;
+          font-size : 8pt;
+          font-weight:bold;
+          background-color:#CCE5F7;
+          display:inline-block;
+          }
+
+          div#THeadDown span{display:inline-block;}
+
+          div#TItems{
+          color : #000000;
+          background : #ffffff;
+          font-size : 8pt;
+          display:inline-block;
+          }
+
+          div#TItems span{
+          page-break-inside: avoid;
+          vertical-align:middle;
+          display:inline-block;
+          word-wrap:break-word;
+          }
+
+          div#TFootUp
+          {
+          text-align:center;
+          color : #000000;
+          background : #ffffff;
+          font-size : 8pt;
+
+          font-weight:bold;
+          background-color:#CCE5F7;
+          display:inline-block;
+
+          }
+
+          div#TFootUp span{display:inline-block;}
+
+          div#TRekap{font-size : 8pt;page-break-inside: avoid;display:inline-block;padding-bottom: 3px}
+
+          div#TRekap span{display:inline-block;}
+
+          .tbHeadUp{color:#000000; background:#ffffff;font-size:8pt;font-weight:normal;background-color:#CCE5F7;width:100%;}
+          .tbHeadDown{color:#000000; background:#ffffff;font-size:8pt;font-weight:bold;background-color:#CCE5F7;vertical-align:top;width:100%;}
+          .trItems{color:#000000;background:#ffffff;font-size : 8pt;page-break-inside: avoid;}
+          .trItems td{page-break-inside: avoid;vertical-align:middle;word-wrap:break-word;}
+          .trFootUp{text-align:center;color:#000000;background:#ffffff;font-size:8pt;font-weight:bold;background-color:#CCE5F7;}
+          .tbRekap {font-size: 8pt;page-break-inside: avoid;width:91%}
+        </style>
+  </head>
+  <body style=""margin: 6px 6px 6px 6px;"">
+    <div id=""Header"" style=""vertical-align:top;width:100%;"">
+      <div id=""Naslov"" style=""vertical-align:top;width:100%"">
+        <p>IZVOD PROMETA PO RAČUNU</p>
+      </div><br><div>
+              Datum i vrijeme izdavanja: 07.01.2026. 01:57</div>
+      <div><span>
+                Za razdoblje (po datumu obrade):
+              </span><span style=""width:61%;text-align:left;"">06.01.2026.</span></div><br><div style=""width:100%;"">
+        <table width=""100%"" cellpading=""0"" cellspacing=""0"">
+          <tr>
+            <td style=""width:50%; vertical-align:top;font-size:10pt"">
+                    DUMMY BANK D.D.<br>
+                    OIB: 00000000001<br>
+                    SWIFT/BIC: DUMMHR22<br>10000 Zagreb, Ulica Banke 1<br>
+                    Tel.: 000   000-000;
+                    Faks.: 000   000-000<br>
+                    www.dummybank.hr
+                  </td>
+            <td style=""width:50%; vertical-align:top"">
+              <div id=""Right"" style=""width:100%"">
+                <div id=""Generalno""><span style=""padding-left:30px;text-align:left;"">DUMMY ORGANIZATION<br>ULICA TESTNA 1 <br>10000 ZAGREB<br>REPUBLIKA HRVATSKA</span></div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div><br><div id=""Generalno"" style=""width:100%;""><span style=""width:120px;"">
+                Naziv klijenta:
+              </span><span style=""width:3%;text-align:left;""></span><span style=""width:61%;text-align:left;"">DUMMY ORGANIZATION</span></div>
+      <div id=""Generalno"" style=""width:100%;""><span style=""width:120px;"">
+                OIB:
+              </span><span style=""width:3%;text-align:left;""></span><span style=""width:61%;text-align:left;"">00000000002</span></div><br><div id=""Generalno"" style=""width:100%;""><span style=""width:120px;"">
+                IBAN:
+              </span><span style=""width:3%;text-align:left;""></span><span style=""width:61%;text-align:left;"">HR0000000000000000001</span></div>
+      <div id=""Generalno"" style=""width:100%;""><span style=""width:120px;text-align:left;"">
+                Broj računa:
+              </span><span style=""width:3%;text-align:left;""></span><span style=""width:61%;text-align:left;"">0000000001</span></div>
+    </div><br><div id=""Generalno"" style=""width:100%;""><span style=""width:120px;text-align:left;"">
+        Oznaka valute:
+      </span><span style=""width:3%;text-align:left;""></span><span style=""width:61%;text-align:left;"">EUR</span></div>
+    <div id=""Generalno"" style=""width:100%;""><span style=""width:120px;text-align:left;"">
+        Broj izvoda:
+      </span><span style=""width:3%;text-align:left;""></span><span style=""width:61%;text-align:left;"">005</span></div><br><table class=""tbHeadUp"" cellpading=""0"" cellspacing=""0"">
+      <tr>
+        <td style=""width:10%;text-align:left;vertical-align:top;"">
+          Datum valute<br>
+          Datum obrade
+        </td>
+        <td style=""width:29%;text-align:left;vertical-align:top;"">
+          Platitelj/Primatelj <br>
+          Broj računa/IBAN <br>
+          Tečaj
+        </td>
+        <td style=""width:15%;text-align:left;vertical-align:top;"">
+          Redni broj <br>
+          Opis plaćanja <br>
+          Šifra namjene
+          </td>
+        <td style=""width:26%;text-align:left;vertical-align:top;"">
+          Poziv na broj platitelja <br>
+          Poziv na broj primatelja <br>
+          Referenca plaćanja
+        </td>
+        <td style=""width:10%;text-align:right;vertical-align:middle;"">
+          Isplata
+        </td>
+        <td style=""width:10%;text-align:right;vertical-align:middle;padding-right:5px;"">
+          Uplata
+        </td>
+      </tr>
+    </table>
+    <table class=""tbHeadDown"" cellpading=""0"" cellspacing=""0"">
+      <tr>
+        <td style=""width:10%;text-align:left;"">
+          Početno stanje :
+        </td>
+        <td style=""width:29%;text-align:left;"">&nbsp;</td>
+        <td style=""width:15%;text-align:left;"">&nbsp;</td>
+        <td style=""width:26%;text-align:left;"">&nbsp;</td>
+        <td style=""width:10%;text-align:left;"">&nbsp;</td>
+        <td style=""width:10%;text-align:right;padding-right:5px;"">5.551,80</td>
+      </tr>
+    </table>
+    <table cellpading=""0"" cellspacing=""0"" style=""width:100%"">
+      <tr class=""trItems"" style=""width:100%;"">
+        <td style=""width:10%;text-align:left;"">06.01.2026.<br>06.01.2026.</td>
+        <td style=""width:29%;text-align:left;"">DUMMY COMPANY D.O.O. ZAGREB<br>HR0000000000000000002</td>
+        <td style=""width:15%;text-align:left;"">1 - Dummy payment description</td>
+        <td style=""width:26%;text-align:left;"">HR99 <br>HR00 00-00000000000<br>2026-0000000-00000000000</td>
+        <td style=""width:10%;text-align:right;"">&nbsp;</td>
+        <td style=""width:10%;text-align:right;padding-right:5px"">30,00</td>
+      </tr>
+      <tr class=""trFootUp"">
+        <td colspan=""2"" style=""width:39%;text-align:left;vertical-align:top;"">
+          Stanje na dan :
+                        06.01.2026.</td>
+        <td style=""width:15%;text-align:left;vertical-align:top;"">
+          Broj izvoda
+              005</td>
+        <td style=""width:26%;text-align:center;vertical-align:top;""><span style=""display:inline-block; text-align:left"">
+            Promet
+            <br>S t a n j e
+          </span></td>
+        <td style=""width:10%;text-align:right;vertical-align:top;"">0,00<br> </td>
+        <td style=""width:10%;text-align:right;padding-right:5px;vertical-align:top;"">30,00<br>5.581,80</td>
+      </tr>
+    </table>
+    <table class=""tbHeadDown"" cellpading=""0"" cellspacing=""0"">
+      <tr>
+        <td style=""width:10%;text-align:left;"">
+            Konačno stanje :
+          </td>
+        <td style=""width:29%;text-align:left;"">&nbsp;</td>
+        <td style=""width:15%;text-align:left;"">&nbsp;</td>
+        <td style=""width:26%;text-align:left;"">&nbsp;</td>
+        <td style=""width:10%;text-align:left;"">&nbsp;</td>
+        <td style=""width:10%;text-align:right;padding-right:5px;"">5.581,80</td>
+      </tr>
+    </table><br><table class=""tbRekap"" cellpading=""0"" cellspacing=""0"">
+      <tr>
+        <td colspan=""3"" style=""width:30%;text-align:left;background:#CCE5F7;font-weight:bold;"">
+            R E K A P I T U L A C I J A
+          </td>
+        <td colspan=""6"">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan=""4"" style=""width:33%;"">&nbsp;</td>
+        <td style=""width:15%;text-align:left;"">
+            Prethodno stanje
+          </td>
+        <td style=""width:10%;text-align:right;"">5.551,80</td>
+        <td style=""width:3%;"">&nbsp;</td>
+        <td style=""width:20%;text-align:left;font-weight:bold;"">
+            Privremeno stanje
+          </td>
+        <td style=""width:10%;text-align:right;font-weight:bold;"">5.581,80</td>
+      </tr>
+      <tr>
+        <td style=""width:15%;text-align:left;"">
+            Naloga na teret
+          </td>
+        <td style=""width:5%;text-align:right;"">0</td>
+        <td colspan=""2"" style=""width:13%;"">&nbsp;</td>
+        <td style=""width:15%;text-align:left;"">
+            Dugovni promet
+          </td>
+        <td style=""width:10%;text-align:right;"">0,00</td>
+        <td style=""width:3%;text-align:left;"">&nbsp;</td>
+        <td style=""width:20%;text-align:left;text-wight:bold;"">
+            Rezervirano za naplatu
+          </td>
+        <td style=""width:10%;text-align:right;text-wight:bold;"">0,00</td>
+      </tr>
+      <tr>
+        <td style=""width:15%;text-align:left;"">
+            Naloga u korist
+          </td>
+        <td style=""width:5%;text-align:right;"">1</td>
+        <td colspan=""2"" style=""width:13%;text-align:left;"">&nbsp;</td>
+        <td style=""width:15%;text-align:left;"">
+            Potražni promet
+          </td>
+        <td style=""width:10%;text-align:right;"">30,00</td>
+        <td style=""width:3%;text-align:left;"">&nbsp;</td>
+        <td style=""width:20%;text-align:left;text-weight:bold;"">
+            Dopušteno prekoračenje
+          </td>
+        <td style=""width:10%;text-align:right;text-weight:bold;"">0,00</td>
+      </tr>
+      <tr>
+        <td colspan=""7"" style=""width:61%;"">&nbsp;</td>
+        <td style=""width:20%;text-align:left;text-weight:bold;"">
+            Rezervirano po nalogu FINA-e
+          </td>
+        <td style=""width:10%;text-align:right;text-weight:bold;"">0,00</td>
+      </tr>
+      <tr>
+        <td style=""width:15%;text-align:left;"">
+            Naloga ukupno
+          </td>
+        <td style=""width:5%;text-align:right;"">1</td>
+        <td colspan=""2"" style=""width:13%;"">&nbsp;</td>
+        <td style=""width:15%;text-align:left;"">
+            Ukupni promet
+          </td>
+        <td style=""width:10%;text-align:right;"">30,00</td>
+        <td colspan=""3"" style=""width:3%;text-align:left;"">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan=""7"" style=""width:61%;text-align:left;padding-bottom: 3px;border-bottom:1px solid #000000;"">&nbsp;</td>
+        <td style=""width:20%;text-align:left;padding-bottom: 3px;border-bottom:1px solid #000000;"">
+            Raspoloživo stanje
+          </td>
+        <td style=""width:10%;text-align:right;padding-bottom: 3px;border-bottom:1px solid #000000;"">5.581,80</td>
+      </tr>
+    </table>
+    <div id=""TRekap"" style=""width:100%;margin-top:10px;""><span style=""width:100%;text-align:left;padding-bottom: 2px;"">
+            STANJE OSTALIH RAČUNA PO POSLOVNOM RAČUNU NA DAN
+             06.01.2026.</span></div>
+    <div id=""TRekap"" style=""width:100%;""><span style=""width:30%;text-align:left;padding-bottom: 2px;"">
+            Obračunata naknada
+          </span><span style=""width:10%;text-align:right;padding-bottom: 2px;"">-37,97</span></div><br><br><div><span style=""width:100%;text-align:left;font-size : 8pt;""></span></div>
+  </body>
+</html>
+";
+
     }
 }

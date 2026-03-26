@@ -75,5 +75,25 @@ namespace Members.Test
         }
 
 
+        [TestMethod]
+        public void ParseHtmlBankStatement()
+        {
+            var bs = BankStatPartService.ParseStmt(Constants.htmlBankStatements);
+
+            Assert.IsNotNull(bs.Date);
+            Assert.AreEqual(new DateTime(2026, 1, 6), bs.Date.Value.Date);
+            Assert.AreEqual("005", bs.StatementId);
+            Assert.AreEqual("005", bs.LglSeqNbr);
+
+            Assert.AreEqual(1, bs.Data.Count);
+            Assert.AreEqual("DUMMY COMPANY D.O.O. ZAGREB", bs.Data[0].Partner.Name);
+            Assert.AreEqual("Uplata", bs.Data[0].Type);
+            Assert.AreEqual(30.00m, bs.Data[0].Amount);
+            Assert.AreEqual("HR99", bs.Data[0].RRN.Model);
+            Assert.AreEqual("00-00000000000", bs.Data[0].RRN.Number);
+            Assert.AreEqual("2026-0000000-00000000000", bs.Data[0].Number);
+            Assert.AreEqual(new DateTime(2026, 1, 6), bs.Data[0].Date.Value.Date);
+        }
+
     }
 }
