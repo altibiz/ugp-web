@@ -2,7 +2,7 @@
 @model ExportInfo
 
 @{
-    string allTimeDate = new DateTime(1801, 1, 1).ToString(); // use a format that works for your use case
+    string allTimeDate = new DateTime(1801, 1, 1).ToString();
 }
 
 <div class="col-12">
@@ -62,16 +62,51 @@
                     }
                 </select>
             </div>
+            <hr/>
+
+            <div class="form-group">
+                <label for="exportPeriod">@T["Odaberite period kada su postali članovi"]</label>
+                <select class="form-control" id="exportPeriod" name="Date">
+                    <option value="@DateTime.Now.AddDays(-7).Date" selected>@T["Zadnjih tjedan dana"]</option>
+                    <option value="@DateTime.Now.AddMonths(-1).Date">@T["Zadnjih mjesec dana"]</option>
+                    <option value="@DateTime.Now.AddMonths(-6).Date">@T["Zadnjih 6 mjeseci"]</option>
+                    <option value="@DateTime.Now.AddYears(-1).Date">@T["Zadnjih godinu dana"]</option>
+                    <option value="@DateTime.Now.AddMonths(-18).Date">@T["Zadnjih 18 mjeseci"]</option>
+                    <option value="@allTimeDate">@T["Svi članovi"]</option>
+                </select>
+            </div>
+            <hr/>
+
+            <div class="form-group">
+                <label>@T["Tip korisnika"]</label>
+                <div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="includeNatural" name="IncludeNatural" value="true" checked />
+                        <input type="hidden" name="IncludeNatural" value="false" />
+                        <label class="form-check-label" for="includeNatural">@T["Fizičke osobe"]</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="includeLegal" name="IncludeLegal" value="true" checked />
+                        <input type="hidden" name="IncludeLegal" value="false" />
+                        <label class="form-check-label" for="includeLegal">@T["Pravne osobe"]</label>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <div class="form-group">
+                <label>@T["Broj zaposlenika"]</label>
+                <div class="d-flex align-items-center">
+                    <input type="number" class="form-control" id="minEmployees" name="MinEmployees" placeholder="@T["Min"]" min="0" style="max-width: 150px;" />
+                    <span class="mx-2">-</span>
+                    <input type="number" class="form-control" id="maxEmployees" name="MaxEmployees" placeholder="@T["Max"]" min="0" style="max-width: 150px;" />
+                </div>
+            </div>
         </div>
         <hr />
 
-        <div class="col-12 d-flex flex-wrap justify-content-between">
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddDays(-7).Date">Export novih članova u zadnjih  tjedan dana</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-1).Date">Export novih članova u zadnjih  mjesec dana</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-6).Date">Export novih članova u zadnjih 6 mjeseci</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddYears(-1).Date">Export novih članova u zadnjih godinu dana</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@DateTime.Now.AddMonths(-18).Date">Export novih članova u zadnjih 18 mjeseci</button>
-            <button class="btn btn-secondary col-md-2 col-xs-12 m-2" type="submit" name="Date" value="@allTimeDate">Export SVIH članova</button>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">@T["Export"]</button>
         </div>
     }
 

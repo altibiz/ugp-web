@@ -62,6 +62,9 @@ namespace Members.Core
         }
         public IQuery<ContentItem> GetAllMembersForExportQuery(ExportModel model)
         {
+            if (!model.IncludeNatural)
+                return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
+
             if (!model.ExportActivity.Any(string.IsNullOrEmpty))
                 return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
 
@@ -76,6 +79,9 @@ namespace Members.Core
 
         public IQuery<ContentItem> GetAllCompaniesForExportQuery(ExportModel model)
         {
+            if (!model.IncludeLegal)
+                return _session.Query<ContentItem, ContentItemIndex>(x => x.ContentItemId == "false_dummy");
+
             IQuery<ContentItem> query = _session.Query<ContentItem>();
             query = query.With<ContentItemIndex>(x => x.ContentType == nameof(Company) && x.Published && x.Latest);
             if (model.Date < DateTime.Now.Date) query = query.With<ContentItemIndex>().Where(x => x.PublishedUtc > model.Date);
@@ -85,6 +91,12 @@ namespace Members.Core
 
             if (!model.ExportActivity.Any(string.IsNullOrEmpty))
                 query = query.GetByTerm(nameof(Company), nameof(Company.Activity), model.ExportActivity);
+
+            if (model.MinEmployees.HasValue)
+                query = query.With<PersonPartIndex>(x => x.Employees >= model.MinEmployees.Value);
+
+            if (model.MaxEmployees.HasValue)
+                query = query.With<PersonPartIndex>(x => x.Employees <= model.MaxEmployees.Value);
 
             return query;
         }
@@ -223,6 +235,10 @@ namespace Members.Core
         public DateTime Date { get; set; }
         public string ExportCounty { get; set; }
         public string[] ExportActivity { get; set; }
+        public int? MinEmployees { get; set; }
+        public int? MaxEmployees { get; set; }
+        public bool IncludeNatural { get; set; } = true;
+        public bool IncludeLegal { get; set; } = true;
     }
 
     public class CsvModel
