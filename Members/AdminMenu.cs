@@ -44,6 +44,8 @@ namespace Members
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
                     .Add(S["Uplatnice"], "10", childTwo => childTwo
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Pledge" }))
+                    .Add(S["Barkod generator i podaci za uplatu"], "11", childTwo => childTwo
+                        .Url("~/uplata"))
                  , ["icon-class-fas", "icon-class-fa-coins"])
                 .Add(S["Configuration"], "0", rootView => rootView
                 .Add(S["Import/Export"], S["Import/Export"].PrefixPosition(), rootView => rootView
