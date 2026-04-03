@@ -458,3 +458,6 @@ var PDF417 = {
         return parseInt(a)
     }
 };
+
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+    module.exports = PDF417
