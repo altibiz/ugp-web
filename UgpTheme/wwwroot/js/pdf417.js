@@ -1,1291 +1,460 @@
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
-    var { bcmul, bcadd, bcdiv } = require("./bcmath")
-
 /**
  * PDF417 - 2D Barcode generator (LGPLv3)
  *
  * Ported from PHP - PDF417 class, version 1.0.005, from TCPDF library (http://www.tcpdf.org/)
  */
 var PDF417 = {
-	ROWHEIGHT: 4,
-	QUIETH: 2,
-	QUIETV: 2,
-
-	barcode_array: {},
-	start_pattern: '11111111010101000',
-	stop_pattern: '111111101000101001',
-
-	/**
-	 * Array of text Compaction Sub-Modes (values 0xFB - 0xFF are used for submode changers).
-	 */
-	textsubmodes: [
-		[0x41,0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,0x4a,0x4b,0x4c,0x4d,0x4e,0x4f,0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,0x5a,0x20,0xFD,0xFE,0xFF], // Alpha
-		[0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,0x6a,0x6b,0x6c,0x6d,0x6e,0x6f,0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,0x7a,0x20,0xFD,0xFE,0xFF], // Lower
-		[0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x26,0x0d,0x09,0x2c,0x3a,0x23,0x2d,0x2e,0x24,0x2f,0x2b,0x25,0x2a,0x3d,0x5e,0xFB,0x20,0xFD,0xFE,0xFF], // Mixed
-		[0x3b,0x3c,0x3e,0x40,0x5b,0x5c,0x5d,0x5f,0x60,0x7e,0x21,0x0d,0x09,0x2c,0x3a,0x0a,0x2d,0x2e,0x24,0x2f,0x22,0x7c,0x2a,0x28,0x29,0x3f,0x7b,0x7d,0x27,0xFF] // Puntuaction
-	],
-
-	/**
-	 * Array of switching codes for Text Compaction Sub-Modes.
-	 */
-	textlatch: {
-		'01': [27], '02': [28], '03': [28,25], //
-		'10': [28,28], '12': [28], '13': [28,25], //
-		'20': [28], '21': [27], '23': [25], //
-		'30': [29], '31': [29,27], '32': [29,28] //
-	},
-
-	/**
-	 * Clusters of codewords (0, 3, 6)<br/>
-	 * Values are hex equivalents of binary representation of bars (1 = bar, 0 = space).<br/>
-	 * The codewords numbered from 900 to 928 have special meaning, some enable to switch between modes in order to optimise the code:
-	 * <ul>
-	 * <li>900 : Switch to "Text" mode</li>
-	 * <li>901 : Switch to "Byte" mode</li>
-	 * <li>902 : Switch to "Numeric" mode</li>
-	 * <li>903 - 912 : Reserved</li>
-	 * <li>913 : Switch to "Octet" only for the next codeword</li>
-	 * <li>914 - 920 : Reserved</li>
-	 * <li>921 : Initialization</li>
-	 * <li>922 : Terminator codeword for Macro PDF control block</li>
-	 * <li>923 : Sequence tag to identify the beginning of optional fields in the Macro PDF control block</li>
-	 * <li>924 : Switch to "Byte" mode (If the total number of byte is multiple of 6)</li>
-	 * <li>925 : Identifier for a user defined Extended Channel Interpretation (ECI)</li>
-	 * <li>926 : Identifier for a general purpose ECI format</li>
-	 * <li>927 : Identifier for an ECI of a character set or code page</li>
-	 * <li>928 : Macro marker codeword to indicate the beginning of a Macro PDF Control Block</li>
-	 * </ul>
-	 */
-	clusters: [
-		[ // cluster 0 -----------------------------------------------------------------------
-			0x1d5c0,0x1eaf0,0x1f57c,0x1d4e0,0x1ea78,0x1f53e,0x1a8c0,0x1d470,0x1a860,0x15040, //  10
-			0x1a830,0x15020,0x1adc0,0x1d6f0,0x1eb7c,0x1ace0,0x1d678,0x1eb3e,0x158c0,0x1ac70, //  20
-			0x15860,0x15dc0,0x1aef0,0x1d77c,0x15ce0,0x1ae78,0x1d73e,0x15c70,0x1ae3c,0x15ef0, //  30
-			0x1af7c,0x15e78,0x1af3e,0x15f7c,0x1f5fa,0x1d2e0,0x1e978,0x1f4be,0x1a4c0,0x1d270, //  40
-			0x1e93c,0x1a460,0x1d238,0x14840,0x1a430,0x1d21c,0x14820,0x1a418,0x14810,0x1a6e0, //  50
-			0x1d378,0x1e9be,0x14cc0,0x1a670,0x1d33c,0x14c60,0x1a638,0x1d31e,0x14c30,0x1a61c, //  60
-			0x14ee0,0x1a778,0x1d3be,0x14e70,0x1a73c,0x14e38,0x1a71e,0x14f78,0x1a7be,0x14f3c, //  70
-			0x14f1e,0x1a2c0,0x1d170,0x1e8bc,0x1a260,0x1d138,0x1e89e,0x14440,0x1a230,0x1d11c, //  80
-			0x14420,0x1a218,0x14410,0x14408,0x146c0,0x1a370,0x1d1bc,0x14660,0x1a338,0x1d19e, //  90
-			0x14630,0x1a31c,0x14618,0x1460c,0x14770,0x1a3bc,0x14738,0x1a39e,0x1471c,0x147bc, // 100
-			0x1a160,0x1d0b8,0x1e85e,0x14240,0x1a130,0x1d09c,0x14220,0x1a118,0x1d08e,0x14210, // 110
-			0x1a10c,0x14208,0x1a106,0x14360,0x1a1b8,0x1d0de,0x14330,0x1a19c,0x14318,0x1a18e, // 120
-			0x1430c,0x14306,0x1a1de,0x1438e,0x14140,0x1a0b0,0x1d05c,0x14120,0x1a098,0x1d04e, // 130
-			0x14110,0x1a08c,0x14108,0x1a086,0x14104,0x141b0,0x14198,0x1418c,0x140a0,0x1d02e, // 140
-			0x1a04c,0x1a046,0x14082,0x1cae0,0x1e578,0x1f2be,0x194c0,0x1ca70,0x1e53c,0x19460, // 150
-			0x1ca38,0x1e51e,0x12840,0x19430,0x12820,0x196e0,0x1cb78,0x1e5be,0x12cc0,0x19670, // 160
-			0x1cb3c,0x12c60,0x19638,0x12c30,0x12c18,0x12ee0,0x19778,0x1cbbe,0x12e70,0x1973c, // 170
-			0x12e38,0x12e1c,0x12f78,0x197be,0x12f3c,0x12fbe,0x1dac0,0x1ed70,0x1f6bc,0x1da60, // 180
-			0x1ed38,0x1f69e,0x1b440,0x1da30,0x1ed1c,0x1b420,0x1da18,0x1ed0e,0x1b410,0x1da0c, // 190
-			0x192c0,0x1c970,0x1e4bc,0x1b6c0,0x19260,0x1c938,0x1e49e,0x1b660,0x1db38,0x1ed9e, // 200
-			0x16c40,0x12420,0x19218,0x1c90e,0x16c20,0x1b618,0x16c10,0x126c0,0x19370,0x1c9bc, // 210
-			0x16ec0,0x12660,0x19338,0x1c99e,0x16e60,0x1b738,0x1db9e,0x16e30,0x12618,0x16e18, // 220
-			0x12770,0x193bc,0x16f70,0x12738,0x1939e,0x16f38,0x1b79e,0x16f1c,0x127bc,0x16fbc, // 230
-			0x1279e,0x16f9e,0x1d960,0x1ecb8,0x1f65e,0x1b240,0x1d930,0x1ec9c,0x1b220,0x1d918, // 240
-			0x1ec8e,0x1b210,0x1d90c,0x1b208,0x1b204,0x19160,0x1c8b8,0x1e45e,0x1b360,0x19130, // 250
-			0x1c89c,0x16640,0x12220,0x1d99c,0x1c88e,0x16620,0x12210,0x1910c,0x16610,0x1b30c, // 260
-			0x19106,0x12204,0x12360,0x191b8,0x1c8de,0x16760,0x12330,0x1919c,0x16730,0x1b39c, // 270
-			0x1918e,0x16718,0x1230c,0x12306,0x123b8,0x191de,0x167b8,0x1239c,0x1679c,0x1238e, // 280
-			0x1678e,0x167de,0x1b140,0x1d8b0,0x1ec5c,0x1b120,0x1d898,0x1ec4e,0x1b110,0x1d88c, // 290
-			0x1b108,0x1d886,0x1b104,0x1b102,0x12140,0x190b0,0x1c85c,0x16340,0x12120,0x19098, // 300
-			0x1c84e,0x16320,0x1b198,0x1d8ce,0x16310,0x12108,0x19086,0x16308,0x1b186,0x16304, // 310
-			0x121b0,0x190dc,0x163b0,0x12198,0x190ce,0x16398,0x1b1ce,0x1638c,0x12186,0x16386, // 320
-			0x163dc,0x163ce,0x1b0a0,0x1d858,0x1ec2e,0x1b090,0x1d84c,0x1b088,0x1d846,0x1b084, // 330
-			0x1b082,0x120a0,0x19058,0x1c82e,0x161a0,0x12090,0x1904c,0x16190,0x1b0cc,0x19046, // 340
-			0x16188,0x12084,0x16184,0x12082,0x120d8,0x161d8,0x161cc,0x161c6,0x1d82c,0x1d826, // 350
-			0x1b042,0x1902c,0x12048,0x160c8,0x160c4,0x160c2,0x18ac0,0x1c570,0x1e2bc,0x18a60, // 360
-			0x1c538,0x11440,0x18a30,0x1c51c,0x11420,0x18a18,0x11410,0x11408,0x116c0,0x18b70, // 370
-			0x1c5bc,0x11660,0x18b38,0x1c59e,0x11630,0x18b1c,0x11618,0x1160c,0x11770,0x18bbc, // 380
-			0x11738,0x18b9e,0x1171c,0x117bc,0x1179e,0x1cd60,0x1e6b8,0x1f35e,0x19a40,0x1cd30, // 390
-			0x1e69c,0x19a20,0x1cd18,0x1e68e,0x19a10,0x1cd0c,0x19a08,0x1cd06,0x18960,0x1c4b8, // 400
-			0x1e25e,0x19b60,0x18930,0x1c49c,0x13640,0x11220,0x1cd9c,0x1c48e,0x13620,0x19b18, // 410
-			0x1890c,0x13610,0x11208,0x13608,0x11360,0x189b8,0x1c4de,0x13760,0x11330,0x1cdde, // 420
-			0x13730,0x19b9c,0x1898e,0x13718,0x1130c,0x1370c,0x113b8,0x189de,0x137b8,0x1139c, // 430
-			0x1379c,0x1138e,0x113de,0x137de,0x1dd40,0x1eeb0,0x1f75c,0x1dd20,0x1ee98,0x1f74e, // 440
-			0x1dd10,0x1ee8c,0x1dd08,0x1ee86,0x1dd04,0x19940,0x1ccb0,0x1e65c,0x1bb40,0x19920, // 450
-			0x1eedc,0x1e64e,0x1bb20,0x1dd98,0x1eece,0x1bb10,0x19908,0x1cc86,0x1bb08,0x1dd86, // 460
-			0x19902,0x11140,0x188b0,0x1c45c,0x13340,0x11120,0x18898,0x1c44e,0x17740,0x13320, // 470
-			0x19998,0x1ccce,0x17720,0x1bb98,0x1ddce,0x18886,0x17710,0x13308,0x19986,0x17708, // 480
-			0x11102,0x111b0,0x188dc,0x133b0,0x11198,0x188ce,0x177b0,0x13398,0x199ce,0x17798, // 490
-			0x1bbce,0x11186,0x13386,0x111dc,0x133dc,0x111ce,0x177dc,0x133ce,0x1dca0,0x1ee58, // 500
-			0x1f72e,0x1dc90,0x1ee4c,0x1dc88,0x1ee46,0x1dc84,0x1dc82,0x198a0,0x1cc58,0x1e62e, // 510
-			0x1b9a0,0x19890,0x1ee6e,0x1b990,0x1dccc,0x1cc46,0x1b988,0x19884,0x1b984,0x19882, // 520
-			0x1b982,0x110a0,0x18858,0x1c42e,0x131a0,0x11090,0x1884c,0x173a0,0x13190,0x198cc, // 530
-			0x18846,0x17390,0x1b9cc,0x11084,0x17388,0x13184,0x11082,0x13182,0x110d8,0x1886e, // 540
-			0x131d8,0x110cc,0x173d8,0x131cc,0x110c6,0x173cc,0x131c6,0x110ee,0x173ee,0x1dc50, // 550
-			0x1ee2c,0x1dc48,0x1ee26,0x1dc44,0x1dc42,0x19850,0x1cc2c,0x1b8d0,0x19848,0x1cc26, // 560
-			0x1b8c8,0x1dc66,0x1b8c4,0x19842,0x1b8c2,0x11050,0x1882c,0x130d0,0x11048,0x18826, // 570
-			0x171d0,0x130c8,0x19866,0x171c8,0x1b8e6,0x11042,0x171c4,0x130c2,0x171c2,0x130ec, // 580
-			0x171ec,0x171e6,0x1ee16,0x1dc22,0x1cc16,0x19824,0x19822,0x11028,0x13068,0x170e8, // 590
-			0x11022,0x13062,0x18560,0x10a40,0x18530,0x10a20,0x18518,0x1c28e,0x10a10,0x1850c, // 600
-			0x10a08,0x18506,0x10b60,0x185b8,0x1c2de,0x10b30,0x1859c,0x10b18,0x1858e,0x10b0c, // 610
-			0x10b06,0x10bb8,0x185de,0x10b9c,0x10b8e,0x10bde,0x18d40,0x1c6b0,0x1e35c,0x18d20, // 620
-			0x1c698,0x18d10,0x1c68c,0x18d08,0x1c686,0x18d04,0x10940,0x184b0,0x1c25c,0x11b40, // 630
-			0x10920,0x1c6dc,0x1c24e,0x11b20,0x18d98,0x1c6ce,0x11b10,0x10908,0x18486,0x11b08, // 640
-			0x18d86,0x10902,0x109b0,0x184dc,0x11bb0,0x10998,0x184ce,0x11b98,0x18dce,0x11b8c, // 650
-			0x10986,0x109dc,0x11bdc,0x109ce,0x11bce,0x1cea0,0x1e758,0x1f3ae,0x1ce90,0x1e74c, // 660
-			0x1ce88,0x1e746,0x1ce84,0x1ce82,0x18ca0,0x1c658,0x19da0,0x18c90,0x1c64c,0x19d90, // 670
-			0x1cecc,0x1c646,0x19d88,0x18c84,0x19d84,0x18c82,0x19d82,0x108a0,0x18458,0x119a0, // 680
-			0x10890,0x1c66e,0x13ba0,0x11990,0x18ccc,0x18446,0x13b90,0x19dcc,0x10884,0x13b88, // 690
-			0x11984,0x10882,0x11982,0x108d8,0x1846e,0x119d8,0x108cc,0x13bd8,0x119cc,0x108c6, // 700
-			0x13bcc,0x119c6,0x108ee,0x119ee,0x13bee,0x1ef50,0x1f7ac,0x1ef48,0x1f7a6,0x1ef44, // 710
-			0x1ef42,0x1ce50,0x1e72c,0x1ded0,0x1ef6c,0x1e726,0x1dec8,0x1ef66,0x1dec4,0x1ce42, // 720
-			0x1dec2,0x18c50,0x1c62c,0x19cd0,0x18c48,0x1c626,0x1bdd0,0x19cc8,0x1ce66,0x1bdc8, // 730
-			0x1dee6,0x18c42,0x1bdc4,0x19cc2,0x1bdc2,0x10850,0x1842c,0x118d0,0x10848,0x18426, // 740
-			0x139d0,0x118c8,0x18c66,0x17bd0,0x139c8,0x19ce6,0x10842,0x17bc8,0x1bde6,0x118c2, // 750
-			0x17bc4,0x1086c,0x118ec,0x10866,0x139ec,0x118e6,0x17bec,0x139e6,0x17be6,0x1ef28, // 760
-			0x1f796,0x1ef24,0x1ef22,0x1ce28,0x1e716,0x1de68,0x1ef36,0x1de64,0x1ce22,0x1de62, // 770
-			0x18c28,0x1c616,0x19c68,0x18c24,0x1bce8,0x19c64,0x18c22,0x1bce4,0x19c62,0x1bce2, // 780
-			0x10828,0x18416,0x11868,0x18c36,0x138e8,0x11864,0x10822,0x179e8,0x138e4,0x11862, // 790
-			0x179e4,0x138e2,0x179e2,0x11876,0x179f6,0x1ef12,0x1de34,0x1de32,0x19c34,0x1bc74, // 800
-			0x1bc72,0x11834,0x13874,0x178f4,0x178f2,0x10540,0x10520,0x18298,0x10510,0x10508, // 810
-			0x10504,0x105b0,0x10598,0x1058c,0x10586,0x105dc,0x105ce,0x186a0,0x18690,0x1c34c, // 820
-			0x18688,0x1c346,0x18684,0x18682,0x104a0,0x18258,0x10da0,0x186d8,0x1824c,0x10d90, // 830
-			0x186cc,0x10d88,0x186c6,0x10d84,0x10482,0x10d82,0x104d8,0x1826e,0x10dd8,0x186ee, // 840
-			0x10dcc,0x104c6,0x10dc6,0x104ee,0x10dee,0x1c750,0x1c748,0x1c744,0x1c742,0x18650, // 850
-			0x18ed0,0x1c76c,0x1c326,0x18ec8,0x1c766,0x18ec4,0x18642,0x18ec2,0x10450,0x10cd0, // 860
-			0x10448,0x18226,0x11dd0,0x10cc8,0x10444,0x11dc8,0x10cc4,0x10442,0x11dc4,0x10cc2, // 870
-			0x1046c,0x10cec,0x10466,0x11dec,0x10ce6,0x11de6,0x1e7a8,0x1e7a4,0x1e7a2,0x1c728, // 880
-			0x1cf68,0x1e7b6,0x1cf64,0x1c722,0x1cf62,0x18628,0x1c316,0x18e68,0x1c736,0x19ee8, // 890
-			0x18e64,0x18622,0x19ee4,0x18e62,0x19ee2,0x10428,0x18216,0x10c68,0x18636,0x11ce8, // 900
-			0x10c64,0x10422,0x13de8,0x11ce4,0x10c62,0x13de4,0x11ce2,0x10436,0x10c76,0x11cf6, // 910
-			0x13df6,0x1f7d4,0x1f7d2,0x1e794,0x1efb4,0x1e792,0x1efb2,0x1c714,0x1cf34,0x1c712, // 920
-			0x1df74,0x1cf32,0x1df72,0x18614,0x18e34,0x18612,0x19e74,0x18e32,0x1bef4],        // 929
-		[ // cluster 3 -----------------------------------------------------------------------
-			0x1f560,0x1fab8,0x1ea40,0x1f530,0x1fa9c,0x1ea20,0x1f518,0x1fa8e,0x1ea10,0x1f50c, //  10
-			0x1ea08,0x1f506,0x1ea04,0x1eb60,0x1f5b8,0x1fade,0x1d640,0x1eb30,0x1f59c,0x1d620, //  20
-			0x1eb18,0x1f58e,0x1d610,0x1eb0c,0x1d608,0x1eb06,0x1d604,0x1d760,0x1ebb8,0x1f5de, //  30
-			0x1ae40,0x1d730,0x1eb9c,0x1ae20,0x1d718,0x1eb8e,0x1ae10,0x1d70c,0x1ae08,0x1d706, //  40
-			0x1ae04,0x1af60,0x1d7b8,0x1ebde,0x15e40,0x1af30,0x1d79c,0x15e20,0x1af18,0x1d78e, //  50
-			0x15e10,0x1af0c,0x15e08,0x1af06,0x15f60,0x1afb8,0x1d7de,0x15f30,0x1af9c,0x15f18, //  60
-			0x1af8e,0x15f0c,0x15fb8,0x1afde,0x15f9c,0x15f8e,0x1e940,0x1f4b0,0x1fa5c,0x1e920, //  70
-			0x1f498,0x1fa4e,0x1e910,0x1f48c,0x1e908,0x1f486,0x1e904,0x1e902,0x1d340,0x1e9b0, //  80
-			0x1f4dc,0x1d320,0x1e998,0x1f4ce,0x1d310,0x1e98c,0x1d308,0x1e986,0x1d304,0x1d302, //  90
-			0x1a740,0x1d3b0,0x1e9dc,0x1a720,0x1d398,0x1e9ce,0x1a710,0x1d38c,0x1a708,0x1d386, // 100
-			0x1a704,0x1a702,0x14f40,0x1a7b0,0x1d3dc,0x14f20,0x1a798,0x1d3ce,0x14f10,0x1a78c, // 110
-			0x14f08,0x1a786,0x14f04,0x14fb0,0x1a7dc,0x14f98,0x1a7ce,0x14f8c,0x14f86,0x14fdc, // 120
-			0x14fce,0x1e8a0,0x1f458,0x1fa2e,0x1e890,0x1f44c,0x1e888,0x1f446,0x1e884,0x1e882, // 130
-			0x1d1a0,0x1e8d8,0x1f46e,0x1d190,0x1e8cc,0x1d188,0x1e8c6,0x1d184,0x1d182,0x1a3a0, // 140
-			0x1d1d8,0x1e8ee,0x1a390,0x1d1cc,0x1a388,0x1d1c6,0x1a384,0x1a382,0x147a0,0x1a3d8, // 150
-			0x1d1ee,0x14790,0x1a3cc,0x14788,0x1a3c6,0x14784,0x14782,0x147d8,0x1a3ee,0x147cc, // 160
-			0x147c6,0x147ee,0x1e850,0x1f42c,0x1e848,0x1f426,0x1e844,0x1e842,0x1d0d0,0x1e86c, // 170
-			0x1d0c8,0x1e866,0x1d0c4,0x1d0c2,0x1a1d0,0x1d0ec,0x1a1c8,0x1d0e6,0x1a1c4,0x1a1c2, // 180
-			0x143d0,0x1a1ec,0x143c8,0x1a1e6,0x143c4,0x143c2,0x143ec,0x143e6,0x1e828,0x1f416, // 190
-			0x1e824,0x1e822,0x1d068,0x1e836,0x1d064,0x1d062,0x1a0e8,0x1d076,0x1a0e4,0x1a0e2, // 200
-			0x141e8,0x1a0f6,0x141e4,0x141e2,0x1e814,0x1e812,0x1d034,0x1d032,0x1a074,0x1a072, // 210
-			0x1e540,0x1f2b0,0x1f95c,0x1e520,0x1f298,0x1f94e,0x1e510,0x1f28c,0x1e508,0x1f286, // 220
-			0x1e504,0x1e502,0x1cb40,0x1e5b0,0x1f2dc,0x1cb20,0x1e598,0x1f2ce,0x1cb10,0x1e58c, // 230
-			0x1cb08,0x1e586,0x1cb04,0x1cb02,0x19740,0x1cbb0,0x1e5dc,0x19720,0x1cb98,0x1e5ce, // 240
-			0x19710,0x1cb8c,0x19708,0x1cb86,0x19704,0x19702,0x12f40,0x197b0,0x1cbdc,0x12f20, // 250
-			0x19798,0x1cbce,0x12f10,0x1978c,0x12f08,0x19786,0x12f04,0x12fb0,0x197dc,0x12f98, // 260
-			0x197ce,0x12f8c,0x12f86,0x12fdc,0x12fce,0x1f6a0,0x1fb58,0x16bf0,0x1f690,0x1fb4c, // 270
-			0x169f8,0x1f688,0x1fb46,0x168fc,0x1f684,0x1f682,0x1e4a0,0x1f258,0x1f92e,0x1eda0, // 280
-			0x1e490,0x1fb6e,0x1ed90,0x1f6cc,0x1f246,0x1ed88,0x1e484,0x1ed84,0x1e482,0x1ed82, // 290
-			0x1c9a0,0x1e4d8,0x1f26e,0x1dba0,0x1c990,0x1e4cc,0x1db90,0x1edcc,0x1e4c6,0x1db88, // 300
-			0x1c984,0x1db84,0x1c982,0x1db82,0x193a0,0x1c9d8,0x1e4ee,0x1b7a0,0x19390,0x1c9cc, // 310
-			0x1b790,0x1dbcc,0x1c9c6,0x1b788,0x19384,0x1b784,0x19382,0x1b782,0x127a0,0x193d8, // 320
-			0x1c9ee,0x16fa0,0x12790,0x193cc,0x16f90,0x1b7cc,0x193c6,0x16f88,0x12784,0x16f84, // 330
-			0x12782,0x127d8,0x193ee,0x16fd8,0x127cc,0x16fcc,0x127c6,0x16fc6,0x127ee,0x1f650, // 340
-			0x1fb2c,0x165f8,0x1f648,0x1fb26,0x164fc,0x1f644,0x1647e,0x1f642,0x1e450,0x1f22c, // 350
-			0x1ecd0,0x1e448,0x1f226,0x1ecc8,0x1f666,0x1ecc4,0x1e442,0x1ecc2,0x1c8d0,0x1e46c, // 360
-			0x1d9d0,0x1c8c8,0x1e466,0x1d9c8,0x1ece6,0x1d9c4,0x1c8c2,0x1d9c2,0x191d0,0x1c8ec, // 370
-			0x1b3d0,0x191c8,0x1c8e6,0x1b3c8,0x1d9e6,0x1b3c4,0x191c2,0x1b3c2,0x123d0,0x191ec, // 380
-			0x167d0,0x123c8,0x191e6,0x167c8,0x1b3e6,0x167c4,0x123c2,0x167c2,0x123ec,0x167ec, // 390
-			0x123e6,0x167e6,0x1f628,0x1fb16,0x162fc,0x1f624,0x1627e,0x1f622,0x1e428,0x1f216, // 400
-			0x1ec68,0x1f636,0x1ec64,0x1e422,0x1ec62,0x1c868,0x1e436,0x1d8e8,0x1c864,0x1d8e4, // 410
-			0x1c862,0x1d8e2,0x190e8,0x1c876,0x1b1e8,0x1d8f6,0x1b1e4,0x190e2,0x1b1e2,0x121e8, // 420
-			0x190f6,0x163e8,0x121e4,0x163e4,0x121e2,0x163e2,0x121f6,0x163f6,0x1f614,0x1617e, // 430
-			0x1f612,0x1e414,0x1ec34,0x1e412,0x1ec32,0x1c834,0x1d874,0x1c832,0x1d872,0x19074, // 440
-			0x1b0f4,0x19072,0x1b0f2,0x120f4,0x161f4,0x120f2,0x161f2,0x1f60a,0x1e40a,0x1ec1a, // 450
-			0x1c81a,0x1d83a,0x1903a,0x1b07a,0x1e2a0,0x1f158,0x1f8ae,0x1e290,0x1f14c,0x1e288, // 460
-			0x1f146,0x1e284,0x1e282,0x1c5a0,0x1e2d8,0x1f16e,0x1c590,0x1e2cc,0x1c588,0x1e2c6, // 470
-			0x1c584,0x1c582,0x18ba0,0x1c5d8,0x1e2ee,0x18b90,0x1c5cc,0x18b88,0x1c5c6,0x18b84, // 480
-			0x18b82,0x117a0,0x18bd8,0x1c5ee,0x11790,0x18bcc,0x11788,0x18bc6,0x11784,0x11782, // 490
-			0x117d8,0x18bee,0x117cc,0x117c6,0x117ee,0x1f350,0x1f9ac,0x135f8,0x1f348,0x1f9a6, // 500
-			0x134fc,0x1f344,0x1347e,0x1f342,0x1e250,0x1f12c,0x1e6d0,0x1e248,0x1f126,0x1e6c8, // 510
-			0x1f366,0x1e6c4,0x1e242,0x1e6c2,0x1c4d0,0x1e26c,0x1cdd0,0x1c4c8,0x1e266,0x1cdc8, // 520
-			0x1e6e6,0x1cdc4,0x1c4c2,0x1cdc2,0x189d0,0x1c4ec,0x19bd0,0x189c8,0x1c4e6,0x19bc8, // 530
-			0x1cde6,0x19bc4,0x189c2,0x19bc2,0x113d0,0x189ec,0x137d0,0x113c8,0x189e6,0x137c8, // 540
-			0x19be6,0x137c4,0x113c2,0x137c2,0x113ec,0x137ec,0x113e6,0x137e6,0x1fba8,0x175f0, // 550
-			0x1bafc,0x1fba4,0x174f8,0x1ba7e,0x1fba2,0x1747c,0x1743e,0x1f328,0x1f996,0x132fc, // 560
-			0x1f768,0x1fbb6,0x176fc,0x1327e,0x1f764,0x1f322,0x1767e,0x1f762,0x1e228,0x1f116, // 570
-			0x1e668,0x1e224,0x1eee8,0x1f776,0x1e222,0x1eee4,0x1e662,0x1eee2,0x1c468,0x1e236, // 580
-			0x1cce8,0x1c464,0x1dde8,0x1cce4,0x1c462,0x1dde4,0x1cce2,0x1dde2,0x188e8,0x1c476, // 590
-			0x199e8,0x188e4,0x1bbe8,0x199e4,0x188e2,0x1bbe4,0x199e2,0x1bbe2,0x111e8,0x188f6, // 600
-			0x133e8,0x111e4,0x177e8,0x133e4,0x111e2,0x177e4,0x133e2,0x177e2,0x111f6,0x133f6, // 610
-			0x1fb94,0x172f8,0x1b97e,0x1fb92,0x1727c,0x1723e,0x1f314,0x1317e,0x1f734,0x1f312, // 620
-			0x1737e,0x1f732,0x1e214,0x1e634,0x1e212,0x1ee74,0x1e632,0x1ee72,0x1c434,0x1cc74, // 630
-			0x1c432,0x1dcf4,0x1cc72,0x1dcf2,0x18874,0x198f4,0x18872,0x1b9f4,0x198f2,0x1b9f2, // 640
-			0x110f4,0x131f4,0x110f2,0x173f4,0x131f2,0x173f2,0x1fb8a,0x1717c,0x1713e,0x1f30a, // 650
-			0x1f71a,0x1e20a,0x1e61a,0x1ee3a,0x1c41a,0x1cc3a,0x1dc7a,0x1883a,0x1987a,0x1b8fa, // 660
-			0x1107a,0x130fa,0x171fa,0x170be,0x1e150,0x1f0ac,0x1e148,0x1f0a6,0x1e144,0x1e142, // 670
-			0x1c2d0,0x1e16c,0x1c2c8,0x1e166,0x1c2c4,0x1c2c2,0x185d0,0x1c2ec,0x185c8,0x1c2e6, // 680
-			0x185c4,0x185c2,0x10bd0,0x185ec,0x10bc8,0x185e6,0x10bc4,0x10bc2,0x10bec,0x10be6, // 690
-			0x1f1a8,0x1f8d6,0x11afc,0x1f1a4,0x11a7e,0x1f1a2,0x1e128,0x1f096,0x1e368,0x1e124, // 700
-			0x1e364,0x1e122,0x1e362,0x1c268,0x1e136,0x1c6e8,0x1c264,0x1c6e4,0x1c262,0x1c6e2, // 710
-			0x184e8,0x1c276,0x18de8,0x184e4,0x18de4,0x184e2,0x18de2,0x109e8,0x184f6,0x11be8, // 720
-			0x109e4,0x11be4,0x109e2,0x11be2,0x109f6,0x11bf6,0x1f9d4,0x13af8,0x19d7e,0x1f9d2, // 730
-			0x13a7c,0x13a3e,0x1f194,0x1197e,0x1f3b4,0x1f192,0x13b7e,0x1f3b2,0x1e114,0x1e334, // 740
-			0x1e112,0x1e774,0x1e332,0x1e772,0x1c234,0x1c674,0x1c232,0x1cef4,0x1c672,0x1cef2, // 750
-			0x18474,0x18cf4,0x18472,0x19df4,0x18cf2,0x19df2,0x108f4,0x119f4,0x108f2,0x13bf4, // 760
-			0x119f2,0x13bf2,0x17af0,0x1bd7c,0x17a78,0x1bd3e,0x17a3c,0x17a1e,0x1f9ca,0x1397c, // 770
-			0x1fbda,0x17b7c,0x1393e,0x17b3e,0x1f18a,0x1f39a,0x1f7ba,0x1e10a,0x1e31a,0x1e73a, // 780
-			0x1ef7a,0x1c21a,0x1c63a,0x1ce7a,0x1defa,0x1843a,0x18c7a,0x19cfa,0x1bdfa,0x1087a, // 790
-			0x118fa,0x139fa,0x17978,0x1bcbe,0x1793c,0x1791e,0x138be,0x179be,0x178bc,0x1789e, // 800
-			0x1785e,0x1e0a8,0x1e0a4,0x1e0a2,0x1c168,0x1e0b6,0x1c164,0x1c162,0x182e8,0x1c176, // 810
-			0x182e4,0x182e2,0x105e8,0x182f6,0x105e4,0x105e2,0x105f6,0x1f0d4,0x10d7e,0x1f0d2, // 820
-			0x1e094,0x1e1b4,0x1e092,0x1e1b2,0x1c134,0x1c374,0x1c132,0x1c372,0x18274,0x186f4, // 830
-			0x18272,0x186f2,0x104f4,0x10df4,0x104f2,0x10df2,0x1f8ea,0x11d7c,0x11d3e,0x1f0ca, // 840
-			0x1f1da,0x1e08a,0x1e19a,0x1e3ba,0x1c11a,0x1c33a,0x1c77a,0x1823a,0x1867a,0x18efa, // 850
-			0x1047a,0x10cfa,0x11dfa,0x13d78,0x19ebe,0x13d3c,0x13d1e,0x11cbe,0x13dbe,0x17d70, // 860
-			0x1bebc,0x17d38,0x1be9e,0x17d1c,0x17d0e,0x13cbc,0x17dbc,0x13c9e,0x17d9e,0x17cb8, // 870
-			0x1be5e,0x17c9c,0x17c8e,0x13c5e,0x17cde,0x17c5c,0x17c4e,0x17c2e,0x1c0b4,0x1c0b2, // 880
-			0x18174,0x18172,0x102f4,0x102f2,0x1e0da,0x1c09a,0x1c1ba,0x1813a,0x1837a,0x1027a, // 890
-			0x106fa,0x10ebe,0x11ebc,0x11e9e,0x13eb8,0x19f5e,0x13e9c,0x13e8e,0x11e5e,0x13ede, // 900
-			0x17eb0,0x1bf5c,0x17e98,0x1bf4e,0x17e8c,0x17e86,0x13e5c,0x17edc,0x13e4e,0x17ece, // 910
-			0x17e58,0x1bf2e,0x17e4c,0x17e46,0x13e2e,0x17e6e,0x17e2c,0x17e26,0x10f5e,0x11f5c, // 920
-			0x11f4e,0x13f58,0x19fae,0x13f4c,0x13f46,0x11f2e,0x13f6e,0x13f2c,0x13f26],        // 929
-		[ // cluster 6 -----------------------------------------------------------------------
-			0x1abe0,0x1d5f8,0x153c0,0x1a9f0,0x1d4fc,0x151e0,0x1a8f8,0x1d47e,0x150f0,0x1a87c, //  10
-			0x15078,0x1fad0,0x15be0,0x1adf8,0x1fac8,0x159f0,0x1acfc,0x1fac4,0x158f8,0x1ac7e, //  20
-			0x1fac2,0x1587c,0x1f5d0,0x1faec,0x15df8,0x1f5c8,0x1fae6,0x15cfc,0x1f5c4,0x15c7e, //  30
-			0x1f5c2,0x1ebd0,0x1f5ec,0x1ebc8,0x1f5e6,0x1ebc4,0x1ebc2,0x1d7d0,0x1ebec,0x1d7c8, //  40
-			0x1ebe6,0x1d7c4,0x1d7c2,0x1afd0,0x1d7ec,0x1afc8,0x1d7e6,0x1afc4,0x14bc0,0x1a5f0, //  50
-			0x1d2fc,0x149e0,0x1a4f8,0x1d27e,0x148f0,0x1a47c,0x14878,0x1a43e,0x1483c,0x1fa68, //  60
-			0x14df0,0x1a6fc,0x1fa64,0x14cf8,0x1a67e,0x1fa62,0x14c7c,0x14c3e,0x1f4e8,0x1fa76, //  70
-			0x14efc,0x1f4e4,0x14e7e,0x1f4e2,0x1e9e8,0x1f4f6,0x1e9e4,0x1e9e2,0x1d3e8,0x1e9f6, //  80
-			0x1d3e4,0x1d3e2,0x1a7e8,0x1d3f6,0x1a7e4,0x1a7e2,0x145e0,0x1a2f8,0x1d17e,0x144f0, //  90
-			0x1a27c,0x14478,0x1a23e,0x1443c,0x1441e,0x1fa34,0x146f8,0x1a37e,0x1fa32,0x1467c, // 100
-			0x1463e,0x1f474,0x1477e,0x1f472,0x1e8f4,0x1e8f2,0x1d1f4,0x1d1f2,0x1a3f4,0x1a3f2, // 110
-			0x142f0,0x1a17c,0x14278,0x1a13e,0x1423c,0x1421e,0x1fa1a,0x1437c,0x1433e,0x1f43a, // 120
-			0x1e87a,0x1d0fa,0x14178,0x1a0be,0x1413c,0x1411e,0x141be,0x140bc,0x1409e,0x12bc0, // 130
-			0x195f0,0x1cafc,0x129e0,0x194f8,0x1ca7e,0x128f0,0x1947c,0x12878,0x1943e,0x1283c, // 140
-			0x1f968,0x12df0,0x196fc,0x1f964,0x12cf8,0x1967e,0x1f962,0x12c7c,0x12c3e,0x1f2e8, // 150
-			0x1f976,0x12efc,0x1f2e4,0x12e7e,0x1f2e2,0x1e5e8,0x1f2f6,0x1e5e4,0x1e5e2,0x1cbe8, // 160
-			0x1e5f6,0x1cbe4,0x1cbe2,0x197e8,0x1cbf6,0x197e4,0x197e2,0x1b5e0,0x1daf8,0x1ed7e, // 170
-			0x169c0,0x1b4f0,0x1da7c,0x168e0,0x1b478,0x1da3e,0x16870,0x1b43c,0x16838,0x1b41e, // 180
-			0x1681c,0x125e0,0x192f8,0x1c97e,0x16de0,0x124f0,0x1927c,0x16cf0,0x1b67c,0x1923e, // 190
-			0x16c78,0x1243c,0x16c3c,0x1241e,0x16c1e,0x1f934,0x126f8,0x1937e,0x1fb74,0x1f932, // 200
-			0x16ef8,0x1267c,0x1fb72,0x16e7c,0x1263e,0x16e3e,0x1f274,0x1277e,0x1f6f4,0x1f272, // 210
-			0x16f7e,0x1f6f2,0x1e4f4,0x1edf4,0x1e4f2,0x1edf2,0x1c9f4,0x1dbf4,0x1c9f2,0x1dbf2, // 220
-			0x193f4,0x193f2,0x165c0,0x1b2f0,0x1d97c,0x164e0,0x1b278,0x1d93e,0x16470,0x1b23c, // 230
-			0x16438,0x1b21e,0x1641c,0x1640e,0x122f0,0x1917c,0x166f0,0x12278,0x1913e,0x16678, // 240
-			0x1b33e,0x1663c,0x1221e,0x1661e,0x1f91a,0x1237c,0x1fb3a,0x1677c,0x1233e,0x1673e, // 250
-			0x1f23a,0x1f67a,0x1e47a,0x1ecfa,0x1c8fa,0x1d9fa,0x191fa,0x162e0,0x1b178,0x1d8be, // 260
-			0x16270,0x1b13c,0x16238,0x1b11e,0x1621c,0x1620e,0x12178,0x190be,0x16378,0x1213c, // 270
-			0x1633c,0x1211e,0x1631e,0x121be,0x163be,0x16170,0x1b0bc,0x16138,0x1b09e,0x1611c, // 280
-			0x1610e,0x120bc,0x161bc,0x1209e,0x1619e,0x160b8,0x1b05e,0x1609c,0x1608e,0x1205e, // 290
-			0x160de,0x1605c,0x1604e,0x115e0,0x18af8,0x1c57e,0x114f0,0x18a7c,0x11478,0x18a3e, // 300
-			0x1143c,0x1141e,0x1f8b4,0x116f8,0x18b7e,0x1f8b2,0x1167c,0x1163e,0x1f174,0x1177e, // 310
-			0x1f172,0x1e2f4,0x1e2f2,0x1c5f4,0x1c5f2,0x18bf4,0x18bf2,0x135c0,0x19af0,0x1cd7c, // 320
-			0x134e0,0x19a78,0x1cd3e,0x13470,0x19a3c,0x13438,0x19a1e,0x1341c,0x1340e,0x112f0, // 330
-			0x1897c,0x136f0,0x11278,0x1893e,0x13678,0x19b3e,0x1363c,0x1121e,0x1361e,0x1f89a, // 340
-			0x1137c,0x1f9ba,0x1377c,0x1133e,0x1373e,0x1f13a,0x1f37a,0x1e27a,0x1e6fa,0x1c4fa, // 350
-			0x1cdfa,0x189fa,0x1bae0,0x1dd78,0x1eebe,0x174c0,0x1ba70,0x1dd3c,0x17460,0x1ba38, // 360
-			0x1dd1e,0x17430,0x1ba1c,0x17418,0x1ba0e,0x1740c,0x132e0,0x19978,0x1ccbe,0x176e0, // 370
-			0x13270,0x1993c,0x17670,0x1bb3c,0x1991e,0x17638,0x1321c,0x1761c,0x1320e,0x1760e, // 380
-			0x11178,0x188be,0x13378,0x1113c,0x17778,0x1333c,0x1111e,0x1773c,0x1331e,0x1771e, // 390
-			0x111be,0x133be,0x177be,0x172c0,0x1b970,0x1dcbc,0x17260,0x1b938,0x1dc9e,0x17230, // 400
-			0x1b91c,0x17218,0x1b90e,0x1720c,0x17206,0x13170,0x198bc,0x17370,0x13138,0x1989e, // 410
-			0x17338,0x1b99e,0x1731c,0x1310e,0x1730e,0x110bc,0x131bc,0x1109e,0x173bc,0x1319e, // 420
-			0x1739e,0x17160,0x1b8b8,0x1dc5e,0x17130,0x1b89c,0x17118,0x1b88e,0x1710c,0x17106, // 430
-			0x130b8,0x1985e,0x171b8,0x1309c,0x1719c,0x1308e,0x1718e,0x1105e,0x130de,0x171de, // 440
-			0x170b0,0x1b85c,0x17098,0x1b84e,0x1708c,0x17086,0x1305c,0x170dc,0x1304e,0x170ce, // 450
-			0x17058,0x1b82e,0x1704c,0x17046,0x1302e,0x1706e,0x1702c,0x17026,0x10af0,0x1857c, // 460
-			0x10a78,0x1853e,0x10a3c,0x10a1e,0x10b7c,0x10b3e,0x1f0ba,0x1e17a,0x1c2fa,0x185fa, // 470
-			0x11ae0,0x18d78,0x1c6be,0x11a70,0x18d3c,0x11a38,0x18d1e,0x11a1c,0x11a0e,0x10978, // 480
-			0x184be,0x11b78,0x1093c,0x11b3c,0x1091e,0x11b1e,0x109be,0x11bbe,0x13ac0,0x19d70, // 490
-			0x1cebc,0x13a60,0x19d38,0x1ce9e,0x13a30,0x19d1c,0x13a18,0x19d0e,0x13a0c,0x13a06, // 500
-			0x11970,0x18cbc,0x13b70,0x11938,0x18c9e,0x13b38,0x1191c,0x13b1c,0x1190e,0x13b0e, // 510
-			0x108bc,0x119bc,0x1089e,0x13bbc,0x1199e,0x13b9e,0x1bd60,0x1deb8,0x1ef5e,0x17a40, // 520
-			0x1bd30,0x1de9c,0x17a20,0x1bd18,0x1de8e,0x17a10,0x1bd0c,0x17a08,0x1bd06,0x17a04, // 530
-			0x13960,0x19cb8,0x1ce5e,0x17b60,0x13930,0x19c9c,0x17b30,0x1bd9c,0x19c8e,0x17b18, // 540
-			0x1390c,0x17b0c,0x13906,0x17b06,0x118b8,0x18c5e,0x139b8,0x1189c,0x17bb8,0x1399c, // 550
-			0x1188e,0x17b9c,0x1398e,0x17b8e,0x1085e,0x118de,0x139de,0x17bde,0x17940,0x1bcb0, // 560
-			0x1de5c,0x17920,0x1bc98,0x1de4e,0x17910,0x1bc8c,0x17908,0x1bc86,0x17904,0x17902, // 570
-			0x138b0,0x19c5c,0x179b0,0x13898,0x19c4e,0x17998,0x1bcce,0x1798c,0x13886,0x17986, // 580
-			0x1185c,0x138dc,0x1184e,0x179dc,0x138ce,0x179ce,0x178a0,0x1bc58,0x1de2e,0x17890, // 590
-			0x1bc4c,0x17888,0x1bc46,0x17884,0x17882,0x13858,0x19c2e,0x178d8,0x1384c,0x178cc, // 600
-			0x13846,0x178c6,0x1182e,0x1386e,0x178ee,0x17850,0x1bc2c,0x17848,0x1bc26,0x17844, // 610
-			0x17842,0x1382c,0x1786c,0x13826,0x17866,0x17828,0x1bc16,0x17824,0x17822,0x13816, // 620
-			0x17836,0x10578,0x182be,0x1053c,0x1051e,0x105be,0x10d70,0x186bc,0x10d38,0x1869e, // 630
-			0x10d1c,0x10d0e,0x104bc,0x10dbc,0x1049e,0x10d9e,0x11d60,0x18eb8,0x1c75e,0x11d30, // 640
-			0x18e9c,0x11d18,0x18e8e,0x11d0c,0x11d06,0x10cb8,0x1865e,0x11db8,0x10c9c,0x11d9c, // 650
-			0x10c8e,0x11d8e,0x1045e,0x10cde,0x11dde,0x13d40,0x19eb0,0x1cf5c,0x13d20,0x19e98, // 660
-			0x1cf4e,0x13d10,0x19e8c,0x13d08,0x19e86,0x13d04,0x13d02,0x11cb0,0x18e5c,0x13db0, // 670
-			0x11c98,0x18e4e,0x13d98,0x19ece,0x13d8c,0x11c86,0x13d86,0x10c5c,0x11cdc,0x10c4e, // 680
-			0x13ddc,0x11cce,0x13dce,0x1bea0,0x1df58,0x1efae,0x1be90,0x1df4c,0x1be88,0x1df46, // 690
-			0x1be84,0x1be82,0x13ca0,0x19e58,0x1cf2e,0x17da0,0x13c90,0x19e4c,0x17d90,0x1becc, // 700
-			0x19e46,0x17d88,0x13c84,0x17d84,0x13c82,0x17d82,0x11c58,0x18e2e,0x13cd8,0x11c4c, // 710
-			0x17dd8,0x13ccc,0x11c46,0x17dcc,0x13cc6,0x17dc6,0x10c2e,0x11c6e,0x13cee,0x17dee, // 720
-			0x1be50,0x1df2c,0x1be48,0x1df26,0x1be44,0x1be42,0x13c50,0x19e2c,0x17cd0,0x13c48, // 730
-			0x19e26,0x17cc8,0x1be66,0x17cc4,0x13c42,0x17cc2,0x11c2c,0x13c6c,0x11c26,0x17cec, // 740
-			0x13c66,0x17ce6,0x1be28,0x1df16,0x1be24,0x1be22,0x13c28,0x19e16,0x17c68,0x13c24, // 750
-			0x17c64,0x13c22,0x17c62,0x11c16,0x13c36,0x17c76,0x1be14,0x1be12,0x13c14,0x17c34, // 760
-			0x13c12,0x17c32,0x102bc,0x1029e,0x106b8,0x1835e,0x1069c,0x1068e,0x1025e,0x106de, // 770
-			0x10eb0,0x1875c,0x10e98,0x1874e,0x10e8c,0x10e86,0x1065c,0x10edc,0x1064e,0x10ece, // 780
-			0x11ea0,0x18f58,0x1c7ae,0x11e90,0x18f4c,0x11e88,0x18f46,0x11e84,0x11e82,0x10e58, // 790
-			0x1872e,0x11ed8,0x18f6e,0x11ecc,0x10e46,0x11ec6,0x1062e,0x10e6e,0x11eee,0x19f50, // 800
-			0x1cfac,0x19f48,0x1cfa6,0x19f44,0x19f42,0x11e50,0x18f2c,0x13ed0,0x19f6c,0x18f26, // 810
-			0x13ec8,0x11e44,0x13ec4,0x11e42,0x13ec2,0x10e2c,0x11e6c,0x10e26,0x13eec,0x11e66, // 820
-			0x13ee6,0x1dfa8,0x1efd6,0x1dfa4,0x1dfa2,0x19f28,0x1cf96,0x1bf68,0x19f24,0x1bf64, // 830
-			0x19f22,0x1bf62,0x11e28,0x18f16,0x13e68,0x11e24,0x17ee8,0x13e64,0x11e22,0x17ee4, // 840
-			0x13e62,0x17ee2,0x10e16,0x11e36,0x13e76,0x17ef6,0x1df94,0x1df92,0x19f14,0x1bf34, // 850
-			0x19f12,0x1bf32,0x11e14,0x13e34,0x11e12,0x17e74,0x13e32,0x17e72,0x1df8a,0x19f0a, // 860
-			0x1bf1a,0x11e0a,0x13e1a,0x17e3a,0x1035c,0x1034e,0x10758,0x183ae,0x1074c,0x10746, // 870
-			0x1032e,0x1076e,0x10f50,0x187ac,0x10f48,0x187a6,0x10f44,0x10f42,0x1072c,0x10f6c, // 880
-			0x10726,0x10f66,0x18fa8,0x1c7d6,0x18fa4,0x18fa2,0x10f28,0x18796,0x11f68,0x18fb6, // 890
-			0x11f64,0x10f22,0x11f62,0x10716,0x10f36,0x11f76,0x1cfd4,0x1cfd2,0x18f94,0x19fb4, // 900
-			0x18f92,0x19fb2,0x10f14,0x11f34,0x10f12,0x13f74,0x11f32,0x13f72,0x1cfca,0x18f8a, // 910
-			0x19f9a,0x10f0a,0x11f1a,0x13f3a,0x103ac,0x103a6,0x107a8,0x183d6,0x107a4,0x107a2, // 920
-			0x10396,0x107b6,0x187d4,0x187d2,0x10794,0x10fb4,0x10792,0x10fb2,0x1c7ea]         // 929
-	],
-
-	/**
-	 * Array of factors of the Reed-Solomon polynomial equations used for error correction; one sub array for each correction level (0-8).
-	 * @protected
-	 */
-	rsfactors: [
-		[ // ECL 0 (2 factors) -------------------------------------------------------------------------------
-			0x01b,0x395],                                                                                    //   2
-		[ // ECL 1 (4 factors) -------------------------------------------------------------------------------
-			0x20a,0x238,0x2d3,0x329],                                                                        //   4
-		[ // ECL 2 (8 factors) -------------------------------------------------------------------------------
-			0x0ed,0x134,0x1b4,0x11c,0x286,0x28d,0x1ac,0x17b],                                                //   8
-		[ // ECL 3 (16 factors) ------------------------------------------------------------------------------
-			0x112,0x232,0x0e8,0x2f3,0x257,0x20c,0x321,0x084,0x127,0x074,0x1ba,0x1ac,0x127,0x02a,0x0b0,0x041],//  16
-		[ // ECL 4 (32 factors) ------------------------------------------------------------------------------
-			0x169,0x23f,0x39a,0x20d,0x0b0,0x24a,0x280,0x141,0x218,0x2e6,0x2a5,0x2e6,0x2af,0x11c,0x0c1,0x205, //  16
-			0x111,0x1ee,0x107,0x093,0x251,0x320,0x23b,0x140,0x323,0x085,0x0e7,0x186,0x2ad,0x14a,0x03f,0x19a],//  32
-		[ // ECL 5 (64 factors) ------------------------------------------------------------------------------
-			0x21b,0x1a6,0x006,0x05d,0x35e,0x303,0x1c5,0x06a,0x262,0x11f,0x06b,0x1f9,0x2dd,0x36d,0x17d,0x264, //  16
-			0x2d3,0x1dc,0x1ce,0x0ac,0x1ae,0x261,0x35a,0x336,0x21f,0x178,0x1ff,0x190,0x2a0,0x2fa,0x11b,0x0b8, //  32
-			0x1b8,0x023,0x207,0x01f,0x1cc,0x252,0x0e1,0x217,0x205,0x160,0x25d,0x09e,0x28b,0x0c9,0x1e8,0x1f6, //  48
-			0x288,0x2dd,0x2cd,0x053,0x194,0x061,0x118,0x303,0x348,0x275,0x004,0x17d,0x34b,0x26f,0x108,0x21f],//  64
-		[ // ECL 6 (128 factors) -----------------------------------------------------------------------------
-			0x209,0x136,0x360,0x223,0x35a,0x244,0x128,0x17b,0x035,0x30b,0x381,0x1bc,0x190,0x39d,0x2ed,0x19f, //  16
-			0x336,0x05d,0x0d9,0x0d0,0x3a0,0x0f4,0x247,0x26c,0x0f6,0x094,0x1bf,0x277,0x124,0x38c,0x1ea,0x2c0, //  32
-			0x204,0x102,0x1c9,0x38b,0x252,0x2d3,0x2a2,0x124,0x110,0x060,0x2ac,0x1b0,0x2ae,0x25e,0x35c,0x239, //  48
-			0x0c1,0x0db,0x081,0x0ba,0x0ec,0x11f,0x0c0,0x307,0x116,0x0ad,0x028,0x17b,0x2c8,0x1cf,0x286,0x308, //  64
-			0x0ab,0x1eb,0x129,0x2fb,0x09c,0x2dc,0x05f,0x10e,0x1bf,0x05a,0x1fb,0x030,0x0e4,0x335,0x328,0x382, //  80
-			0x310,0x297,0x273,0x17a,0x17e,0x106,0x17c,0x25a,0x2f2,0x150,0x059,0x266,0x057,0x1b0,0x29e,0x268, //  96
-			0x09d,0x176,0x0f2,0x2d6,0x258,0x10d,0x177,0x382,0x34d,0x1c6,0x162,0x082,0x32e,0x24b,0x324,0x022, // 112
-			0x0d3,0x14a,0x21b,0x129,0x33b,0x361,0x025,0x205,0x342,0x13b,0x226,0x056,0x321,0x004,0x06c,0x21b],// 128
-		[ // ECL 7 (256 factors) -----------------------------------------------------------------------------
-			0x20c,0x37e,0x04b,0x2fe,0x372,0x359,0x04a,0x0cc,0x052,0x24a,0x2c4,0x0fa,0x389,0x312,0x08a,0x2d0, //  16
-			0x35a,0x0c2,0x137,0x391,0x113,0x0be,0x177,0x352,0x1b6,0x2dd,0x0c2,0x118,0x0c9,0x118,0x33c,0x2f5, //  32
-			0x2c6,0x32e,0x397,0x059,0x044,0x239,0x00b,0x0cc,0x31c,0x25d,0x21c,0x391,0x321,0x2bc,0x31f,0x089, //  48
-			0x1b7,0x1a2,0x250,0x29c,0x161,0x35b,0x172,0x2b6,0x145,0x0f0,0x0d8,0x101,0x11c,0x225,0x0d1,0x374, //  64
-			0x13b,0x046,0x149,0x319,0x1ea,0x112,0x36d,0x0a2,0x2ed,0x32c,0x2ac,0x1cd,0x14e,0x178,0x351,0x209, //  80
-			0x133,0x123,0x323,0x2c8,0x013,0x166,0x18f,0x38c,0x067,0x1ff,0x033,0x008,0x205,0x0e1,0x121,0x1d6, //  96
-			0x27d,0x2db,0x042,0x0ff,0x395,0x10d,0x1cf,0x33e,0x2da,0x1b1,0x350,0x249,0x088,0x21a,0x38a,0x05a, // 112
-			0x002,0x122,0x2e7,0x0c7,0x28f,0x387,0x149,0x031,0x322,0x244,0x163,0x24c,0x0bc,0x1ce,0x00a,0x086, // 128
-			0x274,0x140,0x1df,0x082,0x2e3,0x047,0x107,0x13e,0x176,0x259,0x0c0,0x25d,0x08e,0x2a1,0x2af,0x0ea, // 144
-			0x2d2,0x180,0x0b1,0x2f0,0x25f,0x280,0x1c7,0x0c1,0x2b1,0x2c3,0x325,0x281,0x030,0x03c,0x2dc,0x26d, // 160
-			0x37f,0x220,0x105,0x354,0x28f,0x135,0x2b9,0x2f3,0x2f4,0x03c,0x0e7,0x305,0x1b2,0x1a5,0x2d6,0x210, // 176
-			0x1f7,0x076,0x031,0x31b,0x020,0x090,0x1f4,0x0ee,0x344,0x18a,0x118,0x236,0x13f,0x009,0x287,0x226, // 192
-			0x049,0x392,0x156,0x07e,0x020,0x2a9,0x14b,0x318,0x26c,0x03c,0x261,0x1b9,0x0b4,0x317,0x37d,0x2f2, // 208
-			0x25d,0x17f,0x0e4,0x2ed,0x2f8,0x0d5,0x036,0x129,0x086,0x036,0x342,0x12b,0x39a,0x0bf,0x38e,0x214, // 224
-			0x261,0x33d,0x0bd,0x014,0x0a7,0x01d,0x368,0x1c1,0x053,0x192,0x029,0x290,0x1f9,0x243,0x1e1,0x0ad, // 240
-			0x194,0x0fb,0x2b0,0x05f,0x1f1,0x22b,0x282,0x21f,0x133,0x09f,0x39c,0x22e,0x288,0x037,0x1f1,0x00a],// 256
-		[ // ECL 8 (512 factors) -----------------------------------------------------------------------------
-			0x160,0x04d,0x175,0x1f8,0x023,0x257,0x1ac,0x0cf,0x199,0x23e,0x076,0x1f2,0x11d,0x17c,0x15e,0x1ec, //  16
-			0x0c5,0x109,0x398,0x09b,0x392,0x12b,0x0e5,0x283,0x126,0x367,0x132,0x058,0x057,0x0c1,0x160,0x30d, //  32
-			0x34e,0x04b,0x147,0x208,0x1b3,0x21f,0x0cb,0x29a,0x0f9,0x15a,0x30d,0x26d,0x280,0x10c,0x31a,0x216, //  48
-			0x21b,0x30d,0x198,0x186,0x284,0x066,0x1dc,0x1f3,0x122,0x278,0x221,0x025,0x35a,0x394,0x228,0x029, //  64
-			0x21e,0x121,0x07a,0x110,0x17f,0x320,0x1e5,0x062,0x2f0,0x1d8,0x2f9,0x06b,0x310,0x35c,0x292,0x2e5, //  80
-			0x122,0x0cc,0x2a9,0x197,0x357,0x055,0x063,0x03e,0x1e2,0x0b4,0x014,0x129,0x1c3,0x251,0x391,0x08e, //  96
-			0x328,0x2ac,0x11f,0x218,0x231,0x04c,0x28d,0x383,0x2d9,0x237,0x2e8,0x186,0x201,0x0c0,0x204,0x102, // 112
-			0x0f0,0x206,0x31a,0x18b,0x300,0x350,0x033,0x262,0x180,0x0a8,0x0be,0x33a,0x148,0x254,0x312,0x12f, // 128
-			0x23a,0x17d,0x19f,0x281,0x09c,0x0ed,0x097,0x1ad,0x213,0x0cf,0x2a4,0x2c6,0x059,0x0a8,0x130,0x192, // 144
-			0x028,0x2c4,0x23f,0x0a2,0x360,0x0e5,0x041,0x35d,0x349,0x200,0x0a4,0x1dd,0x0dd,0x05c,0x166,0x311, // 160
-			0x120,0x165,0x352,0x344,0x33b,0x2e0,0x2c3,0x05e,0x008,0x1ee,0x072,0x209,0x002,0x1f3,0x353,0x21f, // 176
-			0x098,0x2d9,0x303,0x05f,0x0f8,0x169,0x242,0x143,0x358,0x31d,0x121,0x033,0x2ac,0x1d2,0x215,0x334, // 192
-			0x29d,0x02d,0x386,0x1c4,0x0a7,0x156,0x0f4,0x0ad,0x023,0x1cf,0x28b,0x033,0x2bb,0x24f,0x1c4,0x242, // 208
-			0x025,0x07c,0x12a,0x14c,0x228,0x02b,0x1ab,0x077,0x296,0x309,0x1db,0x352,0x2fc,0x16c,0x242,0x38f, // 224
-			0x11b,0x2c7,0x1d8,0x1a4,0x0f5,0x120,0x252,0x18a,0x1ff,0x147,0x24d,0x309,0x2bb,0x2b0,0x02b,0x198, // 240
-			0x34a,0x17f,0x2d1,0x209,0x230,0x284,0x2ca,0x22f,0x03e,0x091,0x369,0x297,0x2c9,0x09f,0x2a0,0x2d9, // 256
-			0x270,0x03b,0x0c1,0x1a1,0x09e,0x0d1,0x233,0x234,0x157,0x2b5,0x06d,0x260,0x233,0x16d,0x0b5,0x304, // 272
-			0x2a5,0x136,0x0f8,0x161,0x2c4,0x19a,0x243,0x366,0x269,0x349,0x278,0x35c,0x121,0x218,0x023,0x309, // 288
-			0x26a,0x24a,0x1a8,0x341,0x04d,0x255,0x15a,0x10d,0x2f5,0x278,0x2b7,0x2ef,0x14b,0x0f7,0x0b8,0x02d, // 304
-			0x313,0x2a8,0x012,0x042,0x197,0x171,0x036,0x1ec,0x0e4,0x265,0x33e,0x39a,0x1b5,0x207,0x284,0x389, // 320
-			0x315,0x1a4,0x131,0x1b9,0x0cf,0x12c,0x37c,0x33b,0x08d,0x219,0x17d,0x296,0x201,0x038,0x0fc,0x155, // 336
-			0x0f2,0x31d,0x346,0x345,0x2d0,0x0e0,0x133,0x277,0x03d,0x057,0x230,0x136,0x2f4,0x299,0x18d,0x328, // 352
-			0x353,0x135,0x1d9,0x31b,0x17a,0x01f,0x287,0x393,0x1cb,0x326,0x24e,0x2db,0x1a9,0x0d8,0x224,0x0f9, // 368
-			0x141,0x371,0x2bb,0x217,0x2a1,0x30e,0x0d2,0x32f,0x389,0x12f,0x34b,0x39a,0x119,0x049,0x1d5,0x317, // 384
-			0x294,0x0a2,0x1f2,0x134,0x09b,0x1a6,0x38b,0x331,0x0bb,0x03e,0x010,0x1a9,0x217,0x150,0x11e,0x1b5, // 400
-			0x177,0x111,0x262,0x128,0x0b7,0x39b,0x074,0x29b,0x2ef,0x161,0x03e,0x16e,0x2b3,0x17b,0x2af,0x34a, // 416
-			0x025,0x165,0x2d0,0x2e6,0x14a,0x005,0x027,0x39b,0x137,0x1a8,0x0f2,0x2ed,0x141,0x036,0x29d,0x13c, // 432
-			0x156,0x12b,0x216,0x069,0x29b,0x1e8,0x280,0x2a0,0x240,0x21c,0x13c,0x1e6,0x2d1,0x262,0x02e,0x290, // 448
-			0x1bf,0x0ab,0x268,0x1d0,0x0be,0x213,0x129,0x141,0x2fa,0x2f0,0x215,0x0af,0x086,0x00e,0x17d,0x1b1, // 464
-			0x2cd,0x02d,0x06f,0x014,0x254,0x11c,0x2e0,0x08a,0x286,0x19b,0x36d,0x29d,0x08d,0x397,0x02d,0x30c, // 480
-			0x197,0x0a4,0x14c,0x383,0x0a5,0x2d6,0x258,0x145,0x1f2,0x28f,0x165,0x2f0,0x300,0x0df,0x351,0x287, // 496
-			0x03f,0x136,0x35f,0x0fb,0x16e,0x130,0x11a,0x2e2,0x2a3,0x19a,0x185,0x0f4,0x01f,0x079,0x12f,0x107] // 512
-	],
-
-	/**
-	 * This is the class constructor.
-	 * Creates a PDF417 object
-	 * @param code (string) code to represent using PDF417
-	 * @param canvas (Canvas) canvas instance
-	 * @param aspectratio (float) the width to height of the symbol (excluding quiet zones); default 2
-	 * @param ecl (int) error correction level (0-8); default -1 = automatic correction level
-	 * @param devicePixelRatio (int) determine how much extra pixel density should be added to allow for a sharper image; default window.devicePixelRatio if available
-	 */
-	draw: function(code, canvas, aspectratio, ecl, devicePixelRatio) {
-		ecl = ecl || -1;
-		aspectratio = aspectratio || 2;
-		this.barcode_array = {};
-		if (code === "") {
-			return false;
-		}
-		// get the input sequence array
-		const sequence = this.getInputSequences(code);
-		let codewords = []; // array of code-words
-		for(var i=0;i<sequence.length; i++) {
-			var cw = this.getCompaction(sequence[i][0], sequence[i][1], true);
-			codewords = codewords.concat(cw);
-		}
-		if (codewords[0] == 900) {
-			// Text Alpha is the default mode, so remove the first code
-			codewords.shift();
-		}
-		// count number of codewords
-		var numcw = codewords.length;
-		if (numcw > 925) {
-			// reached maximum data codeword capacity
-			return false;
-		}
-
-		// set error correction level
-		ecl = this.getErrorCorrectionLevel(ecl, numcw);
-		// number of codewords for error correction
-		var errsize = (2 << ecl);
-		// calculate number of columns (number of codewords per row) and rows
-		var nce = (numcw + errsize + 1);
-		var cols = Math.round((Math.sqrt(4761 + (68 * aspectratio * this.ROWHEIGHT * nce)) - 69) / 34);
-		// adjust cols
-		if (cols < 1) {
-			cols = 1;
-		} else if (cols > 30) {
-			cols = 30;
-		}
-		var rows = Math.ceil(nce / cols);
-		var size = (cols * rows);
-		// adjust rows
-		if ((rows < 3) || (rows > 90)) {
-			if (rows < 3) {
-				rows = 3;
-			} else if (rows > 90) {
-				rows = 90;
-			}
-			cols = Math.ceil(size / rows);
-			size = (cols * rows);
-		}
-		if (size > 928) {
-			// set dimensions to get maximum capacity
-			if (Math.abs(aspectratio - (17 * 29 / 32)) < Math.abs(aspectratio - (17 * 16 / 58))) {
-				cols = 29;
-				rows = 32;
-			} else {
-				cols = 16;
-				rows = 58;
-			}
-			size = 928;
-		}
-		// calculate padding
-		var pad = (size - nce);
-		if (pad > 0) {
-			if ((size - rows) == nce) {
-				--rows;
-				size -= rows;
-			} else {
-				// add pading
-				codewords = codewords.concat(this._array_fill(0, pad, 900));
-			}
-		}
-
-		// Symbol Length Descriptor (number of data codewords including Symbol Length Descriptor and pad codewords)
-		var sld = size - errsize;
-		// add symbol length description
-		codewords.unshift(sld);
-		// calculate error correction
-		var ecw = this.getErrorCorrection(codewords, ecl);
-		// add error correction codewords
-		codewords = codewords.concat(ecw);
-		// add horizontal quiet zones to start and stop patterns
-		var pstart = this._str_repeat('0', this.QUIETH) + this.start_pattern;
-		var pstop = this.stop_pattern + "" + this._str_repeat('0', this.QUIETH);
-		this.barcode_array['num_rows'] = (rows * this.ROWHEIGHT) + (2 * this.QUIETV);
-		this.barcode_array['num_cols'] = ((cols + 2) * 17) + 35 + (2 * this.QUIETH);
-		this.barcode_array['bcode'] = [];
-
-		var empty_row;
-		// build rows for vertical quiet zone
-		if (this.QUIETV > 0) {
-			empty_row = this._array_fill(0, this.barcode_array['num_cols'], 0);
-			for (var i = 0; i < this.QUIETV; ++i) {
-				// add vertical quiet rows
-				this.barcode_array['bcode'].push(empty_row);
-			}
-		}
-
-		var L;
-		var k = 0; // codeword index
-		var cid = 0; // initial cluster
-		// for each row
-		for (var r = 0; r < rows; ++r) {
-			// row start code
-			var row = pstart;
-			switch (cid) {
-				case 0: {
-					L = ((30 * this._intval(r / 3)) + this._intval((rows - 1) / 3));
-					break;
-				}
-				case 1: {
-					L = ((30 * this._intval(r / 3)) + (ecl * 3) + ((rows - 1) % 3));
-					break;
-				}
-				case 2: {
-					L = ((30 * this._intval(r / 3)) + (cols - 1));
-					break;
-				}
-			}
-			// left row indicator
-			row += this._sprintf('%17b', this.clusters[cid][L]);
-			// for each column
-			for (var c = 0; c < cols; ++c) {
-				row += this._sprintf('%17b', this.clusters[cid][codewords[k]]);
-				++k;
-			}
-			switch (cid) {
-				case 0: {
-					L = ((30 * this._intval(r / 3)) + (cols - 1));
-					break;
-				}
-				case 1: {
-					L = ((30 * this._intval(r / 3)) + this._intval((rows - 1) / 3));
-					break;
-				}
-				case 2: {
-					L = ((30 * this._intval(r / 3)) + (ecl * 3) + ((rows - 1) % 3));
-					break;
-				}
-			}
-			// right row indicator
-			row += this._sprintf('%17b', this.clusters[cid][L]);
-			// row stop code
-			row += pstop;
-			// convert the string to array
-			var arow = this._preg_split('//', row, -1, 'PREG_SPLIT_NO_EMPTY');
-			// duplicate row to get the desired height
-			for (var h = 0; h < this.ROWHEIGHT; ++h) {
-				this.barcode_array['bcode'].push(arow);
-			}
-			++cid;
-			if (cid > 2) {
-				cid = 0;
-			}
-		}
-		if (this.QUIETV > 0) {
-			for (var i = 0; i < this.QUIETV; ++i) {
-				// add vertical quiet rows
-				this.barcode_array['bcode'].push(empty_row);
-			}
-		}
-
-        var barcode = this.barcode_array
-        // A canvas can appear too blurry on retina screens.
-        // Use window.devicePixelRatio to determine how much
-        // extra pixel density should be added to allow for a sharper image.
-        var retinaMultiplier = devicePixelRatio ? devicePixelRatio : typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1
-        canvas.width = barcode['num_cols'] * retinaMultiplier
-        canvas.height = barcode['num_rows'] * retinaMultiplier
-        var ctx = canvas.getContext('2d')
-        ctx.scale(retinaMultiplier,retinaMultiplier)
-
-        // graph barcode elements
-        // for each row and column
-        for (var r = 0; r < barcode['num_rows']; ++r)
-            for (var c = 0; c < barcode['num_cols']; ++c)
-                if (barcode['bcode'][r][c] == 1)
-                    ctx.fillRect(c, r, 1, 1)
-	},
-
-	getInputSequences: function(code) {
-		var sequence_array = []; // array to be returned
-		var numseq = [];
-		// get numeric sequences
-		numseq = code.match(/([0-9]{13,44})/g);
-		if (numseq == null) {
-			numseq = [];
-		} else {
-			// add offset to each matched line
-			for (var n = 0, offset = 0; n < numseq.length; n++) {
-        offset = code.indexOf(numseq[n], offset);
-      	numseq[n] = [numseq[n], offset];
-        offset += numseq[n][0].length;
-      }
-		}
-		numseq.push(['', code.length]);
-		var offset = 0;
-		for(var i=0; i<numseq.length; i++) {
-			var seq = numseq[i];
-			var seqlen = seq[0].length;
-			if (seq[1] > 0) {
-				// extract text sequence before the number sequence
-				var prevseq = code.substr(offset, (seq[1] - offset));
-				var textseq = [];
-				// get text sequences
-				textseq = prevseq.match(/([\x09\x0a\x0d\x20-\x7e]{5,})/g);
-				if (textseq == null) {
-					textseq = [];
-				} else {
-					// add offset to each matched line
-					for (var n=0;n<textseq.length;n++) {
-						var offset = prevseq.indexOf(textseq[n]);
-						textseq[n] = [textseq[n], offset];
-					}
-				}
-				textseq.push(['', prevseq.length]);
-				var txtoffset = 0;
-				for(var j=0; j<textseq.length; j++) {
-					var txtseq = textseq[j];
-					var txtseqlen = txtseq[0].length;
-					if (txtseq[1] > 0) {
-						// extract byte sequence before the text sequence
-						var prevtxtseq = prevseq.substr(txtoffset, (txtseq[1] - txtoffset));
-						if (prevtxtseq.length > 0) {
-							// add BYTE sequence
-							if ((prevtxtseq.length == 1) && (sequence_array.length > 0) && (sequence_array[sequence_array.length - 1][0] == 900)) {
-								sequence_array.push([913, prevtxtseq]);
-							} else if ((prevtxtseq.length % 6) == 0) {
-								sequence_array.push([924, prevtxtseq]);
-							} else {
-								sequence_array.push([901, prevtxtseq]);
-							}
-						}
-					}
-					if (txtseqlen > 0) {
-						// add numeric sequence
-						sequence_array.push([900, txtseq[0]]);
-					}
-					txtoffset = txtseq[1] + txtseqlen;
-				}
-			}
-			if (seqlen > 0) {
-				// add numeric sequence
-				sequence_array.push([902, seq[0]]);
-			}
-			offset = seq[1] + seqlen;
-		}
-		return sequence_array;
-	},
-
-	getCompaction: function(mode, code, addmode) {
-		addmode = addmode || true;
-		var cw = []; // array of codewords to return
-		switch(mode) {
-			case 900: { // Text Compaction mode latch
-				var submode = 0; // default Alpha sub-mode
-				var txtarr = []; // array of characters and sub-mode switching characters
-				var codelen = code.length;
-				for (var i = 0; i < codelen; ++i) {
-					var chval = this._ord(code.charAt(i));
-					var k;
-					if ((k = this._array_search(chval, this.textsubmodes[submode])) !== false) {
-						// we are on the same sub-mode
-						txtarr.push(k);
-					} else {
-						// the sub-mode is changed
-						for (var s = 0; s < 4; ++s) {
-							// search new sub-mode
-							if ((s != submode) && ((k = this._array_search(chval, this.textsubmodes[s])) !== false)) {
-								// s is the new submode
-								if ((((i + 1) == codelen) || (((i + 1) < codelen) && (this._array_search(this._ord(code.charAt(i + 1)), this.textsubmodes[submode]) !== false))) && ((s == 3) || ((s == 0) && (submode == 1)))) {
-									// shift (temporary change only for this char)
-									if (s == 3) {
-										// shift to puntuaction
-										txtarr.push(29);
-									} else {
-										// shift from lower to alpha
-										txtarr.push(27);
-									}
-								} else {
-									// latch
-									txtarr	= txtarr.concat(this.textlatch[''+submode+s]);
-									// set new submode
-									submode = s;
-								}
-								// add characted code to array
-								txtarr.push(k);
-								break;
-							}
-						}
-					}
-				}
-				var txtarrlen = txtarr.length;
-				if ((txtarrlen % 2) != 0) {
-					// add padding
-					txtarr.push(29);
-					++txtarrlen;
-				}
-				// calculate codewords
-				for (var i = 0; i < txtarrlen; i += 2) {
-					cw.push((30 * parseInt(txtarr[i])) + parseInt(txtarr[(i + 1)]));
-				}
-				break;
-			}
-			case 901:
-			case 924: { // Byte Compaction mode latch
-				var rest;
-				var sublen;
-				var codelen;
-				while ((codelen = code.length) > 0) {
-					if (codelen > 6) {
-						rest = code.substring(6);
-						code = code.substring(0, 6);
-						sublen = 6;
-					} else {
-						rest = '';
-						sublen = code.length;
-					}
-					if (sublen == 6) {
-						var t = bcmul(''+this._ord(code.charAt(0)), '1099511627776');
-						t = bcadd(t, bcmul('' + this._ord(code.charAt(1)), '4294967296'));
-						t = bcadd(t, bcmul('' + this._ord(code.charAt(2)), '16777216'));
-						t = bcadd(t, bcmul('' + this._ord(code.charAt(3)), '65536'));
-						t = bcadd(t, bcmul('' + this._ord(code.charAt(4)), '256'));
-						t = bcadd(t, '' + this._ord(code.charAt(5)));
-						// tmp array for the 6 bytes block
-						var cw6 = [];
-						do {
-							var d = this._my_bcmod(t, '900');
-							t = bcdiv(t, '900');
-							// prepend the value to the beginning of the array
-							cw6.unshift(d);
-						} while (t != '0');
-						// append the result array at the end
-						cw = cw.concat(cw6);
-					} else {
-						for (var i = 0; i < sublen; ++i) {
-							cw.push(this._ord(code.charAt(i)));
-						}
-					}
-					code = rest;
-				}
-				break;
-			}
-			case 902: { // Numeric Compaction mode latch
-				var rest;
-				var codelen;
-				while ((codelen = code.length) > 0) {
-					if (codelen > 44) {
-						rest = code.substring(44);
-						code = code.substring(0, 44);
-					} else {
-						rest = '';
-					}
-					var t = '1' + code;
-					do {
-						var d = this._my_bcmod(t, '900');
-						t = bcdiv(t, '900');
-						cw.unshift(d);
-					} while (t != '0');
-					code = rest;
-				}
-				break;
-			}
-			case 913: { // Byte Compaction mode shift
-				cw.push(this._ord(code));
-				break;
-			}
-		}
-		if (addmode) {
-			// add the compaction mode codeword at the beginning
-			cw.unshift(mode);
-		}
-		return cw;
-	},
-
-	getErrorCorrectionLevel: function(ecl, numcw) {
-		// get maximum correction level
-		var maxecl = 8; // starting error level
-		var maxerrsize = (928 - numcw); // available codewords for error
-		while (maxecl > 0) {
-			var errsize = (2 << ecl);
-			if (maxerrsize >= errsize) {
-				break;
-			}
-			--maxecl;
-		}
-		// check for automatic levels
-		if ((ecl < 0) || (ecl > 8)) {
-			if (numcw < 41) {
-				ecl = 2;
-			} else if (numcw < 161) {
-				ecl = 3;
-			} else if (numcw < 321) {
-				ecl = 4;
-			} else if (numcw < 864) {
-				ecl = 5;
-			} else {
-				ecl = maxecl;
-			}
-		}
-		if (ecl > maxecl) {
-			ecl = maxecl;
-		}
-		return ecl;
-	},
-
-	getErrorCorrection: function(cw, ecl) {
-		// get error correction coefficients
-		var ecc = this.rsfactors[ecl];
-		// number of error correction factors
-		var eclsize = (2 << ecl);
-		// maximum index for rsfactors[ecl]
-		var eclmaxid = (eclsize - 1);
-		// initialize array of error correction codewords
-		var ecw = this._array_fill(0, eclsize, 0);
-		// for each data codeword
-		for (var k=0; k<cw.length;k++) {
-			var t1 = (cw[k] + ecw[eclmaxid]) % 929;
-			for (var j = eclmaxid; j > 0; --j) {
-				var t2 = (t1 * ecc[j]) % 929;
-				var t3 = 929 - t2;
-				ecw[j] = (ecw[(j - 1)] + t3) % 929;
-			}
-			t2 = (t1 * ecc[0]) % 929;
-			t3 = 929 - t2;
-			ecw[0] = t3 % 929;
-		}
-		for (var j=0;j<ecw.length;j++) {
-			if (ecw[j] != 0) {
-				ecw[j] = 929 - ecw[j];
-			}
-		}
-		ecw = ecw.reverse();
-		return ecw;
-	},
-
-
-    /**
-     *
-     * Functions from phpjs.org
-     *
-     */
-	_array_fill: function(start_index, num, mixed_val) {
-		var key, tmp_arr = {};
-
-		if (start_index == 0) {
-			var tmpArray = [];
-			for (var i=0;i<num;i++) {
-				tmpArray.push(mixed_val);
-			}
-			return tmpArray;
-		}
-
-	  	if (!isNaN(start_index) && !isNaN(num)) {
-		    for (key = 0; key < num; key++) {
-		      tmp_arr[(key + start_index)] = mixed_val;
-		    }
-	  	}
-
-	  	return tmp_arr;
-	},
-
-	_str_repeat:function(input, multiplier) {
-		// http://kevin.vanzonneveld.net
-		// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-		// +   improved by: Jonas Raoni Soares Silva (http://www.jsfromhell.com)
-		// +   improved by: Ian Carter (http://euona.com/)
-		// *     example 1: str_repeat('-=', 10);
-		// *     returns 1: '-=-=-=-=-=-=-=-=-=-='
-		var y = '';
-		while (true) {
-			if (multiplier & 1) {
-			  y += input;
-			}
-			multiplier >>= 1;
-			if (multiplier) {
-				input += input;
-			} else {
-			  	break;
-			}
-		}
-		return y;
-	},
-
-	_intval:function(mixed_var, base) {
-		// http://kevin.vanzonneveld.net
-		// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-		// +   improved by: stensi
-		// +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-		// +   input by: Matteo
-		// +   bugfixed by: Brett Zamir (http://brett-zamir.me)
-		// +   bugfixed by: Rafał Kukawski (http://kukawski.pl)
-		// *     example 1: intval('Kevin van Zonneveld');
-		// *     returns 1: 0
-		// *     example 2: intval(4.2);
-		// *     returns 2: 4
-		// *     example 3: intval(42, 8);
-		// *     returns 3: 42
-		// *     example 4: intval('09');
-		// *     returns 4: 9
-		// *     example 5: intval('1e', 16);
-		// *     returns 5: 30
-		var tmp;
-
-		var type = typeof(mixed_var);
-
-		if (type === 'boolean') {
-			return +mixed_var;
-		} else if (type === 'string') {
-			tmp = parseInt(mixed_var, base || 10);
-			return (isNaN(tmp) || !isFinite(tmp)) ? 0 : tmp;
-		} else if (type === 'number' && isFinite(mixed_var)) {
-			return mixed_var | 0;
-		} else {
-			return 0;
-		}
-	},
-
-	_sprintf: function() {
-	  // http://kevin.vanzonneveld.net
-	  // +   original by: Ash Searle (http://hexmen.com/blog/)
-	  // + namespaced by: Michael White (http://getsprink.com)
-	  // +    tweaked by: Jack
-	  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	  // +      input by: Paulo Freitas
-	  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	  // +      input by: Brett Zamir (http://brett-zamir.me)
-	  // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	  // +   improved by: Dj
-	  // +   improved by: Allidylls
-	  // *     example 1: sprintf("%01.2f", 123.1);
-	  // *     returns 1: 123.10
-	  // *     example 2: sprintf("[%10s]", 'monkey');
-	  // *     returns 2: '[    monkey]'
-	  // *     example 3: sprintf("[%'#10s]", 'monkey');
-	  // *     returns 3: '[####monkey]'
-	  // *     example 4: sprintf("%d", 123456789012345);
-	  // *     returns 4: '123456789012345'
-	  var regex = /%%|%(\d+\$)?([-+\'#0 ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([scboxXuideEfFgG])/g;
-	  var a = arguments,
-	    i = 0,
-	    format = a[i++];
-
-	  // pad()
-	  var pad = function (str, len, chr, leftJustify) {
-	    if (!chr) {
-	      chr = ' ';
-	    }
-	    var padding = (str.length >= len) ? '' : Array(1 + len - str.length >>> 0).join(chr);
-	    return leftJustify ? str + padding : padding + str;
-	  };
-
-	  // justify()
-	  var justify = function (value, prefix, leftJustify, minWidth, zeroPad, customPadChar) {
-	    var diff = minWidth - value.length;
-	    if (diff > 0) {
-	      if (leftJustify || !zeroPad) {
-	        value = pad(value, minWidth, customPadChar, leftJustify);
-	      } else {
-	        value = value.slice(0, prefix.length) + pad('', diff, '0', true) + value.slice(prefix.length);
-	      }
-	    }
-	    return value;
-	  };
-
-	  // formatBaseX()
-	  var formatBaseX = function (value, base, prefix, leftJustify, minWidth, precision, zeroPad) {
-	    // Note: casts negative numbers to positive ones
-	    var number = value >>> 0;
-	    prefix = prefix && number && {
-	      '2': '0b',
-	      '8': '0',
-	      '16': '0x'
-	    }[base] || '';
-	    value = prefix + pad(number.toString(base), precision || 0, '0', false);
-	    return justify(value, prefix, leftJustify, minWidth, zeroPad);
-	  };
-
-	  // formatString()
-	  var formatString = function (value, leftJustify, minWidth, precision, zeroPad, customPadChar) {
-	    if (precision != null) {
-	      value = value.slice(0, precision);
-	    }
-	    return justify(value, '', leftJustify, minWidth, zeroPad, customPadChar);
-	  };
-
-	  // doFormat()
-	  var doFormat = function (substring, valueIndex, flags, minWidth, _, precision, type) {
-	    var number;
-	    var prefix;
-	    var method;
-	    var textTransform;
-	    var value;
-
-	    if (substring == '%%') {
-	      return '%';
-	    }
-
-	    // parse flags
-	    var leftJustify = false,
-	      positivePrefix = '',
-	      zeroPad = false,
-	      prefixBaseX = false,
-	      customPadChar = ' ';
-	    var flagsl = flags.length;
-	    for (var j = 0; flags && j < flagsl; j++) {
-	      switch (flags.charAt(j)) {
-	      case ' ':
-	        positivePrefix = ' ';
-	        break;
-	      case '+':
-	        positivePrefix = '+';
-	        break;
-	      case '-':
-	        leftJustify = true;
-	        break;
-	      case "'":
-	        customPadChar = flags.charAt(j + 1);
-	        break;
-	      case '0':
-	        zeroPad = true;
-	        break;
-	      case '#':
-	        prefixBaseX = true;
-	        break;
-	      }
-	    }
-
-	    // parameters may be null, undefined, empty-string or real valued
-	    // we want to ignore null, undefined and empty-string values
-	    if (!minWidth) {
-	      minWidth = 0;
-	    } else if (minWidth == '*') {
-	      minWidth = +a[i++];
-	    } else if (minWidth.charAt(0) == '*') {
-	      minWidth = +a[minWidth.slice(1, -1)];
-	    } else {
-	      minWidth = +minWidth;
-	    }
-
-	    // Note: undocumented perl feature:
-	    if (minWidth < 0) {
-	      minWidth = -minWidth;
-	      leftJustify = true;
-	    }
-
-	    if (!isFinite(minWidth)) {
-	      throw new Error('sprintf: (minimum-)width must be finite');
-	    }
-
-	    if (!precision) {
-	      precision = 'fFeE'.indexOf(type) > -1 ? 6 : (type == 'd') ? 0 : undefined;
-	    } else if (precision == '*') {
-	      precision = +a[i++];
-	    } else if (precision.charAt(0) == '*') {
-	      precision = +a[precision.slice(1, -1)];
-	    } else {
-	      precision = +precision;
-	    }
-
-	    // grab value using valueIndex if required?
-	    value = valueIndex ? a[valueIndex.slice(0, -1)] : a[i++];
-
-	    switch (type) {
-	    case 's':
-	      return formatString(String(value), leftJustify, minWidth, precision, zeroPad, customPadChar);
-	    case 'c':
-	      return formatString(String.fromCharCode(+value), leftJustify, minWidth, precision, zeroPad);
-	    case 'b':
-	      return formatBaseX(value, 2, prefixBaseX, leftJustify, minWidth, precision, zeroPad);
-	    case 'o':
-	      return formatBaseX(value, 8, prefixBaseX, leftJustify, minWidth, precision, zeroPad);
-	    case 'x':
-	      return formatBaseX(value, 16, prefixBaseX, leftJustify, minWidth, precision, zeroPad);
-	    case 'X':
-	      return formatBaseX(value, 16, prefixBaseX, leftJustify, minWidth, precision, zeroPad).toUpperCase();
-	    case 'u':
-	      return formatBaseX(value, 10, prefixBaseX, leftJustify, minWidth, precision, zeroPad);
-	    case 'i':
-	    case 'd':
-	      number = +value || 0;
-	      number = Math.round(number - number % 1); // Plain Math.round doesn't just truncate
-	      prefix = number < 0 ? '-' : positivePrefix;
-	      value = prefix + pad(String(Math.abs(number)), precision, '0', false);
-	      return justify(value, prefix, leftJustify, minWidth, zeroPad);
-	    case 'e':
-	    case 'E':
-	    case 'f': // Should handle locales (as per setlocale)
-	    case 'F':
-	    case 'g':
-	    case 'G':
-	      number = +value;
-	      prefix = number < 0 ? '-' : positivePrefix;
-	      method = ['toExponential', 'toFixed', 'toPrecision']['efg'.indexOf(type.toLowerCase())];
-	      textTransform = ['toString', 'toUpperCase']['eEfFgG'.indexOf(type) % 2];
-	      value = prefix + Math.abs(number)[method](precision);
-	      return justify(value, prefix, leftJustify, minWidth, zeroPad)[textTransform]();
-	    default:
-	      return substring;
-	    }
-	  };
-
-	  return format.replace(regex, doFormat);
-	},
-
-	_preg_split: function(pattern, subject, limit, flags) {
-	    // http://kevin.vanzonneveld.net
-	    // + original by: Marco Marchiò
-	    // * example 1: preg_split(/[\s,]+/, 'hypertext language, programming');
-	    // * returns 1: ['hypertext', 'language', 'programming']
-	    // * example 2: preg_split('//', 'string', -1, 'PREG_SPLIT_NO_EMPTY');
-	    // * returns 2: ['s', 't', 'r', 'i', 'n', 'g']
-	    // * example 3: var str = 'hypertext language programming';
-	    // * example 3: preg_split('/ /', str, -1, 'PREG_SPLIT_OFFSET_CAPTURE');
-	    // * returns 3: [['hypertext', 0], ['language', 10], ['programming', 19]]
-	    // * example 4: preg_split('/( )/', '1 2 3 4 5 6 7 8', 4, 'PREG_SPLIT_DELIM_CAPTURE');
-	    // * returns 4: ['1', ' ', '2', ' ', '3', ' ', '4 5 6 7 8']
-	    // * example 5: preg_split('/( )/', '1 2 3 4 5 6 7 8', 4, (2 | 4));
-	    // * returns 5: [['1', 0], [' ', 1], ['2', 2], [' ', 3], ['3', 4], [' ', 5], ['4 5 6 7 8', 6]]
-
-	    limit = limit || 0; flags = flags || ''; // Limit and flags are optional
-
-	    var result, ret=[], index=0, i = 0,
-	        noEmpty = false, delim = false, offset = false,
-	        OPTS = {}, optTemp = 0,
-	        regexpBody = /^\/(.*)\/\w*$/.exec(pattern.toString())[1],
-	        regexpFlags = /^\/.*\/(\w*)$/.exec(pattern.toString())[1];
-	        // Non-global regexp causes an infinite loop when executing the while,
-	        // so if it's not global, copy the regexp and add the "g" modifier.
-	        pattern = pattern.global && typeof pattern !== 'string' ? pattern :
-	            new RegExp(regexpBody, regexpFlags+(regexpFlags.indexOf('g') !==-1 ? '' :'g'));
-
-	    OPTS = {
-	        'PREG_SPLIT_NO_EMPTY': 1,
-	        'PREG_SPLIT_DELIM_CAPTURE': 2,
-	        'PREG_SPLIT_OFFSET_CAPTURE': 4
-	    };
-	    if (typeof flags !== 'number') { // Allow for a single string or an array of string flags
-	        flags = [].concat(flags);
-	        for (i=0; i < flags.length; i++) {
-	            // Resolve string input to bitwise e.g. 'PREG_SPLIT_OFFSET_CAPTURE' becomes 4
-	            if (OPTS[flags[i]]) {
-	                optTemp = optTemp | OPTS[flags[i]];
-	            }
-	        }
-	        flags = optTemp;
-	    }
-	    noEmpty = flags & OPTS.PREG_SPLIT_NO_EMPTY;
-	    delim = flags & OPTS.PREG_SPLIT_DELIM_CAPTURE;
-	    offset = flags & OPTS.PREG_SPLIT_OFFSET_CAPTURE;
-
-	    var _filter = function(str, strindex) {
-	        // If the match is empty and the PREG_SPLIT_NO_EMPTY flag is set don't add it
-	        if (noEmpty && !str.length) {return;}
-	        // If the PREG_SPLIT_OFFSET_CAPTURE flag is set
-	        // transform the match into an array and add the index at position 1
-	        if (offset) {str = [str, strindex];}
-	        ret.push(str);
-	    };
-	    // Special case for empty regexp
-	    if (!regexpBody){
-	        result=subject.split('');
-	        for (i=0; i < result.length; i++) {
-	            _filter(result[i], i);
-	        }
-	        return ret;
-	    }
-	    // Exec the pattern and get the result
-	    while (result = pattern.exec(subject)) {
-	        // Stop if the limit is 1
-	        if (limit === 1) {break;}
-	        // Take the correct portion of the string and filter the match
-	        _filter(subject.slice(index, result.index), index);
-	        index = result.index+result[0].length;
-	        // If the PREG_SPLIT_DELIM_CAPTURE flag is set, every capture match must be included in the results array
-	        if (delim) {
-	            // Convert the regexp result into a normal array
-	            var resarr = Array.prototype.slice.call(result);
-	            for (i = 1; i < resarr.length; i++) {
-	                if (result[i] !== undefined) {
-	                    _filter(result[i], result.index+result[0].indexOf(result[i]));
-	                }
-	            }
-	        }
-	        limit--;
-	    }
-	    // Filter last match
-	    _filter(subject.slice(index, subject.length), index);
-	    return ret;
-	},
-
-
-	_ord: function(string) {
-	  return string.charCodeAt(0);
-	},
-
-	_array_search: function(needle, haystack, argStrict) {
-	  // http://kevin.vanzonneveld.net
-	  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	  // +      input by: Brett Zamir (http://brett-zamir.me)
-	  // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-	  // *     example 1: array_search('zonneveld', {firstname: 'kevin', middle: 'van', surname: 'zonneveld'});
-	  // *     returns 1: 'surname'
-	  // *     example 2: ini_set('phpjs.return_phpjs_arrays', 'on');
-	  // *     example 2: var ordered_arr = array({3:'value'}, {2:'value'}, {'a':'value'}, {'b':'value'});
-	  // *     example 2: var key = array_search(/val/g, ordered_arr); // or var key = ordered_arr.search(/val/g);
-	  // *     returns 2: '3'
-
-	  var strict = !!argStrict,
-	    key = '';
-
-	  if (haystack && typeof haystack === 'object' && haystack.change_key_case) { // Duck-type check for our own array()-created PHPJS_Array
-	    return haystack.search(needle, argStrict);
-	  }
-	  if (typeof needle === 'object' && needle.exec) { // Duck-type for RegExp
-	    if (!strict) { // Let's consider case sensitive searches as strict
-	      var flags = 'i' + (needle.global ? 'g' : '') +
-	            (needle.multiline ? 'm' : '') +
-	            (needle.sticky ? 'y' : ''); // sticky is FF only
-	      needle = new RegExp(needle.source, flags);
-	    }
-	    for (key in haystack) {
-	      if (needle.test(haystack[key])) {
-	        return key;
-	      }
-	    }
-	    return false;
-	  }
-
-	  for (key in haystack) {
-	    if ((strict && haystack[key] === needle) || (!strict && haystack[key] == needle)) {
-	      return key;
-	    }
-	  }
-
-  	  return false;
-	},
-
-	_my_bcmod: function(x, y) {
-	    // how many numbers to take at once? carefull not to exceed (int)
-	    var take = 5;
-	    var mod = '';
-	    do {
-	        var a = parseInt(mod + '' + x.substring(0, take));
-	        x = x.substring(take);
-	        mod = a % y;
-	    }
-	    while ( x.length );
-
-	    return parseInt(mod);
-	}
-
+    ROWHEIGHT: 4,
+    QUIETH: 2,
+    QUIETV: 2,
+    barcode_array: {},
+    start_pattern: "11111111010101000",
+    stop_pattern: "111111101000101001",
+    textsubmodes: [[65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 32, 253, 254, 255], [97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 32, 253, 254, 255], [48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 38, 13, 9, 44, 58, 35, 45, 46, 36, 47, 43, 37, 42, 61, 94, 251, 32, 253, 254, 255], [59, 60, 62, 64, 91, 92, 93, 95, 96, 126, 33, 13, 9, 44, 58, 10, 45, 46, 36, 47, 34, 124, 42, 40, 41, 63, 123, 125, 39, 255]],
+    textlatch: {
+        "01": [27],
+        "02": [28],
+        "03": [28, 25],
+        10: [28, 28],
+        12: [28],
+        13: [28, 25],
+        20: [28],
+        21: [27],
+        23: [25],
+        30: [29],
+        31: [29, 27],
+        32: [29, 28]
+    },
+    clusters: [[120256, 125680, 128380, 120032, 125560, 128318, 108736, 119920, 108640, 86080, 108592, 86048, 110016, 120560, 125820, 109792, 120440, 125758, 88256, 109680, 88160, 89536, 110320, 120700, 89312, 110200, 120638, 89200, 110140, 89840, 110460, 89720, 110398, 89980, 128506, 119520, 125304, 128190, 107712, 119408, 125244, 107616, 119352, 84032, 107568, 119324, 84e3, 107544, 83984, 108256, 119672, 125374, 85184, 108144, 119612, 85088, 108088, 119582, 85040, 108060, 85728, 108408, 119742, 85616, 108348, 85560, 108318, 85880, 108478, 85820, 85790, 107200, 119152, 125116, 107104, 119096, 125086, 83008, 107056, 119068, 82976, 107032, 82960, 82952, 83648, 107376, 119228, 83552, 107320, 119198, 83504, 107292, 83480, 83468, 83824, 107452, 83768, 107422, 83740, 83900, 106848, 118968, 125022, 82496, 106800, 118940, 82464, 106776, 118926, 82448, 106764, 82440, 106758, 82784, 106936, 119006, 82736, 106908, 82712, 106894, 82700, 82694, 106974, 82830, 82240, 106672, 118876, 82208, 106648, 118862, 82192, 106636, 82184, 106630, 82180, 82352, 82328, 82316, 82080, 118830, 106572, 106566, 82050, 117472, 124280, 127678, 103616, 117360, 124220, 103520, 117304, 124190, 75840, 103472, 75808, 104160, 117624, 124350, 76992, 104048, 117564, 76896, 103992, 76848, 76824, 77536, 104312, 117694, 77424, 104252, 77368, 77340, 77688, 104382, 77628, 77758, 121536, 126320, 128700, 121440, 126264, 128670, 111680, 121392, 126236, 111648, 121368, 126222, 111632, 121356, 103104, 117104, 124092, 112320, 103008, 117048, 124062, 112224, 121656, 126366, 93248, 74784, 102936, 117006, 93216, 112152, 93200, 75456, 103280, 117180, 93888, 75360, 103224, 117150, 93792, 112440, 121758, 93744, 75288, 93720, 75632, 103356, 94064, 75576, 103326, 94008, 112542, 93980, 75708, 94140, 75678, 94110, 121184, 126136, 128606, 111168, 121136, 126108, 111136, 121112, 126094, 111120, 121100, 111112, 111108, 102752, 116920, 123998, 111456, 102704, 116892, 91712, 74272, 121244, 116878, 91680, 74256, 102668, 91664, 111372, 102662, 74244, 74592, 102840, 116958, 92e3, 74544, 102812, 91952, 111516, 102798, 91928, 74508, 74502, 74680, 102878, 92088, 74652, 92060, 74638, 92046, 92126, 110912, 121008, 126044, 110880, 120984, 126030, 110864, 120972, 110856, 120966, 110852, 110850, 74048, 102576, 116828, 90944, 74016, 102552, 116814, 90912, 111e3, 121038, 90896, 73992, 102534, 90888, 110982, 90884, 74160, 102620, 91056, 74136, 102606, 91032, 111054, 91020, 74118, 91014, 91100, 91086, 110752, 120920, 125998, 110736, 120908, 110728, 120902, 110724, 110722, 73888, 102488, 116782, 90528, 73872, 102476, 90512, 110796, 102470, 90504, 73860, 90500, 73858, 73944, 90584, 90572, 90566, 120876, 120870, 110658, 102444, 73800, 90312, 90308, 90306, 101056, 116080, 123580, 100960, 116024, 70720, 100912, 115996, 70688, 100888, 70672, 70664, 71360, 101232, 116156, 71264, 101176, 116126, 71216, 101148, 71192, 71180, 71536, 101308, 71480, 101278, 71452, 71612, 71582, 118112, 124600, 127838, 105024, 118064, 124572, 104992, 118040, 124558, 104976, 118028, 104968, 118022, 100704, 115896, 123486, 105312, 100656, 115868, 79424, 70176, 118172, 115854, 79392, 105240, 100620, 79376, 70152, 79368, 70496, 100792, 115934, 79712, 70448, 118238, 79664, 105372, 100750, 79640, 70412, 79628, 70584, 100830, 79800, 70556, 79772, 70542, 70622, 79838, 122176, 126640, 128860, 122144, 126616, 128846, 122128, 126604, 122120, 126598, 122116, 104768, 117936, 124508, 113472, 104736, 126684, 124494, 113440, 122264, 126670, 113424, 104712, 117894, 113416, 122246, 104706, 69952, 100528, 115804, 78656, 69920, 100504, 115790, 96064, 78624, 104856, 117966, 96032, 113560, 122318, 100486, 96016, 78600, 104838, 96008, 69890, 70064, 100572, 78768, 70040, 100558, 96176, 78744, 104910, 96152, 113614, 70022, 78726, 70108, 78812, 70094, 96220, 78798, 122016, 126552, 128814, 122e3, 126540, 121992, 126534, 121988, 121986, 104608, 117848, 124462, 113056, 104592, 126574, 113040, 122060, 117830, 113032, 104580, 113028, 104578, 113026, 69792, 100440, 115758, 78240, 69776, 100428, 95136, 78224, 104652, 100422, 95120, 113100, 69764, 95112, 78212, 69762, 78210, 69848, 100462, 78296, 69836, 95192, 78284, 69830, 95180, 78278, 69870, 95214, 121936, 126508, 121928, 126502, 121924, 121922, 104528, 117804, 112848, 104520, 117798, 112840, 121958, 112836, 104514, 112834, 69712, 100396, 78032, 69704, 100390, 94672, 78024, 104550, 94664, 112870, 69698, 94660, 78018, 94658, 78060, 94700, 94694, 126486, 121890, 117782, 104484, 104482, 69672, 77928, 94440, 69666, 77922, 99680, 68160, 99632, 68128, 99608, 115342, 68112, 99596, 68104, 99590, 68448, 99768, 115422, 68400, 99740, 68376, 99726, 68364, 68358, 68536, 99806, 68508, 68494, 68574, 101696, 116400, 123740, 101664, 116376, 101648, 116364, 101640, 116358, 101636, 67904, 99504, 115292, 72512, 67872, 116444, 115278, 72480, 101784, 116430, 72464, 67848, 99462, 72456, 101766, 67842, 68016, 99548, 72624, 67992, 99534, 72600, 101838, 72588, 67974, 68060, 72668, 68046, 72654, 118432, 124760, 127918, 118416, 124748, 118408, 124742, 118404, 118402, 101536, 116312, 105888, 101520, 116300, 105872, 118476, 116294, 105864, 101508, 105860, 101506, 105858, 67744, 99416, 72096, 67728, 116334, 80800, 72080, 101580, 99398, 80784, 105932, 67716, 80776, 72068, 67714, 72066, 67800, 99438, 72152, 67788, 80856, 72140, 67782, 80844, 72134, 67822, 72174, 80878, 126800, 128940, 126792, 128934, 126788, 126786, 118352, 124716, 122576, 126828, 124710, 122568, 126822, 122564, 118338, 122562, 101456, 116268, 105680, 101448, 116262, 114128, 105672, 118374, 114120, 122598, 101442, 114116, 105666, 114114, 67664, 99372, 71888, 67656, 99366, 80336, 71880, 101478, 97232, 80328, 105702, 67650, 97224, 114150, 71874, 97220, 67692, 71916, 67686, 80364, 71910, 97260, 80358, 97254, 126760, 128918, 126756, 126754, 118312, 124694, 122472, 126774, 122468, 118306, 122466, 101416, 116246, 105576, 101412, 113896, 105572, 101410, 113892, 105570, 113890, 67624, 99350, 71784, 101430, 80104, 71780, 67618, 96744, 80100, 71778, 96740, 80098, 96738, 71798, 96758, 126738, 122420, 122418, 105524, 113780, 113778, 71732, 79988, 96500, 96498, 66880, 66848, 98968, 66832, 66824, 66820, 66992, 66968, 66956, 66950, 67036, 67022, 1e5, 99984, 115532, 99976, 115526, 99972, 99970, 66720, 98904, 69024, 100056, 98892, 69008, 100044, 69e3, 100038, 68996, 66690, 68994, 66776, 98926, 69080, 100078, 69068, 66758, 69062, 66798, 69102, 116560, 116552, 116548, 116546, 99920, 102096, 116588, 115494, 102088, 116582, 102084, 99906, 102082, 66640, 68816, 66632, 98854, 73168, 68808, 66628, 73160, 68804, 66626, 73156, 68802, 66668, 68844, 66662, 73196, 68838, 73190, 124840, 124836, 124834, 116520, 118632, 124854, 118628, 116514, 118626, 99880, 115478, 101992, 116534, 106216, 101988, 99874, 106212, 101986, 106210, 66600, 98838, 68712, 99894, 72936, 68708, 66594, 81384, 72932, 68706, 81380, 72930, 66614, 68726, 72950, 81398, 128980, 128978, 124820, 126900, 124818, 126898, 116500, 118580, 116498, 122740, 118578, 122738, 99860, 101940, 99858, 106100, 101938, 114420], [128352, 129720, 125504, 128304, 129692, 125472, 128280, 129678, 125456, 128268, 125448, 128262, 125444, 125792, 128440, 129758, 120384, 125744, 128412, 120352, 125720, 128398, 120336, 125708, 120328, 125702, 120324, 120672, 125880, 128478, 110144, 120624, 125852, 110112, 120600, 125838, 110096, 120588, 110088, 120582, 110084, 110432, 120760, 125918, 89664, 110384, 120732, 89632, 110360, 120718, 89616, 110348, 89608, 110342, 89952, 110520, 120798, 89904, 110492, 89880, 110478, 89868, 90040, 110558, 90012, 89998, 125248, 128176, 129628, 125216, 128152, 129614, 125200, 128140, 125192, 128134, 125188, 125186, 119616, 125360, 128220, 119584, 125336, 128206, 119568, 125324, 119560, 125318, 119556, 119554, 108352, 119728, 125404, 108320, 119704, 125390, 108304, 119692, 108296, 119686, 108292, 108290, 85824, 108464, 119772, 85792, 108440, 119758, 85776, 108428, 85768, 108422, 85764, 85936, 108508, 85912, 108494, 85900, 85894, 85980, 85966, 125088, 128088, 129582, 125072, 128076, 125064, 128070, 125060, 125058, 119200, 125144, 128110, 119184, 125132, 119176, 125126, 119172, 119170, 107424, 119256, 125166, 107408, 119244, 107400, 119238, 107396, 107394, 83872, 107480, 119278, 83856, 107468, 83848, 107462, 83844, 83842, 83928, 107502, 83916, 83910, 83950, 125008, 128044, 125e3, 128038, 124996, 124994, 118992, 125036, 118984, 125030, 118980, 118978, 106960, 119020, 106952, 119014, 106948, 106946, 82896, 106988, 82888, 106982, 82884, 82882, 82924, 82918, 124968, 128022, 124964, 124962, 118888, 124982, 118884, 118882, 106728, 118902, 106724, 106722, 82408, 106742, 82404, 82402, 124948, 124946, 118836, 118834, 106612, 106610, 124224, 127664, 129372, 124192, 127640, 129358, 124176, 127628, 124168, 127622, 124164, 124162, 117568, 124336, 127708, 117536, 124312, 127694, 117520, 124300, 117512, 124294, 117508, 117506, 104256, 117680, 124380, 104224, 117656, 124366, 104208, 117644, 104200, 117638, 104196, 104194, 77632, 104368, 117724, 77600, 104344, 117710, 77584, 104332, 77576, 104326, 77572, 77744, 104412, 77720, 104398, 77708, 77702, 77788, 77774, 128672, 129880, 93168, 128656, 129868, 92664, 128648, 129862, 92412, 128644, 128642, 124064, 127576, 129326, 126368, 124048, 129902, 126352, 128716, 127558, 126344, 124036, 126340, 124034, 126338, 117152, 124120, 127598, 121760, 117136, 124108, 121744, 126412, 124102, 121736, 117124, 121732, 117122, 121730, 103328, 117208, 124142, 112544, 103312, 117196, 112528, 121804, 117190, 112520, 103300, 112516, 103298, 112514, 75680, 103384, 117230, 94112, 75664, 103372, 94096, 112588, 103366, 94088, 75652, 94084, 75650, 75736, 103406, 94168, 75724, 94156, 75718, 94150, 75758, 128592, 129836, 91640, 128584, 129830, 91388, 128580, 91262, 128578, 123984, 127532, 126160, 123976, 127526, 126152, 128614, 126148, 123970, 126146, 116944, 124012, 121296, 116936, 124006, 121288, 126182, 121284, 116930, 121282, 102864, 116972, 111568, 102856, 116966, 111560, 121318, 111556, 102850, 111554, 74704, 102892, 92112, 74696, 102886, 92104, 111590, 92100, 74690, 92098, 74732, 92140, 74726, 92134, 128552, 129814, 90876, 128548, 90750, 128546, 123944, 127510, 126056, 128566, 126052, 123938, 126050, 116840, 123958, 121064, 116836, 121060, 116834, 121058, 102632, 116854, 111080, 121078, 111076, 102626, 111074, 74216, 102646, 91112, 74212, 91108, 74210, 91106, 74230, 91126, 128532, 90494, 128530, 123924, 126004, 123922, 126002, 116788, 120948, 116786, 120946, 102516, 110836, 102514, 110834, 73972, 90612, 73970, 90610, 128522, 123914, 125978, 116762, 120890, 102458, 110714, 123552, 127320, 129198, 123536, 127308, 123528, 127302, 123524, 123522, 116128, 123608, 127342, 116112, 123596, 116104, 123590, 116100, 116098, 101280, 116184, 123630, 101264, 116172, 101256, 116166, 101252, 101250, 71584, 101336, 116206, 71568, 101324, 71560, 101318, 71556, 71554, 71640, 101358, 71628, 71622, 71662, 127824, 129452, 79352, 127816, 129446, 79100, 127812, 78974, 127810, 123472, 127276, 124624, 123464, 127270, 124616, 127846, 124612, 123458, 124610, 115920, 123500, 118224, 115912, 123494, 118216, 124646, 118212, 115906, 118210, 100816, 115948, 105424, 100808, 115942, 105416, 118246, 105412, 100802, 105410, 70608, 100844, 79824, 70600, 100838, 79816, 105446, 79812, 70594, 79810, 70636, 79852, 70630, 79846, 129960, 95728, 113404, 129956, 95480, 113278, 129954, 95356, 95294, 127784, 129430, 78588, 128872, 129974, 95996, 78462, 128868, 127778, 95870, 128866, 123432, 127254, 124520, 123428, 126696, 128886, 123426, 126692, 124514, 126690, 115816, 123446, 117992, 115812, 122344, 117988, 115810, 122340, 117986, 122338, 100584, 115830, 104936, 100580, 113640, 104932, 100578, 113636, 104930, 113634, 70120, 100598, 78824, 70116, 96232, 78820, 70114, 96228, 78818, 96226, 70134, 78838, 129940, 94968, 113022, 129938, 94844, 94782, 127764, 78206, 128820, 127762, 95102, 128818, 123412, 124468, 123410, 126580, 124466, 126578, 115764, 117876, 115762, 122100, 117874, 122098, 100468, 104692, 100466, 113140, 104690, 113138, 69876, 78324, 69874, 95220, 78322, 95218, 129930, 94588, 94526, 127754, 128794, 123402, 124442, 126522, 115738, 117818, 121978, 100410, 104570, 112890, 69754, 78074, 94714, 94398, 123216, 127148, 123208, 127142, 123204, 123202, 115408, 123244, 115400, 123238, 115396, 115394, 99792, 115436, 99784, 115430, 99780, 99778, 68560, 99820, 68552, 99814, 68548, 68546, 68588, 68582, 127400, 129238, 72444, 127396, 72318, 127394, 123176, 127126, 123752, 123172, 123748, 123170, 123746, 115304, 123190, 116456, 115300, 116452, 115298, 116450, 99560, 115318, 101864, 99556, 101860, 99554, 101858, 68072, 99574, 72680, 68068, 72676, 68066, 72674, 68086, 72694, 129492, 80632, 105854, 129490, 80508, 80446, 127380, 72062, 127924, 127378, 80766, 127922, 123156, 123700, 123154, 124788, 123698, 124786, 115252, 116340, 115250, 118516, 116338, 118514, 99444, 101620, 99442, 105972, 101618, 105970, 67828, 72180, 67826, 80884, 72178, 80882, 97008, 114044, 96888, 113982, 96828, 96798, 129482, 80252, 130010, 97148, 80190, 97086, 127370, 127898, 128954, 123146, 123674, 124730, 126842, 115226, 116282, 118394, 122618, 99386, 101498, 105722, 114170, 67706, 71930, 80378, 96632, 113854, 96572, 96542, 80062, 96702, 96444, 96414, 96350, 123048, 123044, 123042, 115048, 123062, 115044, 115042, 99048, 115062, 99044, 99042, 67048, 99062, 67044, 67042, 67062, 127188, 68990, 127186, 123028, 123316, 123026, 123314, 114996, 115572, 114994, 115570, 98932, 100084, 98930, 100082, 66804, 69108, 66802, 69106, 129258, 73084, 73022, 127178, 127450, 123018, 123290, 123834, 114970, 115514, 116602, 98874, 99962, 102138, 66682, 68858, 73210, 81272, 106174, 81212, 81182, 72894, 81342, 97648, 114364, 97592, 114334, 97564, 97550, 81084, 97724, 81054, 97694, 97464, 114270, 97436, 97422, 80990, 97502, 97372, 97358, 97326, 114868, 114866, 98676, 98674, 66292, 66290, 123098, 114842, 115130, 98618, 99194, 66170, 67322, 69310, 73404, 73374, 81592, 106334, 81564, 81550, 73310, 81630, 97968, 114524, 97944, 114510, 97932, 97926, 81500, 98012, 81486, 97998, 97880, 114478, 97868, 97862, 81454, 97902, 97836, 97830, 69470, 73564, 73550, 81752, 106414, 81740, 81734, 73518, 81774, 81708, 81702], [109536, 120312, 86976, 109040, 120060, 86496, 108792, 119934, 86256, 108668, 86136, 129744, 89056, 110072, 129736, 88560, 109820, 129732, 88312, 109694, 129730, 88188, 128464, 129772, 89592, 128456, 129766, 89340, 128452, 89214, 128450, 125904, 128492, 125896, 128486, 125892, 125890, 120784, 125932, 120776, 125926, 120772, 120770, 110544, 120812, 110536, 120806, 110532, 84928, 108016, 119548, 84448, 107768, 119422, 84208, 107644, 84088, 107582, 84028, 129640, 85488, 108284, 129636, 85240, 108158, 129634, 85116, 85054, 128232, 129654, 85756, 128228, 85630, 128226, 125416, 128246, 125412, 125410, 119784, 125430, 119780, 119778, 108520, 119798, 108516, 108514, 83424, 107256, 119166, 83184, 107132, 83064, 107070, 83004, 82974, 129588, 83704, 107390, 129586, 83580, 83518, 128116, 83838, 128114, 125172, 125170, 119284, 119282, 107508, 107506, 82672, 106876, 82552, 106814, 82492, 82462, 129562, 82812, 82750, 128058, 125050, 119034, 82296, 106686, 82236, 82206, 82366, 82108, 82078, 76736, 103920, 117500, 76256, 103672, 117374, 76016, 103548, 75896, 103486, 75836, 129384, 77296, 104188, 129380, 77048, 104062, 129378, 76924, 76862, 127720, 129398, 77564, 127716, 77438, 127714, 124392, 127734, 124388, 124386, 117736, 124406, 117732, 117730, 104424, 117750, 104420, 104418, 112096, 121592, 126334, 92608, 111856, 121468, 92384, 111736, 121406, 92272, 111676, 92216, 111646, 92188, 75232, 103160, 117118, 93664, 74992, 103036, 93424, 112252, 102974, 93304, 74812, 93244, 74782, 93214, 129332, 75512, 103294, 129908, 129330, 93944, 75388, 129906, 93820, 75326, 93758, 127604, 75646, 128756, 127602, 94078, 128754, 124148, 126452, 124146, 126450, 117236, 121844, 117234, 121842, 103412, 103410, 91584, 111344, 121212, 91360, 111224, 121150, 91248, 111164, 91192, 111134, 91164, 91150, 74480, 102780, 91888, 74360, 102718, 91768, 111422, 91708, 74270, 91678, 129306, 74620, 129850, 92028, 74558, 91966, 127546, 128634, 124026, 126202, 116986, 121338, 102906, 90848, 110968, 121022, 90736, 110908, 90680, 110878, 90652, 90638, 74104, 102590, 91e3, 74044, 90940, 74014, 90910, 74174, 91070, 90480, 110780, 90424, 110750, 90396, 90382, 73916, 90556, 73886, 90526, 90296, 110686, 90268, 90254, 73822, 90334, 90204, 90190, 71136, 101112, 116094, 70896, 100988, 70776, 100926, 70716, 70686, 129204, 71416, 101246, 129202, 71292, 71230, 127348, 71550, 127346, 123636, 123634, 116212, 116210, 101364, 101362, 79296, 105200, 118140, 79072, 105080, 118078, 78960, 105020, 78904, 104990, 78876, 78862, 70384, 100732, 79600, 70264, 100670, 79480, 105278, 79420, 70174, 79390, 129178, 70524, 129466, 79740, 70462, 79678, 127290, 127866, 123514, 124666, 115962, 118266, 100858, 113376, 122232, 126654, 95424, 113264, 122172, 95328, 113208, 122142, 95280, 113180, 95256, 113166, 95244, 78560, 104824, 117950, 95968, 78448, 104764, 95856, 113468, 104734, 95800, 78364, 95772, 78350, 95758, 70008, 100542, 78712, 69948, 96120, 78652, 69918, 96060, 78622, 96030, 70078, 78782, 96190, 94912, 113008, 122044, 94816, 112952, 122014, 94768, 112924, 94744, 112910, 94732, 94726, 78192, 104636, 95088, 78136, 104606, 95032, 113054, 95004, 78094, 94990, 69820, 78268, 69790, 95164, 78238, 95134, 94560, 112824, 121950, 94512, 112796, 94488, 112782, 94476, 94470, 78008, 104542, 94648, 77980, 94620, 77966, 94606, 69726, 78046, 94686, 94384, 112732, 94360, 112718, 94348, 94342, 77916, 94428, 77902, 94414, 94296, 112686, 94284, 94278, 77870, 94318, 94252, 94246, 68336, 99708, 68216, 99646, 68156, 68126, 68476, 68414, 127162, 123258, 115450, 99834, 72416, 101752, 116414, 72304, 101692, 72248, 101662, 72220, 72206, 67960, 99518, 72568, 67900, 72508, 67870, 72478, 68030, 72638, 80576, 105840, 118460, 80480, 105784, 118430, 80432, 105756, 80408, 105742, 80396, 80390, 72048, 101564, 80752, 71992, 101534, 80696, 71964, 80668, 71950, 80654, 67772, 72124, 67742, 80828, 72094, 80798, 114016, 122552, 126814, 96832, 113968, 122524, 96800, 113944, 122510, 96784, 113932, 96776, 113926, 96772, 80224, 105656, 118366, 97120, 80176, 105628, 97072, 114076, 105614, 97048, 80140, 97036, 80134, 97030, 71864, 101470, 80312, 71836, 97208, 80284, 71822, 97180, 80270, 97166, 67678, 71902, 80350, 97246, 96576, 113840, 122460, 96544, 113816, 122446, 96528, 113804, 96520, 113798, 96516, 96514, 80048, 105564, 96688, 80024, 105550, 96664, 113870, 96652, 80006, 96646, 71772, 80092, 71758, 96732, 80078, 96718, 96416, 113752, 122414, 96400, 113740, 96392, 113734, 96388, 96386, 79960, 105518, 96472, 79948, 96460, 79942, 96454, 71726, 79982, 96494, 96336, 113708, 96328, 113702, 96324, 96322, 79916, 96364, 79910, 96358, 96296, 113686, 96292, 96290, 79894, 96310, 66936, 99006, 66876, 66846, 67006, 68976, 100028, 68920, 99998, 68892, 68878, 66748, 69052, 66718, 69022, 73056, 102072, 116574, 73008, 102044, 72984, 102030, 72972, 72966, 68792, 99934, 73144, 68764, 73116, 68750, 73102, 66654, 68830, 73182, 81216, 106160, 118620, 81184, 106136, 118606, 81168, 106124, 81160, 106118, 81156, 81154, 72880, 101980, 81328, 72856, 101966, 81304, 106190, 81292, 72838, 81286, 68700, 72924, 68686, 81372, 72910, 81358, 114336, 122712, 126894, 114320, 122700, 114312, 122694, 114308, 114306, 81056, 106072, 118574, 97696, 81040, 106060, 97680, 114380, 106054, 97672, 81028, 97668, 81026, 97666, 72792, 101934, 81112, 72780, 97752, 81100, 72774, 97740, 81094, 97734, 68654, 72814, 81134, 97774, 114256, 122668, 114248, 122662, 114244, 114242, 80976, 106028, 97488, 80968, 106022, 97480, 114278, 97476, 80962, 97474, 72748, 81004, 72742, 97516, 80998, 97510, 114216, 122646, 114212, 114210, 80936, 106006, 97384, 80932, 97380, 80930, 97378, 72726, 80950, 97398, 114196, 114194, 80916, 97332, 80914, 97330, 66236, 66206, 67256, 99166, 67228, 67214, 66142, 67294, 69296, 100188, 69272, 100174, 69260, 69254, 67164, 69340, 67150, 69326, 73376, 102232, 116654, 73360, 102220, 73352, 102214, 73348, 73346, 69208, 100142, 73432, 102254, 73420, 69190, 73414, 67118, 69230, 73454, 106320, 118700, 106312, 118694, 106308, 106306, 73296, 102188, 81616, 106348, 102182, 81608, 73284, 81604, 73282, 81602, 69164, 73324, 69158, 81644, 73318, 81638, 122792, 126934, 122788, 122786, 106280, 118678, 114536, 106276, 114532, 106274, 114530, 73256, 102166, 81512, 73252, 98024, 81508, 73250, 98020, 81506, 98018, 69142, 73270, 81526, 98038, 122772, 122770, 106260, 114484, 106258, 114482, 73236, 81460, 73234, 97908, 81458, 97906, 122762, 106250, 114458, 73226, 81434, 97850, 66396, 66382, 67416, 99246, 67404, 67398, 66350, 67438, 69456, 100268, 69448, 100262, 69444, 69442, 67372, 69484, 67366, 69478, 102312, 116694, 102308, 102306, 69416, 100246, 73576, 102326, 73572, 69410, 73570, 67350, 69430, 73590, 118740, 118738, 102292, 106420, 102290, 106418, 69396, 73524, 69394, 81780, 73522, 81778, 118730, 102282, 106394, 69386, 73498, 81722, 66476, 66470, 67496, 99286, 67492, 67490, 66454, 67510, 100308, 100306, 67476, 69556, 67474, 69554, 116714]],
+    rsfactors: [[27, 917], [522, 568, 723, 809], [237, 308, 436, 284, 646, 653, 428, 379], [274, 562, 232, 755, 599, 524, 801, 132, 295, 116, 442, 428, 295, 42, 176, 65], [361, 575, 922, 525, 176, 586, 640, 321, 536, 742, 677, 742, 687, 284, 193, 517, 273, 494, 263, 147, 593, 800, 571, 320, 803, 133, 231, 390, 685, 330, 63, 410], [539, 422, 6, 93, 862, 771, 453, 106, 610, 287, 107, 505, 733, 877, 381, 612, 723, 476, 462, 172, 430, 609, 858, 822, 543, 376, 511, 400, 672, 762, 283, 184, 440, 35, 519, 31, 460, 594, 225, 535, 517, 352, 605, 158, 651, 201, 488, 502, 648, 733, 717, 83, 404, 97, 280, 771, 840, 629, 4, 381, 843, 623, 264, 543], [521, 310, 864, 547, 858, 580, 296, 379, 53, 779, 897, 444, 400, 925, 749, 415, 822, 93, 217, 208, 928, 244, 583, 620, 246, 148, 447, 631, 292, 908, 490, 704, 516, 258, 457, 907, 594, 723, 674, 292, 272, 96, 684, 432, 686, 606, 860, 569, 193, 219, 129, 186, 236, 287, 192, 775, 278, 173, 40, 379, 712, 463, 646, 776, 171, 491, 297, 763, 156, 732, 95, 270, 447, 90, 507, 48, 228, 821, 808, 898, 784, 663, 627, 378, 382, 262, 380, 602, 754, 336, 89, 614, 87, 432, 670, 616, 157, 374, 242, 726, 600, 269, 375, 898, 845, 454, 354, 130, 814, 587, 804, 34, 211, 330, 539, 297, 827, 865, 37, 517, 834, 315, 550, 86, 801, 4, 108, 539], [524, 894, 75, 766, 882, 857, 74, 204, 82, 586, 708, 250, 905, 786, 138, 720, 858, 194, 311, 913, 275, 190, 375, 850, 438, 733, 194, 280, 201, 280, 828, 757, 710, 814, 919, 89, 68, 569, 11, 204, 796, 605, 540, 913, 801, 700, 799, 137, 439, 418, 592, 668, 353, 859, 370, 694, 325, 240, 216, 257, 284, 549, 209, 884, 315, 70, 329, 793, 490, 274, 877, 162, 749, 812, 684, 461, 334, 376, 849, 521, 307, 291, 803, 712, 19, 358, 399, 908, 103, 511, 51, 8, 517, 225, 289, 470, 637, 731, 66, 255, 917, 269, 463, 830, 730, 433, 848, 585, 136, 538, 906, 90, 2, 290, 743, 199, 655, 903, 329, 49, 802, 580, 355, 588, 188, 462, 10, 134, 628, 320, 479, 130, 739, 71, 263, 318, 374, 601, 192, 605, 142, 673, 687, 234, 722, 384, 177, 752, 607, 640, 455, 193, 689, 707, 805, 641, 48, 60, 732, 621, 895, 544, 261, 852, 655, 309, 697, 755, 756, 60, 231, 773, 434, 421, 726, 528, 503, 118, 49, 795, 32, 144, 500, 238, 836, 394, 280, 566, 319, 9, 647, 550, 73, 914, 342, 126, 32, 681, 331, 792, 620, 60, 609, 441, 180, 791, 893, 754, 605, 383, 228, 749, 760, 213, 54, 297, 134, 54, 834, 299, 922, 191, 910, 532, 609, 829, 189, 20, 167, 29, 872, 449, 83, 402, 41, 656, 505, 579, 481, 173, 404, 251, 688, 95, 497, 555, 642, 543, 307, 159, 924, 558, 648, 55, 497, 10], [352, 77, 373, 504, 35, 599, 428, 207, 409, 574, 118, 498, 285, 380, 350, 492, 197, 265, 920, 155, 914, 299, 229, 643, 294, 871, 306, 88, 87, 193, 352, 781, 846, 75, 327, 520, 435, 543, 203, 666, 249, 346, 781, 621, 640, 268, 794, 534, 539, 781, 408, 390, 644, 102, 476, 499, 290, 632, 545, 37, 858, 916, 552, 41, 542, 289, 122, 272, 383, 800, 485, 98, 752, 472, 761, 107, 784, 860, 658, 741, 290, 204, 681, 407, 855, 85, 99, 62, 482, 180, 20, 297, 451, 593, 913, 142, 808, 684, 287, 536, 561, 76, 653, 899, 729, 567, 744, 390, 513, 192, 516, 258, 240, 518, 794, 395, 768, 848, 51, 610, 384, 168, 190, 826, 328, 596, 786, 303, 570, 381, 415, 641, 156, 237, 151, 429, 531, 207, 676, 710, 89, 168, 304, 402, 40, 708, 575, 162, 864, 229, 65, 861, 841, 512, 164, 477, 221, 92, 358, 785, 288, 357, 850, 836, 827, 736, 707, 94, 8, 494, 114, 521, 2, 499, 851, 543, 152, 729, 771, 95, 248, 361, 578, 323, 856, 797, 289, 51, 684, 466, 533, 820, 669, 45, 902, 452, 167, 342, 244, 173, 35, 463, 651, 51, 699, 591, 452, 578, 37, 124, 298, 332, 552, 43, 427, 119, 662, 777, 475, 850, 764, 364, 578, 911, 283, 711, 472, 420, 245, 288, 594, 394, 511, 327, 589, 777, 699, 688, 43, 408, 842, 383, 721, 521, 560, 644, 714, 559, 62, 145, 873, 663, 713, 159, 672, 729, 624, 59, 193, 417, 158, 209, 563, 564, 343, 693, 109, 608, 563, 365, 181, 772, 677, 310, 248, 353, 708, 410, 579, 870, 617, 841, 632, 860, 289, 536, 35, 777, 618, 586, 424, 833, 77, 597, 346, 269, 757, 632, 695, 751, 331, 247, 184, 45, 787, 680, 18, 66, 407, 369, 54, 492, 228, 613, 830, 922, 437, 519, 644, 905, 789, 420, 305, 441, 207, 300, 892, 827, 141, 537, 381, 662, 513, 56, 252, 341, 242, 797, 838, 837, 720, 224, 307, 631, 61, 87, 560, 310, 756, 665, 397, 808, 851, 309, 473, 795, 378, 31, 647, 915, 459, 806, 590, 731, 425, 216, 548, 249, 321, 881, 699, 535, 673, 782, 210, 815, 905, 303, 843, 922, 281, 73, 469, 791, 660, 162, 498, 308, 155, 422, 907, 817, 187, 62, 16, 425, 535, 336, 286, 437, 375, 273, 610, 296, 183, 923, 116, 667, 751, 353, 62, 366, 691, 379, 687, 842, 37, 357, 720, 742, 330, 5, 39, 923, 311, 424, 242, 749, 321, 54, 669, 316, 342, 299, 534, 105, 667, 488, 640, 672, 576, 540, 316, 486, 721, 610, 46, 656, 447, 171, 616, 464, 190, 531, 297, 321, 762, 752, 533, 175, 134, 14, 381, 433, 717, 45, 111, 20, 596, 284, 736, 138, 646, 411, 877, 669, 141, 919, 45, 780, 407, 164, 332, 899, 165, 726, 600, 325, 498, 655, 357, 752, 768, 223, 849, 647, 63, 310, 863, 251, 366, 304, 282, 738, 675, 410, 389, 244, 31, 121, 303, 263]],
+    init: function (r, t, e) {
+        if (r = unescape(encodeURIComponent(r)),
+            t = t || -1,
+            e = e || 2,
+            this.barcode_array = {},
+            "" === r)
+            return !1;
+        sequence = this.getInputSequences(r),
+            codewords = [];
+        for (var a = 0; a < sequence.length; a++) {
+            var s = this.getCompaction(sequence[a][0], sequence[a][1], !0);
+            codewords = codewords.concat(s)
+        }
+        900 == codewords[0] && codewords.shift();
+        var i = codewords.length;
+        if (i > 925)
+            return !1;
+        t = this.getErrorCorrectionLevel(t, i);
+        var n = 2 << t
+            , c = i + n + 1
+            , o = Math.round((Math.sqrt(4761 + 68 * e * this.ROWHEIGHT * c) - 69) / 34);
+        1 > o ? o = 1 : o > 30 && (o = 30);
+        var h = Math.ceil(c / o)
+            , u = o * h;
+        (3 > h || h > 90) && (3 > h ? h = 3 : h > 90 && (h = 90),
+            o = Math.ceil(u / h),
+            u = o * h),
+            u > 928 && (Math.abs(e - 493 / 32) < Math.abs(e - 272 / 58) ? (o = 29,
+                h = 32) : (o = 16,
+                    h = 58),
+                u = 928);
+        var f = u - c;
+        f > 0 && (u - h == c ? (--h,
+            u -= h) : codewords = codewords.concat(this._array_fill(0, f, 900)));
+        var l = u - n;
+        codewords.unshift(l);
+        var d = this.getErrorCorrection(codewords, t);
+        codewords = codewords.concat(d);
+        var _ = this._str_repeat("0", this.QUIETH) + this.start_pattern
+            , v = this.stop_pattern + "" + this._str_repeat("0", this.QUIETH);
+        this.barcode_array.num_rows = h * this.ROWHEIGHT + 2 * this.QUIETV,
+            this.barcode_array.num_cols = 17 * (o + 2) + 35 + 2 * this.QUIETH,
+            this.barcode_array.bcode = [];
+        var g;
+        if (this.QUIETV > 0) {
+            g = this._array_fill(0, this.barcode_array.num_cols, 0);
+            for (var a = 0; a < this.QUIETV; ++a)
+                this.barcode_array.bcode.push(g)
+        }
+        for (var b, p = 0, E = 0, m = 0; h > m; ++m) {
+            var y = _;
+            switch (E) {
+                case 0:
+                    b = 30 * this._intval(m / 3) + this._intval((h - 1) / 3);
+                    break;
+                case 1:
+                    b = 30 * this._intval(m / 3) + 3 * t + (h - 1) % 3;
+                    break;
+                case 2:
+                    b = 30 * this._intval(m / 3) + (o - 1)
+            }
+            y += this._sprintf("%17b", this.clusters[E][b]);
+            for (var x = 0; o > x; ++x)
+                y += this._sprintf("%17b", this.clusters[E][codewords[p]]),
+                    ++p;
+            switch (E) {
+                case 0:
+                    b = 30 * this._intval(m / 3) + (o - 1);
+                    break;
+                case 1:
+                    b = 30 * this._intval(m / 3) + this._intval((h - 1) / 3);
+                    break;
+                case 2:
+                    b = 30 * this._intval(m / 3) + 3 * t + (h - 1) % 3
+            }
+            y += this._sprintf("%17b", this.clusters[E][b]),
+                y += v;
+            for (var I = this._preg_split("//", y, -1, "PREG_SPLIT_NO_EMPTY"), w = 0; w < this.ROWHEIGHT; ++w)
+                this.barcode_array.bcode.push(I);
+            ++E,
+                E > 2 && (E = 0)
+        }
+        if (this.QUIETV > 0)
+            for (var a = 0; a < this.QUIETV; ++a)
+                this.barcode_array.bcode.push(g)
+    },
+    getInputSequences: function (r) {
+        var t = []
+            , e = [];
+        if (e = r.match(/([0-9]{13,44})/g),
+            null == e)
+            e = [];
+        else
+            for (var a = 0, s = 0; a < e.length; a++)
+                s = r.indexOf(e[a], s),
+                    e[a] = [e[a], s],
+                    s += e[a][0].length;
+        e.push(["", r.length]);
+        for (var s = 0, i = 0; i < e.length; i++) {
+            var n = e[i]
+                , c = n[0].length;
+            if (n[1] > 0) {
+                var o = r.substr(s, n[1] - s)
+                    , h = [];
+                if (h = o.match(/([\x09\x0a\x0d\x20-\x7e]{5,})/g),
+                    null == h)
+                    h = [];
+                else
+                    for (var a = 0; a < h.length; a++) {
+                        var s = o.indexOf(h[a]);
+                        h[a] = [h[a], s]
+                    }
+                h.push(["", o.length]);
+                for (var u = 0, f = 0; f < h.length; f++) {
+                    var l = h[f]
+                        , d = l[0].length;
+                    if (l[1] > 0) {
+                        var _ = o.substr(u, l[1] - u);
+                        _.length > 0 && (1 == _.length && t.length > 0 && 900 == t[t.length - 1][0] ? t.push([913, _]) : _.length % 6 == 0 ? t.push([924, _]) : t.push([901, _]))
+                    }
+                    d > 0 && t.push([900, l[0]]),
+                        u = l[1] + d
+                }
+            }
+            c > 0 && t.push([902, n[0]]),
+                s = n[1] + c
+        }
+        return t
+    },
+    getCompaction: function (r, t, e) {
+        e = e || !0;
+        var a = [];
+        switch (r) {
+            case 900:
+                for (var s = 0, i = [], n = t.length, c = 0; n > c; ++c) {
+                    var o, h = this._ord(t.charAt(c));
+                    if ((o = this._array_search(h, this.textsubmodes[s])) !== !1)
+                        i.push(o);
+                    else
+                        for (var u = 0; 4 > u; ++u)
+                            if (u != s && (o = this._array_search(h, this.textsubmodes[u])) !== !1) {
+                                (c + 1 == n || n > c + 1 && this._array_search(this._ord(t.charAt(c + 1)), this.textsubmodes[s]) !== !1) && (3 == u || 0 == u && 1 == s) ? 3 == u ? i.push(29) : i.push(27) : (i = i.concat(this.textlatch["" + s + u]),
+                                    s = u),
+                                    i.push(o);
+                                break
+                            }
+                }
+                var f = i.length;
+                f % 2 != 0 && (i.push(29),
+                    ++f);
+                for (var c = 0; f > c; c += 2)
+                    a.push(30 * parseInt(i[c]) + parseInt(i[c + 1]));
+                break;
+            case 901:
+            case 924:
+                for (var l, d, n; (n = t.length) > 0;) {
+                    if (n > 6 ? (l = t.substring(6),
+                        t = t.substring(0, 6),
+                        d = 6) : (l = "",
+                            d = t.length),
+                        6 == d) {
+                        var _ = bcmul("" + this._ord(t.charAt(0)), "1099511627776");
+                        _ = bcadd(_, bcmul("" + this._ord(t.charAt(1)), "4294967296")),
+                            _ = bcadd(_, bcmul("" + this._ord(t.charAt(2)), "16777216")),
+                            _ = bcadd(_, bcmul("" + this._ord(t.charAt(3)), "65536")),
+                            _ = bcadd(_, bcmul("" + this._ord(t.charAt(4)), "256")),
+                            _ = bcadd(_, "" + this._ord(t.charAt(5)));
+                        var v = [];
+                        do {
+                            var g = this._my_bcmod(_, "900");
+                            _ = bcdiv(_, "900"),
+                                v.unshift(g)
+                        } while ("0" != _);
+                        a = a.concat(v)
+                    } else
+                        for (var c = 0; d > c; ++c)
+                            a.push(this._ord(t.charAt(c)));
+                    t = l
+                }
+                break;
+            case 902:
+                for (var l, n; (n = t.length) > 0;) {
+                    n > 44 ? (l = t.substring(44),
+                        t = t.substring(0, 44)) : l = "";
+                    var _ = "1" + t;
+                    do {
+                        var g = this._my_bcmod(_, "900");
+                        _ = bcdiv(_, "900"),
+                            a.unshift(g)
+                    } while ("0" != _);
+                    t = l
+                }
+                break;
+            case 913:
+                a.push(this._ord(t))
+        }
+        return e && a.unshift(r),
+            a
+    },
+    getErrorCorrectionLevel: function (r, t) {
+        for (var e = 8, a = 928 - t; e > 0;) {
+            var s = 2 << r;
+            if (a >= s)
+                break;
+            --e
+        }
+        return (0 > r || r > 8) && (r = 41 > t ? 2 : 161 > t ? 3 : 321 > t ? 4 : 864 > t ? 5 : e),
+            r > e && (r = e),
+            r
+    },
+    getErrorCorrection: function (r, t) {
+        for (var e = this.rsfactors[t], a = 2 << t, s = a - 1, i = this._array_fill(0, a, 0), n = 0; n < r.length; n++) {
+            for (var c = (r[n] + i[s]) % 929, o = s; o > 0; --o) {
+                var h = c * e[o] % 929
+                    , u = 929 - h;
+                i[o] = (i[o - 1] + u) % 929
+            }
+            h = c * e[0] % 929,
+                u = 929 - h,
+                i[0] = u % 929
+        }
+        for (var o = 0; o < i.length; o++)
+            0 != i[o] && (i[o] = 929 - i[o]);
+        return i = i.reverse()
+    },
+    getBarcodeArray: function () {
+        return this.barcode_array
+    },
+    _array_fill: function (r, t, e) {
+        var a, s = {};
+        if (0 == r) {
+            for (var i = [], n = 0; t > n; n++)
+                i.push(e);
+            return i
+        }
+        if (!isNaN(r) && !isNaN(t))
+            for (a = 0; t > a; a++)
+                s[a + r] = e;
+        return s
+    },
+    _str_repeat: function (r, t) {
+        for (var e = ""; ;) {
+            if (1 & t && (e += r),
+                t >>= 1,
+                !t)
+                break;
+            r += r
+        }
+        return e
+    },
+    _intval: function (r, t) {
+        var e, a = typeof r;
+        return "boolean" === a ? +r : "string" === a ? (e = parseInt(r, t || 10),
+            isNaN(e) || !isFinite(e) ? 0 : e) : "number" === a && isFinite(r) ? 0 | r : 0
+    },
+    _sprintf: function () {
+        var r = /%%|%(\d+\$)?([-+\'#0 ]*)(\*\d+\$|\*|\d+)?(\.(\*\d+\$|\*|\d+))?([scboxXuideEfFgG])/g
+            , t = arguments
+            , e = 0
+            , a = t[e++]
+            , s = function (r, t, e, a) {
+                e || (e = " ");
+                var s = r.length >= t ? "" : Array(1 + t - r.length >>> 0).join(e);
+                return a ? r + s : s + r
+            }
+            , i = function (r, t, e, a, i, n) {
+                var c = a - r.length;
+                return c > 0 && (r = e || !i ? s(r, a, n, e) : r.slice(0, t.length) + s("", c, "0", !0) + r.slice(t.length)),
+                    r
+            }
+            , n = function (r, t, e, a, n, c, o) {
+                var h = r >>> 0;
+                return e = e && h && {
+                    2: "0b",
+                    8: "0",
+                    16: "0x"
+                }[t] || "",
+                    r = e + s(h.toString(t), c || 0, "0", !1),
+                    i(r, e, a, n, o)
+            }
+            , c = function (r, t, e, a, s, n) {
+                return null != a && (r = r.slice(0, a)),
+                    i(r, "", t, e, s, n)
+            }
+            , o = function (r, a, o, h, u, f, l) {
+                var d, _, v, g, b;
+                if ("%%" == r)
+                    return "%";
+                for (var p = !1, E = "", m = !1, y = !1, x = " ", I = o.length, w = 0; o && I > w; w++)
+                    switch (o.charAt(w)) {
+                        case " ":
+                            E = " ";
+                            break;
+                        case "+":
+                            E = "+";
+                            break;
+                        case "-":
+                            p = !0;
+                            break;
+                        case "'":
+                            x = o.charAt(w + 1);
+                            break;
+                        case "0":
+                            m = !0;
+                            break;
+                        case "#":
+                            y = !0
+                    }
+                if (h = h ? "*" == h ? +t[e++] : "*" == h.charAt(0) ? +t[h.slice(1, -1)] : +h : 0,
+                    0 > h && (h = -h,
+                        p = !0),
+                    !isFinite(h))
+                    throw new Error("sprintf: (minimum-)width must be finite");
+                switch (f = f ? "*" == f ? +t[e++] : "*" == f.charAt(0) ? +t[f.slice(1, -1)] : +f : "fFeE".indexOf(l) > -1 ? 6 : "d" == l ? 0 : void 0,
+                b = a ? t[a.slice(0, -1)] : t[e++],
+                l) {
+                    case "s":
+                        return c(String(b), p, h, f, m, x);
+                    case "c":
+                        return c(String.fromCharCode(+b), p, h, f, m);
+                    case "b":
+                        return n(b, 2, y, p, h, f, m);
+                    case "o":
+                        return n(b, 8, y, p, h, f, m);
+                    case "x":
+                        return n(b, 16, y, p, h, f, m);
+                    case "X":
+                        return n(b, 16, y, p, h, f, m).toUpperCase();
+                    case "u":
+                        return n(b, 10, y, p, h, f, m);
+                    case "i":
+                    case "d":
+                        return d = +b || 0,
+                            d = Math.round(d - d % 1),
+                            _ = 0 > d ? "-" : E,
+                            b = _ + s(String(Math.abs(d)), f, "0", !1),
+                            i(b, _, p, h, m);
+                    case "e":
+                    case "E":
+                    case "f":
+                    case "F":
+                    case "g":
+                    case "G":
+                        return d = +b,
+                            _ = 0 > d ? "-" : E,
+                            v = ["toExponential", "toFixed", "toPrecision"]["efg".indexOf(l.toLowerCase())],
+                            g = ["toString", "toUpperCase"]["eEfFgG".indexOf(l) % 2],
+                            b = _ + Math.abs(d)[v](f),
+                            i(b, _, p, h, m)[g]();
+                    default:
+                        return r
+                }
+            };
+        return a.replace(r, o)
+    },
+    _preg_split: function (r, t, e, a) {
+        e = e || 0,
+            a = a || "";
+        var s, i = [], n = 0, c = 0, o = !1, h = !1, u = !1, f = {}, l = 0, d = /^\/(.*)\/\w*$/.exec(r.toString())[1], _ = /^\/.*\/(\w*)$/.exec(r.toString())[1];
+        if (r = r.global && "string" != typeof r ? r : new RegExp(d, _ + (-1 !== _.indexOf("g") ? "" : "g")),
+            f = {
+                PREG_SPLIT_NO_EMPTY: 1,
+                PREG_SPLIT_DELIM_CAPTURE: 2,
+                PREG_SPLIT_OFFSET_CAPTURE: 4
+            },
+            "number" != typeof a) {
+            for (a = [].concat(a),
+                c = 0; c < a.length; c++)
+                f[a[c]] && (l |= f[a[c]]);
+            a = l
+        }
+        o = a & f.PREG_SPLIT_NO_EMPTY,
+            h = a & f.PREG_SPLIT_DELIM_CAPTURE,
+            u = a & f.PREG_SPLIT_OFFSET_CAPTURE;
+        var v = function (r, t) {
+            (!o || r.length) && (u && (r = [r, t]),
+                i.push(r))
+        };
+        if (!d) {
+            for (s = t.split(""),
+                c = 0; c < s.length; c++)
+                v(s[c], c);
+            return i
+        }
+        for (; (s = r.exec(t)) && 1 !== e;) {
+            if (v(t.slice(n, s.index), n),
+                n = s.index + s[0].length,
+                h) {
+                var g = Array.prototype.slice.call(s);
+                for (c = 1; c < g.length; c++)
+                    void 0 !== s[c] && v(s[c], s.index + s[0].indexOf(s[c]))
+            }
+            e--
+        }
+        return v(t.slice(n, t.length), n),
+            i
+    },
+    _ord: function (r) {
+        return r.charCodeAt(0)
+    },
+    _array_search: function (r, t, e) {
+        var a = !!e
+            , s = "";
+        if (t && "object" == typeof t && t.change_key_case)
+            return t.search(r, e);
+        if ("object" == typeof r && r.exec) {
+            if (!a) {
+                var i = "i" + (r.global ? "g" : "") + (r.multiline ? "m" : "") + (r.sticky ? "y" : "");
+                r = new RegExp(r.source, i)
+            }
+            for (s in t)
+                if (r.test(t[s]))
+                    return s;
+            return !1
+        }
+        for (s in t)
+            if (a && t[s] === r || !a && t[s] == r)
+                return s;
+        return !1
+    },
+    _my_bcmod: function (r, t) {
+        var e = 5
+            , a = "";
+        do {
+            var s = parseInt(a + "" + r.substring(0, e));
+            r = r.substring(e),
+                a = s % t
+        } while (r.length);
+        return parseInt(a)
+    }
 };
-
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
-    module.exports = PDF417
