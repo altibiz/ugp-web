@@ -42,14 +42,20 @@ namespace OrchardCore.Themes.UgpTheme
 
             _manifest
                 .DefineScript("ugptheme-libbcmath")
-                .SetUrl("~/UgpTheme/js/libbcmath.js");
+                .SetUrl("~/UgpTheme/js/barcode/libbcmath.js");
             _manifest
                 .DefineScript("ugptheme-bcmath")
-                .SetUrl("~/UgpTheme/js/bcmath.js");
+                .SetDependencies("ugptheme-libbcmath")
+                .SetUrl("~/UgpTheme/js/barcode/bcmath.js");
             _manifest
                 .DefineScript("ugptheme-pdf417")
-                .SetUrl("~/UgpTheme/js/pdf417.js")
+                .SetUrl("~/UgpTheme/js/barcode/pdf417.js")
+                .SetDependencies("ugptheme-bcmath")
                 .SetVersion("1.0.005");
+            _manifest.DefineScript("ugptheme-barcode")
+                .SetUrl("~/UgpTheme/js/barcode/index.js")
+                .SetDependencies("ugptheme-pdf417")
+                .SetVersion("1.0.0");
 
             _manifest
                 .DefineStyle("ugptheme")

@@ -10,8 +10,8 @@
     var name = pledge.PayerName.Text;
     var amount = pledge.Amount.Value;
     var note = pledge.Note?.Text;
-    var refNumber = pledge.ReferenceNr.Text;
-    var cModel = "HR00";
+    var refNumber = pledge.ReferenceNr.Text?.Trim();
+    var cModel = string.IsNullOrEmpty(refNumber) ? "HR99" : "HR00";
     var address = "Vlaška 63";
 }
 
@@ -20,9 +20,7 @@
 }
 
 <script asp-name="ugptheme-jQuery"></script>
-<script asp-name="ugptheme-libbcmath"></script>
-<script asp-name="ugptheme-bcmath"></script>
-<script asp-name="ugptheme-pdf417"></script>
+<script asp-name="ugptheme-barcode"></script>
 
 <script type="text/javascript">
     var name = "@Html.Raw(name)";
@@ -49,44 +47,18 @@
         }
         const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
-        var canvas = document.getElementById("barcode")
-        if (canvas) {
-            PDF417.draw(code.substr(1), canvas)
-            var amountHelper = document.getElementById('amountHelper');
-            if (amountHelper) {
-                amountHelper.value = amount;
-            }
+        drawBarcodeToDiv("barcodeDiv",code.substr(1))
+        var amountHelper = document.getElementById('amountHelper');
+        if (amountHelper) {
+            amountHelper.value = amount;
         }
+        
     }
 
 
     $(function () {
         drawBarcode();
     });
-
-    function downloadBarcode(){
-        var canvas = document.getElementById("barcode");
-        if (!canvas) return;
-
-        // Create a temporary canvas
-        var tmpCanvas = document.createElement('canvas');
-        tmpCanvas.width = canvas.width;
-        tmpCanvas.height = canvas.height;
-        var ctx = tmpCanvas.getContext('2d');
-
-        // Fill with white background
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-
-        // Draw the original barcode on top
-        ctx.drawImage(canvas, 0, 0);
-
-        // Download the image from the temporary canvas
-        var link = document.createElement('a');
-        link.href = tmpCanvas.toDataURL("image/png");
-        link.download = "ugp-barkod.png";
-        link.click();
-    }
 </script>
 
 <div class="row">
@@ -103,10 +75,9 @@
         <p class="lead fs-6 my-1 ">
             Možete skenirati 2D barkod iz Vašeg mobilnog bankarstva
         </p>
-        <div>
-            <canvas id="barcode" style="min-width:50%; background:white"></canvas>
+        <div id="barcodeDiv">
         </div>
-        <a href="#" onclick="downloadBarcode(); return false;" class="btn btn-primary">Preuzmi barkod</a>
+        <a href="#" onclick="downloadBarcode('barcodeDiv',@amount); return false;" class="btn btn-primary">Preuzmi barkod</a>
         <p class="lead fs-6 my-1 ">
             Potrebno je 2-3 radna dana da bi uplata bila evidentirana u sustavu.
         </p>
