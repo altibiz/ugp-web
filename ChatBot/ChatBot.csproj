@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.ContentManagement" Version="2.1.7" />
+    <PackageReference Include="OrchardCore.Module.Targets" Version="2.1.7" />
+    <PackageReference Include="OpenAI" Version="2.2.0-beta.4" />
+    <PackageReference Include="Qdrant.Client" Version="1.12.0" />
+  </ItemGroup>
+
+</Project>
