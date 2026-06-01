@@ -80,6 +80,7 @@ namespace Members
             services.Configure<RazorPagesOptions>(options =>
             {
                 options.Conventions.AddAreaPageRoute("Members", "/Donate", "uplata");
+                options.Conventions.AddAreaPageRoute("Members", "/Donate", "doniraj");
             });
 
             if (CurrentEnvironment.IsDevelopment())
