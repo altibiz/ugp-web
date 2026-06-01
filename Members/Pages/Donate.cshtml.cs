@@ -50,7 +50,7 @@ namespace Members.Pages
                 await SetPersonList();
                 IsGuest = false;
                 LegalName = pp.LegalName;
-                Amount = "15";
+                Amount = "30";
                 Oib = pp.Oib.Text;
                 Email = pp.Email.Text;
             }
