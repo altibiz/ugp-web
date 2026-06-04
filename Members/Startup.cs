@@ -123,6 +123,17 @@ namespace Members
 
             // Externally registered users (e.g. Facebook) also get the email address as username.
             services.AddScoped<IExternalLoginEventHandler, EmailExternalLoginEventHandler>();
+
+            // OrchardCore's IdentityOptionsConfigurations replaces the ASP.NET Identity
+            // default allowed username characters with its own set that excludes '@',
+            // which breaks email-as-username. PostConfigure runs after it and adds '@' back.
+            services.PostConfigure<Microsoft.AspNetCore.Identity.IdentityOptions>(options =>
+            {
+                if (!options.User.AllowedUserNameCharacters.Contains('@'))
+                {
+                    options.User.AllowedUserNameCharacters += "@";
+                }
+            });
         }
     }
 }
