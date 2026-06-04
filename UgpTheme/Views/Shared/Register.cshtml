@@ -1,3 +1,12 @@
+@using Microsoft.AspNetCore.Identity
+@using OrchardCore.Users
+
+@inject SignInManager<IUser> SignInManager
+
+@{
+	var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+}
+
 <style at="Head">
 	#mainNav {
 		position: relative
@@ -8,6 +17,26 @@
 	ViewLayout = "Layout__Login";
 }
 
-@await DisplayAsync(Model)
+<div class="row">
+	<div class="col-md-6 @(loginProviders.Count == 0 ? "offset-md-3" : string.Empty)">
+		@await DisplayAsync(Model)
+	</div>
+
+	@if (loginProviders.Count > 0)
+	{
+		<div class="col-md-6">
+			<section>
+				<h1 class="fs-4">@T["Use another service to register"]</h1>
+				<hr />
+				<form asp-area="@UserConstants.Features.Users" asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal no-multisubmit">
+					@foreach (var provider in loginProviders)
+					{
+						<button type="submit" class="btn btn-primary mb-1 w-100" name="provider" value="@provider.Name" title="@T["Register using your {0} account", provider.DisplayName]">@provider.DisplayName</button>
+					}
+				</form>
+			</section>
+		</div>
+	}
+</div>
 
 <script asp-name="ugptheme-jQuery" at="Foot"></script>

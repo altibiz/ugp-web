@@ -32,6 +32,10 @@ using OrchardCore.BackgroundTasks;
 using OrchardCore.ContentManagement.Handlers;
 using Members.ContentHandlers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Linq;
+using Members.Users;
+using OrchardCore.Modules;
+using OrchardCore.Users.Models;
 
 namespace Members
 {
@@ -92,6 +96,29 @@ namespace Members
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)
         {
+        }
+    }
+
+    [RequireFeatures("OrchardCore.Users.Registration")]
+    public class RegistrationStartup : OrchardCore.Modules.StartupBase
+    {
+        // Run after OrchardCore.Users' RegistrationStartup so its driver is already registered.
+        public override int Order => 1000;
+
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            // The username is always the email address: swap OrchardCore's register
+            // form driver for ours, which has no separate username field.
+            var originalDriver = services.FirstOrDefault(d =>
+                d.ServiceType == typeof(IDisplayDriver<RegisterUserForm>) &&
+                d.ImplementationType == typeof(OrchardCore.Users.Drivers.RegisterUserFormDisplayDriver));
+
+            if (originalDriver != null)
+            {
+                services.Remove(originalDriver);
+            }
+
+            services.AddScoped<IDisplayDriver<RegisterUserForm>, EmailRegisterUserFormDisplayDriver>();
         }
     }
 }
