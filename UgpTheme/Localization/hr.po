@@ -348,4 +348,34 @@ msgctxt "UgpTheme.Views.Shared.ResetPasswordConfirmation"
 msgid "Click here to log in"
 msgstr "Kliknite ovdje za prijavu"
 
+#. <label asp-for="Email" class="form-label">@T["Email address"]</label>
+#: UgpTheme\Views\RegisterUserFormIdentifier.cshtml:10
+msgctxt "UgpTheme.Views.RegisterUserFormIdentifier"
+msgid "Email address"
+msgstr "Email adresa"
+
+#. <label asp-for="Password" class="form-label">@T["Password"]</label>
+#: UgpTheme\Views\RegisterUserFormIdentifier.cshtml:16
+msgctxt "UgpTheme.Views.RegisterUserFormIdentifier"
+msgid "Password"
+msgstr "Lozinka"
+
+#. <label asp-for="ConfirmPassword" class="form-label">@T["Confirm password"]</label>
+#: UgpTheme\Views\RegisterUserFormIdentifier.cshtml:22
+msgctxt "UgpTheme.Views.RegisterUserFormIdentifier"
+msgid "Confirm password"
+msgstr "Potvrda lozinke"
+
+#. <h1 class="fs-4">@T["Use another service to register"]</h1>
+#: UgpTheme\Views\Shared\Register.cshtml:29
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Use another service to register"
+msgstr "Koristi drugi servis za registraciju"
+
+#. title="@T["Register using your {0} account", provider.DisplayName]"
+#: UgpTheme\Views\Shared\Register.cshtml:34
+msgctxt "UgpTheme.Views.Shared.Register"
+msgid "Register using your {0} account"
+msgstr "Registriraj se koristeći {0} račun"
+
 

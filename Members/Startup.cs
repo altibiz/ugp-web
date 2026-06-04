@@ -35,6 +35,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
 using Members.Users;
 using OrchardCore.Modules;
+using OrchardCore.Users.Handlers;
 using OrchardCore.Users.Models;
 
 namespace Members
@@ -119,6 +120,9 @@ namespace Members
             }
 
             services.AddScoped<IDisplayDriver<RegisterUserForm>, EmailRegisterUserFormDisplayDriver>();
+
+            // Externally registered users (e.g. Facebook) also get the email address as username.
+            services.AddScoped<IExternalLoginEventHandler, EmailExternalLoginEventHandler>();
         }
     }
 }

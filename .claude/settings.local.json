@@ -4,7 +4,13 @@
       "Bash(dotnet test:*)",
       "PowerShell(Get-ChildItem *)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "PowerShell(dotnet build *)"
+      "PowerShell(dotnet build *)",
+      "PowerShell(Select-String *)",
+      "Bash(curl *)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);j.tree.filter\\(t=>/SerializableClaim|UpdateUserContext|ExternalLoginEventHandler|RegisterExternalLogin|ExternalLogin/i.test\\(t.path\\)\\).forEach\\(t=>console.log\\(t.path\\)\\)}\\)\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);j.tree.filter\\(t=>/OrchardCore.Users\\\\/Controllers/i.test\\(t.path\\)\\).forEach\\(t=>console.log\\(t.path\\)\\)}\\)\")",
+      "Bash(node -e \"const s=require\\('fs'\\).readFileSync\\('/tmp/ext.cs','utf8'\\); const lines=s.split\\('\\\\n'\\); lines.forEach\\(\\(l,i\\)=>{if\\(/GenerateUserName/i.test\\(l\\)\\)console.log\\(\\(i+1\\)+': '+l\\)}\\)\")",
+      "Bash(node *)"
     ]
   }
 }

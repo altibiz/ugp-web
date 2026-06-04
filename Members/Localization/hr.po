@@ -144,3 +144,7 @@ msgid "Your ID is already in use."
 msgstr "Upisani OIB je već registriran."
 msgid "Surname is required."
 msgstr "Polje Prezime je obvezno."
+
+msgctxt "Members.Users.EmailRegisterUserFormDisplayDriver"
+msgid "A user with the same email address already exists."
+msgstr "Već postoji korisnik s istom email adresom."

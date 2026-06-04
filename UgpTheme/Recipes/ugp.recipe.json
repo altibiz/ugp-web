@@ -77,6 +77,8 @@
         "OrchardCore.Users",
         "OrchardCore.Users.Registration",
         "OrchardCore.Users.ResetPassword",
+        "OrchardCore.Facebook",
+        "OrchardCore.Facebook.Login",
         "OrchardCore.Widgets",
         "Carousel.OrchardCore",
         "OrchardCore.Workflows",
