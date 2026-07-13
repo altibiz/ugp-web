@@ -61,6 +61,13 @@ namespace OrchardCore.Themes.UgpTheme
                 .DefineStyle("ugptheme")
                 .SetUrl("~/UgpTheme/css/styles.min.css", "~/UgpTheme/css/styles.css")
                 .SetVersion("6.0.0");
+
+            // Self-hosted Lora + Open Sans. Replaces fonts.googleapis.com so
+            // visitor IPs are never sent to Google before consent (GDPR).
+            _manifest
+                .DefineStyle("ugptheme-fonts")
+                .SetUrl("~/UgpTheme/fonts/fonts.css")
+                .SetVersion("1.0.0");
         }
 
         public void Configure(ResourceManagementOptions options)

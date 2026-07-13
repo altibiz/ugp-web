@@ -34,7 +34,7 @@ namespace Members.Users
 
         public override IDisplayResult Edit(RegisterUserForm model, BuildEditorContext context)
         {
-            return Initialize<RegisterViewModel>("RegisterUserFormIdentifier", vm =>
+            return Initialize<EmailRegisterViewModel>("RegisterUserFormIdentifier", vm =>
             {
                 vm.UserName = model.UserName;
                 vm.Email = model.Email;
@@ -43,9 +43,17 @@ namespace Members.Users
 
         public override async Task<IDisplayResult> UpdateAsync(RegisterUserForm model, UpdateEditorContext context)
         {
-            var vm = new RegisterViewModel();
+            var vm = new EmailRegisterViewModel();
 
             await context.Updater.TryUpdateModelAsync(vm, Prefix);
+
+            // GDPR: registration cannot proceed without explicit consent to the
+            // privacy policy. A bool can't use [Required], so validate it here.
+            if (!vm.AcceptPrivacyPolicy)
+            {
+                context.Updater.ModelState.AddModelError(Prefix, nameof(vm.AcceptPrivacyPolicy),
+                    S["You must accept the privacy policy to register."]);
+            }
 
             // The username is not posted by the form; it is always the email address,
             // so drop the [Required] validation error for it and copy the email over.

@@ -366,6 +366,12 @@ msgctxt "UgpTheme.Views.RegisterUserFormIdentifier"
 msgid "Confirm password"
 msgstr "Potvrda lozinke"
 
+#. privacy policy consent checkbox
+#: UgpTheme\Views\RegisterUserFormIdentifier.cshtml:28
+msgctxt "UgpTheme.Views.RegisterUserFormIdentifier"
+msgid "I have read and accept the <a href=\"/pravila-privatnosti\" target=\"_blank\" rel=\"noopener\">privacy policy</a>."
+msgstr "Pročitao/la sam i prihvaćam <a href=\"/pravila-privatnosti\" target=\"_blank\" rel=\"noopener\">pravila privatnosti</a>."
+
 #. <h1 class="fs-4">@T["Use another service to register"]</h1>
 #: UgpTheme\Views\Shared\Register.cshtml:29
 msgctxt "UgpTheme.Views.Shared.Register"
