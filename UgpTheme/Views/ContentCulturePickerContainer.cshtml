@@ -1,3 +1,33 @@
+@{
+    var currentCulture = Orchard.CultureName();
+    var cultures = new[]
+    {
+        new { Code = "hr", Name = "Hrvatski" },
+        new { Code = "en", Name = "English" },
+        new { Code = "de", Name = "Deutsch" }
+    };
+    var current = cultures.FirstOrDefault(c => c.Code == currentCulture) ?? cultures[0];
+}
 
 <ul class="navbar-nav">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="oc-culture-picker" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @current.Name
+        </a>
+        <div class="dropdown-menu" aria-labelledby="oc-culture-picker">
+            @foreach (var culture in cultures)
+            {
+                if (culture.Code == currentCulture)
+                {
+                    continue;
+                }
+                <a asp-route="RedirectToLocalizedContent"
+                   asp-route-area="OrchardCore.ContentLocalization"
+                   asp-route-targetCulture="@culture.Code"
+                   asp-route-contentItemUrl="@Context.Request.Path.Value"
+                   asp-route-queryStringValue="@Context.Request.QueryString.Value"
+                   class="dropdown-item">@culture.Name</a>
+            }
+        </div>
+    </li>
 </ul>
