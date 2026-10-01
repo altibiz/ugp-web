@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
 		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
@@ -30,6 +30,8 @@
     <PackageReference Include="OrchardCore.ContentFields" Version="2.1.7" />
 		<PackageReference Include="OrchardCore.Lists" Version="2.1.7" />
 		<PackageReference Include="OrchardCore.Email" Version="2.1.7" />
+		<!-- .NET 10 ships System.Linq.AsyncEnumerable; compile against it, keep System.Linq.Async (from OrchardCore) at runtime only. -->
+		<PackageReference Include="System.Linq.Async" Version="6.0.1" ExcludeAssets="compile" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

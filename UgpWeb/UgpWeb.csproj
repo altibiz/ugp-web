@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>c8eac6c0-98cb-4945-a40d-b8b29388a8f2</UserSecretsId>
@@ -11,6 +11,8 @@
 		<PackageReference Include="OrchardCore.Application.Cms.Targets" Version="2.1.7" />
 		<PackageReference Include="OrchardCore.Application.Targets" Version="2.1.7" />
 		<PackageReference Include="OrchardCore.Shells.Azure" Version="2.1.7" />
+		<!-- Microsoft.Identity.Web 3.3.1 (via OrchardCore) pulls a 9.0 RC of this on net9+; pin it to the framework version. -->
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
