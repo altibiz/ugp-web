@@ -1,0 +1,271 @@
+{
+  "name": "LandingPage",
+  "displayName": "Landing Page + AI Rijeka",
+  "description": "Adds the LandingPage content type (own header/footer layout via Templates) and the /ai-rijeka page.",
+  "author": "Glas poduzetnika",
+  "website": "https://www.glaspoduzetnika.hr",
+  "version": "1.0.0",
+  "issetuprecipe": false,
+  "categories": [
+    "content"
+  ],
+  "tags": [
+    "landing"
+  ],
+  "steps": [
+    {
+      "name": "feature",
+      "enable": [
+        "OrchardCore.Templates"
+      ]
+    },
+    {
+      "name": "ContentDefinition",
+      "ContentTypes": [
+        {
+          "Name": "LandingPage",
+          "DisplayName": "Landing Page",
+          "Settings": {
+            "ContentTypeSettings": {
+              "Creatable": true,
+              "Listable": true,
+              "Draftable": true,
+              "Versionable": true,
+              "Securable": true
+            }
+          },
+          "ContentTypePartDefinitionRecords": [
+            {
+              "PartName": "TitlePart",
+              "Name": "TitlePart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "0"
+                }
+              }
+            },
+            {
+              "PartName": "AutoroutePart",
+              "Name": "AutoroutePart",
+              "Settings": {
+                "AutoroutePartSettings": {
+                  "AllowCustomPath": true,
+                  "Pattern": "{{ Model.ContentItem | display_text | slugify }}"
+                },
+                "ContentTypePartSettings": {
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "PartName": "LandingPage",
+              "Name": "LandingPage",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Position": "2"
+                }
+              }
+            },
+            {
+              "PartName": "HtmlBodyPart",
+              "Name": "HtmlBodyPart",
+              "Settings": {
+                "ContentTypePartSettings": {
+                  "Editor": "Monaco",
+                  "Position": "3"
+                },
+                "HtmlBodyPartSettings": {
+                  "SanitizeHtml": false
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "ContentParts": [
+        {
+          "Name": "LandingPage",
+          "Settings": {},
+          "ContentPartFieldDefinitionRecords": [
+            {
+              "FieldName": "TextField",
+              "Name": "Eyebrow",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Nadnaslov (hero)",
+                  "Position": "0"
+                },
+                "TextFieldSettings": {
+                  "Hint": "Mali tekst iznad naslova, npr. \"Konferencija · Rijeka 2026\""
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Subtitle",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Podnaslov",
+                  "Position": "1"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "When",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Kada",
+                  "Position": "2"
+                },
+                "TextFieldSettings": {
+                  "Hint": "npr. \"7. listopada 2026. · 9:30 – 15:30\""
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Where",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Gdje",
+                  "Position": "3"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "Price",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Cijena / ulaz",
+                  "Position": "4"
+                },
+                "TextFieldSettings": {
+                  "Hint": "npr. \"Ulaz besplatan\""
+                }
+              }
+            },
+            {
+              "FieldName": "LinkField",
+              "Name": "Registration",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Link za prijavu",
+                  "Position": "5"
+                },
+                "LinkFieldSettings": {
+                  "LinkTextMode": "Optional",
+                  "Hint": "Ako je prazno, gumbi za prijavu se ne prikazuju."
+                }
+              }
+            },
+            {
+              "FieldName": "MediaField",
+              "Name": "Image",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Slika (hero / plakat)",
+                  "Position": "6"
+                },
+                "MediaFieldSettings": {
+                  "Multiple": false
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "CtaTitle",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Završni poziv - naslov",
+                  "Position": "7"
+                }
+              }
+            },
+            {
+              "FieldName": "TextField",
+              "Name": "CtaText",
+              "Settings": {
+                "ContentPartFieldSettings": {
+                  "DisplayName": "Završni poziv - tekst",
+                  "Position": "8"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Templates",
+      "Templates": {
+        "Layout__LandingPage": {
+          "Description": "Layout (own header/footer) for LandingPage items. Selected via {% layout %} in Content__LandingPage.",
+          "Content": "{% style name: \"font-awesome\", version: \"5\" %}\n{% style name: \"ugptheme-fonts\" %}\n<!DOCTYPE html>\n<html lang=\"{{ Culture.Name }}\">\n<head>\n    <meta charset=\"utf-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>{% page_title Site.SiteName, position: \"before\", separator: \" - \" %}</title>\n    <link type=\"image/x-icon\" rel=\"shortcut icon\" href=\"{{ \"~/UgpTheme/assets/favicon.ico\" | href }}\">\n    {% resources type: \"Meta\" %}\n    {% resources type: \"HeadLink\" %}\n    {% resources type: \"Stylesheet\" %}\n    {% resources type: \"HeadScript\" %}\n    <style>\n        :root {\n            --lp-ink: #0d1b2a;\n            --lp-ink-2: #16283d;\n            --lp-teal: #0085a1;\n            --lp-teal-light: #5fd3ea;\n            --lp-coral: #ff6b4a;\n            --lp-paper: #f5f7fa;\n            --lp-line: #e2e7ee;\n            --lp-text: #1f2933;\n            --lp-muted: #5b6875;\n            --lp-radius: 14px;\n            --lp-top-h: 68px;\n        }\n        *, *::before, *::after { box-sizing: border-box; }\n        html { scroll-behavior: smooth; }\n        body.lp {\n            margin: 0;\n            background: #fff;\n            color: var(--lp-text);\n            font-family: \"Open Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif;\n            font-size: 17px;\n            line-height: 1.65;\n            -webkit-font-smoothing: antialiased;\n        }\n        .lp img { max-width: 100%; height: auto; display: block; }\n        .lp a { color: var(--lp-teal); }\n        .lp h1, .lp h2, .lp h3 { line-height: 1.2; margin: 0 0 .5em; color: inherit; font-weight: 800; letter-spacing: -.01em; }\n        .lp [id] { scroll-margin-top: calc(var(--lp-top-h) + 16px); }\n        .lp-wrap { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 20px; }\n\n        /* ---------- Top bar ---------- */\n        .lp-top {\n            position: sticky; top: 0; z-index: 50;\n            background: rgba(255, 255, 255, .92);\n            backdrop-filter: saturate(160%) blur(10px);\n            -webkit-backdrop-filter: saturate(160%) blur(10px);\n            border-bottom: 1px solid var(--lp-line);\n        }\n        .lp-top .lp-wrap { display: flex; align-items: center; gap: 24px; height: var(--lp-top-h); }\n        .lp-logo img { height: 38px; width: auto; }\n        .lp-nav { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }\n        .lp-nav::-webkit-scrollbar { display: none; }\n        .lp-nav a {\n            white-space: nowrap; padding: 8px 12px; border-radius: 999px;\n            font-size: 14px; font-weight: 600; color: var(--lp-muted); text-decoration: none;\n            transition: background .15s, color .15s;\n        }\n        .lp-nav a:hover, .lp-nav a.is-active { background: var(--lp-paper); color: var(--lp-ink); }\n        .lp-top-cta { flex-shrink: 0; }\n        @media (max-width: 860px) {\n            .lp-top .lp-wrap { display: grid; grid-template-columns: 1fr auto; height: auto; padding-top: 10px; gap: 6px 16px; }\n            .lp-nav { grid-column: 1 / -1; grid-row: 2; min-width: 0; margin: 0; padding-bottom: 8px; }\n            .lp-logo img { height: 32px; }\n        }\n\n        /* ---------- Buttons ---------- */\n        .lp-btn {\n            display: inline-flex; align-items: center; gap: 8px;\n            padding: 12px 22px; border-radius: 999px; border: 2px solid transparent;\n            font-weight: 700; font-size: 15px; text-decoration: none; line-height: 1.2;\n            transition: transform .15s, background .15s, border-color .15s, color .15s;\n        }\n        .lp-btn:hover { transform: translateY(-1px); }\n        .lp .lp-btn-primary { background: var(--lp-coral); color: #fff; }\n        .lp .lp-btn-primary:hover { background: #ff5530; color: #fff; }\n        .lp .lp-btn-ghost { border-color: rgba(255, 255, 255, .35); color: #fff; }\n        .lp .lp-btn-ghost:hover { border-color: #fff; color: #fff; }\n        .lp .lp-btn-sm { padding: 8px 16px; font-size: 14px; }\n\n        /* ---------- Hero ---------- */\n        .lp-hero {\n            position: relative; overflow: hidden; color: #fff;\n            background:\n                radial-gradient(900px 500px at 85% -10%, rgba(0, 133, 161, .55), transparent 60%),\n                radial-gradient(700px 400px at -10% 110%, rgba(255, 107, 74, .25), transparent 60%),\n                linear-gradient(160deg, var(--lp-ink) 0%, var(--lp-ink-2) 100%);\n            padding: 88px 0 96px;\n        }\n        .lp-hero::before {\n            content: \"\"; position: absolute; inset: 0; pointer-events: none;\n            background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);\n            background-size: 48px 48px;\n            mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);\n            -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);\n        }\n        .lp-hero-grid { position: relative; display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: center; }\n        .lp-eyebrow { margin: 0 0 16px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lp-teal-light); }\n        .lp-hero h1 { font-size: clamp(38px, 6vw, 64px); margin-bottom: 16px; }\n        .lp-sub { font-size: clamp(18px, 2.2vw, 22px); color: rgba(255, 255, 255, .8); margin: 0 0 28px; max-width: 34em; }\n        .lp-meta { list-style: none; padding: 0; margin: 0 0 32px; display: flex; flex-wrap: wrap; gap: 10px; }\n        .lp-meta li {\n            display: inline-flex; align-items: center; gap: 8px;\n            padding: 8px 14px; border-radius: 999px;\n            background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14);\n            font-size: 15px; font-weight: 600;\n        }\n        .lp-meta i { color: var(--lp-teal-light); }\n        .lp-actions { display: flex; flex-wrap: wrap; gap: 12px; }\n        .lp-hero-media img { border-radius: var(--lp-radius); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .6); width: 100%; }\n        @media (max-width: 860px) {\n            .lp-hero { padding: 56px 0 64px; }\n            .lp-hero-grid { grid-template-columns: 1fr; gap: 36px; }\n        }\n\n        /* ---------- Body sections (used by the HtmlBodyPart) ---------- */\n        .lp-section { padding: 80px 0; }\n        .lp-section--alt { background: var(--lp-paper); }\n        .lp-section--dark { background: var(--lp-ink); color: #fff; }\n        .lp-kicker { display: block; margin-bottom: 10px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lp-teal); }\n        .lp-section h2 { font-size: clamp(28px, 3.6vw, 40px); max-width: 22em; }\n        .lp-lead { font-size: 20px; color: var(--lp-text); max-width: 40em; }\n        .lp-muted { color: var(--lp-muted); }\n        .lp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 32px; }\n        .lp-cols p { margin: 0 0 1em; }\n        .lp-quote {\n            margin: 0; padding: 28px 32px; border-left: 4px solid var(--lp-coral);\n            background: #fff; border-radius: 0 var(--lp-radius) var(--lp-radius) 0;\n            font-size: 21px; font-weight: 600; line-height: 1.5; color: var(--lp-ink);\n            box-shadow: 0 10px 30px -18px rgba(13, 27, 42, .35);\n        }\n        .lp-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 36px; counter-reset: lpcard; }\n        .lp-card {\n            position: relative; padding: 28px 28px 24px 84px; background: #fff;\n            border: 1px solid var(--lp-line); border-radius: var(--lp-radius);\n            transition: border-color .15s, box-shadow .15s;\n        }\n        .lp-card:hover { border-color: var(--lp-teal); box-shadow: 0 14px 30px -20px rgba(0, 133, 161, .6); }\n        .lp-card::before {\n            counter-increment: lpcard; content: counter(lpcard, decimal-leading-zero);\n            position: absolute; left: 26px; top: 26px; font-size: 26px; font-weight: 800; color: var(--lp-teal);\n        }\n        .lp-card h3 { font-size: 20px; }\n        .lp-card p { margin: 0; color: var(--lp-muted); }\n        .lp-note { margin-top: 28px; padding: 20px 24px; border-radius: var(--lp-radius); background: rgba(0, 133, 161, .08); color: var(--lp-ink); }\n\n        .lp-agenda { list-style: none; margin: 36px 0 0; padding: 0; border-top: 1px solid var(--lp-line); }\n        .lp-agenda li { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--lp-line); }\n        .lp-agenda time { font-weight: 700; color: var(--lp-ink); font-variant-numeric: tabular-nums; }\n        .lp-agenda h3 { font-size: 18px; margin: 0 0 4px; }\n        .lp-agenda p { margin: 0; color: var(--lp-muted); font-size: 16px; }\n        .lp-agenda .is-break { background: var(--lp-paper); padding-left: 16px; padding-right: 16px; border-radius: 10px; border-bottom-color: transparent; }\n        .lp-agenda .is-break h3 { font-weight: 600; color: var(--lp-muted); }\n        .lp-tag {\n            display: inline-block; margin-bottom: 6px; padding: 2px 10px; border-radius: 999px;\n            font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;\n            background: rgba(0, 133, 161, .1); color: var(--lp-teal);\n        }\n        .lp-tag--panel { background: rgba(255, 107, 74, .12); color: #d84a2b; }\n        .lp-hosts { display: flex; flex-wrap: wrap; gap: 12px 32px; margin-top: 24px; color: var(--lp-muted); font-size: 15px; }\n        .lp-hosts strong { color: var(--lp-ink); }\n\n        .lp-gallery { columns: 2; column-gap: 20px; margin-top: 36px; }\n        .lp-gallery img { width: 100%; margin: 0 0 20px; border-radius: var(--lp-radius); break-inside: avoid; }\n\n        .lp-partners { display: grid; gap: 36px; margin-top: 36px; }\n        .lp-partners h3 { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lp-muted); margin-bottom: 14px; }\n        .lp-chips { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; margin: 0; padding: 0; }\n        .lp-chips li {\n            padding: 14px 22px; background: #fff; border: 1px solid var(--lp-line); border-radius: 12px;\n            font-weight: 700; color: var(--lp-ink);\n        }\n        .lp-chips--main li { border-color: var(--lp-teal); }\n\n        @media (max-width: 860px) {\n            .lp-section { padding: 56px 0; }\n            .lp-cols, .lp-cards { grid-template-columns: 1fr; gap: 20px; }\n            .lp-agenda li { grid-template-columns: 1fr; gap: 6px; }\n            .lp-gallery { columns: 1; }\n        }\n\n        /* ---------- Closing CTA ---------- */\n        .lp-cta {\n            padding: 80px 0; color: #fff; text-align: center;\n            background: radial-gradient(700px 300px at 50% 0%, rgba(0, 133, 161, .5), transparent 70%), var(--lp-ink-2);\n        }\n        .lp-cta h2 { font-size: clamp(28px, 4vw, 44px); margin-bottom: 12px; }\n        .lp-cta p { color: rgba(255, 255, 255, .75); margin: 0 auto 28px; max-width: 36em; }\n\n        /* ---------- Footer ---------- */\n        .lp-foot { background: var(--lp-ink); color: rgba(255, 255, 255, .7); font-size: 15px; }\n        .lp-foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; padding: 64px 0 40px; }\n        .lp-foot h4 { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; }\n        .lp-foot ul { list-style: none; margin: 0; padding: 0; }\n        .lp-foot li { margin-bottom: 8px; }\n        .lp .lp-foot a { color: rgba(255, 255, 255, .8); text-decoration: none; }\n        .lp .lp-foot a:hover { color: #fff; }\n        .lp-foot-logo { display: inline-block; padding: 10px 14px; background: #fff; border-radius: 10px; margin-bottom: 16px; }\n        .lp-foot-logo img { height: 34px; width: auto; }\n        .lp-foot-about { max-width: 30em; margin: 0; }\n        .lp-social { display: flex; flex-wrap: wrap; gap: 10px; }\n        .lp-social a {\n            display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;\n            border-radius: 50%; background: rgba(255, 255, 255, .08); transition: background .15s;\n        }\n        .lp .lp-social a:hover { background: var(--lp-teal); }\n        .lp-foot-bottom {\n            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px;\n            padding: 20px 0 28px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 13px;\n        }\n        .lp-legal { display: flex; flex-wrap: wrap; gap: 6px 20px; }\n        @media (max-width: 860px) {\n            .lp-foot-grid { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; }\n        }\n    </style>\n</head>\n<body class=\"lp\">\n    <header class=\"lp-top\">\n        <div class=\"lp-wrap\">\n            <a class=\"lp-logo\" href=\"{{ \"~/\" | href }}\" aria-label=\"Glas poduzetnika - naslovnica\">\n                <img src=\"{{ \"~/UgpTheme/assets/img/header-logo.png\" | href }}\" alt=\"Glas poduzetnika\">\n            </a>\n            <nav class=\"lp-nav\" id=\"lp-nav\" aria-label=\"Sadržaj stranice\"></nav>\n            <a class=\"lp-btn lp-btn-primary lp-btn-sm lp-top-cta\" href=\"#prijava\">Prijavi se</a>\n        </div>\n    </header>\n\n    {% render_section \"Header\", required: false %}\n\n    <main>\n        {% render_section \"Messages\", required: false %}\n        {% render_body %}\n    </main>\n\n    <footer class=\"lp-foot\">\n        <div class=\"lp-wrap\">\n            <div class=\"lp-foot-grid\">\n                <div>\n                    <a class=\"lp-foot-logo\" href=\"{{ \"~/\" | href }}\">\n                        <img src=\"{{ \"~/UgpTheme/assets/img/header-logo.png\" | href }}\" alt=\"Glas poduzetnika\">\n                    </a>\n                    <p class=\"lp-foot-about\">Udruga Glas poduzetnika okuplja poduzetnike koji vjeruju da se konkurentnost gradi znanjem, a ne čekanjem da netko drugi riješi problem.</p>\n                </div>\n                <div>\n                    <h4>Udruga</h4>\n                    <ul>\n                        <li><a href=\"{{ \"~/o-nama\" | href }}\">O nama</a></li>\n                        <li><a href=\"{{ \"~/najave-evenata\" | href }}\">Događanja i konferencije</a></li>\n                        <li><a href=\"{{ \"~/register\" | href }}\">Učlani se</a></li>\n                        <li><a href=\"{{ \"~/Login\" | href }}\">Prijava za članove</a></li>\n                    </ul>\n                </div>\n                <div>\n                    <h4>Pratite nas</h4>\n                    <div class=\"lp-social\">\n                        <a href=\"https://www.facebook.com/glas.poduzetnika/\" aria-label=\"Facebook\"><i class=\"fab fa-facebook-f\"></i></a>\n                        <a href=\"https://www.facebook.com/groups/glaspoduzetnika/\" aria-label=\"Facebook grupa\"><i class=\"fas fa-users\"></i></a>\n                        <a href=\"https://twitter.com/poduzetnika\" aria-label=\"X / Twitter\"><i class=\"fab fa-twitter\"></i></a>\n                        <a href=\"https://www.linkedin.com/company/glas-poduzetnika\" aria-label=\"LinkedIn\"><i class=\"fab fa-linkedin-in\"></i></a>\n                        <a href=\"https://www.youtube.com/channel/UCK48gv8BTJOiH1QDPfa5eLQ\" aria-label=\"YouTube\"><i class=\"fab fa-youtube\"></i></a>\n                        <a href=\"https://www.instagram.com/glas.poduzetnika/\" aria-label=\"Instagram\"><i class=\"fab fa-instagram\"></i></a>\n                    </div>\n                </div>\n            </div>\n            <div class=\"lp-foot-bottom\">\n                <span>© {{ \"now\" | date: \"%Y\" }} Udruga Glas Poduzetnika. Sva prava pridržana.</span>\n                <nav class=\"lp-legal\" aria-label=\"Pravne informacije\">\n                    <a href=\"{{ \"~/pravila-privatnosti\" | href }}\">Pravila privatnosti</a>\n                    <a href=\"{{ \"~/uvjeti-koristenja\" | href }}\">Uvjeti korištenja</a>\n                    <a href=\"{{ \"~/izjava-o-kolacicima\" | href }}\">Izjava o kolačićima</a>\n                    <a href=\"{{ \"~/opci-uvjeti\" | href }}\">Opći uvjeti</a>\n                </nav>\n            </div>\n        </div>\n    </footer>\n\n    {% resources type: \"FootScript\" %}\n    <script>\n        (function () {\n            // Builds the top navigation from every body element that has both an id and data-nav=\"Label\".\n            var nav = document.getElementById('lp-nav');\n            if (!nav) return;\n            var links = [];\n            document.querySelectorAll('[data-nav][id]').forEach(function (s) {\n                var a = document.createElement('a');\n                a.href = '#' + s.id;\n                a.textContent = s.getAttribute('data-nav');\n                nav.appendChild(a);\n                links.push({ a: a, s: s });\n            });\n            if (!links.length || !('IntersectionObserver' in window)) return;\n            var io = new IntersectionObserver(function (entries) {\n                entries.forEach(function (e) {\n                    if (!e.isIntersecting) return;\n                    links.forEach(function (l) { l.a.classList.toggle('is-active', l.s === e.target); });\n                });\n            }, { rootMargin: '-40% 0px -55% 0px' });\n            links.forEach(function (l) { io.observe(l.s); });\n        })();\n    </script>\n</body>\n</html>\n"
+        },
+        "Content__LandingPage": {
+          "Description": "LandingPage detail view: hero, body, closing CTA.",
+          "Content": "{% layout \"Layout__LandingPage\" %}\n{% assign lp = Model.ContentItem.Content.LandingPage %}\n{% assign reg = lp.Registration.Url %}\n{% assign regText = lp.Registration.Text | default: \"Prijavi se besplatno\" %}\n{% assign img = lp.Image.Paths.first %}\n\n{% if lp.Subtitle.Text != blank %}{% meta name: \"description\", content: lp.Subtitle.Text %}{% endif %}\n{% meta property: \"og:title\", content: Model.ContentItem.DisplayText %}\n{% if img %}{% assign ogImage = img | asset_url | resize_url: width: 1200 | absolute_url %}{% meta property: \"og:image\", content: ogImage %}{% endif %}\n\n{% zone \"Header\" %}\n<header class=\"lp-hero\">\n    <div class=\"lp-wrap lp-hero-grid\">\n        <div>\n            {% if lp.Eyebrow.Text != blank %}<p class=\"lp-eyebrow\">{{ lp.Eyebrow.Text }}</p>{% endif %}\n            <h1>{{ Model.ContentItem.DisplayText }}</h1>\n            {% if lp.Subtitle.Text != blank %}<p class=\"lp-sub\">{{ lp.Subtitle.Text }}</p>{% endif %}\n            <ul class=\"lp-meta\">\n                {% if lp.When.Text != blank %}<li><i class=\"far fa-calendar-alt\"></i> {{ lp.When.Text }}</li>{% endif %}\n                {% if lp.Where.Text != blank %}<li><i class=\"fas fa-map-marker-alt\"></i> {{ lp.Where.Text }}</li>{% endif %}\n                {% if lp.Price.Text != blank %}<li><i class=\"fas fa-ticket-alt\"></i> {{ lp.Price.Text }}</li>{% endif %}\n            </ul>\n            <div class=\"lp-actions\">\n                {% if reg != blank %}<a class=\"lp-btn lp-btn-primary\" href=\"{{ reg }}\" target=\"_blank\" rel=\"noopener\">{{ regText }} <i class=\"fas fa-arrow-right\"></i></a>{% endif %}\n                <a class=\"lp-btn lp-btn-ghost\" href=\"#sadrzaj\">Saznaj više</a>\n            </div>\n        </div>\n        {% if img %}\n        <figure class=\"lp-hero-media\" style=\"margin:0\">\n            <img src=\"{{ img | asset_url | resize_url: width: 900 }}\" alt=\"{{ Model.ContentItem.DisplayText }}\">\n        </figure>\n        {% endif %}\n    </div>\n</header>\n{% endzone %}\n\n<div id=\"sadrzaj\">\n    {{ Model.Content.HtmlBodyPart | shape_render }}\n</div>\n\n{% if reg != blank %}\n<section class=\"lp-cta\" id=\"prijava\">\n    <div class=\"lp-wrap\">\n        <h2>{{ lp.CtaTitle.Text | default: \"Vidimo se uživo\" }}</h2>\n        <p>{{ lp.CtaText.Text | default: \"Prijave su otvorene.\" }}</p>\n        <a class=\"lp-btn lp-btn-primary\" href=\"{{ reg }}\" target=\"_blank\" rel=\"noopener\">{{ regText }} <i class=\"fas fa-arrow-right\"></i></a>\n    </div>\n</section>\n{% endif %}\n"
+        }
+      }
+    },
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "4airijeka2026landingpage01",
+          "ContentType": "LandingPage",
+          "DisplayText": "AI pogon za biznis",
+          "Latest": true,
+          "Published": true,
+          "TitlePart": {
+            "Title": "AI pogon za biznis"
+          },
+          "AutoroutePart": {
+            "Path": "ai-rijeka",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "LandingPage": {
+            "Eyebrow": {
+              "Text": "Konferencija · Rijeka 2026"
+            },
+            "Subtitle": {
+              "Text": "Kako umjetna inteligencija mijenja hrvatsko poduzetništvo"
+            },
+            "When": {
+              "Text": "7. listopada 2026. · 9:30 – 15:30"
+            },
+            "Where": {
+              "Text": "PAR Učilište, Rijeka"
+            },
+            "Price": {
+              "Text": "Ulaz besplatan"
+            },
+            "Registration": {
+              "Url": "https://docs.google.com/forms/d/e/1FAIpQLSfZuxDPmTO3rb4cq7zMWPEz14ngLjb-7hDw-yrkmOw-ruwbYA/viewform",
+              "Text": "Prijavi se besplatno"
+            },
+            "Image": {
+              "Paths": [
+                "mediafields/ai-rijeka300926.png"
+              ]
+            },
+            "CtaTitle": {
+              "Text": "Vidimo se 7. listopada u Rijeci"
+            },
+            "CtaText": {
+              "Text": "Ulaz je besplatan, prijave su otvorene."
+            }
+          },
+          "HtmlBodyPart": {
+            "Html": "<section class=\"lp-section\" id=\"o-konferenciji\" data-nav=\"O konferenciji\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Zašto ova konferencija</span>\n        <h2>Jedan dan konkretnih odgovora, bez tehnološkog pretjerivanja i bez ulaznice</h2>\n        <p class=\"lp-lead\">Udruga Glas poduzetnika 7. listopada 2026. u Rijeci organizira konferenciju <strong>„AI pogon za biznis — Kako umjetna inteligencija mijenja hrvatsko poduzetništvo”</strong>. Održava se u PAR Učilištu, a ulaz je besplatan.</p>\n        <div class=\"lp-cols\">\n            <div>\n                <p>O umjetnoj inteligenciji se u Hrvatskoj govori mnogo, a u poslovanju se koristi neravnomjerno. Velike tvrtke imaju timove koji se time bave. Mali poduzetnik, koji vodi firmu od desetak ljudi, najčešće ima pola sata između dva sastanka i pitanje na koje nema odgovor.</p>\n                <p>Konferencija je složena oko tog pitanja. Cilj nije pokazati što je tehnološki moguće, nego što je poslovno primjenjivo do kraja mjeseca, uz resurse koje mala i srednja tvrtka stvarno ima.</p>\n            </div>\n            <blockquote class=\"lp-quote\">Gdje mi se to konkretno isplati, a gdje ću se opeći?</blockquote>\n        </div>\n    </div>\n</section>\n\n<section class=\"lp-section lp-section--alt\" id=\"teme\" data-nav=\"Teme\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Program</span>\n        <h2>Četiri teme koje poduzetnici najčešće otvaraju</h2>\n        <p class=\"lp-muted\">Program počinje pregledom stanja generativne umjetne inteligencije u Hrvatskoj, temeljenim na nacionalnom istraživanju, pa se dalje bavi onim što poduzetnici zapravo pitaju.</p>\n        <div class=\"lp-cards\">\n            <article class=\"lp-card\">\n                <h3>AI agenti u praksi</h3>\n                <p>Što danas može sustav koji ne samo odgovara nego i obavlja posao, koliko košta njegovo uvođenje, gdje treba ljudski nadzor i kada je jeftinije ne raditi ništa.</p>\n            </article>\n            <article class=\"lp-card\">\n                <h3>AI i kibernetička sigurnost</h3>\n                <p>Prijevare generirane AI-jem, curenje povjerljivih podataka kroz javne alate i kako mala tvrtka može podići otpornost bez sigurnosnog odjela.</p>\n            </article>\n            <article class=\"lp-card\">\n                <h3>Žene koje grade AI poslovanje</h3>\n                <p>Razvoj proizvoda, vođenje tehnoloških timova, pristup tržištu i kapitalu, i prepreke koje se u tehnološkom poduzetništvu i dalje ne dijele jednako.</p>\n            </article>\n            <article class=\"lp-card\">\n                <h3>AI ekosustav Rijeke i Istre</h3>\n                <p>Završni panel povezuje poduzetnike, tehnološke tvrtke i fakultete sjevernog Jadrana, s idejom da se suradnja dogovara uživo, a ne kroz natječajne prijave.</p>\n            </article>\n        </div>\n        <p class=\"lp-note\"><strong>Kratko i konkretno.</strong> Uz panele idu predavanja o pravu, zaštiti osobnih podataka, primjeni AI-ja u turizmu i digitalnoj transformaciji malih tvrtki. Svako traje deset do petnaest minuta: program je pisan za ljude koji nemaju cijeli dan za teoriju. Dan završava networkingom do 15:30, koji je ovdje dio programa, a ne dodatak.</p>\n    </div>\n</section>\n\n<section class=\"lp-section\" id=\"raspored\" data-nav=\"Raspored\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">7. listopada 2026.</span>\n        <h2>Raspored</h2>\n        <ol class=\"lp-agenda\">\n            <li class=\"is-break\"><time>9:30 – 10:00</time><div><h3>Registracija, kava i networking</h3></div></li>\n            <li><time>10:00 – 10:10</time><div><h3>Otvaranje konferencije</h3><p>Pozdravni govor: Bruno Samaržić</p></div></li>\n            <li><time>10:10 – 10:20</time><div><span class=\"lp-tag\">Predavanje</span><h3>Stanje generativnog AI-ja u Hrvatskoj</h3><p>Aco Momčilović</p></div></li>\n            <li><time>10:20 – 10:30</time><div><span class=\"lp-tag\">Predavanje</span><h3>Erste banka</h3><p>Tema uskoro</p></div></li>\n            <li><time>10:30 – 11:10</time><div><span class=\"lp-tag lp-tag--panel\">Panel</span><h3>AI agenti u praksi</h3><p>Nikola Šavorić (Saron Solutions), Nenad Raca, Damir Mujić, Valent Turković</p></div></li>\n            <li><time>11:10 – 11:20</time><div><span class=\"lp-tag\">Predavanje</span><h3>Što poduzetnici vibekodiraju?</h3><p>Ivan Ivanković</p></div></li>\n            <li><time>11:20 – 12:00</time><div><span class=\"lp-tag lp-tag--panel\">Panel</span><h3>AI i kibernetička sigurnost</h3><p>Moderator: Hrvoje Nekić (WEB Marketing) · Panelisti: Petar Perković, Marko Gulan, Tino Šokić</p></div></li>\n            <li class=\"is-break\"><time>12:00 – 13:00</time><div><h3>Pauza za ručak</h3></div></li>\n            <li><time>13:00 – 13:25</time><div><span class=\"lp-tag lp-tag--panel\">Panel</span><h3>Žene koje grade AI poslovanje</h3><p>Moderatorica: Nina Šebečić Crnolatac (Advisura) · Panelistice: Sandra Martinčić Ipšić (Uniri), Petra Čiček (EULEX.AI), Zinzi Cergolj (Pivot Nation)</p></div></li>\n            <li><time>13:25 – 13:35</time><div><span class=\"lp-tag\">Predavanje</span><h3>AI i pravo za poduzetnike</h3><p>Jozo Petrović</p></div></li>\n            <li><time>13:35 – 13:50</time><div><span class=\"lp-tag\">Predavanje</span><h3>Stuart Buckell (Buckhill)</h3><p>Tema uskoro</p></div></li>\n            <li><time>13:50 – 14:00</time><div><span class=\"lp-tag\">Predavanje</span><h3>Korištenje osobnih podataka i umjetna inteligencija</h3><p>Dražen Oreščanin (Legit)</p></div></li>\n            <li><time>14:00 – 14:10</time><div><span class=\"lp-tag\">Predavanje</span><h3>AI i turizam</h3><p>Goran Mrvoš</p></div></li>\n            <li><time>14:10 – 14:20</time><div><span class=\"lp-tag\">Predavanje</span><h3>Digitalna transformacija za male tvrtke</h3><p>Ivan Lorencin</p></div></li>\n            <li><time>14:20 – 14:55</time><div><span class=\"lp-tag lp-tag--panel\">Panel</span><h3>AI ekosustav Rijeke i Istre</h3><p>Moderator: Hrvoje Nekić (WEB Marketing) · Panelisti: Mauricio Licul, Sven Maričić, Dean Verbanac, Goran Mrvoš</p></div></li>\n            <li class=\"is-break\"><time>15:00 – 15:30</time><div><h3>Zatvaranje i networking</h3></div></li>\n        </ol>\n        <div class=\"lp-hosts\">\n            <span><strong>Voditelj prvog dijela (10:00 – 12:00):</strong> Aco Momčilović</span>\n            <span><strong>Voditeljica drugog dijela (13:00 – 15:00):</strong> Nina Šebečić Crnolatac</span>\n        </div>\n    </div>\n</section>\n\n<section class=\"lp-section lp-section--alt\" id=\"paneli\" data-nav=\"Paneli\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Govornici</span>\n        <h2>Paneli i sudionici</h2>\n        <div class=\"lp-gallery\">\n            <img src=\"/media/mediafields/panel-ai-agenti-u-praksi.jpg\" alt=\"Panel: AI agenti u praksi\" loading=\"lazy\">\n            <img src=\"/media/mediafields/panel-ai-i-kiberneticka-sigurnost.jpg\" alt=\"Panel: AI i kibernetička sigurnost\" loading=\"lazy\">\n            <img src=\"/media/mediafields/panel-zene-koje-grade-ai-poslovanje.jpg\" alt=\"Panel: Žene koje grade AI poslovanje\" loading=\"lazy\">\n            <img src=\"/media/mediafields/panel-ai-ekosustav-rijeke-i-istre.jpg\" alt=\"Panel: AI ekosustav Rijeke i Istre\" loading=\"lazy\">\n            <img src=\"/media/mediafields/organizacijski-odbor-erste.jpg\" alt=\"Organizacijski odbor\" loading=\"lazy\">\n            <img src=\"/media/mediafields/ai-rijeka-x-game-changer.jpg\" alt=\"AI Rijeka x Game Changer\" loading=\"lazy\">\n        </div>\n    </div>\n</section>\n\n<section class=\"lp-section\" id=\"zasto-ugp\" data-nav=\"Organizator\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Organizator</span>\n        <h2>Zašto to radi Udruga Glas poduzetnika</h2>\n        <div class=\"lp-cols\">\n            <div>\n                <p>UGP okuplja poduzetnike koji dijele uvjerenje da se konkurentnost gradi znanjem, a ne čekanjem da netko drugi riješi problem. Umjetna inteligencija je danas najbrži način da mala tvrtka poveća učinkovitost bez povećanja troškova, i upravo zato ne smije ostati tema rezervirana za one koji si mogu priuštiti konzultante.</p>\n                <p>Misija konferencije je to znanje spustiti na razinu na kojoj je upotrebljivo: bez žargona, s primjerima iz hrvatskih tvrtki, i s ljudima koji su stvari već pokušali i mogu reći što nije upalilo.</p>\n            </div>\n            <div>\n                <p><strong>Rijeka je odabrana svjesno.</strong> Grad i šire područje imaju tehnološke tvrtke, fakultete i poduzetnike koji rade na istim temama, a rjeđe nego što bi trebalo rade na njima zajedno.</p>\n            </div>\n        </div>\n    </div>\n</section>\n\n<section class=\"lp-section lp-section--alt\" id=\"partneri\" data-nav=\"Partneri\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Uz podršku</span>\n        <h2>Partneri</h2>\n        <div class=\"lp-partners\">\n            <div>\n                <h3>Konferenciju podržava</h3>\n                <ul class=\"lp-chips lp-chips--main\"><li>Grad Rijeka</li></ul>\n            </div>\n            <div>\n                <h3>Partneri</h3>\n                <ul class=\"lp-chips\">\n                    <li>Erste banka</li><li>Saron Solutions</li><li>Buckhill</li><li>Poslovna akademija Rijeka (PAR)</li><li>EU4Dual</li><li>ICT Istra</li>\n                </ul>\n            </div>\n            <div>\n                <h3>Medijski partneri</h3>\n                <ul class=\"lp-chips\">\n                    <li>N1 televizija</li><li>ICT Business Info</li><li>Mreža magazin</li><li>Časopis Poduzetnik</li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</section>\n"
+          }
+        }
+      ]
+    }
+  ]
+}
