@@ -1,6 +1,17 @@
+function sanitizeBarcodeText(text) {
+    // Transliterate diacritics (č -> c, Đ -> D, ...) then drop anything that is not
+    // printable ASCII, keeping newlines which separate HUB3 fields
+    return (text || '')
+        .replace(/đ/g, 'd')
+        .replace(/Đ/g, 'D')
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')
+        .replace(/[^\x20-\x7E\n]/g, '');
+}
+
 function drawBarcodeToDiv(divId, textToEncode) {
     // Barcode generation sample copied from library sample
-    PDF417.init(textToEncode);
+    PDF417.init(sanitizeBarcodeText(textToEncode));
     var barcode = PDF417.getBarcodeArray();
     // block sizes (width and height) in pixels
     var bw = 2;
