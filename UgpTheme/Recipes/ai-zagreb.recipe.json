@@ -57,6 +57,11 @@
             },
             "CtaText": {
               "Text": "Ulaz je besplatan, ograničeno na 100 mjesta. Prijave su otvorene."
+            },
+            "Image": {
+              "Paths": [
+                "AI Zagreb 2026/banner-web.png"
+              ]
             }
           },
           "HtmlBodyPart": {
