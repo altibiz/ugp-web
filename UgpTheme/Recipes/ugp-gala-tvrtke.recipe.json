@@ -1,0 +1,78 @@
+{
+  "name": "UgpGala2026Tvrtke",
+  "displayName": "6. UGP GALA – stol za tvrtke",
+  "description": "The /ugp-gala-tvrtke LandingPage item: table booking pitch for companies (6. UGP GALA, 1 Dec 2026, Hotel International Zagreb). Requires the Landing Page recipe to have been run once.",
+  "author": "Glas poduzetnika",
+  "website": "https://www.glaspoduzetnika.hr",
+  "version": "1.0.0",
+  "issetuprecipe": false,
+  "categories": [
+    "content"
+  ],
+  "tags": [
+    "landing"
+  ],
+  "steps": [
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "4ugpgala2026tvrtke00000001",
+          "ContentType": "LandingPage",
+          "DisplayText": "Božićni domjenak za vaš tim",
+          "Latest": true,
+          "Published": true,
+          "TitlePart": {
+            "Title": "Božićni domjenak za vaš tim"
+          },
+          "AutoroutePart": {
+            "Path": "ugp-gala-tvrtke",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "LandingPage": {
+            "Eyebrow": {
+              "Text": "6. UGP GALA · Stol za tvrtke"
+            },
+            "Subtitle": {
+              "Text": "Rezervirajte stol za svoj tim na UGP GALA večeri. Svečana večera, zanimljiv program, DJ, profesionalna fotografija tima i ugodna atmosfera, bez ijedne brige oko organizacije."
+            },
+            "When": {
+              "Text": "1. prosinca 2026. · okupljanje od 18:30"
+            },
+            "Where": {
+              "Text": "Hotel International, Miramarska 24, Zagreb"
+            },
+            "WhereLink": {
+              "Url": "https://www.google.com/maps/search/Hotel%20International%20Miramarska%2024%20Zagreb",
+              "Text": "Hotel International, Miramarska 24, Zagreb"
+            },
+            "Notice": {
+              "Text": "Rezervacije stolova primamo do 27. studenoga 2026. do 12:00 sati."
+            },
+            "Registration": {
+              "Url": "https://forms.gle/zgxQP5X8CBw2hx6CA",
+              "Text": "Rezervirajte stol"
+            },
+            "Image": {
+              "Paths": [
+                "mediafields/UGP GALA (7).png"
+              ]
+            },
+            "CtaTitle": {
+              "Text": "Vaš tim, naš domjenak"
+            },
+            "CtaText": {
+              "Text": "Rezervirajte stol za 5 ili više osoba po cijeni od 100 EUR po osobi i prepustite nama organizaciju."
+            }
+          },
+          "HtmlBodyPart": {
+            "Html": "<style>\n    /* Gala palette: deep teal + gold, matching the poster. Overrides the shared LandingPage tokens for this page only. */\n    :root {\n        --lp-ink: #072b2d;\n        --lp-ink-2: #0b4245;\n        --lp-teal: #9a7430;\n        --lp-teal-light: #e8cc84;\n        --lp-coral: #d4af5a;\n        --lp-paper: #f8f5ee;\n        --lp-line: #e9e1cf;\n    }\n    .lp .lp-btn-primary { background: linear-gradient(135deg, #e8cc84, #c49a45); color: #072b2d; }\n    .lp .lp-btn-primary:hover { background: linear-gradient(135deg, #f0d898, #d4af5a); color: #072b2d; }\n    .lp-hero {\n        background:\n            radial-gradient(900px 500px at 85% -10%, rgba(232, 204, 132, .22), transparent 60%),\n            radial-gradient(700px 400px at -10% 110%, rgba(22, 110, 112, .55), transparent 60%),\n            linear-gradient(160deg, #072b2d 0%, #0b4245 100%);\n    }\n    .lp-hero::before {\n        background-image: radial-gradient(rgba(232, 204, 132, .35) 1px, transparent 1.5px);\n        background-size: 34px 34px;\n    }\n    .lp-hero-media img { box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7), 0 0 0 1px rgba(232, 204, 132, .35); }\n    .lp-notice { background: rgba(232, 204, 132, .14); }\n    .lp-card:hover { box-shadow: 0 14px 30px -20px rgba(154, 116, 48, .7); }\n    .lp-note { background: rgba(212, 175, 90, .14); }\n    .lp-tag { background: rgba(154, 116, 48, .12); }\n    .lp-tag--panel { background: rgba(11, 66, 69, .1); color: #0b4245; }\n    .lp-quote { border-left-color: var(--lp-coral); }\n    .lp-cta { background: radial-gradient(700px 300px at 50% 0%, rgba(232, 204, 132, .25), transparent 70%), var(--lp-ink-2); }\n\n    .gala-prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 36px; }\n    .gala-price {\n        padding: 28px; background: #fff; border: 1px solid var(--lp-line); border-radius: var(--lp-radius);\n        display: flex; flex-direction: column; gap: 6px;\n    }\n    .gala-price--main { border-color: var(--lp-teal); box-shadow: 0 14px 30px -22px rgba(154, 116, 48, .8); }\n    .gala-price strong { font-size: 40px; font-weight: 800; line-height: 1.1; color: var(--lp-ink); }\n    .gala-price span { color: var(--lp-muted); font-size: 16px; }\n    .gala-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px; margin: 32px 0 0; }\n    .gala-facts div { padding: 18px 0; border-top: 1px solid var(--lp-line); }\n    .gala-facts dt { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lp-teal); margin-bottom: 4px; }\n    .gala-facts dd { margin: 0; font-weight: 700; color: var(--lp-ink); }\n    .gala-sign { margin-top: 28px; font-style: italic; color: var(--lp-muted); }\n    @media (max-width: 860px) {\n        .gala-prices, .gala-facts { grid-template-columns: 1fr; }\n    }\n\n    .gala-steps { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: galastep; }\n    .gala-steps li { position: relative; padding: 64px 28px 28px; background: #fff; border: 1px solid var(--lp-line); border-radius: var(--lp-radius); }\n    .gala-steps li::before {\n        counter-increment: galastep; content: counter(galastep);\n        position: absolute; left: 28px; top: 22px; width: 32px; height: 32px; border-radius: 50%;\n        display: grid; place-items: center; font-weight: 800; font-size: 15px;\n        background: linear-gradient(135deg, #e8cc84, #c49a45); color: #072b2d;\n    }\n    .gala-steps h3 { font-size: 19px; }\n    .gala-steps p { margin: 0; color: var(--lp-muted); }\n    .gala-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 36px; }\n    .gala-compare > div { padding: 28px; border-radius: var(--lp-radius); border: 1px solid var(--lp-line); background: #fff; }\n    .gala-compare h3 { font-size: 13px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--lp-muted); margin-bottom: 14px; }\n    .gala-compare ul { margin: 0; padding: 0; list-style: none; }\n    .gala-compare li { padding: 8px 0 8px 30px; position: relative; }\n    .gala-compare li::before { position: absolute; left: 0; top: 8px; font-family: \"Font Awesome 5 Free\"; font-weight: 900; }\n    .gala-compare .is-diy li::before { content: \"\\f00d\"; color: #b3a99a; }\n    .gala-compare .is-ugp { border-color: var(--lp-teal); box-shadow: 0 14px 30px -22px rgba(154, 116, 48, .8); }\n    .gala-compare .is-ugp h3 { color: var(--lp-teal); }\n    .gala-compare .is-ugp li::before { content: \"\\f00c\"; color: var(--lp-teal); }\n    @media (max-width: 860px) {\n        .gala-steps, .gala-compare { grid-template-columns: 1fr; }\n    }\n</style>\n\n<section class=\"lp-section\" id=\"zasto\" data-nav=\"Zašto UGP GALA\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Božićni domjenak za vaš tim</span>\n        <h2>Zaboravite stres oko organizacije, mi smo sve pripremili</h2>\n        <p class=\"lp-lead\">Umjesto da tražite dvoranu, slažete jelovnik i smišljate program, rezervirajte stol za svoj tim na <strong>6. UGP GALA – Božićnoj donatorskoj večeri</strong>, <strong>1. prosinca 2026.</strong> u <strong><a href=\"https://www.google.com/maps/search/Hotel%20International%20Miramarska%2024%20Zagreb\" target=\"_blank\" rel=\"noopener\">Hotelu International</a></strong> u Zagrebu.</p>\n        <div class=\"gala-compare\">\n            <div class=\"is-diy\">\n                <h3>Vlastiti domjenak</h3>\n                <ul>\n                    <li>Traženje i rezervacija prostora</li>\n                    <li>Dogovor oko jelovnika i pića</li>\n                    <li>Smišljanje programa za večer</li>\n                    <li>Angažiranje fotografa</li>\n                    <li>Uvijek ista lica za stolom</li>\n                </ul>\n            </div>\n            <div class=\"is-ugp\">\n                <h3>Stol na UGP GALA večeri</h3>\n                <ul>\n                    <li>Svečana dvorana Hotela International</li>\n                    <li>Svečana večera za cijeli tim</li>\n                    <li>Zanimljiv program uz panele i dodjelu priznanja</li>\n                    <li>Profesionalna fotografija tima uz blagdansku scenografiju</li>\n                    <li>DJ i glazba za opušteno druženje</li>\n                    <li>Poduzetnici, partneri i novi kontakti za susjednim stolovima</li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</section>\n\n<section class=\"lp-section lp-section--alt\" id=\"ukljuceno\" data-nav=\"Što dobivate\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Sve na jednom mjestu</span>\n        <h2>Što vaš tim dobiva</h2>\n        <div class=\"lp-cards\">\n            <article class=\"lp-card\">\n                <h3>Ugodna atmosfera</h3>\n                <p>Blagdansko ozračje, svečano uređena dvorana i vaš tim za zajedničkim stolom. Vi samo dođete, mi smo se pobrinuli za sve ostalo.</p>\n            </article>\n            <article class=\"lp-card\">\n                <h3>Zanimljiv program</h3>\n                <p>Tri panela o poduzetničkom glasu u javnom prostoru, poslovnim rizicima te ekonomskim i digitalnim perspektivama za 2027., uz dodjelu godišnjih UGP priznanja.</p>\n            </article>\n            <article class=\"lp-card\">\n                <h3>Profesionalni fotograf</h3>\n                <p>Profesionalni fotograf snimit će vaš tim ispred posebno uređene, blagdanske scenografije. Dobivate zajedničku fotografiju za uspomenu, interne kanale i društvene mreže.</p>\n            </article>\n            <article class=\"lp-card\">\n                <h3>Svečana večera, DJ i druženje</h3>\n                <p>Nakon službenog programa slijedi svečana večera i druženje uz DJ-a u opuštenom blagdanskom ozračju.</p>\n            </article>\n        </div>\n        <p class=\"lp-note\"><strong>Više od domjenka.</strong> Za susjednim stolovima sjede poduzetnici, obrtnici, predstavnici javnog sektora, poslovni partneri i mediji. Vaš tim slavi kraj godine, a usput upoznaje ljude s kojima može poslovati u 2027.</p>\n    </div>\n</section>\n\n<section class=\"lp-section\" id=\"cijena\" data-nav=\"Cijena\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Grupna cijena</span>\n        <h2>Stol za 5 ili više osoba</h2>\n        <div class=\"gala-prices\">\n            <div class=\"gala-price gala-price--main\"><strong>100 EUR</strong><span>po osobi, uz zakup stola za 5 ili više osoba</span></div>\n            <div class=\"gala-price\"><strong>130 EUR</strong><span>pojedinačna cijena sudjelovanja</span></div>\n            <div class=\"gala-price\"><strong>110 EUR</strong><span>posebna cijena za UGP partnere koji plaćaju godišnju članarinu</span></div>\n        </div>\n        <p class=\"lp-note\"><strong>Donatorska večer.</strong> Kotizacijom ujedno podržavate rad Udruge Glas poduzetnika i njezino zalaganje za bolje uvjete poslovanja u Hrvatskoj.</p>\n    </div>\n</section>\n\n<section class=\"lp-section lp-section--alt\" id=\"kako\" data-nav=\"Kako rezervirati\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">Tri koraka</span>\n        <h2>Kako rezervirati stol</h2>\n        <ol class=\"gala-steps\">\n            <li><h3>Prijavite tim</h3><p>Ispunite prijavu i navedite broj osoba, najmanje pet. Rok je 27. studenoga 2026. do 12:00 sati.</p></li>\n            <li><h3>Uplatite kotizaciju</h3><p>Nakon zaprimljene prijave dostavit ćemo vam podatke i upute za uplatu kotizacije.</p></li>\n            <li><h3>Dođite 1. prosinca</h3><p>Okupljanje je od 18:30 u Hotelu International, a vaš stol vas čeka.</p></li>\n        </ol>\n        <p style=\"margin-top:28px\"><a class=\"lp-btn lp-btn-primary\" href=\"https://forms.gle/zgxQP5X8CBw2hx6CA\" target=\"_blank\" rel=\"noopener\">Rezervirajte stol <i class=\"fas fa-arrow-right\"></i></a></p>\n    </div>\n</section>\n\n<section class=\"lp-section\" id=\"vecer\" data-nav=\"Večer\">\n    <div class=\"lp-wrap\">\n        <span class=\"lp-kicker\">1. prosinca 2026.</span>\n        <h2>Tijek večeri</h2>\n        <ol class=\"lp-agenda\">\n            <li class=\"is-break\"><time>18:30</time><div><h3>Okupljanje</h3></div></li>\n            <li><time>19:00</time><div><span class=\"lp-tag\">Službeni program</span><h3>Paneli i dodjela godišnjih UGP priznanja</h3><p>Osvrt na 2026. godinu i pogled na izazove i prilike u 2027.</p></div></li>\n            <li><time>Nakon programa</time><div><span class=\"lp-tag lp-tag--panel\">Druženje</span><h3>Svečana večera, DJ i druženje</h3></div></li>\n        </ol>\n        <dl class=\"gala-facts\">\n            <div><dt>Lokacija</dt><dd><a href=\"https://www.google.com/maps/search/Hotel%20International%20Miramarska%2024%20Zagreb\" target=\"_blank\" rel=\"noopener\">Hotel International, Miramarska 24, Zagreb</a></dd></div>\n            <div><dt>Više o večeri</dt><dd><a href=\"/ugp-gala\">Sve o 6. UGP GALA večeri</a></dd></div>\n        </dl>\n    </div>\n</section>\n"
+          }
+        }
+      ]
+    }
+  ]
+}
