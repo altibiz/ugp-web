@@ -1,7 +1,7 @@
 {
   "name": "LandingPage",
   "displayName": "Landing Page (tip sadržaja i predlošci)",
-  "description": "Adds the LandingPage content type and its Templates (own header/footer layout). Run before the event recipes (ai-rijeka, ai-zagreb).",
+  "description": "Adds the LandingPage content type and its Templates (own header/footer layout). Applied by the UgpTheme data migration (UpdateFrom6); the *.autosync.recipe.json landing pages depend on it.",
   "author": "Glas poduzetnika",
   "website": "https://www.glaspoduzetnika.hr",
   "version": "1.0.0",
