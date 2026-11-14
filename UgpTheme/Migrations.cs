@@ -198,5 +198,14 @@ namespace OrchardCore.Themes.UgpTheme
 
             return 6;
         }
+
+        // LandingPage content type + its Templates. Re-runnable: when the type or templates
+        // change, edit Migrations/landing-page.recipe.json and add a new UpdateFromN that runs it again.
+        public async Task<int> UpdateFrom6()
+        {
+            await _migrator.ExecuteAsync("landing-page.recipe.json", this);
+
+            return 7;
+        }
     }
 }

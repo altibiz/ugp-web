@@ -8,6 +8,7 @@ using OrchardCore.ResourceManagement;
 using OrchardCore.Taxonomies.Drivers;
 using OrchardCore.Taxonomies.Fields;
 using System;
+using OrchardCore.Themes.UgpTheme.AutosyncRecipes;
 using UgpTheme.Drivers;
 
 namespace OrchardCore.Themes.UgpTheme
@@ -18,6 +19,7 @@ namespace OrchardCore.Themes.UgpTheme
         {
             serviceCollection.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();
             serviceCollection.AddScoped<IDataMigration, Migrations>();
+            serviceCollection.AddScoped<IModularTenantEvents, AutosyncRecipesTenantEvents>();
 
             serviceCollection.AddContentField<TaxonomyField>().UseDisplayDriver<TaxonomyFieldTagsDisplayDriver>(d => false)
                 .UseDisplayDriver<TaxonomyFieldDisplayDriver>(d => false)
