@@ -18,6 +18,7 @@
     <style asp-name="ugptheme-fonts"></style>
     <style asp-name="ugptheme"></style>
     <style asp-name="ugptheme-bootstrap-oc" version="1"></style>
+    <style asp-name="ugptheme-ugp"></style>
     <style asp-name="ugptheme-home"></style>
     <script asp-name="ugptheme" at="Foot"></script>
 
@@ -27,7 +28,8 @@
     <resources type="HeadScript" />
     @await RenderSectionAsync("HeadMeta", required: false)
 </head>
-<body dir="@Orchard.CultureDir()">
+@* Pages without a page header (login, register, member pages) get a solid nav bar, see ugp.css. *@
+<body dir="@Orchard.CultureDir()" class="@(IsSectionDefined("Header") ? null : "ugp-nav-solid")">
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="~/">

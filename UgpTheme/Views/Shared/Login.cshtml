@@ -18,13 +18,8 @@
 
 <style asp-name="font-awesome" version="5"></style>
 <script asp-name="ugptheme-custom"></script>
-<style>
-    #mainNav {
-        position: relative
-    }
-</style>
-
-<div class="row">
+@* ugp-wide / ugp-auth: site-wide styles in wwwroot/css/ugp.css *@
+<div class="row ugp-wide ugp-auth">
     @if (!ViewContext.ModelState.IsValid)
     {
         <div class="col-12">

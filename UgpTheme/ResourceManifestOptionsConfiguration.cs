@@ -62,6 +62,13 @@ namespace OrchardCore.Themes.UgpTheme
                 .SetUrl("~/UgpTheme/css/styles.min.css", "~/UgpTheme/css/styles.css")
                 .SetVersion("6.0.0");
 
+            // Site-wide design layer over the Clean Blog styles (tokens, shared components,
+            // page header, buttons, forms). Plain CSS, not part of the SCSS build.
+            _manifest
+                .DefineStyle("ugptheme-ugp")
+                .SetUrl("~/UgpTheme/css/ugp.css")
+                .SetVersion("1.0.0");
+
             // Homepage redesign (Content-Homepage.cshtml). Plain CSS, not part of the SCSS build.
             _manifest
                 .DefineStyle("ugptheme-home")
