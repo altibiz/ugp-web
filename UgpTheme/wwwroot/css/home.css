@@ -246,7 +246,8 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     color: #fff;
 }
 .ugp-work .ugp-eyebrow { color: #7fd6e8; }
-.ugp-work .ugp-title { color: #fff; margin-bottom: 2rem; }
+.ugp-work .ugp-title { color: #fff; margin-bottom: .5rem; }
+.ugp-work__lead { font-size: 1.15rem; color: rgba(255, 255, 255, .78); margin: 0 0 2rem; }
 .ugp-work__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
