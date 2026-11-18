@@ -20,7 +20,6 @@ namespace OrchardCore.Themes.UgpTheme
             serviceCollection.AddTransient<IConfigureOptions<ResourceManagementOptions>, ResourceManagementOptionsConfiguration>();
             serviceCollection.AddScoped<IDataMigration, Migrations>();
             serviceCollection.AddScoped<IModularTenantEvents, AutosyncRecipesTenantEvents>();
-            serviceCollection.AddScoped<IContentDisplayDriver, HomepageContentDisplayDriver>();
 
             serviceCollection.AddContentField<TaxonomyField>().UseDisplayDriver<TaxonomyFieldTagsDisplayDriver>(d => false)
                 .UseDisplayDriver<TaxonomyFieldDisplayDriver>(d => false)

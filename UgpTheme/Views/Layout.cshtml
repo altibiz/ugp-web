@@ -5,8 +5,6 @@
 @{
     // Navbar is pre-rendered to allow resource injection.
     var navbar = await DisplayAsync(await NavbarDisplay.BuildDisplayAsync(UpdateModelAccessor.ModelUpdater));
-    // Set by HomepageContentDisplayDriver: the homepage template lays out its own full-width sections.
-    var isHomepage = ((IShape)Model).Properties.ContainsKey(UgpTheme.Drivers.HomepageContentDisplayDriver.LayoutFlag);
 }
 
 <!DOCTYPE html>
@@ -20,6 +18,7 @@
     <style asp-name="ugptheme-fonts"></style>
     <style asp-name="ugptheme"></style>
     <style asp-name="ugptheme-bootstrap-oc" version="1"></style>
+    <style asp-name="ugptheme-home"></style>
     <script asp-name="ugptheme" at="Foot"></script>
 
     <resources type="Meta" />
@@ -28,7 +27,7 @@
     <resources type="HeadScript" />
     @await RenderSectionAsync("HeadMeta", required: false)
 </head>
-<body dir="@Orchard.CultureDir()" class="@(isHomepage ? "home" : null)">
+<body dir="@Orchard.CultureDir()">
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="~/">
@@ -66,29 +65,14 @@
     @await RenderSectionAsync("Header", required: false)
     @await RenderSectionAsync("Login", required: false)
 
-    @if (isHomepage)
-    {
-        <main class="home-main">
-            @if (IsSectionDefined("Messages"))
-            {
-                <div class="container px-4 px-lg-5 pt-3">
-                    @await RenderSectionAsync("Messages", required: false)
-                </div>
-            }
-            @await RenderBodyAsync()
-        </main>
-    }
-    else
-    {
-        <div class="container px-4 px-lg-5 mb-4">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    @await RenderSectionAsync("Messages", required: false)
-                    @await RenderBodyAsync()
-                </div>
+    <div class="container px-4 px-lg-5 mb-4">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                @await RenderSectionAsync("Messages", required: false)
+                @await RenderBodyAsync()
             </div>
         </div>
-    }
+    </div>
 
     @if (IsSectionDefined("Footer"))
     {

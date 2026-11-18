@@ -1,0 +1,1504 @@
+{
+  "name": "UgpHomepage",
+  "displayName": "Naslovnica (Glas poduzetnika)",
+  "description": "The homepage Page item (/home, set as homepage): hero with call to action and stats, mission, latest /novosti posts, donation section, partner galleries and a closing call to action. Styles: UgpTheme/wwwroot/css/home.css.",
+  "author": "Glas poduzetnika",
+  "website": "https://www.glaspoduzetnika.hr",
+  "version": "1.0.0",
+  "issetuprecipe": false,
+  "categories": [
+    "content"
+  ],
+  "tags": [
+    "home"
+  ],
+  "steps": [
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "4ehkyebe6v9zsyqn2nq8ke1z51",
+          "ContentType": "Page",
+          "DisplayText": "Glas poduzetnika",
+          "Latest": true,
+          "Published": true,
+          "Page": {},
+          "TitlePart": {
+            "Title": "Glas poduzetnika"
+          },
+          "AutoroutePart": {
+            "Path": "home",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4tnwqtfjtz6x1z2475x5btxdde",
+            "Culture": "hr"
+          },
+          "FlowPart": {
+            "Widgets": [
+              {
+                "ContentItemId": "4ugphomehero00000000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<header class=\"ugp-home ugp-hero\">\n    <div class=\"container px-4 px-lg-5 ugp-hero__inner\">\n        <p class=\"ugp-eyebrow\">Udruga mikro, malih i srednjih poduzetnika</p>\n        <h1 class=\"ugp-hero__title\">Glas poduzetnika</h1>\n        <p class=\"ugp-hero__lead\">Okupljamo poduzetnike, obrtnike, samozaposlene i sve zaposlene u privatnom sektoru. Konkretnim prijedlozima mjera i reformi gradimo zdrave temelje za Hrvatsku 2.0.</p>\n        <div class=\"ugp-hero__actions\">\n            <a class=\"ugp-btn ugp-btn--primary\" href=\"/register\">Učlani se</a>\n            <a class=\"ugp-btn ugp-btn--ghost\" href=\"#podrzi\">Podrži nas</a>\n        </div>\n    </div>\n    <div class=\"container px-4 px-lg-5 ugp-stats\">\n        <div class=\"ugp-stats__grid\">\n                <div class=\"ugp-stat\">\n                    <span class=\"ugp-stat__value\">200.000+</span>\n                    <span class=\"ugp-stat__label\">Podržavatelja - poduzetnika, obrtnika i zaposlenika u privatnom sektoru</span>\n                </div>\n                <div class=\"ugp-stat\">\n                    <span class=\"ugp-stat__value\">20.100+</span>\n                    <span class=\"ugp-stat__label\">Članova udruge</span>\n                </div>\n                <div class=\"ugp-stat\">\n                    <span class=\"ugp-stat__value\">5+ mlrd</span>\n                    <span class=\"ugp-stat__label\">EUR prihoda članova i podržavatelja</span>\n                </div>\n        </div>\n    </div>\n</header>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomemission00000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<section class=\"ugp-band ugp-mission\">\n    <div class=\"container px-4 px-lg-5\">\n        <div class=\"ugp-mission__grid\">\n            <div class=\"ugp-mission__intro\">\n                <p class=\"ugp-eyebrow\">Tko smo</p>\n                <h2 class=\"ugp-title\">Glas onih koji stvaraju vrijednost</h2>\n                <p class=\"ugp-muted\">Neovisni smo i nemamo političkih ambicija. Ne povezujemo se ni s jednom političkom opcijom.</p>\n                <a class=\"ugp-link\" href=\"/o-nama\">Više o udruzi</a>\n            </div>\n            <blockquote>Glas Poduzetnika je udruga #mikro, #malih i #srednjih poduzetnika, obrtnika, samozaposlenih, svih zaposlenika u privatnom sektoru i svih drugih koji podržavaju ciljeve i rad Udruge, čiji je cilj konkretnim prijedlozima nužnih i hitnih ekonomskih #mjera i #reformi upućenih Vladi i državnim institucijama, ubrzanje ekonomskog oporavka cijelog društva te izgradnja zdravih temelja za Hrvatsku 2.0</blockquote>\n        </div>\n    </div>\n</section>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomenews00000000000000",
+                "ContentType": "RecentNews",
+                "DisplayText": "Najnovije iz udruge",
+                "Latest": false,
+                "Published": false,
+                "RecentNews": {
+                  "ShowFirst": {
+                    "Value": 3
+                  }
+                },
+                "TitlePart": {
+                  "Title": "Najnovije iz udruge"
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomesupporthead0000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<section class=\"ugp-band ugp-support-head\" id=\"podrzi\">\n    <div class=\"container px-4 px-lg-5\">\n        <p class=\"ugp-eyebrow\">Podrži nas</p>\n        <h2 class=\"ugp-title\">Uloži u budućnost hrvatskog poduzetništva</h2>\n        <p class=\"ugp-muted\">Udruga djeluje zahvaljujući članovima i donatorima. Svaka uplata pomaže da se glas poduzetnika čuje glasnije.</p>\n    </div>\n</section>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4tgzrpz9tnkw40t5ecazmzqcm7",
+                "ContentItemVersionId": null,
+                "ContentType": "Carousel",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-18T10:07:26.9032993Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "info_glaspoduzetnika.hr",
+                "Carousel": {
+                  "Interval": {
+                    "Value": 5000
+                  },
+                  "IncludeControls": {
+                    "Value": true
+                  },
+                  "IncludeIndicators": {
+                    "Value": false
+                  },
+                  "Ride": {
+                    "Value": true
+                  },
+                  "Wrap": {
+                    "Value": true
+                  },
+                  "Keyboard": {
+                    "Value": false
+                  },
+                  "Pause": {
+                    "Value": false
+                  }
+                },
+                "Slides": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4gzf7kaezsqar2nsdv2xz4t8xz",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:26.9112069Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (4).gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4zy8v8hrtrmwts6n4bfczp094j",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:26.9189892Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (5).gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "40bdd03b5hekmwf6rgbe2wxvw4",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:26.9267943Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (6).gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4f0v6qb1fzhw4xwqtwwdd5rn58",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Slide",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:26.9461857Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "Slide": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (7).gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        }
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4nfw4xc22bhbbzd9957krrfa52",
+                "ContentItemVersionId": null,
+                "ContentType": "Paragraph",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-18T10:07:26.9574023Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "info_glaspoduzetnika.hr",
+                "Paragraph": {
+                  "Content": {
+                    "Html": "<p>HVALA VAM što ste bili tu i podržali nas na putovanju za bolju budućnost poduzetništva u Hrvatskoj. <b>Sada vas pozivamo da budete dio nečeg većeg</b>, da nam pomognete u stvaranju bolje budućnosti za poduzetnike i da zajedno ostvarimo pozitivne promjene.&nbsp;</p><p>Pozivamo vas da investirate u <b>budućnost hrvatskog poduzetništva</b> i da se pridružite našoj fundraising kampanji kako bismo ostvarili zajedničke ciljeve i nastavili stvarati Hrvatsku 2.0!</p><p>U nastavku možete izgenerirati kod i podatke za plaćanje:</p>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4k10raat02b1gwfbqa1t7fptd9",
+                "ContentItemVersionId": null,
+                "ContentType": "PledgeForm",
+                "DisplayText": null,
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-18T10:07:26.9653275Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": null,
+                "Author": "info_glaspoduzetnika.hr",
+                "PledgeForm": {
+                  "PledgeVariant": {
+                    "ContentItemIds": [
+                      "5599209fa3d04b0da7482e655"
+                    ]
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4j5m8ng92nytgyatywtdchmdn2",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "Partneri",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-18T10:07:27.0698806Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "info_glaspoduzetnika.hr",
+                "TitlePart": {
+                  "Title": "Partneri"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4gx6wkwxh0ztqwx1nhs0n9s8nj",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.0763987Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "24sata-300px_162034 (1).png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.glaspoduzetnika.hr/24sata",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.glaspoduzetnika.hr/24sata",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "410tmrz68qhd27m4q74x0gx5wr",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.0882987Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "article/EBC_Special_screen_page-0001.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4gxkpk9rs81t573mhbkdsqcf5k",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.0984331Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/1024px-A1_Logo_Red.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4sf8fyjptm0w66pszg9mz3s4xn",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1084759Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/logo (1).png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4a7e5s8p8ybyg6r4ya501fzk5j",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "Organizacije koje nas podržavaju",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-18T10:07:27.1226069Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "info_glaspoduzetnika.hr",
+                "TitlePart": {
+                  "Title": "Organizacije koje nas podržavaju"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4hva4s884ybxexs0ksrym0ds52",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1273437Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_hiro_14373.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.hiro.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.hiro.hr/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4maq3sw5qxv0h5nhfkhnw7d8mn",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1371692Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ostanidoma_ugostitelji_logo_65733.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://nuu.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://nuu.hr/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4mjzm7rgch89dtvaaxw2xn42xf",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1489442Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "women_in_adria_logo_65927.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.womeninadria.com/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.womeninadria.com/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "41vk6bzpt0xczrb992fc31nmxx",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1587069Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mba_logo_7013.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.mba-croatia.com/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.mba-croatia.com/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4173sbmtw8ymvssvgqmrjjbqng",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1683971Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_cisex_7046.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.cisex.org/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.cisex.org/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "46t7y9fa7d6sqr1w0h5t8vmc5d",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1850711Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_croai_7148.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.croai.org/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.croai.org/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4y636nh91te230y1mygx4fqt48",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.1965609Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "udruga-lipa_761.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.manjiporezi.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.manjiporezi.hr/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4a5gkc41f22sq2davh6f3bm0nn",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2070826Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "hura_logo_155122.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://hura.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://hura.hr/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4p3ff3s9shza2x4gk68vkxpqx1",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2171922Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_udruga_autobus_143532.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "44c338ytebs6jsxqvyhr5kvxws",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2266832Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo-ecommerce-hrvatska_154412.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://ecommerce.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4n36vwe6m12y7sa6tx0jtxjpm7",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2372504Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_za_web_103545.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4g79rs9c88dpnxxe8fsmh30zm9",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2474339Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "memo_udruga_115218.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4hapxsvrgtmgp7t7tpv7qdq2dc",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2600538Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ok_ribola_grb-1_173115.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4ajgpjxbvq8fmrwx23zdzzmfnb",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2721418Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "fip_udruga_104550.gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "45vqr40v8dzkh332ksjr1czxnc",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2827448Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "šumovlasnici logo_17034.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "48vv4pbswpk804znffq61p3348",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.2936523Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "uhcp_-_logo_2_101050.gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4ap8e96s22csjwgjv1xbndxbc3",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.3045944Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "Screenshot_20220208-113656_OneDrive (1).jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.nasemirovine.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.nasemirovine.hr/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4kqbjjef0ckgp44qfjy3t641dt",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.3159129Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "pomak.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4jqmzvzyg4b2y1jpw5hxjjy14v",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.32731Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "zrin_n (1).png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4xm1fe3nxrs11yg0a0wvdbk8mj",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "Europske organizacije kojih smo članovi",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-18T10:07:27.3419897Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "info_glaspoduzetnika.hr",
+                "TitlePart": {
+                  "Title": "Europske organizacije kojih smo članovi"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "46ve577m00b9e4c7pha20rbmn7",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-18T10:07:27.3492893Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "4ws2zjebw5pw5rp9xnk3h6q5mp",
+                      "Author": "info_glaspoduzetnika.hr",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ee-logo.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.european-entrepreneurs.org/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomecta000000000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<section class=\"ugp-band ugp-cta\">\n    <div class=\"container px-4 px-lg-5\">\n        <div class=\"ugp-cta__inner\">\n            <div>\n                <h2 class=\"ugp-cta__title\">Budi dio glasa koji pokreće promjene</h2>\n                <p class=\"ugp-cta__text\">Što nas je više, to se nas bolje čuje. Pridruži se tisućama poduzetnika koji već mijenjaju pravila igre.</p>\n            </div>\n            <a class=\"ugp-btn ugp-btn--primary\" href=\"/register\">Učlani se</a>\n        </div>\n    </div>\n</section>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
