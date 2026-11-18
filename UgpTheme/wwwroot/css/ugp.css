@@ -7,21 +7,25 @@
  * Plain CSS on purpose: it is not part of the Clean Blog SCSS build in Assets/.
  */
 
+/* Palette taken from the logo (header-logo.png): slate teal #437f84 and mint #c0e1dc.
+   Dark sections use a neutral navy ink; coral is the call-to-action accent. */
 :root {
     --ugp-ink: #0d1b2a;
+    --ugp-ink-rgb: 13, 27, 42;
     --ugp-ink-2: #14304a;
-    --ugp-teal: #0085a1;
-    --ugp-teal-dark: #006a80;
-    --ugp-teal-light: #7fd6e8;
-    --ugp-teal-soft: #e6f4f7;
-    --ugp-accent: #ff6b4a;
-    --ugp-accent-dark: #e8532f;
-    --ugp-paper: #f5f7fa;
-    --ugp-line: #e2e7ee;
-    --ugp-text: #1f2933;
-    --ugp-muted: #5b6875;
+    --ugp-teal: #437f84;
+    --ugp-teal-rgb: 67, 127, 132;
+    --ugp-teal-dark: #2f6569;
+    --ugp-teal-light: #c0e1dc;
+    --ugp-teal-soft: #eaf4f2;
+    --ugp-accent: #f2694c;
+    --ugp-accent-dark: #d9533a;
+    --ugp-paper: #f4f7f6;
+    --ugp-line: #dfe7e6;
+    --ugp-text: #1f2a2b;
+    --ugp-muted: #566668;
     --ugp-radius: 16px;
-    --ugp-shadow: 0 10px 30px rgba(13, 27, 42, .08);
+    --ugp-shadow: 0 10px 30px rgba(var(--ugp-ink-rgb), .08);
     --ugp-sans: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
@@ -133,8 +137,8 @@ header.masthead {
 header.masthead::before {
     opacity: 1;
     background:
-        radial-gradient(50rem 25rem at 85% -10%, rgba(0, 133, 161, .5), transparent 60%),
-        linear-gradient(180deg, rgba(13, 27, 42, .7) 0%, rgba(13, 27, 42, .85) 100%);
+        radial-gradient(50rem 25rem at 85% -10%, rgba(var(--ugp-teal-rgb), .55), transparent 60%),
+        linear-gradient(180deg, rgba(var(--ugp-ink-rgb), .7) 0%, rgba(var(--ugp-ink-rgb), .85) 100%);
 }
 header.masthead .site-heading h1,
 header.masthead .page-heading h1,
@@ -175,12 +179,28 @@ header.masthead .post-heading .meta { color: rgba(255, 255, 255, .75); font-size
 .btn { font-family: var(--ugp-sans); font-weight: 700; border-radius: 10px; }
 .btn-primary, .btn-success { background: var(--ugp-teal); border-color: var(--ugp-teal); }
 .btn-primary:hover, .btn-primary:focus, .btn-success:hover, .btn-success:focus { background: var(--ugp-teal-dark); border-color: var(--ugp-teal-dark); }
+.btn-outline-primary { color: var(--ugp-teal); border-color: var(--ugp-teal); }
+.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary.active { color: #fff; background: var(--ugp-teal); border-color: var(--ugp-teal); }
+
+/* The compiled Clean Blog/Bootstrap styles hard-code the old cyan (#0085a1) as "primary";
+   point the commonly used pieces at the logo teal. */
+a:hover, .btn-link:hover, .nav-link:hover, .nav-link:focus,
+#mainNav.is-fixed .navbar-nav > li.nav-item > a:hover, #mainNav.is-fixed .navbar-nav > li.nav-item > a:focus,
+.post-preview > a:hover, .post-preview > a:focus,
+.page-link:hover, .page-link:focus, .link-primary { color: var(--ugp-teal); }
+.text-primary { color: var(--ugp-teal) !important; }
+.bg-primary { background-color: var(--ugp-teal) !important; }
+.border-primary { border-color: var(--ugp-teal) !important; }
+.page-item.active .page-link, .list-group-item.active { background-color: var(--ugp-teal); border-color: var(--ugp-teal); }
+.dropdown-item.active, .dropdown-item:active, .nav-pills .nav-link.active { background-color: var(--ugp-teal); }
 
 .form-control, .form-select, .multiselect__tags { border-radius: 10px; border-color: var(--ugp-line); }
 .form-control:focus, .form-select:focus {
     border-color: var(--ugp-teal);
-    box-shadow: 0 0 0 .2rem rgba(0, 133, 161, .15);
+    box-shadow: 0 0 0 .2rem rgba(var(--ugp-teal-rgb), .2);
 }
+.form-check-input:checked, .form-check-input[type=checkbox]:indeterminate { background-color: var(--ugp-teal); border-color: var(--ugp-teal); }
+.form-check-input:focus { border-color: var(--ugp-teal); box-shadow: 0 0 0 .2rem rgba(var(--ugp-teal-rgb), .2); }
 /* Input groups (Bootstrap 5 markup and the older input-group-prepend/append wrappers):
    square inside, rounded only at the outer ends. */
 .input-group .form-control, .input-group .form-select, .input-group .input-group-text { border-radius: 0; }
