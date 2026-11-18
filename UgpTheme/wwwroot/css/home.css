@@ -8,7 +8,7 @@
  *   RawHtml  .ugp-band.ugp-mission       "Tko smo" + mission quote
  *   RecentNews                           .ugp-band.ugp-news (Widget-RecentNews.liquid)
  *   RawHtml  .ugp-band.ugp-support-head  "Podrži nas" heading (#podrzi)
- *   Carousel, Paragraph                  left column
+ *   RawHtml  .ugp-support-text           why donate + how, left column
  *   PledgeForm                           right column, as a card
  *   Gallery (any number)                 logo tiles
  *   RawHtml  .ugp-band.ugp-cta           closing call to action
@@ -288,36 +288,75 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
 .flow:has(> .ugp-home) > .ugp-band.ugp-news { margin-top: 0; margin-bottom: 0; background: var(--ugp-paper); }
 .flow:has(> .ugp-home) > .ugp-band.ugp-news .ugp-news__card { border-color: transparent; box-shadow: var(--ugp-shadow); }
 
-/* ---------- support: heading band, carousel + paragraph left, pledge form right ---------- */
+/* ---------- support: heading band, text left, pledge form right ---------- */
 
 .flow > .ugp-band.ugp-support-head {
     padding-bottom: 2.25rem;
     background: linear-gradient(180deg, var(--ugp-teal-soft), #fff);
 }
-.ugp-support-head .ugp-title,
-.ugp-support-head p.ugp-muted { max-width: 46rem; }
-.ugp-support-head p.ugp-muted { font-size: 1.05rem; margin: 0; }
+.ugp-support-head .ugp-title { max-width: 46rem; margin-bottom: 0; }
 
-.flow:has(> .ugp-home) > .carousel,
-.flow:has(> .ugp-home) > .widget-paragraph {
-    grid-column: 1;
+.flow:has(> .ugp-home) > .ugp-support-text { grid-column: 1; }
+.ugp-support-text__lead { font-size: 1.1rem; line-height: 1.7; margin: 0 0 1.25rem; }
+.ugp-support-text__list {
+    list-style: none;
+    margin: 0 0 2.25rem;
+    padding: 0;
 }
-.flow:has(> .ugp-home) > .carousel {
-    border-radius: var(--ugp-radius);
-    overflow: hidden;
-    box-shadow: var(--ugp-shadow);
-    margin-bottom: 1.75rem;
+.ugp-support-text__list li {
+    position: relative;
+    padding: .9rem 0 .9rem 2.25rem;
+    border-bottom: 1px solid var(--ugp-line);
+    line-height: 1.55;
 }
-.flow:has(> .ugp-home) > .widget-paragraph {
-    font-size: 1.05rem;
-    line-height: 1.75;
-    text-align: left;
+.ugp-support-text__list li::before {
+    content: "";
+    position: absolute;
+    left: .35rem;
+    top: 1.3rem;
+    width: .7rem;
+    height: .7rem;
+    border-radius: 50%;
+    background: var(--ugp-accent);
 }
-/* Paragraphs pasted from elsewhere carry inline font styles; keep them on the page's type scale. */
-.flow:has(> .ugp-home) > .widget-paragraph [style] {
-    font-size: inherit !important;
-    font-family: inherit !important;
-    color: inherit !important;
+.ugp-support-text__list strong { font-family: var(--ugp-sans); color: var(--ugp-ink); }
+.ugp-support-text__subtitle {
+    font-family: var(--ugp-sans);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--ugp-ink);
+    margin: 0 0 1rem;
+}
+.ugp-steps {
+    list-style: none;
+    counter-reset: ugp-step;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0 0 2rem;
+    padding: 0;
+}
+.ugp-steps li {
+    counter-increment: ugp-step;
+    padding: 1.1rem 1.1rem 1.2rem;
+    background: var(--ugp-paper);
+    border-radius: 12px;
+    font-size: .95rem;
+    line-height: 1.5;
+}
+.ugp-steps li::before {
+    content: counter(ugp-step);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: .6rem;
+    border-radius: 50%;
+    background: var(--ugp-teal);
+    color: #fff;
+    font-family: var(--ugp-sans);
+    font-weight: 800;
 }
 
 .flow:has(> .ugp-home) > #personSelector,
@@ -325,7 +364,6 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     grid-column: 2;
 }
 .flow:has(> .ugp-home) > form[action*="Pledge"] {
-    grid-row: span 2;
     align-self: start;
     background: #fff;
     border: 1px solid var(--ugp-line);
@@ -454,6 +492,7 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     .flow > .ugp-band.ugp-mission { padding-top: 5.5rem; }
     .ugp-mission blockquote { padding: 1.75rem 1.5rem; font-size: 1.05rem; }
     .flow:has(> .ugp-home) > .gallery .gallery-item { flex-basis: calc(50% - .5rem); }
+    .ugp-steps { grid-template-columns: minmax(0, 1fr); }
     .ugp-cta__inner { padding: 2rem 1.5rem; }
     .ugp-btn { flex: 1 1 auto; }
 }

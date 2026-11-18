@@ -98,7 +98,7 @@
                 "Published": false,
                 "RawHtml": {
                   "Content": {
-                    "Html": "<section class=\"ugp-band ugp-support-head\" id=\"podrzi\">\n    <div class=\"container px-4 px-lg-5\">\n        <p class=\"ugp-eyebrow\">Podrži nas</p>\n        <h2 class=\"ugp-title\">Uloži u budućnost hrvatskog poduzetništva</h2>\n        <p class=\"ugp-muted\">Udruga djeluje zahvaljujući članovima i donatorima. Svaka uplata pomaže da se glas poduzetnika čuje glasnije.</p>\n    </div>\n</section>"
+                    "Html": "<section class=\"ugp-band ugp-support-head\" id=\"podrzi\">\n    <div class=\"container px-4 px-lg-5\">\n        <p class=\"ugp-eyebrow\">Podrži nas</p>\n        <h2 class=\"ugp-title\">Neovisnost nam daju članovi i donatori</h2>\n    </div>\n</section>"
                   }
                 },
                 "FlowMetadata": {
@@ -107,204 +107,14 @@
                 }
               },
               {
-                "ContentItemId": "4tgzrpz9tnkw40t5ecazmzqcm7",
-                "ContentItemVersionId": null,
-                "ContentType": "Carousel",
+                "ContentItemId": "4ugphomesupporttext0000000",
+                "ContentType": "RawHtml",
                 "DisplayText": "",
                 "Latest": false,
                 "Published": false,
-                "ModifiedUtc": "2026-09-18T10:07:26.9032993Z",
-                "PublishedUtc": null,
-                "CreatedUtc": null,
-                "Owner": "",
-                "Author": "info_glaspoduzetnika.hr",
-                "Carousel": {
-                  "Interval": {
-                    "Value": 5000
-                  },
-                  "IncludeControls": {
-                    "Value": true
-                  },
-                  "IncludeIndicators": {
-                    "Value": false
-                  },
-                  "Ride": {
-                    "Value": true
-                  },
-                  "Wrap": {
-                    "Value": true
-                  },
-                  "Keyboard": {
-                    "Value": false
-                  },
-                  "Pause": {
-                    "Value": false
-                  }
-                },
-                "Slides": {
-                  "ContentItems": [
-                    {
-                      "ContentItemId": "4gzf7kaezsqar2nsdv2xz4t8xz",
-                      "ContentItemVersionId": null,
-                      "ContentType": "Slide",
-                      "DisplayText": "",
-                      "Latest": false,
-                      "Published": false,
-                      "ModifiedUtc": "2026-09-18T10:07:26.9112069Z",
-                      "PublishedUtc": null,
-                      "CreatedUtc": null,
-                      "Owner": "",
-                      "Author": "info_glaspoduzetnika.hr",
-                      "Slide": {
-                        "Caption": {
-                          "Html": ""
-                        },
-                        "DisplayCaption": {
-                          "Value": false
-                        },
-                        "Image": {
-                          "Paths": [
-                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (4).gif"
-                          ],
-                          "MediaTexts": [
-                            ""
-                          ]
-                        },
-                        "ImageClass": {
-                          "Text": null
-                        },
-                        "ImageAltText": {
-                          "Text": null
-                        }
-                      }
-                    },
-                    {
-                      "ContentItemId": "4zy8v8hrtrmwts6n4bfczp094j",
-                      "ContentItemVersionId": null,
-                      "ContentType": "Slide",
-                      "DisplayText": "",
-                      "Latest": false,
-                      "Published": false,
-                      "ModifiedUtc": "2026-09-18T10:07:26.9189892Z",
-                      "PublishedUtc": null,
-                      "CreatedUtc": null,
-                      "Owner": "",
-                      "Author": "info_glaspoduzetnika.hr",
-                      "Slide": {
-                        "Caption": {
-                          "Html": ""
-                        },
-                        "DisplayCaption": {
-                          "Value": false
-                        },
-                        "Image": {
-                          "Paths": [
-                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (5).gif"
-                          ],
-                          "MediaTexts": [
-                            ""
-                          ]
-                        },
-                        "ImageClass": {
-                          "Text": null
-                        },
-                        "ImageAltText": {
-                          "Text": null
-                        }
-                      }
-                    },
-                    {
-                      "ContentItemId": "40bdd03b5hekmwf6rgbe2wxvw4",
-                      "ContentItemVersionId": null,
-                      "ContentType": "Slide",
-                      "DisplayText": "",
-                      "Latest": false,
-                      "Published": false,
-                      "ModifiedUtc": "2026-09-18T10:07:26.9267943Z",
-                      "PublishedUtc": null,
-                      "CreatedUtc": null,
-                      "Owner": "",
-                      "Author": "info_glaspoduzetnika.hr",
-                      "Slide": {
-                        "Caption": {
-                          "Html": ""
-                        },
-                        "DisplayCaption": {
-                          "Value": false
-                        },
-                        "Image": {
-                          "Paths": [
-                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (6).gif"
-                          ],
-                          "MediaTexts": [
-                            ""
-                          ]
-                        },
-                        "ImageClass": {
-                          "Text": null
-                        },
-                        "ImageAltText": {
-                          "Text": null
-                        }
-                      }
-                    },
-                    {
-                      "ContentItemId": "4f0v6qb1fzhw4xwqtwwdd5rn58",
-                      "ContentItemVersionId": null,
-                      "ContentType": "Slide",
-                      "DisplayText": "",
-                      "Latest": false,
-                      "Published": false,
-                      "ModifiedUtc": "2026-09-18T10:07:26.9461857Z",
-                      "PublishedUtc": null,
-                      "CreatedUtc": null,
-                      "Owner": "",
-                      "Author": "info_glaspoduzetnika.hr",
-                      "Slide": {
-                        "Caption": {
-                          "Html": ""
-                        },
-                        "DisplayCaption": {
-                          "Value": false
-                        },
-                        "Image": {
-                          "Paths": [
-                            "mediafields/Company/Red Monochrome Photo Charity Donation Presentation (7).gif"
-                          ],
-                          "MediaTexts": [
-                            ""
-                          ]
-                        },
-                        "ImageClass": {
-                          "Text": null
-                        },
-                        "ImageAltText": {
-                          "Text": null
-                        }
-                      }
-                    }
-                  ]
-                },
-                "FlowMetadata": {
-                  "Alignment": "Justify",
-                  "Size": 100
-                }
-              },
-              {
-                "ContentItemId": "4nfw4xc22bhbbzd9957krrfa52",
-                "ContentItemVersionId": null,
-                "ContentType": "Paragraph",
-                "DisplayText": "",
-                "Latest": false,
-                "Published": false,
-                "ModifiedUtc": "2026-09-18T10:07:26.9574023Z",
-                "PublishedUtc": null,
-                "CreatedUtc": null,
-                "Owner": "",
-                "Author": "info_glaspoduzetnika.hr",
-                "Paragraph": {
+                "RawHtml": {
                   "Content": {
-                    "Html": "<p>HVALA VAM što ste bili tu i podržali nas na putovanju za bolju budućnost poduzetništva u Hrvatskoj. <b>Sada vas pozivamo da budete dio nečeg većeg</b>, da nam pomognete u stvaranju bolje budućnosti za poduzetnike i da zajedno ostvarimo pozitivne promjene.&nbsp;</p><p>Pozivamo vas da investirate u <b>budućnost hrvatskog poduzetništva</b> i da se pridružite našoj fundraising kampanji kako bismo ostvarili zajedničke ciljeve i nastavili stvarati Hrvatsku 2.0!</p><p>U nastavku možete izgenerirati kod i podatke za plaćanje:</p>"
+                    "Html": "<div class=\"ugp-support-text\">\n    <p class=\"ugp-support-text__lead\">Udruga ne prima izravno financiranje od države ni od političkih stranaka. Njezin svakodnevni rad omogućuju članovi i donatori, a svaka donacija ide u:</p>\n    <ul class=\"ugp-support-text__list\">\n        <li><strong>Prijedloge mjera i reformi</strong> koje šaljemo Vladi i institucijama</li>\n        <li><strong>Kampanje i javne akcije</strong> kad treba glasno reći „dosta”</li>\n        <li><strong>Analize i istupe u medijima</strong> koji poduzetničke teme drže na dnevnom redu</li>\n    </ul>\n    <h3 class=\"ugp-support-text__subtitle\">Kako donirati</h3>\n    <ol class=\"ugp-steps\">\n        <li>Odaberi iznos i upiši svoje podatke</li>\n        <li>Dobiješ podatke za uplatu i 2D kod</li>\n        <li>Skeniraj kod u mobilnom bankarstvu – i gotovo</li>\n    </ol>\n</div>"
                   }
                 },
                 "FlowMetadata": {
