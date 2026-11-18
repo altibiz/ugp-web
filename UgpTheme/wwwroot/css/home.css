@@ -410,10 +410,15 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     font-weight: 800;
 }
 
+/* The text spans two rows so that, for logged-in members with companies, the "Član" selector
+   (a separate form the PledgeForm widget renders first) and the payment form stack in the
+   right column instead of pushing the payment form below the text. */
+.flow:has(> .ugp-home) > .ugp-support-text { grid-row: span 2; }
 .flow:has(> .ugp-home) > #personSelector,
 .flow:has(> .ugp-home) > form[action*="Pledge"] {
     grid-column: 2;
 }
+.flow:has(> .ugp-home) > #personSelector,
 .flow:has(> .ugp-home) > form[action*="Pledge"] {
     align-self: start;
     background: #fff;
@@ -422,6 +427,18 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     border-radius: var(--ugp-radius);
     box-shadow: var(--ugp-shadow);
     padding: 1.75rem;
+}
+/* With the selector present, the two forms read as one card: selector on top, payment below. */
+.flow:has(> .ugp-home) > #personSelector {
+    border-bottom: 0;
+    border-radius: var(--ugp-radius) var(--ugp-radius) 0 0;
+    padding-bottom: .25rem;
+    box-shadow: none;
+}
+.flow:has(> .ugp-home) > #personSelector + form[action*="Pledge"] {
+    border-top: 0;
+    border-radius: 0 0 var(--ugp-radius) var(--ugp-radius);
+    padding-top: .5rem;
 }
 .flow:has(> .ugp-home) > form[action*="Pledge"] .form-floating,
 .flow:has(> .ugp-home) > form[action*="Pledge"] .field-wrapper { margin-bottom: .85rem; }
@@ -528,7 +545,8 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
 @media (max-width: 991.98px) {
     .flow:has(> .ugp-home) { grid-template-columns: minmax(0, 1fr); }
     .flow:has(> .ugp-home) > #personSelector,
-    .flow:has(> .ugp-home) > form[action*="Pledge"] { grid-column: 1; grid-row: auto; }
+    .flow:has(> .ugp-home) > form[action*="Pledge"],
+    .flow:has(> .ugp-home) > .ugp-support-text { grid-column: 1; grid-row: auto; }
     .ugp-mission__grid { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
     .ugp-work__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
