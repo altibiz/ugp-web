@@ -62,6 +62,12 @@ namespace OrchardCore.Themes.UgpTheme
                 .SetUrl("~/UgpTheme/css/styles.min.css", "~/UgpTheme/css/styles.css")
                 .SetVersion("6.0.0");
 
+            // Homepage redesign (Content-Homepage.cshtml). Plain CSS, not part of the SCSS build.
+            _manifest
+                .DefineStyle("ugptheme-home")
+                .SetUrl("~/UgpTheme/css/home.css")
+                .SetVersion("1.0.0");
+
             // Self-hosted Lora + Open Sans. Replaces fonts.googleapis.com so
             // visitor IPs are never sent to Google before consent (GDPR).
             _manifest

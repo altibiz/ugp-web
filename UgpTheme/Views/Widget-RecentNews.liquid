@@ -1,5 +1,48 @@
-<h2 class="section-heading">{{ Model.ContentItem.DisplayText }}</h2>
-{% assign recentBlogPosts = Queries.RecentBlogPosts | query %}
-{% for item in recentBlogPosts %}
-    {{ item | shape_build_display: "Summary" | shape_render }}
-{% endfor %}
+{% comment %}
+    Latest posts from the /novosti blog as cards. The widget title is the section heading and
+    ShowFirst is the number of posts (default 3). Styles: wwwroot/css/home.css (.ugp-news).
+    Posts come from the blog's own list, so the other blogs (Blog UGP-a, uspješne priče...)
+    are not mixed in.
+{% endcomment %}
+{% assign count = Model.ContentItem.Content.RecentNews.ShowFirst.Value | default: 3 | plus: 0 %}
+<section class="ugp-band ugp-news">
+    <div class="container px-4 px-lg-5">
+        <div class="ugp-news__head">
+            <div>
+                <p class="ugp-eyebrow">Novosti</p>
+                <h2 class="ugp-title">{{ Model.ContentItem.DisplayText | default: "Najnovije iz udruge" }}</h2>
+            </div>
+            <a class="ugp-link" href="{{ "~/novosti" | href }}">Sve novosti</a>
+        </div>
+        {% cache "ugp-recent-news", after: "00:05:00", vary_by: count %}
+            {% assign blog = Content["slug:novosti"] %}
+            {% if blog %}
+                {% assign posts = blog | list_items | sort: "CreatedUtc" | reverse %}
+                <div class="ugp-news__grid">
+                    {% for post in posts limit: count %}
+                        {% assign url = post | display_url %}
+                        {% assign imagePath = post.Content.BlogPost.Image.Paths.first %}
+                        {% assign excerpt = post.Content.BlogPost.Subtitle.Text %}
+                        {% if excerpt == blank %}
+                            {% assign excerpt = post.Content.MarkdownBodyPart.Markdown | markdownify | strip_html | strip_newlines | truncate: 170 %}
+                        {% endif %}
+                        <article class="ugp-news__card">
+                            <a class="ugp-news__media" href="{{ url }}" tabindex="-1" aria-hidden="true">
+                                {% if imagePath %}
+                                    <img src="{{ imagePath | asset_url | resize_url: width: 600 }}" alt="" loading="lazy">
+                                {% endif %}
+                            </a>
+                            <div class="ugp-news__body">
+                                <time class="ugp-news__date" datetime="{{ post.CreatedUtc | local | date: "%Y-%m-%d" }}">{{ post.CreatedUtc | local | date: "%d.%m.%Y." }}</time>
+                                <h3 class="ugp-news__title"><a href="{{ url }}">{{ post.DisplayText }}</a></h3>
+                                {% if excerpt != blank %}
+                                    <p class="ugp-news__excerpt">{{ excerpt }}</p>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endcache %}
+    </div>
+</section>
