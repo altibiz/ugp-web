@@ -1,0 +1,1172 @@
+{
+  "name": "UgpHomepageEn",
+  "displayName": "Homepage (English, /en/home)",
+  "description": "The English homepage Page item (/en/home): hero with call to action and stats, who we are, what we do, partner galleries and a closing call to action. Same layout and styles as the Croatian homepage (UgpTheme/wwwroot/css/home.css).",
+  "author": "Glas poduzetnika",
+  "website": "https://www.glaspoduzetnika.hr",
+  "version": "1.0.0",
+  "issetuprecipe": false,
+  "categories": [
+    "content"
+  ],
+  "tags": [
+    "home"
+  ],
+  "steps": [
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentItemId": "4pncb3vyaq4mj1e86qaq9mezcc",
+          "ContentType": "Page",
+          "DisplayText": "Voice of Entrepreneurs",
+          "Latest": true,
+          "Published": true,
+          "Page": {},
+          "TitlePart": {
+            "Title": "Voice of Entrepreneurs"
+          },
+          "AutoroutePart": {
+            "Path": "en/home",
+            "SetHomepage": false,
+            "Disabled": false,
+            "RouteContainedItems": false,
+            "Absolute": false
+          },
+          "LocalizationPart": {
+            "LocalizationSet": "4tnwqtfjtz6x1z2475x5btxdde",
+            "Culture": "en"
+          },
+          "FlowPart": {
+            "Widgets": [
+              {
+                "ContentItemId": "4ugphomeenhero000000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<header class=\"ugp-home ugp-hero\">\n    <div class=\"container px-4 px-lg-5 ugp-hero__inner\">\n        <p class=\"ugp-eyebrow\">Association of micro, small and medium-sized entrepreneurs</p>\n        <h1 class=\"ugp-hero__title\">Voice of Entrepreneurs</h1>\n        <p class=\"ugp-hero__lead\">We bring together entrepreneurs, craftspeople, the self-employed and everyone working in the private sector. With concrete proposals for measures and reforms, we are building healthy foundations for Croatia 2.0.</p>\n        <div class=\"ugp-hero__actions\">\n            <a class=\"ugp-btn ugp-btn--primary\" href=\"/register\">Become a member</a>\n            <a class=\"ugp-btn ugp-btn--ghost\" href=\"#what-we-do\">What we do</a>\n        </div>\n    </div>\n    <div class=\"container px-4 px-lg-5 ugp-stats\">\n        <div class=\"ugp-stats__grid\">\n                <div class=\"ugp-stat\">\n                    <span class=\"ugp-stat__value\">200.000+</span>\n                    <span class=\"ugp-stat__label\">Supporters – entrepreneurs, craftspeople and private-sector employees</span>\n                </div>\n                <div class=\"ugp-stat\">\n                    <span class=\"ugp-stat__value\">20.100+</span>\n                    <span class=\"ugp-stat__label\">Members of the association</span>\n                </div>\n                <div class=\"ugp-stat\">\n                    <span class=\"ugp-stat__value\">5+ bn</span>\n                    <span class=\"ugp-stat__label\">EUR revenue of members and supporters</span>\n                </div>\n        </div>\n    </div>\n</header>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomeenmission000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<section class=\"ugp-band ugp-mission\">\n    <div class=\"container px-4 px-lg-5\">\n        <div class=\"ugp-mission__grid\">\n            <div class=\"ugp-mission__intro\">\n                <p class=\"ugp-eyebrow\">Who we are</p>\n                <h2 class=\"ugp-title\">The voice of those who create value</h2>\n                <p class=\"ugp-muted\">We are entrepreneurs, craftspeople and self-employed people who create jobs and fill the state budget every day. We turn first-hand experience into proposals that decision-makers cannot ignore.</p>\n            </div>\n            <blockquote>Voice of Entrepreneurs is an association of #micro, #small and #medium-sized entrepreneurs, craftsmen, self-employed, all employees in the private sector and all others who support the goals and work of the Association, whose goal is concrete proposals for necessary and urgent economic #measures and #reforms addressed to the Government and state institutions, accelerating the economic recovery of the entire society and building healthy foundations for Croatia 2.0.</blockquote>\n        </div>\n    </div>\n</section>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomeenwork000000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<section class=\"ugp-band ugp-work\" id=\"what-we-do\">\n    <div class=\"container px-4 px-lg-5\">\n        <p class=\"ugp-eyebrow\">What we do</p>\n        <h2 class=\"ugp-title\">For entrepreneurs on every front</h2>\n        <p class=\"ugp-work__lead\">Wherever decisions about entrepreneurs are made – we are there.</p>\n        <div class=\"ugp-work__grid\">\n            <article class=\"ugp-work__card\">\n                <img class=\"ugp-work__img\" src=\"/UgpTheme/assets/img/home/pred-vladom.jpg\" alt=\"Press statement in front of the Government on St. Mark's Square\" loading=\"lazy\">\n                <div class=\"ugp-work__body\">\n                    <h3 class=\"ugp-work__title\">Proposals to the Government</h3>\n                    <p class=\"ugp-work__text\">We present concrete measures and reforms publicly and hand them to those who make the decisions.</p>\n                </div>\n            </article>\n            <article class=\"ugp-work__card\">\n                <img class=\"ugp-work__img\" src=\"/UgpTheme/assets/img/home/prosvjed-zrinjevac.jpg\" alt=\"Protest stage on Zrinjevac with the message For a better dialogue with the state\" loading=\"lazy\">\n                <div class=\"ugp-work__body\">\n                    <h3 class=\"ugp-work__title\">“Enough with the levies!” protest</h3>\n                    <p class=\"ugp-work__text\">On 10 October 2026, together with other associations, we gathered in Zagreb’s Zrinjevac park to demand lower levies and a better dialogue with the state.</p>\n                </div>\n            </article>\n            <article class=\"ugp-work__card\">\n                <img class=\"ugp-work__img\" src=\"/UgpTheme/assets/img/home/konferencija.jpg\" alt=\"Panel at the 3rd Family Business Conference\" loading=\"lazy\">\n                <div class=\"ugp-work__body\">\n                    <h3 class=\"ugp-work__title\">Conferences and education</h3>\n                    <p class=\"ugp-work__text\">We bring together entrepreneurs and experts – from the Family Business Conference to “AI pogon za biznis” in Rijeka and Zagreb.</p>\n                </div>\n            </article>\n        </div>\n    </div>\n</section>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "46xz4h38xxs85501fj575zjenf",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "Partners",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-17T21:17:13.474009Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "TitlePart": {
+                  "Title": "Partners"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4f39gtdcrrkyw48ts1p0h1p7df",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Image",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.4788682Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Image": {
+                        "Media": {
+                          "Paths": [
+                            "24sata-300px_162034.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "Caption": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.24sata.hr",
+                          "Text": null,
+                          "Target": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4rbgrxhcy8rrark2m6fdgzd3cm",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Image",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.4877581Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Image": {
+                        "Media": {
+                          "Paths": [
+                            "mediafields/Company/EBC_Special_screen_page-0001.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "Caption": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.zaba.hr/home",
+                          "Text": null,
+                          "Target": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4a3hmn9wsy95vys6b947jy29da",
+                      "ContentItemVersionId": null,
+                      "ContentType": "Image",
+                      "DisplayText": "",
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.4968167Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "Image": {
+                        "Media": {
+                          "Paths": [
+                            "mediafields/Company/1024px-A1_Logo_Red (1).jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "Caption": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://telemach.hr",
+                          "Text": null,
+                          "Target": null
+                        }
+                      }
+                    },
+                    {
+                      "ContentItemId": "4hfd3gnkj74ps4sksx9zaeqpc4",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5056544Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mediafields/Company/logotip-u-boji-636137816744875983_748_421.jpeg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "446hg5vyckt4tz0t6ssp4zw7wp",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "Organisations that support us",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-17T21:17:13.518408Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "TitlePart": {
+                  "Title": "Organisations that support us"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4x8y6z48mxmqtv2rq75pxgqach",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5241463Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_hiro_14373.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.hiro.hr/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4zm602tptmtzksp9k2ewh234we",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5345956Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ostanidoma_ugostitelji_logo_65733.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "45m57zh3tbrszr5w1wbqmz9wmd",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5440307Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": "<p><a href=\"https://www.womeninadria.com/\">https://www.womeninadria.com/</a></p>"
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "women_in_adria_logo_65927.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "46ezs5sjf97s95yz0dbt29yz4c",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.555246Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "mba_logo_7013.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4hgg7dw913yyvsh4qskx0mspxp",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5653655Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_cisex_7046.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "41m2hzhprk8gj548eqh4d9za4s",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.575407Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_croai_7148.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4394rvkxq3naf501gfhexz4444",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5864869Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "udruga-lipa_761.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4q3e19takps48tmw56e7dtt5d3",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.5968243Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "hura_logo_155122.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "42y8nxm04eh6m7mewqbaesh5nv",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.6078835Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_udruga_autobus_143532.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4p11sw96arnf07adk6gxp74anx",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.6235406Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo-ecommerce-hrvatska_154412.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4z91199a0tb0j0f9835mzr265k",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.6387758Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "logo_za_web_103545.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4wbt0erne7s5vx97f87s1t5zxz",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.651303Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "memo_udruga_115218.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4nzgw7j8mkp0j3x7e3h3rmwydr",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.6662212Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ok_ribola_grb-1_173115.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "437e9ms7ga2ce0dse03x679h4m",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.704959Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "fip_udruga_104550.gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4r7rz0ckaa8xhr3z2sctc4k2d4",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.715747Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "šumovlasnici logo_17034.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "45hhwqndkg0xt7gegamq7bjkdh",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.7267074Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "uhcp_-_logo_2_101050.gif"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": null,
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ry0f77y3z6nat3rhb725e0bdk",
+                "ContentItemVersionId": null,
+                "ContentType": "Gallery",
+                "DisplayText": "European organizations of which we are members",
+                "Latest": false,
+                "Published": false,
+                "ModifiedUtc": "2026-09-17T21:17:13.7410541Z",
+                "PublishedUtc": null,
+                "CreatedUtc": null,
+                "Owner": "",
+                "Author": "admin",
+                "TitlePart": {
+                  "Title": "European organizations of which we are members"
+                },
+                "Gallery": {
+                  "DisplayType": {
+                    "Text": null
+                  }
+                },
+                "GPieces": {
+                  "ContentItems": [
+                    {
+                      "ContentItemId": "4vt1jkc47wprkrsn3sksqjhkcp",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.7459871Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "SMEunited_RGB.jpg"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.smeunited.eu/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.smeunited.eu/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4b47n79m1kmr72z20ngqjhehwh",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.7587914Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ESBA logo.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.esba-europe.org/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": "https://www.esba-europe.org/",
+                        "Target": null
+                      }
+                    },
+                    {
+                      "ContentItemId": "4n7gch95q6jxf5pkzdjzmypq4y",
+                      "ContentItemVersionId": null,
+                      "ContentType": "GPiece",
+                      "DisplayText": null,
+                      "Latest": false,
+                      "Published": false,
+                      "ModifiedUtc": "2026-09-17T21:17:13.7727358Z",
+                      "PublishedUtc": null,
+                      "CreatedUtc": null,
+                      "Owner": "4ws2zjebw5pw5rp9xnk3h6q5mp",
+                      "Author": "admin",
+                      "GPiece": {
+                        "Caption": {
+                          "Html": ""
+                        },
+                        "DisplayCaption": {
+                          "Value": false
+                        },
+                        "Image": {
+                          "Paths": [
+                            "ee-logo.png"
+                          ],
+                          "MediaTexts": [
+                            ""
+                          ]
+                        },
+                        "ImageClass": {
+                          "Text": null
+                        },
+                        "ImageAltText": {
+                          "Text": null
+                        },
+                        "Link": {
+                          "Url": "https://www.european-entrepreneurs.org/",
+                          "Text": null,
+                          "Target": null
+                        }
+                      },
+                      "LinkMenuItemPart": {
+                        "Url": null,
+                        "Target": null
+                      }
+                    }
+                  ]
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              },
+              {
+                "ContentItemId": "4ugphomeencta0000000000000",
+                "ContentType": "RawHtml",
+                "DisplayText": "",
+                "Latest": false,
+                "Published": false,
+                "RawHtml": {
+                  "Content": {
+                    "Html": "<section class=\"ugp-band ugp-cta\">\n    <div class=\"container px-4 px-lg-5\">\n        <div class=\"ugp-cta__inner\">\n            <div>\n                <h2 class=\"ugp-cta__title\">Be part of the voice that drives change</h2>\n                <p class=\"ugp-cta__text\">The more of us there are, the louder we are heard. Join thousands of entrepreneurs who are already changing the rules of the game.</p>\n            </div>\n            <a class=\"ugp-btn ugp-btn--primary\" href=\"/register\">Become a member</a>\n        </div>\n    </div>\n</section>"
+                  }
+                },
+                "FlowMetadata": {
+                  "Alignment": "Justify",
+                  "Size": 100
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -484,7 +484,9 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     max-width: 1100px;
     margin: 0 auto;
 }
-.flow:has(> .ugp-home) > .gallery .gallery-item {
+/* Gallery pieces render as .gallery-item (GPiece) or <article><figure> (Image items); tile both. */
+.flow:has(> .ugp-home) > .gallery .gallery-item,
+.flow:has(> .ugp-home) > .gallery > article {
     flex: 0 0 160px;
     height: 96px;
     margin: 0;
@@ -497,8 +499,13 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     border-radius: 12px;
     transition: border-color .2s ease, box-shadow .2s ease;
 }
-.flow:has(> .ugp-home) > .gallery .gallery-item:hover { border-color: #c9d3de; box-shadow: var(--ugp-shadow); }
-.flow:has(> .ugp-home) > .gallery .gallery-item a {
+.flow:has(> .ugp-home) > .gallery .gallery-item:hover,
+.flow:has(> .ugp-home) > .gallery > article:hover { border-color: #c9d3de; box-shadow: var(--ugp-shadow); }
+.flow:has(> .ugp-home) > .gallery > article .figure { margin: 0; width: 100%; height: 100%; }
+.flow:has(> .ugp-home) > .gallery > article .figure-caption:empty { display: none; }
+.flow:has(> .ugp-home) > .gallery > article .figure-img { margin: 0; border-radius: 0; }
+.flow:has(> .ugp-home) > .gallery .gallery-item a,
+.flow:has(> .ugp-home) > .gallery > article a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -513,7 +520,8 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     opacity: .75;
     transition: filter .25s ease, opacity .25s ease;
 }
-.flow:has(> .ugp-home) > .gallery .gallery-item:hover img { filter: none; opacity: 1; }
+.flow:has(> .ugp-home) > .gallery .gallery-item:hover img,
+.flow:has(> .ugp-home) > .gallery > article:hover img { filter: none; opacity: 1; }
 
 /* ---------- closing call to action ---------- */
 
@@ -561,7 +569,8 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     .ugp-stat + .ugp-stat { border-left: 0; border-top: 1px solid var(--ugp-line); }
     .flow > .ugp-band.ugp-mission { padding-top: 5.5rem; }
     .ugp-mission blockquote { padding: 1.75rem 1.5rem; font-size: 1.05rem; }
-    .flow:has(> .ugp-home) > .gallery .gallery-item { flex-basis: calc(50% - .5rem); }
+    .flow:has(> .ugp-home) > .gallery .gallery-item,
+    .flow:has(> .ugp-home) > .gallery > article { flex-basis: calc(50% - .5rem); }
     .ugp-steps,
     .ugp-work__grid { grid-template-columns: minmax(0, 1fr); }
     .ugp-cta__inner { padding: 2rem 1.5rem; }
