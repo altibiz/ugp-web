@@ -5,7 +5,7 @@
  *
  * Widgets on the homepage, in flow order:
  *   RawHtml  .ugp-home.ugp-hero          hero + call to action + stats
- *   RawHtml  .ugp-band.ugp-mission       "Tko smo" + mission quote
+ *   RawHtml  .ugp-band.ugp-mission       "Tko smo" + "Za što se zalažemo"
  *   RawHtml  .ugp-band.ugp-work          "Što radimo", three photo cards
  *   RecentNews                           .ugp-band.ugp-news (Widget-RecentNews.liquid)
  *   RawHtml  .ugp-band.ugp-support-head  "Podrži nas" heading (#podrzi)
@@ -213,29 +213,46 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     align-items: start;
 }
 .ugp-mission__intro .ugp-muted { font-size: 1.05rem; margin-bottom: 1.25rem; }
-.ugp-mission blockquote {
-    position: relative;
-    margin: 0;
-    padding: 2.25rem 2.25rem 2.25rem 2.75rem;
+/* "Za što se zalažemo": three positions next to the intro. */
+.ugp-stances {
+    padding: 2rem 2.25rem;
     background: var(--ugp-paper);
-    border-left: 4px solid var(--ugp-teal);
-    border-radius: 0 var(--ugp-radius) var(--ugp-radius) 0;
-    font-size: 1.15rem;
-    line-height: 1.75;
-    font-style: italic;
-    color: var(--ugp-ink-2);
+    border-radius: var(--ugp-radius);
 }
-.ugp-mission blockquote::before {
-    content: "\201C";
+.ugp-stances__list {
+    list-style: none;
+    counter-reset: ugp-stance;
+    margin: 0;
+    padding: 0;
+}
+.ugp-stances__list li {
+    counter-increment: ugp-stance;
+    position: relative;
+    padding: 1rem 0 1rem 3.25rem;
+    border-top: 1px solid var(--ugp-line);
+}
+.ugp-stances__list li:first-child { border-top: 0; padding-top: .25rem; }
+.ugp-stances__list li::before {
+    content: counter(ugp-stance, decimal-leading-zero);
     position: absolute;
-    top: -.4rem;
-    left: 1rem;
-    font-family: Georgia, serif;
-    font-size: 5rem;
+    left: 0;
+    top: 1rem;
+    font-family: var(--ugp-sans);
+    font-size: 1.5rem;
+    font-weight: 800;
     line-height: 1;
-    color: var(--ugp-teal);
-    opacity: .25;
+    color: var(--ugp-accent);
 }
+.ugp-stances__list li:first-child::before { top: .25rem; }
+.ugp-stances__list strong {
+    display: block;
+    font-family: var(--ugp-sans);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--ugp-ink);
+    margin-bottom: .2rem;
+}
+.ugp-stances__list span { display: block; color: var(--ugp-muted); line-height: 1.55; }
 
 /* ---------- what we do: photo cards on a dark band ---------- */
 
@@ -568,7 +585,7 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     .ugp-stat { padding: 1.25rem; }
     .ugp-stat + .ugp-stat { border-left: 0; border-top: 1px solid var(--ugp-line); }
     .flow > .ugp-band.ugp-mission { padding-top: 5.5rem; }
-    .ugp-mission blockquote { padding: 1.75rem 1.5rem; font-size: 1.05rem; }
+    .ugp-stances { padding: 1.5rem; }
     .flow:has(> .ugp-home) > .gallery .gallery-item,
     .flow:has(> .ugp-home) > .gallery > article { flex-basis: calc(50% - .5rem); }
     .ugp-steps,
