@@ -188,7 +188,7 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
 
 .flow > .ugp-band.ugp-work {
     background:
-        radial-gradient(50rem 25rem at 0% 0%, rgba(var(--ugp-teal-rgb), .35), transparent 60%),
+        radial-gradient(50rem 25rem at 0% 0%, rgba(192, 225, 220, .08), transparent 60%),
         var(--ugp-ink);
     color: #fff;
 }

@@ -261,6 +261,13 @@ a:hover, .btn-link:hover, .nav-link:hover, .nav-link:focus,
     .ugp-auth > [class*="col-"] + [class*="col-"] { border-left: 1px solid var(--ugp-line); padding-left: 2.5rem; }
 }
 
+/* ---------- footer ---------- */
+
+/* Social icons (footer widget, configured in Layers): navy circles, teal on hover. */
+footer .fa-stack { color: var(--ugp-ink); transition: color .2s ease, transform .2s ease; }
+footer a:hover .fa-stack, footer a:focus .fa-stack { color: var(--ugp-teal); transform: translateY(-2px); }
+footer .copyright { color: var(--ugp-muted); }
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition: none !important; }
 }
