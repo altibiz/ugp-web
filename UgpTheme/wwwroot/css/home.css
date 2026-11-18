@@ -14,27 +14,9 @@
  *   Gallery (any number)                 logo tiles
  *   RawHtml  .ugp-band.ugp-cta           closing call to action
  *
- * Plain CSS on purpose: it is not part of the Clean Blog SCSS build in Assets/.
+ * Tokens and shared components (.ugp-eyebrow, .ugp-title, .ugp-btn, .ugp-link, the donation
+ * form card...) are site-wide, in ugp.css. Plain CSS, not part of the Clean Blog SCSS build.
  */
-
-body:has(.ugp-home) {
-    --ugp-ink: #0d1b2a;
-    --ugp-ink-2: #14304a;
-    --ugp-teal: #0085a1;
-    --ugp-teal-dark: #006a80;
-    --ugp-teal-soft: #e6f4f7;
-    --ugp-accent: #ff6b4a;
-    --ugp-accent-dark: #e8532f;
-    --ugp-paper: #f5f7fa;
-    --ugp-line: #e2e7ee;
-    --ugp-text: #1f2933;
-    --ugp-muted: #5b6875;
-    --ugp-radius: 16px;
-    --ugp-shadow: 0 10px 30px rgba(13, 27, 42, .08);
-    --ugp-sans: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    overflow-x: clip;
-    background: #fff;
-}
 
 /* The hero replaces the generic page header, and the page uses the full container width. */
 body:has(.ugp-home) > header.masthead { display: none; }
@@ -71,58 +53,6 @@ body:has(.ugp-home) .container > .row > [class*="col-"]:has(> .flow) {
     margin-right: calc(50% - 50vw);
 }
 .flow:has(> .ugp-home) > .ugp-band { padding: 5rem 0; }
-
-/* ---------- shared bits ---------- */
-
-.ugp-eyebrow {
-    font-family: var(--ugp-sans);
-    font-size: .78rem;
-    font-weight: 700;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--ugp-teal);
-    margin: 0 0 .75rem;
-}
-.ugp-title {
-    font-family: var(--ugp-sans);
-    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
-    font-weight: 800;
-    line-height: 1.15;
-    color: var(--ugp-ink);
-    margin: 0 0 1rem;
-}
-.ugp-muted { color: var(--ugp-muted); }
-.ugp-link {
-    font-family: var(--ugp-sans);
-    font-weight: 700;
-    font-size: .95rem;
-    color: var(--ugp-teal, #0085a1);
-    text-decoration: none;
-    white-space: nowrap;
-}
-.ugp-link::after { content: " \2192"; display: inline-block; transition: transform .2s ease; }
-.ugp-link:hover, .ugp-link:focus { color: var(--ugp-teal-dark, #006a80); }
-.ugp-link:hover::after, .ugp-link:focus::after { transform: translateX(3px); }
-
-.ugp-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3rem;
-    padding: .75rem 1.6rem;
-    border-radius: 999px;
-    border: 2px solid transparent;
-    font-family: var(--ugp-sans);
-    font-size: .95rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
-}
-.ugp-btn:hover, .ugp-btn:focus { transform: translateY(-1px); }
-.ugp-btn--primary { background: var(--ugp-accent); color: #fff; }
-.ugp-btn--primary:hover, .ugp-btn--primary:focus { background: var(--ugp-accent-dark); color: #fff; }
-.ugp-btn--ghost { border-color: rgba(255, 255, 255, .55); color: #fff; }
-.ugp-btn--ghost:hover, .ugp-btn--ghost:focus { border-color: #fff; background: rgba(255, 255, 255, .1); color: #fff; }
 
 /* ---------- hero ---------- */
 
@@ -436,44 +366,7 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     grid-column: 2;
 }
 .flow:has(> .ugp-home) > #personSelector,
-.flow:has(> .ugp-home) > form[action*="Pledge"] {
-    align-self: start;
-    background: #fff;
-    border: 1px solid var(--ugp-line);
-    border-top: 4px solid var(--ugp-accent);
-    border-radius: var(--ugp-radius);
-    box-shadow: var(--ugp-shadow);
-    padding: 1.75rem;
-}
-/* With the selector present, the two forms read as one card: selector on top, payment below. */
-.flow:has(> .ugp-home) > #personSelector {
-    border-bottom: 0;
-    border-radius: var(--ugp-radius) var(--ugp-radius) 0 0;
-    padding-bottom: .25rem;
-    box-shadow: none;
-}
-.flow:has(> .ugp-home) > #personSelector + form[action*="Pledge"] {
-    border-top: 0;
-    border-radius: 0 0 var(--ugp-radius) var(--ugp-radius);
-    padding-top: .5rem;
-}
-.flow:has(> .ugp-home) > form[action*="Pledge"] .form-floating,
-.flow:has(> .ugp-home) > form[action*="Pledge"] .field-wrapper { margin-bottom: .85rem; }
-.flow:has(> .ugp-home) > form[action*="Pledge"] .btn.publish {
-    width: 100%;
-    min-height: 3rem;
-    margin-top: .5rem;
-    border-radius: 999px;
-    font-family: var(--ugp-sans);
-    font-weight: 700;
-    background: var(--ugp-teal);
-    border-color: var(--ugp-teal);
-}
-.flow:has(> .ugp-home) > form[action*="Pledge"] .btn.publish:hover,
-.flow:has(> .ugp-home) > form[action*="Pledge"] .btn.publish:focus {
-    background: var(--ugp-teal-dark);
-    border-color: var(--ugp-teal-dark);
-}
+.flow:has(> .ugp-home) > form[action*="Pledge"] { align-self: start; margin-bottom: 0; }
 
 /* ---------- galleries as logo tiles ---------- */
 
@@ -592,8 +485,4 @@ body:has(.ugp-home) .container:has(.ugp-home) { padding-top: 0; }
     .ugp-work__grid { grid-template-columns: minmax(0, 1fr); }
     .ugp-cta__inner { padding: 2rem 1.5rem; }
     .ugp-btn { flex: 1 1 auto; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    body:has(.ugp-home) *, body:has(.ugp-home) *::before, body:has(.ugp-home) *::after { transition: none !important; }
 }

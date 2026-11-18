@@ -1,0 +1,246 @@
+/*
+ * Site-wide design layer (loaded on every page after the Clean Blog styles.css).
+ * Design tokens, shared components, and a restyle of the stock theme elements every page
+ * already uses (page header, buttons, form fields, pasted content), so pages pick up the
+ * look of the homepage without page-specific work. Homepage-only sections live in home.css.
+ *
+ * Plain CSS on purpose: it is not part of the Clean Blog SCSS build in Assets/.
+ */
+
+:root {
+    --ugp-ink: #0d1b2a;
+    --ugp-ink-2: #14304a;
+    --ugp-teal: #0085a1;
+    --ugp-teal-dark: #006a80;
+    --ugp-teal-light: #7fd6e8;
+    --ugp-teal-soft: #e6f4f7;
+    --ugp-accent: #ff6b4a;
+    --ugp-accent-dark: #e8532f;
+    --ugp-paper: #f5f7fa;
+    --ugp-line: #e2e7ee;
+    --ugp-text: #1f2933;
+    --ugp-muted: #5b6875;
+    --ugp-radius: 16px;
+    --ugp-shadow: 0 10px 30px rgba(13, 27, 42, .08);
+    --ugp-sans: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body { color: var(--ugp-text); overflow-x: clip; }
+
+/* ---------- shared components ---------- */
+
+.ugp-eyebrow {
+    font-family: var(--ugp-sans);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ugp-teal);
+    margin: 0 0 .75rem;
+}
+.ugp-title {
+    font-family: var(--ugp-sans);
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--ugp-ink);
+    margin: 0 0 1rem;
+}
+.ugp-muted { color: var(--ugp-muted); }
+.ugp-link {
+    font-family: var(--ugp-sans);
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--ugp-teal);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.ugp-link::after { content: " \2192"; display: inline-block; transition: transform .2s ease; }
+.ugp-link:hover, .ugp-link:focus { color: var(--ugp-teal-dark); }
+.ugp-link:hover::after, .ugp-link:focus::after { transform: translateX(3px); }
+
+.ugp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: .75rem 1.6rem;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    font-family: var(--ugp-sans);
+    font-size: .95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease, transform .2s ease;
+}
+.ugp-btn:hover, .ugp-btn:focus { transform: translateY(-1px); }
+.ugp-btn--primary { background: var(--ugp-accent); color: #fff; }
+.ugp-btn--primary:hover, .ugp-btn--primary:focus { background: var(--ugp-accent-dark); color: #fff; }
+.ugp-btn--ghost { border-color: rgba(255, 255, 255, .55); color: #fff; }
+.ugp-btn--ghost:hover, .ugp-btn--ghost:focus { border-color: #fff; background: rgba(255, 255, 255, .1); color: #fff; }
+
+.ugp-card {
+    background: #fff;
+    border: 1px solid var(--ugp-line);
+    border-radius: var(--ugp-radius);
+    box-shadow: var(--ugp-shadow);
+    padding: 2rem;
+}
+
+/* Lets a view use the full container width instead of the layout's narrow reading column:
+   put class="ugp-wide" on the view's outermost element. */
+.container > .row > [class*="col-"]:has(> .ugp-wide) {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ---------- navigation ---------- */
+
+/* Top-right "Prijava" / "Učlani se" (logged in: "Portal" / "Doniraj"): one joined pill,
+   teal on the left, accent on the right. */
+#mainNav .btn-group > .btn {
+    padding: .4rem 1.1rem;
+    font-family: var(--ugp-sans);
+    font-weight: 700;
+    border: 0;
+    border-radius: 0;
+    color: #fff;
+}
+#mainNav .btn-group > .btn:first-child { border-radius: 999px 0 0 999px; }
+#mainNav .btn-group > .btn:last-child { border-radius: 0 999px 999px 0; }
+#mainNav .btn-group > .btn:only-child { border-radius: 999px; }
+#mainNav .btn-group > .btn-success { background: var(--ugp-teal); }
+#mainNav .btn-group > .btn-success:hover, #mainNav .btn-group > .btn-success:focus { background: var(--ugp-teal-dark); }
+#mainNav .btn-group > .btn-danger { background: var(--ugp-accent); }
+#mainNav .btn-group > .btn-danger:hover, #mainNav .btn-group > .btn-danger:focus { background: var(--ugp-accent-dark); }
+
+/* Pages without a page header (login, register, member pages) get a dark bar, otherwise the
+   white menu links sit on a white page. Layout.cshtml adds the class when no Header zone is rendered. */
+body.ugp-nav-solid #mainNav {
+    position: relative;
+    background: var(--ugp-ink);
+}
+
+/* ---------- page header (masthead) ---------- */
+
+header.masthead {
+    background-color: var(--ugp-ink);
+    margin-bottom: 3.5rem;
+    padding-top: calc(4.5rem + 57px);
+    padding-bottom: 4rem;
+}
+header.masthead::before {
+    opacity: 1;
+    background:
+        radial-gradient(50rem 25rem at 85% -10%, rgba(0, 133, 161, .5), transparent 60%),
+        linear-gradient(180deg, rgba(13, 27, 42, .7) 0%, rgba(13, 27, 42, .85) 100%);
+}
+header.masthead .site-heading h1,
+header.masthead .page-heading h1,
+header.masthead .post-heading h1 {
+    font-family: var(--ugp-sans);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+}
+header.masthead .subheading {
+    font-family: var(--ugp-sans);
+    font-weight: 400;
+    color: rgba(255, 255, 255, .8);
+}
+header.masthead .post-heading .meta { color: rgba(255, 255, 255, .75); font-size: 1rem; }
+@media (min-width: 992px) {
+    header.masthead { padding-top: 9rem; padding-bottom: 5rem; }
+}
+
+/* ---------- content ---------- */
+
+/* Text pasted from Word or other sites carries inline fonts and sizes; keep it on the site's type scale. */
+.flow [style*="font-family"], .flow font[face] { font-family: inherit !important; }
+.flow [style*="font-size"], .flow font[size] { font-size: inherit !important; }
+/* "Justify" is the widget default and leaves uneven gaps in the narrow reading column. */
+.flow .widget-align-justify { text-align: left; }
+.flow .widget-paragraph { font-size: 1.05rem; line-height: 1.75; }
+.flow .widget-paragraph h2, .flow .widget-paragraph h3 { font-family: var(--ugp-sans); color: var(--ugp-ink); margin-top: 2rem; }
+.flow .widget-image img { border-radius: var(--ugp-radius); }
+.flow .section-heading { font-family: var(--ugp-sans); color: var(--ugp-ink); }
+
+.post-preview > a > .post-title { font-family: var(--ugp-sans); color: var(--ugp-ink); }
+.post-preview > a:hover > .post-title, .post-preview > a:focus > .post-title { color: var(--ugp-teal); }
+
+/* ---------- buttons and form fields ---------- */
+
+.btn { font-family: var(--ugp-sans); font-weight: 700; border-radius: 10px; }
+.btn-primary, .btn-success { background: var(--ugp-teal); border-color: var(--ugp-teal); }
+.btn-primary:hover, .btn-primary:focus, .btn-success:hover, .btn-success:focus { background: var(--ugp-teal-dark); border-color: var(--ugp-teal-dark); }
+
+.form-control, .form-select, .multiselect__tags { border-radius: 10px; border-color: var(--ugp-line); }
+.form-control:focus, .form-select:focus {
+    border-color: var(--ugp-teal);
+    box-shadow: 0 0 0 .2rem rgba(0, 133, 161, .15);
+}
+/* Input groups (Bootstrap 5 markup and the older input-group-prepend/append wrappers):
+   square inside, rounded only at the outer ends. */
+.input-group .form-control, .input-group .form-select, .input-group .input-group-text { border-radius: 0; }
+.input-group .input-group-text { border-color: var(--ugp-line); background: var(--ugp-paper); }
+.input-group > :first-child, .input-group > :first-child > .input-group-text { border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+.input-group > :last-child, .input-group > :last-child > .input-group-text { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+.input-group > .form-control:has(+ .field-validation-valid:last-child),
+.input-group > .form-control:has(+ .field-validation-error:last-child) { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
+.form-label { font-family: var(--ugp-sans); font-weight: 600; font-size: .95rem; color: var(--ugp-ink); }
+
+/* The donation form (PledgeForm widget) is a card wherever it is placed in page content. When a logged-in member
+   with companies gets the "Član" selector (a separate form rendered first), both read as one card. */
+.flow > #personSelector,
+.flow > form[action*="CreateNew/Pledge"] {
+    background: #fff;
+    border: 1px solid var(--ugp-line);
+    border-top: 4px solid var(--ugp-accent);
+    border-radius: var(--ugp-radius);
+    box-shadow: var(--ugp-shadow);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+.flow > #personSelector {
+    border-bottom: 0;
+    border-radius: var(--ugp-radius) var(--ugp-radius) 0 0;
+    padding-bottom: .25rem;
+    margin-bottom: 0;
+    box-shadow: none;
+}
+.flow > #personSelector + form[action*="CreateNew/Pledge"] {
+    border-top: 0;
+    border-radius: 0 0 var(--ugp-radius) var(--ugp-radius);
+    padding-top: .5rem;
+}
+.flow > form[action*="CreateNew/Pledge"] .form-floating,
+.flow > form[action*="CreateNew/Pledge"] .field-wrapper { margin-bottom: .85rem; }
+.flow > form[action*="CreateNew/Pledge"] .btn.publish {
+    width: 100%;
+    min-height: 3rem;
+    margin-top: .5rem;
+    border-radius: 999px;
+}
+
+/* ---------- login / register ---------- */
+
+.ugp-auth {
+    max-width: 980px;
+    margin: 3rem auto 4rem;
+    row-gap: 2.5rem;
+}
+.ugp-auth h1, .ugp-auth h2 { font-family: var(--ugp-sans); font-weight: 800; color: var(--ugp-ink); font-size: 1.6rem; }
+.ugp-auth hr { border-color: var(--ugp-line); opacity: 1; }
+.ugp-auth .btn[type="submit"]:not(.w-100) { min-width: 10rem; min-height: 3rem; border-radius: 999px; }
+/* OrchardCore's own register/login forms wrap themselves in "col-md-offset-4 col-md-8" (a Bootstrap 3 leftover). */
+.ugp-auth .row > .col-md-8 { flex: 0 0 100%; width: 100%; max-width: 100%; }
+@media (min-width: 768px) {
+    /* Two columns (own account / Google): a divider between them. */
+    .ugp-auth > [class*="col-"] + [class*="col-"] { border-left: 1px solid var(--ugp-line); padding-left: 2.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
+}

@@ -7,17 +7,12 @@
 	var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 }
 
-<style at="Head">
-	#mainNav {
-		position: relative
-	}
-</style>
-
 @{
 	ViewLayout = "Layout__Login";
 }
 
-<div class="row">
+@* ugp-wide / ugp-auth: site-wide styles in wwwroot/css/ugp.css *@
+<div class="row ugp-wide ugp-auth">
 	<div class="col-md-6 @(loginProviders.Count == 0 ? "offset-md-3" : string.Empty)">
 		@await DisplayAsync(Model)
 	</div>
