@@ -44,6 +44,8 @@ namespace Members
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "BankStatement" }))
                     .Add(S["Uplatnice"], "10", childTwo => childTwo
                         .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "Pledge" }))
+                    .Add(S["Uplatnice (proširene)"], "10", childTwo => childTwo
+                        .Action("List", "Admin", new { area = "OrchardCore.Contents", contentTypeId = "PledgeExtended" }))
                     .Add(S["Barkod generator i podaci za uplatu"], "11", childTwo => childTwo
                         .Url("~/uplata"))
                  , ["icon-class-fas", "icon-class-fa-coins"])

@@ -207,5 +207,13 @@ namespace OrchardCore.Themes.UgpTheme
 
             return 7;
         }
+
+        // Registration buttons open in a new tab only for external links (allows on-page "#..." targets).
+        public async Task<int> UpdateFrom7()
+        {
+            await _migrator.ExecuteAsync("landing-page.recipe.json", this);
+
+            return 8;
+        }
     }
 }

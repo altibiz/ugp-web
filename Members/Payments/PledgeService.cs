@@ -42,6 +42,8 @@ namespace Members.Payments
                 part.Oib.Text = person.Oib.Text;
                 part.PayerName.Text = person.LegalName;
                 part.Email.Text = person.Email.Text;
+                if (part.ContentItem.ContentType == nameof(PledgeExtended))
+                    part.ContentItem.AlterInit<PledgeExtended>(x => x.Phone.Text = person.Phone?.Text);
             }
         }
 

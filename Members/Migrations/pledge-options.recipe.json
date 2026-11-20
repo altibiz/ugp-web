@@ -1,0 +1,139 @@
+{
+	"steps": [
+		{
+			"name": "content",
+			"data": [
+				{
+					"ContentItemId": "4t8k2n6pw3x9m5q7c1zhb0ydre",
+					"ContentType": "Taxonomy",
+					"DisplayText": "Opcije plaćanja",
+					"Latest": true,
+					"Published": true,
+					"TitlePart": {
+						"Title": "Opcije plaćanja"
+					},
+					"AliasPart": {
+						"Alias": "opcije-placanja"
+					},
+					"AutoroutePart": {
+						"Path": "opcije-placanja",
+						"SetHomepage": false,
+						"Disabled": false,
+						"RouteContainedItems": false,
+						"Absolute": false
+					},
+					"TaxonomyPart": {
+						"TermContentType": "PledgeVariant",
+						"Terms": [
+							{
+								"ContentItemId": "[js:uuid()]",
+								"ContentType": "PledgeVariant",
+								"DisplayText": "Regularna cijena (130 EUR)",
+								"Latest": true,
+								"Published": true,
+								"TitlePart": {
+									"Title": "Regularna cijena (130 EUR)"
+								},
+								"PledgeVariant": {
+									"Price": {
+										"Value": 130
+									}
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "4t8k2n6pw3x9m5q7c1zhb0ydre"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "[js:uuid()]",
+								"ContentType": "PledgeVariant",
+								"DisplayText": "UGPartner cijena (110 EUR)",
+								"Latest": true,
+								"Published": true,
+								"TitlePart": {
+									"Title": "UGPartner cijena (110 EUR)"
+								},
+								"PledgeVariant": {
+									"Price": {
+										"Value": 110
+									}
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "4t8k2n6pw3x9m5q7c1zhb0ydre"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "[js:uuid()]",
+								"ContentType": "PledgeVariant",
+								"DisplayText": "5 mjesta (500 EUR)",
+								"Latest": true,
+								"Published": true,
+								"TitlePart": {
+									"Title": "5 mjesta (500 EUR)"
+								},
+								"PledgeVariant": {
+									"Price": {
+										"Value": 500
+									}
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "4t8k2n6pw3x9m5q7c1zhb0ydre"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "[js:uuid()]",
+								"ContentType": "PledgeVariant",
+								"DisplayText": "6 mjesta (600 EUR)",
+								"Latest": true,
+								"Published": true,
+								"TitlePart": {
+									"Title": "6 mjesta (600 EUR)"
+								},
+								"PledgeVariant": {
+									"Price": {
+										"Value": 600
+									}
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "4t8k2n6pw3x9m5q7c1zhb0ydre"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							},
+							{
+								"ContentItemId": "[js:uuid()]",
+								"ContentType": "PledgeVariant",
+								"DisplayText": "7 mjesta (700 EUR)",
+								"Latest": true,
+								"Published": true,
+								"TitlePart": {
+									"Title": "7 mjesta (700 EUR)"
+								},
+								"PledgeVariant": {
+									"Price": {
+										"Value": 700
+									}
+								},
+								"TermPart": {
+									"TaxonomyContentItemId": "4t8k2n6pw3x9m5q7c1zhb0ydre"
+								},
+								"@WeldedPartSettings": {
+									"TermPart": {}
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	]
+}

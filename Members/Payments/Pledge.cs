@@ -29,6 +29,15 @@ namespace Members.Payments
     public class PledgeForm : ContentPart
     {
         public ContentPickerField PledgeVariant { get; set; }
+
+        // Content type the form creates: "Pledge" (default) or another type that carries the Pledge part.
+        public TextField PledgeType { get; set; }
+    }
+
+    // Extra fields of the "PledgeExtended" content type (Pledge part + these).
+    public class PledgeExtended : ContentPart
+    {
+        public TextField Phone { get; set; }
     }
 
     public class PledgeSettings : IFieldEditorSettings
@@ -208,7 +217,58 @@ namespace Members.Payments
                         "Taxonomy",
                     ],
                     TitlePattern = "{{ Model.ContentItem | display_text }}",
+                }))
+            .WithField("PledgeType", field => field
+                .OfType("TextField")
+                .WithDisplayName("Vrsta obrasca")
+                .WithEditor("PredefinedList")
+                .WithSettings(new TextFieldPredefinedListEditorSettings
+                {
+                    Editor = EditorOption.Dropdown,
+                    DefaultValue = nameof(Pledge),
+                    Options =
+                    [
+                        new ListValueOption { Name = "Osnovni", Value = nameof(Pledge) },
+                        new ListValueOption { Name = "Prošireni (s telefonom)", Value = nameof(PledgeExtended) },
+                    ],
                 })));
+        }
+
+        public async static Task CreatePledgeExtended(this IContentDefinitionManager cdm)
+        {
+            await cdm.AlterTypeDefinitionAsync(nameof(PledgeExtended), type => type
+                .DisplayedAs("Uplatnica (proširena)")
+                .Listable()
+                .Creatable()
+                .WithPart(nameof(Pledge), part => part
+                    .WithPosition("0")
+                    .WithSettings(new PledgeSettings())
+                )
+                .WithPart(nameof(PledgeExtended), part => part
+                    .WithPosition("1")
+                )
+                .WithPart("TitlePart", part => part
+                    .WithPosition("2")
+                    .WithSettings(new TitlePartSettings
+                    {
+                        Options = TitlePartOptions.GeneratedDisabled,
+                        Pattern = "{{ ContentItem.Content.Pledge.PayerName.Text }} - {{ ContentItem.Content.Pledge.Amount.Value | format_number: \"C\"  }}",
+                    })
+                )
+            );
+
+            await cdm.AlterPartDefinitionAsync(nameof(PledgeExtended), part => part
+                .WithField("Phone", field => field
+                    .OfType("TextField")
+                    .WithDisplayName("Telefon")
+                    .WithEditor("Tel")
+                    .WithPosition("0")
+                    .WithSettings(new TextFieldSettings
+                    {
+                        Required = true,
+                    })
+                )
+            );
         }
 
 

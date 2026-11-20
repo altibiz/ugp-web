@@ -1,0 +1,80 @@
+﻿@using Members.Base
+@using Members.Payments
+@using Members.Utils
+@using OrchardCore.ContentManagement
+@inject Members.Core.MemberService _memberService
+
+@{
+    // Payment form. Rendered by the PledgeForm widget (Widget-PledgeForm.cshtml) or directly, e.g. from Liquid:
+    //   {% shape "PledgeFormEmbed", pledge_type: "PledgeExtended", taxonomy_id: "..." %}
+    // PledgeType: content type to create (default "Pledge"); TaxonomyId: taxonomy of PledgeVariant terms to offer.
+    string pledgeType = Model.PledgeType;
+    if (string.IsNullOrWhiteSpace(pledgeType)) pledgeType = nameof(Pledge);
+    string taxonomyId = Model.TaxonomyId;
+    var initPledgePersonCid = Context.Request.Query["initPledgePersonCid"];
+    Action<ContentItem> setTaxonomy = (item) =>
+    {
+        var pledge = item.Alter<Pledge>(async pledge =>
+        {
+            pledge.InitFields();
+            pledge.Variant.TaxonomyContentItemId = taxonomyId ?? string.Empty;
+        });
+    };
+
+    var personList = new List<ContentItem>();
+
+    ContentItem ci = await _memberService.GetUserMember(true);
+    if (ci != null)
+    {
+        personList.Add(ci);
+
+        var companies = await _memberService.GetMemberCompanies(ci);
+        foreach (ContentItem item in companies)
+        {
+            personList.Add(item);
+        }
+    }
+}
+@if (personList != null && personList.Count>1)
+{
+    <form method="get" id="personSelector" onsubmit="submitAndFocus(event)">
+        <div class="field-wrapper mb-3">
+            <label class="form-label input-required">Član</label>
+            <select class="form-select" id="initPledgePersonCid" name="initPledgePersonCid" onchange="document.getElementById('personSelector').requestSubmit();">
+                @foreach (var item in personList)
+                {
+                    <option selected=@(initPledgePersonCid == item.ContentItemId) value="@item.ContentItemId">@item.Content.PersonPart.Name.Text</option>
+                }
+            </select>
+        </div>
+    </form>
+}
+<form style="width:100%" method="post" action="@Url.Page("/CreateNew",new { contentType = pledgeType, area = "Members" })">
+    @await DisplayAsync(await Orchard.EditorAsync(pledgeType, onContentInit: setTaxonomy))
+    <button type="submit" class="btn publish btn-success">Generiraj 2D kod za uplatu</button>
+    @Html.AntiForgeryToken()
+</form>
+<script type="text/javascript" at="Foot">
+     function submitAndFocus(e) {
+        e.preventDefault();
+        const form = e.target;
+        const url = new URL(window.location.href);
+
+        // Get current query parameters
+        const currentParams = new URLSearchParams(url.search);
+
+        // Get new form data
+        const formParams = new URLSearchParams(new FormData(form));
+
+        // Merge form data into current query parameters
+        for (const [key, value] of formParams.entries()) {
+            currentParams.set(key, value);
+        }
+
+        // Set your anchor name here
+        const anchor = 'personSelector';
+
+        // Redirect with merged query and anchor
+        window.location.href = url.pathname + '?' + currentParams.toString() + '#' + anchor;
+    }
+</script>

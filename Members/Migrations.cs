@@ -188,5 +188,13 @@ namespace Members
             await _contentDefinitionManager.MigrateBankStatement();
             return 24;
         }
+
+        public async Task<int> UpdateFrom24Async()
+        {
+            await _recipeMigrator.ExecuteAsync("pledge-options.recipe.json", this);
+            await _contentDefinitionManager.CreatePledgeExtended();
+            await _contentDefinitionManager.UpdatePledgeForm();
+            return 25;
+        }
     }
 }

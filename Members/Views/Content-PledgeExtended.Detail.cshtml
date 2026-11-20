@@ -1,0 +1,3 @@
+@using OrchardCore.ContentManagement
+@* Same payment info / 2D code page as a plain Pledge (Content-Pledge.Detail.cshtml). *@
+@await DisplayAsync(await New.Content_Detail__Pledge(ContentItem: (ContentItem)Model.ContentItem))

@@ -75,6 +75,7 @@ namespace Members
             services.UsePartService<Pledge, PledgeService>();
             services.UsePartService<Payment, PaymentPartService>();
             services.AddContentPart<PledgeForm>();
+            services.AddContentPart<PledgeExtended>();
 
             services.AddScoped<IContentDisplayDriver, ContainedPartDisplayDriver>();
             services.AddSingleton<IBackgroundTask, FastImportBackgroundTask>();
