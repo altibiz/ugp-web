@@ -95,5 +95,54 @@ namespace Members.Test
             Assert.AreEqual(new DateTime(2026, 1, 6), bs.Data[0].Date.Value.Date);
         }
 
+        private const string xmlNoReferenceEntry = @"
+            <Ntry>
+              <AcctSvcrRef>{0}</AcctSvcrRef>
+              <BkTxCd><Domn><Cd>PMNT</Cd><Fmly><Cd>{1}</Cd><SubFmlyCd>NTAV</SubFmlyCd></Fmly></Domn></BkTxCd>
+              <NtryDtls><TxDtls>
+                <Refs><AcctSvcrRef>{0}</AcctSvcrRef><EndToEndId>HR99</EndToEndId></Refs>
+                <AmtDtls><TxAmt><Amt Ccy=""EUR"">{2}</Amt></TxAmt></AmtDtls>
+                <RltdPties><{3}><Pty><Nm>DUMMY PARTY</Nm></Pty></{3}></RltdPties>
+                <RmtInf>
+                  <Ustrd>{4}</Ustrd>
+                  <Strd><CdtrRefInf><Tp><CdOrPrtry><Cd>SCOR</Cd></CdOrPrtry></Tp></CdtrRefInf></Strd>
+                </RmtInf>
+              </TxDtls></NtryDtls>
+            </Ntry>";
+
+        [TestMethod]
+        public void ParseXmlEntriesWithoutReference()
+        {
+            // HR99 payments have no Strd/CdtrRefInf/Ref and no Strd/AddtlRmtInf — only RmtInf/Ustrd
+            var xml = @"<?xml version=""1.0"" encoding=""utf-8""?>
+<Document xmlns=""urn:iso:std:iso:20022:tech:xsd:camt.053.001.08"">
+  <BkToCstmrStmt>
+    <Stmt>
+      <Id>CAMT053/TEST</Id>
+      <LglSeqNb>1</LglSeqNb>
+      <FrToDt><FrDtTm>2026-09-28T00:00:00</FrDtTm></FrToDt>"
+                + string.Format(xmlNoReferenceEntry, "2026-0000001-00000000001", "RCDT", "50.00", "Dbtr", "HR00 00000000001 - Donacija")
+                + string.Format(xmlNoReferenceEntry, "2026-0000002-00000000002", "ICDT", "242.00", "Cdtr", "Membership fee")
+                + @"
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>";
+
+            var bs = BankStatPartService.ParseStmt(xml);
+
+            Assert.AreEqual(2, bs.Data.Count);
+
+            Assert.AreEqual("Uplata", bs.Data[0].Type);
+            Assert.AreEqual(50.00m, bs.Data[0].Amount);
+            Assert.AreEqual("HR99", bs.Data[0].RRN.Model);
+            Assert.AreEqual("00000000001", bs.Data[0].RRN.Number, "Reference typed into the description should be picked up");
+            Assert.AreEqual("HR00 00000000001 - Donacija", bs.Data[0].PaymentDescription);
+
+            Assert.AreEqual("Isplata", bs.Data[1].Type);
+            Assert.AreEqual("", bs.Data[1].RRN.Number);
+            Assert.AreEqual("Membership fee", bs.Data[1].PaymentDescription);
+            Assert.AreEqual("DUMMY PARTY", bs.Data[1].Partner.Name);
+        }
+
     }
 }

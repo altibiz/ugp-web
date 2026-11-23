@@ -130,23 +130,37 @@ namespace Members.Payments
                     BsJson.Stat.CPartner cPartner = new();
                     BsJson.Stat.CPartner.CAddress cAddress = new();
 
-                    rrn.Model = nTry.XPathSelectElement("NtryDtls/TxDtls/Refs/EndToEndId").Value;
-                    rrn.Number = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref").Value;
+                    // Payments without a reference (model HR99) carry no Strd/CdtrRefInf/Ref or Strd/AddtlRmtInf;
+                    // the bank puts the text in the unstructured RmtInf/Ustrd field instead.
+                    var unstructured = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Ustrd")?.Value?.Trim();
+
+                    rrn.Model = nTry.XPathSelectElement("NtryDtls/TxDtls/Refs/EndToEndId")?.Value ?? "";
+                    rrn.Number = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/CdtrRefInf/Ref")?.Value;
+                    if (rrn.Number == null && unstructured != null)
+                    {
+                        // Payers sometimes type the reference into the description, e.g. "HR00 42172723674 - Donacija"
+                        var refInText = Regex.Match(unstructured, @"^HR\d{2}\s+([0-9-]+)");
+                        rrn.Number = refInText.Success ? refInText.Groups[1].Value : null;
+                    }
+                    rrn.Number ??= "";
 
                     var party = nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Dbtr")
                                 ?? nTry.XPathSelectElement("NtryDtls/TxDtls/RltdPties/Cdtr");
                     cPartner.Name =
-                           party.XPathSelectElement("Nm")?.Value
-                        ?? party.XPathSelectElement("Pty/Nm")?.Value;
+                           party?.XPathSelectElement("Nm")?.Value
+                        ?? party?.XPathSelectElement("Pty/Nm")?.Value;
                     cAddress.Street =
-                           party.XPathSelectElement("PstlAdr/AdrLine")?.Value
-                        ?? party.XPathSelectElement("Pty/PstlAdr/AdrLine")?.Value;
+                           party?.XPathSelectElement("PstlAdr/AdrLine")?.Value
+                        ?? party?.XPathSelectElement("Pty/PstlAdr/AdrLine")?.Value;
 
                     cAddress.City =
-                           party.XPathSelectElement("PstlAdr/TownNm")?.Value
-                        ?? party.XPathSelectElement("Pty/PstlAdr/TownNm")?.Value;
+                           party?.XPathSelectElement("PstlAdr/TownNm")?.Value
+                        ?? party?.XPathSelectElement("Pty/PstlAdr/TownNm")?.Value;
 
-                    statEntry.PaymentDescription = nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf").Value ?? "";
+                    statEntry.PaymentDescription =
+                           nTry.XPathSelectElement("NtryDtls/TxDtls/RmtInf/Strd/AddtlRmtInf")?.Value
+                        ?? unstructured
+                        ?? "";
                     statEntry.Amount = decimal.Parse(nTry.XPathSelectElement("NtryDtls/TxDtls/AmtDtls/TxAmt/Amt").Value, CultureInfo.InvariantCulture);
                     statEntry.Type = nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("RCDT") ? "Uplata" :
                                 nTry.XPathSelectElement("BkTxCd/Domn/Fmly/Cd").Value.Equals("ICDT") ? "Isplata" :
@@ -272,23 +286,18 @@ namespace Members.Payments
             {
                 yield return new ValidationResult(S["Statement is required."], new[] { nameof(part.StatementJson) });
             }
-            var parsed = true;
-
-
+            string error = null;
             try
             {
                 ParseStmt(part.StatementJson);
             }
-            catch
+            catch (Exception ex)
             {
-                parsed = false;
+                error = ex.Message;
             }
 
-
-
-
-            if (!parsed)
-                yield return new ValidationResult(S["Statement not valid"], new[] { nameof(part.StatementJson) });
+            if (error != null)
+                yield return new ValidationResult(S["Statement not valid: {0}", error], new[] { nameof(part.StatementJson) });
         }
 
         public override Task UpdatedAsync(UpdateContentContext context, BankStatPart instance)
