@@ -9,7 +9,12 @@
     var pledge = contentItem.AsInit<Pledge>();
     var name = pledge.PayerName.Text;
     var amount = pledge.Amount.Value;
-    var note = pledge.Note?.Text;
+    // Drop anything in brackets, e.g. "5 mjesta (500 EUR)" -> "5 mjesta"
+    var note = System.Text.RegularExpressions.Regex.Replace(pledge.Note?.Text ?? "", @"\s*\([^)]*\)", "").Trim();
+    // Barcode description: ASCII letters, digits and single spaces only
+    var barcodeNote = (StringUtils.StripDiacritics(note) ?? "").Replace('đ', 'd').Replace('Đ', 'D');
+    barcodeNote = System.Text.RegularExpressions.Regex.Replace(barcodeNote, @"[^A-Za-z0-9 ]", " ");
+    barcodeNote = System.Text.RegularExpressions.Regex.Replace(barcodeNote, @"\s+", " ").Trim();
     var refNumber = pledge.ReferenceNr.Text?.Trim();
     var cModel = string.IsNullOrEmpty(refNumber) ? "HR99" : "HR00";
     var address = "Vlaška 63";
@@ -25,7 +30,7 @@
 <script type="text/javascript">
     var name = "@Html.Raw(name)";
     var amount = "@(((int)(amount * 100)).ToString("D15"))";
-    var note = "@Html.Raw(note)";
+    var note = "@Html.Raw(barcodeNote)";
 
     function drawBarcode(amount2) {
         amount = amount2 || amount;
@@ -43,7 +48,7 @@
             callNumber: '@cModel',
             RefNumber: "@refNumber",
             code: 'COST',
-            description: '@Html.Raw(StringUtils.StripDiacritics(note))' || 'sec'
+            description: '@Html.Raw(barcodeNote)' || 'sec'
         }
         const code = Object.values(data).reduce((prev, curr) => `${prev}\n${curr}`, '')
 
