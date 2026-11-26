@@ -9,6 +9,7 @@ using OrchardCore.ContentManagement.Handlers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using YesSql.Services;
 
@@ -57,6 +58,13 @@ namespace Members.Payments
                     yield return new ValidationResult(S["ID must have numbers"], [nameof(part.Oib)]);
                 }
             }
+
+            // Model HR00 allows only digits and hyphens in the reference number
+            var refNr = part.ReferenceNr?.Text;
+            if (!string.IsNullOrWhiteSpace(refNr) && !Regex.IsMatch(refNr.Trim(), "^[0-9-]+$"))
+            {
+                yield return new ValidationResult(S["Reference number may contain only digits and hyphens"], [nameof(part.ReferenceNr)]);
+            }
         }
         public override async Task UpdatedAsync(UpdateContentContext context, Pledge model)
         {
@@ -65,7 +73,8 @@ namespace Members.Payments
             {
                 var variant = await model.Variant.GetTerm(Context);
                 var variantPart = variant?.AsInit<PledgeVariant>();
-                model.ReferenceNr.Text = (variantPart?.ReferenceNrPrefix?.Text ?? "") + model.Oib.Text;
+                // Generated from prefix + ID; an ID may hold letters, which HR00 does not allow
+                model.ReferenceNr.Text = Regex.Replace((variantPart?.ReferenceNrPrefix?.Text ?? "") + model.Oib.Text, "[^0-9-]", "");
                 model.Amount.Value = variantPart?.Price.Value;
                 model.Note.Text = variant?.DisplayText;
                 var member = await _memberService._session.GetByOib(model.Oib.Text);
