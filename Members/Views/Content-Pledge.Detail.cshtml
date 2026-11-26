@@ -17,7 +17,6 @@
     barcodeNote = System.Text.RegularExpressions.Regex.Replace(barcodeNote, @"\s+", " ").Trim();
     var refNumber = pledge.ReferenceNr.Text?.Trim();
     var cModel = string.IsNullOrEmpty(refNumber) ? "HR99" : "HR00";
-    var address = "Vlaška 63";
 }
 
 @{
@@ -42,7 +41,7 @@
             address: '',
             cityAndPostalCode: '',
             recepient: 'UDRUGA GLAS PODUZETNIKA',
-            recepientAddress: '@Html.Raw(StringUtils.StripDiacritics(address))',
+            recepientAddress: '',
             recepientCityAndPostalCode: '10000 Zagreb',
             IBAN: 'HR2324020061100970954',
             callNumber: '@cModel',
@@ -72,7 +71,7 @@
         <p class="lead fs-6">
             <span>IBAN: HR2324020061100970954</span><br />
             <span>UDRUGA GLAS PODUZETNIKA</span><br />
-            <span>@address</span>, Zagreb<br />
+            <span>10000 Zagreb</span><br />
             <span>Iznos: @amount €</span><br />
             <span>model „@(cModel)“ i poziv na broj „@(refNumber)“.</span><br />
             <span>Opis plaćanja: @note </span>
